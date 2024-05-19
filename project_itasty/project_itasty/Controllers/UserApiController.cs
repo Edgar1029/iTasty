@@ -22,16 +22,8 @@ namespace project_itasty.Controllers
 			return await _context.UserInfos.ToListAsync();
 		}
 
-		[HttpPost("{id}")]
-		public async Task<ActionResult> PutUserInfo(int id, UserInfo userInfo)
-		{
-			_context.Entry(userInfo).State = EntityState.Modified;
-			await _context.SaveChangesAsync();
-			return Ok(userInfo);
-		}
-
-		[HttpPost("test")]
-        public async Task<ActionResult> UploadImage(IFormFile photo, [FromForm] string name, [FromForm] string id)
+		[HttpPost]
+        public async Task<ActionResult> UpdateUser(IFormFile photo, [FromForm] string name, [FromForm] string id)
         {
 			byte[] fileBytes;
 			using (var memorystream  = new MemoryStream())

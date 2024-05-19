@@ -114,14 +114,14 @@ function user_edit(id) {
         .then(blob => {
 
             var formData = new FormData();
-            formData.append('id', '295');
+            formData.append('id', id.toString());
             formData.append('name', $("#input_user_name").prop('value'));
             formData.append('photo', blob);
 
 
             $.ajax({
                 type: "post",
-                url: `/api/userapi/test`,
+                url: `/api/userapi`,
                 contentType: false,
                 processData: false,
                 data: formData,

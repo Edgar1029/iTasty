@@ -73,3 +73,7 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
+*.vsidx
+*.v2
+*.v7.bin
+project_itasty/.vs/project_itasty/v17/DocumentLayout.json
