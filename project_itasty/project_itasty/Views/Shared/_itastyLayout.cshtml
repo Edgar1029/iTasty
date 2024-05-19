@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	@* <meta name="viewport" content="width=device-width" /> *@
+	<title>@ViewBag.Title</title>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+	<link rel="stylesheet" href="~/css/global.css">
+	@RenderSection("MyHeadScripts", required: false)
+
+
+</head>
+<body>
+	<div>
+		<!-- 下面是header---------------------------------------------------------------------------- -->
+		<header class="row gx-0">
+			<div class="header-left col-xl-2 gx-0">
+				<div class="header-left-img gx-0">
+				</div>
+			</div>
+			<div class="header-middle col-xl-4 gx-0">
+			</div>
+			<div class="header-right col-xl-4 gx-0">
+				<ul class="col-10 gx-0">
+					<li class="col-3 gx-0"><img src="https://placehold.co/38x38" alt=""></li>
+					<li class="col-3 gx-0"><a href="">會員</a></li>
+					<li class="col-6 gx-0"><a href="">客戶</a></li>
+				</ul>
+			</div>
+		</header>
+		<!-- 下面是crunchbar的---------------------------------------------------------------------------- -->
+		<div class="crunchbar row gx-0">
+			<div class="crunchbar-left col-1 gx-0">
+				<div class="col-1 gx-0"></div>
+				<div class="col-11 gx-0">
+					首頁 > 使用者資訊
+				</div>
+			</div>
+			<div class="crunchbar-middle col-8 row gx-0">
+				<ul class="cruchbar-middle-ul col-5 gx-0">
+					<li class="col-4 gx-0"><a href="">所有食譜</a></li>
+					<li class="col-4 gx-0"><a href="">我的食譜</a></li>
+					<li class="col-4 gx-0"><a href="">我的頁面</a></li>
+				</ul>
+			</div>
+			<div class="crunchbar-right col-2"></div>
+		</div>
+
+		<!-- 自訂container -->
+		@RenderBody()
+
+		<!-- 下面是footer的---------------------------------------------------------------------------- -->
+		<footer class="row gx-0">
+			<div class="footer-left col-xl-4 row gx-0">
+				<div class="footer-left-logo gx-0">
+					關於我們
+				</div>
+			</div>
+			<div class="footer-right col-xl-8 gx-0">
+			</div>
+		</footer>
+	</div>
+	@await RenderSectionAsync("MyScripts", required: false)
+</body>
+</html>

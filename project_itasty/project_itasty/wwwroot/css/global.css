@@ -1,0 +1,138 @@
+/* 下面是全域設定檔的css(一定要加)-------------------------------------------------------------------------------------------------- */
+* {
+    box-sizing: border-box;
+    font-family: "Noto Serif TC", serif;
+    font-family: "Stardos Stencil", system-ui;
+    font-style: normal;
+    font-weight: bold;
+}
+
+body {
+    clear: both;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(245, 245, 245);
+}
+/* 下面是header的css-------------------------------------------------------------------------------------------------- */
+header{
+    width: 100%;
+    margin: auto;
+    height: 85px;
+    line-height: 85px;
+    display: flex;
+}
+header::after{
+    content: "";
+    display: block;
+    clear: both;
+}
+.header-left{
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    width: 10%;
+    align-items: center;
+}
+.header-left-img{
+    width: 115px;
+    height: 100%;
+    margin: auto;
+    margin-top: 15px;
+    background-image: url("../img/logo.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    align-items: center;
+}
+.header-middle{
+    background-color:rgb(255, 255, 255);
+    text-align: center;
+    width:75%;
+}
+.header-right{
+    background-color:rgb(255, 255, 255);
+    padding-right: 43px;
+    width:15%;
+    display: flex;
+}
+.header-right ul{
+    margin: auto;
+}
+.header-right ul li{
+    list-style: none;
+    float: left;
+    /* margin: 0px 48px; */
+    text-align: center;
+    font-size: 18px;
+}
+.header-right ul li img{
+    height: 38px;
+    line-height: 38px;
+}
+.header-right ul li a{
+    font-size: 18px;
+    height: 18px;
+    line-height: 18px;
+}
+/* 下面是crunchbar的css-------------------------------------------------------------------------------------------------- */
+.crunchbar{
+    height:61px;
+    border-top: 1px solid #CCC9A1;
+    border-bottom: 1px solid #CCC9A1;
+    display: flex;
+}
+.crunchbar-left{
+    color:#746868;
+    font-size:18px;
+    margin:auto;
+    float: right;
+}
+.crunchbar-middle{
+    font-size:24px;
+    align-items: center;
+    margin:auto;
+    list-style: none;
+}
+.cruchbar-middle-ul{
+    margin: auto;
+}
+.cruchbar-middle-ul li{
+    list-style: none;
+    float: left;
+    /* margin: 0px 48px; */
+    height: 29px;
+    line-height: 29px;
+    text-align: center;
+}
+.crunchbar-middle,a{
+    text-decoration: none;
+    color: #000000;
+    font-size: 24px;
+}
+.crunchbar-right{
+    height:61px;
+}
+/* 下面是footer的css-------------------------------------------------------------------------------------------------- */
+footer{
+    width:100%;
+    height:95px;
+    background-color: rgb(250,250,250);
+}
+.footer-left{
+    width:10%; 
+    height: 30px;
+    background-color: rgb(250,250,250);
+}
+.footer-left-logo{
+    width: 80px;
+    font-size: 18px;
+    height:23px;
+    margin: auto;
+    align-items: center;
+    text-align: center;
+}
+.footer-right{
+    width: 90%;
+    background-color: rgb(250,250,250);
+}
+/* -------------------------------------------------------------------------------------------------- */

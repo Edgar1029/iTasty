@@ -1,0 +1,308 @@
+.area_user_info {
+    height: 230px;
+    border: #ccc9a1 1px solid;
+    border-top-style: none;
+}
+
+.img_user_icon {
+    position: absolute;
+    top: 38px;
+    left: 12px;
+    width: 100px;
+    height: 100px;
+}
+
+.text_user_name {
+    position: absolute;
+    font-size: 25px;
+    left: 148px;
+    top: 48px;
+}
+
+.text_user_acc {
+    position: absolute;
+    font-size: 16px;
+    left: 148px;
+    top: 81px;
+    color: #aba4a4;
+}
+
+.text_recipe {
+    position: absolute;
+    font-size: 14px;
+    left: 148px;
+    top: 108px;
+    color: #aba4a4;
+}
+
+.text_fan {
+    position: absolute;
+    font-size: 14px;
+    left: 225px;
+    top: 108px;
+    color: #aba4a4;
+}
+
+.text_user_info {
+    position: absolute;
+    font-size: 16px;
+    left: 130px;
+    top: 131px;
+    height: 48px;
+}
+
+.area_radio {
+    position: absolute;
+    top: 201px;
+}
+
+.area_radio label {
+    margin-right: 10px;
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+.area_radio input:checked+label {
+    color: #cc8566;
+}
+
+.area_button {
+    position: absolute;
+    top: 20px;
+    right: 10px;
+}
+
+.area_button button,
+.btn_new_recipe {
+    margin-right: 10px;
+    margin-left: 10px;
+    background-color: #000000;
+    border-radius: 15px;
+    color: #ffffff;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.btn_new_recipe {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.area_article {
+    margin-bottom: 62px;
+}
+
+.area_article>div {
+    height: 200px;
+    border: #ccc9a1 1px solid;
+    border-top-style: none;
+}
+
+.area_article>div img {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 250px;
+    height: 200px;
+}
+
+.area_article>div>div:nth-child(2) {
+    position: absolute;
+    top: 45px;
+    left: 270px;
+    font-size: 20px;
+}
+
+.area_article>div>div:nth-child(3) {
+    position: absolute;
+    top: 97px;
+    left: 270px;
+    font-size: 14px;
+    margin-right: 160px;
+
+    /* 字數超過四行不顯示 & 結尾改 ...  */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    /* 行數 */
+    -webkit-box-orient: vertical;
+    white-space: normal;
+}
+
+.area_article>div>div:nth-child(5) {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.area_article>div>div:nth-child(5)>div {
+    margin-right: 10px;
+    color: #aba4a4;
+}
+
+.area_article>div>div:nth-child(5)>i {
+    color: #aba4a4;
+}
+
+.area_fan {
+    border: #ccc9a1 1px solid;
+    border-top-style: none;
+    margin-bottom: 62px;
+}
+
+.area_fan>:nth-child(1) {
+    height: 50px;
+}
+
+.area_fan>:nth-child(1)>div {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 16px;
+}
+
+.area_fan>:nth-child(2)>div {
+    /* height: 130px; */
+    border-top: #7c7777 1px dashed;
+}
+
+.area_fan>:nth-child(2)>div>img {
+    position: absolute;
+    top: 14px;
+    left: 20px;
+    width: 45px;
+    height: 45px;
+}
+
+.area_fan>:nth-child(2)>div>:nth-child(2) {
+    position: absolute;
+    top: 15px;
+    left: 75px;
+    font-size: 16px;
+}
+
+.area_fan>:nth-child(2)>div>:nth-child(3) {
+    position: absolute;
+    top: 44px;
+    left: 75px;
+}
+
+.area_fan>:nth-child(2)>div>:nth-child(3)>div {
+    color: #7c7777;
+    font-size: 12;
+    margin-right: 20px;
+}
+
+.area_fan>:nth-child(2)>div>:nth-child(5) {
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    background-color: #000000;
+    border-radius: 15px;
+    color: #ffffff;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.area_fan>:nth-child(2)>div>:nth-child(4) {
+    position: relative;
+    font-size: 16px;
+    margin-left: 75px;
+    margin-right: 100px;
+    margin-top: 65px;
+    margin-bottom: 10px;
+
+    /* 字數超過四行不顯示 & 結尾改 ...  */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* 行數 */
+    -webkit-box-orient: vertical;
+    white-space: normal;
+}
+
+.area_edit .btn_close {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    margin-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.area_edit .btn_save,
+.area_edit .btn_save_banner,
+.area_edit .btn_save_icon {
+    background-color: #000000;
+    border-radius: 15px;
+    color: #ffffff;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.area_edit .modal-body>div>img {
+    width: 100%;
+}
+
+.area_edit .modal-body>div>button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+}
+
+.area_edit .modal-body>div:nth-child(2) {
+    margin-top: 10px;
+}
+
+.area_edit .modal-body>div:nth-child(2)>img {
+    width: 100px;
+    height: 100px;
+}
+
+.area_edit .modal-body>div:nth-child(2)>button {
+    position: absolute;
+    top: 50px;
+    left: 65px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+}
+
+.area_edit .modal-body>div:nth-child(3) {
+    margin-top: 10px;
+}
+
+.area_edit .modal-body>div:nth-child(3)>label {
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+.area_edit .modal-body>div:nth-child(4) {
+    margin-top: 10px;
+}
+
+.area_edit .modal-body>div:nth-child(4)>label {
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+.area_edit .btn_back {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    margin-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    border-style: none;
+    background: none;
+}
+
+.area_edit .btn_back i {
+    font-size: 16px;
+}
