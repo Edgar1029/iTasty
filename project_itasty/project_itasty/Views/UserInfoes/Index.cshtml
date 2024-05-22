@@ -1,19 +1,30 @@
-﻿@model project_itasty.Models.UserInfo;
+﻿@using project_itasty.Models;
+@model UserInfo;
 
 @{
 	ViewData["Title"] = "Index";
 	Layout = "~/Views/Shared/_itastyLayout.cshtml";
 }
+@{
+	var num_follow = 0;
+	foreach (var i in ViewBag.user)
+	{
+		num_follow++;
+	}
+}
+
 
 @section MyHeadScripts {
 	<script src="~/js/croppie.js"></script>
+	<script src="~/js/Chart.min.js"></script>
 	<link rel="stylesheet" href="~/css/croppie.css">
 	<script src="~/js/user_info.js"></script>
 	<link rel="stylesheet" href="~/css/user_info.css">
+	
 }
 
-<div class="container">
-	<div class="row px-0">
+<div class="container container_user gx-0">
+	<div class="row gx-0">
 		<!-- 使用者資訊背景 -->
 		<div class="px-0 ratio" style="--bs-aspect-ratio: 33.33%;">
 			<img src="./img/img_user_info.png">
@@ -34,9 +45,9 @@
 			}
 
 			<div class="text_user_name d-inline">@Model.Name</div>
-			<div class="text_user_acc d-inline">@@使用者帳號</div>
 			<div class="text_recipe d-inline">999 食譜</div>
-			<div class="text_fan d-inline">9999 位粉絲</div>
+			<div class="text_fan d-inline">@num_follow 位粉絲</div>
+
 			<div class="text_user_info d-flex align-items-center">
 				<p class="m-0">
 					<!-- 這個人很懶，什麼都沒有留下<br> -->
@@ -238,154 +249,120 @@
 		<div class="area_fan row mx-0 px-0">
 			<!-- 標題 -->
 			<div class="position-relative px-0">
-				<div>使用者名稱的粉絲</div>
+				<div>@(Model.Name)的粉絲</div>
 			</div>
 			<!-- 粉絲列表 -->
 			<div class="px-0">
 				<!-- 粉絲物件 -->
-				<div class="position-relative">
-					<img src="./img/img_user_icon.png">
-					<div>使用者名稱</div>
-					<div>
-						<div class="d-inline">999食譜</div>
-						<div class="d-inline">9999粉絲數</div>
-					</div>
-					<div>自介</div>
-					<button>追蹤</button>
-				</div>
-				<div class="position-relative">
-					<img src="./img/img_user_icon.png">
-					<div>使用者名稱</div>
-					<div>
-						<div class="d-inline">999食譜</div>
-						<div class="d-inline">9999粉絲數</div>
-					</div>
-					<div>自介</div>
-					<button>追蹤</button>
-				</div>
-				<div class="position-relative">
-					<img src="./img/img_user_icon.png">
-					<div>使用者名稱</div>
-					<div>
-						<div class="d-inline">999食譜</div>
-						<div class="d-inline">9999粉絲數</div>
-					</div>
-					<div>自介</div>
-					<button>追蹤</button>
-				</div>
-				<div class="position-relative">
-					<img src="./img/img_user_icon.png">
-					<div>使用者名稱</div>
-					<div>
-						<div class="d-inline">999食譜</div>
-						<div class="d-inline">9999粉絲數</div>
-					</div>
-					<div>自介</div>
-					<button>追蹤</button>
-				</div>
-				<div class="position-relative">
-					<img src="./img/img_user_icon.png">
-					<div>使用者名稱</div>
-					<div>
-						<div class="d-inline">999食譜</div>
-						<div class="d-inline">9999粉絲數</div>
-					</div>
-					<div>自介</div>
-					<button>追蹤</button>
-				</div>
-				<div class="position-relative">
-					<img src="./img/img_user_icon.png">
-					<div>使用者名稱</div>
-					<div>
-						<div class="d-inline">999食譜</div>
-						<div class="d-inline">9999粉絲數</div>
-					</div>
-					<div>自介</div>
-					<button>追蹤</button>
-				</div>
-			</div>
-		</div>
-		<!-- 分析圖表 -->
-		<div>分析圖表</div>
-		<!-- 編輯 -->
-		<!-- Vertically centered modal -->
-		<div class="area_edit modal fade" id="modal_user_info" tabindex="-1" aria-labelledby="text_title"
-			 aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered">
-				<!-- 資料設定 -->
-				<div class="modal-content" id="area_user_data">
-						<div class="modal-header">
-							<button type="button" class="btn_close btn-close" data-bs-dismiss="modal"
-									aria-label="Close"></button>
-							<h5 class="text_title modal-title d-inline me-auto" id="text_title">編輯個人資料</h5>
-						<button class="btn_save" onclick="user_edit(@Model.Id)">儲存</button>
-						</div>
-						<div class="modal-body row">
-							<!-- 背景上傳 -->
-							<div class="position-relative">
-								<img src="./img/img_user_info.png" id="img_user_banner">
-								<button type="button" class="opacity-50 translate-middle" id="btn_user_banner">
-									<svg viewBox="0 0 24 24" aria-hidden="true"
-										 class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c"
-										 style="color: rgb(255, 255, 255);">
-										<g>
-											<path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z">
-											</path>
-										</g>
-									</svg>
-								</button>
-								<input type="file" id="inputFile_user_banner"
-									   accept="image/jpg,image/jpeg,image/gif,image/png" class="d-none" />
-							</div>
-							<!-- 頭像上傳 -->
-							<div class="position-relative">
-								<img src="./img/img_user_icon.png" id="img_user_icon">
-								<button type="button" class="opacity-50 translate-middle" id="btn_user_icon">
-									<svg viewBox="0 0 24 24" aria-hidden="true"
-										 class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c"
-										 style="color: rgb(255, 255, 255);">
-										<g>
-											<path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z">
-											</path>
-										</g>
-									</svg>
-								</button>
-								<input type="file" id="inputFile_user_icon"
-									   accept="image/jpg,image/jpeg,image/gif,image/png" class="d-none" />
-							</div>
-							<!-- 名稱變更 -->
-							<div class="form-floating">
-								<input type="text" class="form-control" id="input_user_name" placeholder="name"
-									   value="@Model.Name">
-								<label for="input_user_name">名稱</label>
-							</div>
-							<!-- 自介變更 -->
-							<div class="form-floating">
-								<textarea class="form-control" placeholder="自我介紹" id="input_user_info"></textarea>
-								<label for="input_user_info">自我介紹</label>
-							</div>
-						</div>
-				</div>
-				<!-- 圖片上傳 -->
-				<div class="modal-content d-none" id="area_user_img">
-					<div class="modal-header">
-						<button type="button" class="btn-close btn_back">
-							<i class="fa-solid fa-arrow-left"></i>
-						</button>
-						<h5 class="text_title modal-title d-inline me-auto" id="text_title">編輯媒體</h5>
-						<button type="button" class="btn_save_banner d-none">套用</button>
-						<button type="button" class="btn_save_icon d-none">套用</button>
-					</div>
-					<div class="modal-body row">
-						<!-- 圖片上傳 -->
-						<div id="oldImg"></div>
-					</div>
-					<!-- <div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					</div> -->
-				</div>
-			</div>
-		</div>
+				@{
+					foreach (var i in ViewBag.User)
+					{
+						num_follow = 0;
+						<div class="position-relative">
+							<img src="data:image/jpg;base64, @Convert.ToBase64String(i.u.Photo)" class="rounded-circle">
 
+							<div><a href="/@i.o.FollowerId">@i.u.Name</a></div>
+							
+							<div>
+								<div class="d-inline">999食譜</div>
+								@foreach (var j in (ViewData[$"follower_{i.u.Id}"] as IEnumerable<UserFollower>))
+								{
+									num_follow++;
+								}
+								<div class="d-inline">@num_follow 粉絲數</div>
+							</div>
+							<div>自介</div>
+							<button>追蹤</button>
+						</div>
+					}
+				}
+			</div>
+		</div>
 	</div>
+	<!-- 分析圖表 -->
+	<div class="area_analyze">
+		分析圖表
+		<canvas id="myChart"></canvas>
+	</div>
+	<!-- 編輯 -->
+	<!-- Vertically centered modal -->
+	<div class="area_edit modal fade" id="modal_user_info" tabindex="-1" aria-labelledby="text_title"
+		 aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<!-- 資料設定 -->
+			<div class="modal-content" id="area_user_data">
+				<div class="modal-header">
+					<button type="button" class="btn_close btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					<h5 class="text_title modal-title d-inline me-auto" id="text_title">編輯個人資料</h5>
+					<button class="btn_save" onclick="user_edit(@Model.Id)">儲存</button>
+				</div>
+				<div class="modal-body row">
+					<!-- 背景上傳 -->
+					<div class="position-relative">
+						<img src="./img/img_user_info.png" id="img_user_banner">
+						<button type="button" class="opacity-50 translate-middle" id="btn_user_banner">
+							<svg viewBox="0 0 24 24" aria-hidden="true"
+								 class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c"
+								 style="color: rgb(255, 255, 255);">
+								<g>
+									<path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z">
+									</path>
+								</g>
+							</svg>
+						</button>
+						<input type="file" id="inputFile_user_banner"
+							   accept="image/jpg,image/jpeg,image/gif,image/png" class="d-none" />
+					</div>
+					<!-- 頭像上傳 -->
+					<div class="position-relative">
+						<img src="./img/img_user_icon.png" id="img_user_icon">
+						<button type="button" class="opacity-50 translate-middle" id="btn_user_icon">
+							<svg viewBox="0 0 24 24" aria-hidden="true"
+								 class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c"
+								 style="color: rgb(255, 255, 255);">
+								<g>
+									<path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z">
+									</path>
+								</g>
+							</svg>
+						</button>
+						<input type="file" id="inputFile_user_icon"
+							   accept="image/jpg,image/jpeg,image/gif,image/png" class="d-none" />
+					</div>
+					<!-- 名稱變更 -->
+					<div class="form-floating">
+						<input type="text" class="form-control" id="input_user_name" placeholder="name"
+							   value="@Model.Name">
+						<label for="input_user_name">名稱</label>
+					</div>
+					<!-- 自介變更 -->
+					<div class="form-floating">
+						<textarea class="form-control" placeholder="自我介紹" id="input_user_info"></textarea>
+						<label for="input_user_info">自我介紹</label>
+					</div>
+				</div>
+			</div>
+			<!-- 圖片上傳 -->
+			<div class="modal-content d-none" id="area_user_img">
+				<div class="modal-header">
+					<button type="button" class="btn-close btn_back">
+						<i class="fa-solid fa-arrow-left"></i>
+					</button>
+					<h5 class="text_title modal-title d-inline me-auto" id="text_title">編輯媒體</h5>
+					<button type="button" class="btn_save_banner d-none">套用</button>
+					<button type="button" class="btn_save_icon d-none">套用</button>
+				</div>
+				<div class="modal-body row">
+					<!-- 圖片上傳 -->
+					<div id="oldImg"></div>
+				</div>
+				<!-- <div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div> -->
+			</div>
+		</div>
+	</div>
+
+</div>
 </div>

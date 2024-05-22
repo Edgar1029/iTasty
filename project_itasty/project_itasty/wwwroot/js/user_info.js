@@ -1,6 +1,7 @@
 $(document).ready(function () {
     var myCrop;
 
+    //橫幅儲存
     $(".btn_save_banner").on("click", function () {
         myCrop.croppie("result", {
             type: "canvas",
@@ -11,11 +12,13 @@ $(document).ready(function () {
         });
     });
 
+    //橫幅編輯
     $("#btn_user_banner").on("click", function () {
         $("#inputFile_user_banner").val("");
         $("#inputFile_user_banner").trigger('click');
     });
 
+    //橫幅輸入
     $("#inputFile_user_banner").on("change", function () {
         readFile(this, 450, 150);
         $("#area_user_data").addClass("d-none");
@@ -24,6 +27,7 @@ $(document).ready(function () {
         $(".btn_save_banner").removeClass("d-none");
     });
 
+    //頭像儲存
     $(".btn_save_icon").on("click", function () {
         myCrop.croppie("result", {
             type: "canvas",
@@ -34,11 +38,13 @@ $(document).ready(function () {
         });
     });
 
+    //頭像編輯
     $("#btn_user_icon").on("click", function () {
         $("#inputFile_user_icon").val("");
         $("#inputFile_user_icon").trigger('click');
     });
 
+    //頭像輸入
     $("#inputFile_user_icon").on("change", function () {
         readFile(this, 250, 250);
         $("#area_user_data").addClass("d-none");
@@ -47,6 +53,7 @@ $(document).ready(function () {
         $(".btn_save_icon").removeClass("d-none");
     });
 
+    //圖片裁切
     function readFile(input, num_width, num_height) {
 
         let width_crop = num_width, // 圖片裁切寬度 px 值
@@ -99,6 +106,7 @@ $(document).ready(function () {
         $(".cr-slider-wrap input").addClass('px-2');
     }
 
+    //裁切完的圖片輸出
     function displayCropImg(src, img_obj) {
         img_obj.prop('src', src);
 
@@ -106,7 +114,47 @@ $(document).ready(function () {
         $("#area_user_img").addClass("d-none");
     }
 
+    //預設勾選食譜頁籤
+    $("#radio_article").prop('checked', true);
+    radio_change();
+
+    //切換頁籤顯示的內容
+    $("#radio_article").on('change', function () {
+        radio_change();
+    });
+    $("#radio_fan").on('change', function () {
+        radio_change();
+    });
+    $("#radio_analysis").on('change', function () {
+        radio_change();
+    });
+
+    const xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+    new Chart("myChart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
+                borderColor: "red",
+                fill: false
+            }, {
+                data: [1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000],
+                borderColor: "green",
+                fill: false
+            }, {
+                data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
+                borderColor: "blue",
+                fill: false
+            }]
+        },
+        options: {
+            legend: { display: false }
+        }
+    });
 });
+
+//發送使用者資訊更新
 function user_edit(id) {
 
     fetch($("#img_user_icon").prop('src'))
@@ -137,6 +185,14 @@ function user_edit(id) {
             });
 
         });
+}
 
+//切換頁籤顯示的內容
+function radio_change() {
+    $("#radio_article").prop('checked') ? $(".area_article").show() : $(".area_article").hide();
+    $("#radio_fan").prop('checked') ? $(".area_fan").show() : $(".area_fan").hide();
+    $("#radio_analysis").prop('checked') ? $(".area_analyze").show() : $(".area_analyze").hide();
 
 }
+
+//圖表
