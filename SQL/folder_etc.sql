@@ -1,3 +1,9 @@
+--建立資料庫
+create database iTastyDB
+
+--使用資料庫
+use iTastyDB
+
 CREATE TABLE userInfo
 (
     userId		int primary key identity(1,1),
