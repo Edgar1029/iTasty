@@ -34,9 +34,9 @@ namespace project_itasty.Controllers
 
 			UserInfo userInfo = new UserInfo()
 			{
-				Id = int.Parse(id),
-				Name = name,
-                Photo = fileBytes
+				UserId = int.Parse(id),
+				UserName = name,
+                UserPhoto = fileBytes
             };
 
             _context.Entry(userInfo).State = EntityState.Modified;
