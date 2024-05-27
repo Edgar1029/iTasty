@@ -1,8 +1,31 @@
 CREATE TABLE userInfo
 (
-	userId		int primary key identity(1,1),
+    userId		int primary key identity(1,1),
 	userName	nvarchar(20) not null,
-	userPhoto	varbinary(MAX)
+	email	nvarchar(20) not null UNIQUE,  
+	password nvarchar(20) not null,
+	userPhoto	varbinary(MAX),
+	userBanner	varbinary(MAX),	
+	userIntro	nvarchar(50),
+	userPermissions int not null check (userPermissions BETWEEN 1 AND 3) ,--1�޲z�� 2�@��|�� 3���v  ���A
+	createTime smalldatetime not null default GETDATE() 
+)
+
+create table helpForm(
+	formId	int primary key identity(1,1),
+	userId int not null, 
+	questionType nvarchar(200) not null, 
+	questionContent nvarchar(50)  not null,
+    questionImage varbinary(MAX),   
+	constraint FK_Questionnaire_User foreign key (userId) references userInfo(userId)
+	
+)
+
+create table seasonalIngredients(
+	ingredientsId	int primary key identity(1,1),
+	monthId int not null check (monthId BETWEEN 1 AND 12),
+	ingredientsName  nvarchar(50)  not null,
+	ingredientsImg   varbinary(MAX)  
 )
 
 CREATE TABLE userFollower
