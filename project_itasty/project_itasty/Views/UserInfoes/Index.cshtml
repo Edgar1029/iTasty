@@ -27,7 +27,7 @@
 	<div class="row gx-0">
 		<!-- 使用者資訊背景 -->
 		<div class="px-0 ratio" style="--bs-aspect-ratio: 33.33%;">
-			<img src="./img/img_user_info.png">
+			<img src="~/img/img_user_info.png">
 		</div>
 		<!-- 使用者資訊 -->
 		<div class="area_user_info position-relative px-0">
@@ -39,7 +39,7 @@
 				else
 				{
 					<img src="" class="img_user_icon d-inline rounded-circle">
-					// <img src="./img/img_user_icon.png" class="img_user_icon d-inline rounded-circle">
+					// <img src="~/img/img_user_icon.png" class="img_user_icon d-inline rounded-circle">
 				}
 
 			}
@@ -77,7 +77,7 @@
 		<!-- 文章列表 -->
 		<div class="area_article row mx-0 px-0">
 			<div class="position-relative px-0">
-				<img src="./img/img_recipe_icon.png">
+				<img src="~/img/img_recipe_icon.png">
 				<div>食譜標題</div>
 				<div>
 					食譜內文<br>
@@ -105,7 +105,7 @@
 				</div>
 			</div>
 			<div class="position-relative px-0">
-				<img src="./img/img_recipe_icon.png">
+				<img src="~/img/img_recipe_icon.png">
 				<div>食譜標題</div>
 				<div>
 					食譜內文<br>
@@ -133,7 +133,7 @@
 				</div>
 			</div>
 			<div class="position-relative px-0">
-				<img src="./img/img_recipe_icon.png">
+				<img src="~/img/img_recipe_icon.png">
 				<div>食譜標題</div>
 				<div>
 					食譜內文<br>
@@ -161,7 +161,7 @@
 				</div>
 			</div>
 			<div class="position-relative px-0">
-				<img src="./img/img_recipe_icon.png">
+				<img src="~/img/img_recipe_icon.png">
 				<div>食譜標題</div>
 				<div>
 					食譜內文<br>
@@ -189,7 +189,7 @@
 				</div>
 			</div>
 			<div class="position-relative px-0">
-				<img src="./img/img_recipe_icon.png">
+				<img src="~/img/img_recipe_icon.png">
 				<div>食譜標題</div>
 				<div>
 					食譜內文<br>
@@ -217,7 +217,7 @@
 				</div>
 			</div>
 			<div class="position-relative px-0">
-				<img src="./img/img_recipe_icon.png">
+				<img src="~/img/img_recipe_icon.png">
 				<div>食譜標題</div>
 				<div>
 					食譜內文<br>
@@ -261,7 +261,7 @@
 						<div class="position-relative">
 							<img src="data:image/jpg;base64, @Convert.ToBase64String(i.u.UserPhoto)" class="rounded-circle">
 
-							<div><a href="/@i.o.FollowerId">@i.u.UserName</a></div>
+							<div><a href="~/user/@((i.u.Email).Split('@')[0])">@i.u.UserName</a></div>
 							
 							<div>
 								<div class="d-inline">999食譜</div>
@@ -300,7 +300,7 @@
 				<div class="modal-body row">
 					<!-- 背景上傳 -->
 					<div class="position-relative">
-						<img src="./img/img_user_info.png" id="img_user_banner">
+						<img src="~/img/img_user_info.png" id="img_user_banner">
 						<button type="button" class="opacity-50 translate-middle" id="btn_user_banner">
 							<svg viewBox="0 0 24 24" aria-hidden="true"
 								 class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c"
@@ -316,7 +316,7 @@
 					</div>
 					<!-- 頭像上傳 -->
 					<div class="position-relative">
-						<img src="./img/img_user_icon.png" id="img_user_icon">
+						<img src="~/img/img_user_icon.png" id="img_user_icon">
 						<button type="button" class="opacity-50 translate-middle" id="btn_user_icon">
 							<svg viewBox="0 0 24 24" aria-hidden="true"
 								 class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c"
