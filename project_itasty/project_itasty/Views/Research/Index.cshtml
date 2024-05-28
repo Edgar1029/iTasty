@@ -1,0 +1,268 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itasty | 篩選頁</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@@@@5.2.0-beta1/dist/css/bootstrap.min.css">
+    <script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="/css/research_v2.css">
+    <link rel="stylesheet" href="/css/header_footer.css">
+</head>
+
+<body>
+    <!-- 下面是header---------------------------------------------------------------------------- -->
+    <header class="row gx-0">
+        <div class="header-left row gx-0">
+            <div class="header-left-img">
+            </div>
+            <span id="all-receipe">所有食譜</span>
+            <span id="my-receipe">我的食譜</span>
+            <span id="my-page">我的頁面</span>
+        </div>
+        <div class="header-middle row gx-0">
+            <!-- test-middle -->
+        </div>
+        <div class="header-right row gx-0">
+            <div class="loginsignbtn">
+                <div class="login">Login</div>
+                <div class="sign">Sign up</div>
+            </div>
+            <div class="spacebar">
+            </div>
+            <div class="shoppingcart">
+                會員
+            </div>
+            <div class="profile">
+                客戶
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <!-- 篩選選單form -->
+        <form>
+            <!-- 第一層篩選欄 -->
+            <div class="filter">
+                <!-- 篩選欄1 -->
+                <div class="myselect">
+                    <img src="/img/research_img/clock.png" alt="烹飪時間">
+                    <label for="time">烹飪時間</label>
+                    <select name="time_option" id="time">
+                        <option value="all">所有選項</option>
+                        <option value="15min">少於15分鐘</option>
+                        <option value="30min">少於30分鐘</option>
+                        <option value="60min">少於60分鐘</option>
+                        <option value="60min_up">多於60分鐘</option>
+                    </select>
+                </div>
+                <!-- 篩選欄1 -->
+                <!-- 篩選欄2 -->
+                <div class="myselect">
+                    <img src="/img/research_img/vegetable.png" alt="食材">
+                    <label for="food">食材</label>
+                    <select name="food" id="food">
+                        <option value="all">所有選項</option>
+                        <option value="chicken">雞肉</option>
+                        <option value="pork">豬肉</option>
+                        <option value="beef">牛肉</option>
+                        <option value="mutton">羊肉</option>
+                        <option value="seafood">海鮮</option>
+                    </select>
+                </div>
+                <!-- 篩選欄2 -->
+                <!-- 篩選欄3 -->
+                <div class="myselect">
+                    <img src="/img/research_img/cooking.png" alt="餐類">
+                    <label for="meat">餐類</label>
+                    <select name="meat" id="meat">
+                        <option value="all">所有選項</option>
+                        <option value="breakfast">早餐</option>
+                        <option value="dinner">午晚餐</option>
+                        <option value="dessert">甜品</option>
+                        <option value="snacks">小食</option>
+                    </select>
+                </div>
+                <!-- 篩選欄3 -->
+                <!-- 篩選欄4 -->
+                <div class="myselect">
+                    <img src="/img/research_img/eco-food.png" alt="膳食">
+                    <label for="vegetable">膳食</label>
+                    <select name="vegetable" id="vegetable">
+                        <option value="all">所有選項</option>
+                        <option value="health">健康食譜</option>
+                        <option value="vegan">素食食譜</option>
+                    </select>
+                </div>
+                <!-- 篩選欄4 -->
+                <!-- 篩選欄5 -->
+                <div class="myselect">
+                    <img src="/img/research_img/food-tray.png" alt="菜式">
+                    <label for="type">菜式</label>
+                    <select name="type" id="type">
+                        <option value="all">所有選項</option>
+                        <option value="chinese">中式食譜</option>
+                        <option value="japan">日式食譜</option>
+                        <option value="korea">韓式食譜</option>
+                        <option value="western">西式食譜</option>
+                        <option value="other">其他</option>
+                    </select>
+                </div>
+                <!-- 篩選欄5 -->
+            </div>
+            <!-- 第一層篩選欄 -->
+
+            <!-- 第二層篩選欄 -->
+            <div class="fliter_2">
+                <!-- search_bar -->
+                <div class="mb-3 col-4 search_bar">
+                    <div class="input-group">
+                        <select name="search_type">
+                            <option value="recipes">食譜</option>
+                            <option value="author">作者</option>
+                        </select>
+                        <input type="text" name="search" class="form-control border-dark border-end-0">
+                        <button class="btn border-start-0 border-dark" type="submit" style="background-color: white;">
+                            <img src="/img/research_img/search.png" alt="" style="width: 25px;"></button>
+                    </div>
+                </div>
+                <!-- search_bar -->
+
+                <!-- 清除按鈕 -->
+                <button type="reset" class="clean"> &nbsp;清除所有&nbsp; </button>
+                <!-- 清除按鈕 -->
+            </div>
+            <!-- 第二層篩選欄 -->
+        </form>
+        <!-- 篩選選單form  -->
+        <div class="justify-content-center">
+            <!-- 排序 -->
+            <div class="btn-group mt-4 justify-content-end" style="margin-left: 90%; width: 10%;" id="btn_order">
+                <button type="button" class="btn border dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+                    data-bs-display="static">
+                    排序依
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start w-100"
+                    style="overflow:scroll; max-height: 200px;">
+                    <li><button class="dropdown-item" type="button">預設</button></li>
+                    <li><button class="dropdown-item" type="button">點閱數</button></li>
+                    <li><button class="dropdown-item" type="button">瀏覽數</button></li>
+                    <li><button class="dropdown-item" type="button">作者</button></li>
+                    <li><button class="dropdown-item" type="button">烹調時間</button></li>
+                </ul>
+            </div>
+            <!-- 排序 -->
+            <!-- 結果 -->
+            <div id="app1">
+                <div class="search_result" v-for="item in items">
+                    <!-- 料理圖片 -->
+                    <img class="recipes_img" alt="食物圖片" src="./img/image_1.jfif" />
+                    <!-- 料理圖片 -->
+                    <div class="recipes_detail">
+                        <p class="recipes_title">料理名稱: {{item.title}}</p>
+                        <div class="recipes_author">
+                            <img alt="" src="./img/user.svg" />
+                            <div>作者:{{item.author}}</div>
+                        </div>
+                        <!-- 料理描述 -->
+                        <p class="recipes_description">
+                            {{item.description}}
+                        </p>
+                        <!-- 料理描述 -->
+                        <div class="recipes_views">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                                fill="#5f6368">
+                                <path
+                                    d="M856-390 570-104q-12 12-27 18t-30 6q-15 0-30-6t-27-18L103-457q-11-11-17-25.5T80-513v-287q0-33 23.5-56.5T160-880h287q16 0 31 6.5t26 17.5l352 353q12 12 17.5 27t5.5 30q0 15-5.5 29.5T856-390ZM513-160l286-286-353-354H160v286l353 354ZM260-640q25 0 42.5-17.5T320-700q0-25-17.5-42.5T260-760q-25 0-42.5 17.5T200-700q0 25 17.5 42.5T260-640Zm220 160Z" />
+                            </svg>
+                            <div>{{item.views}}</div>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                                fill="#5f6368">
+                                <path
+                                    d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z" />
+                            </svg>
+                            <div>{{item.clicks}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 結果 -->
+
+        </div>
+
+
+    </div>
+    <!-- 下面是footer的---------------------------------------------------------------------------- -->
+    <footer class="footer-class row gx-0 mt-3">
+        <div class="footer-header col-12 row gx-0">
+            <!-- <span>請輸入問題:</span> -->
+            <div class="footer-header-top col-4">
+                <input type="text" class="footer-header-text" placeholder="問題回報">
+                <div class="footer-header-button">傳送</div>
+            </div>
+        </div>
+        <div class="footer-link">
+            <div class="link-label">
+                首頁
+            </div>
+            <ul>
+                <li><a href="">會員登入頁</a></li>
+                <li><a href="">會員註冊頁</a></li>
+                <li><a href="">客戶服務頁</a></li>
+            </ul>
+        </div>
+        <div class="footer-link">
+            <div class="link-label">
+                頁籤
+            </div>
+            <ul>
+                <li><a href="">查詢頁</a></li>
+                <li><a href="">收藏頁</a></li>
+                <li><a href="">我的首頁</a></li>
+            </ul>
+        </div>
+        <div class="footer-link">
+            <div class="link-label">
+                頁籤
+            </div>
+            <ul>
+                <li><a href="">查詢頁</a></li>
+                <li><a href="">收藏頁</a></li>
+                <li><a href="">我的首頁</a></li>
+            </ul>
+        </div>
+        <div class="footer-logo"></div>
+        <div class="footer-footer col-12 gx-0">
+            KEEP IN TOUCH WITH OUR WEBSITE
+        </div>
+    </footer>
+
+    @* <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@@2.11.5/dist/umd/popper.min.js"></script> *@
+    @* <script src="https://cdn.jsdelivr.net/npm/bootstrap@@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script> *@
+    <script>
+        //加入Json資料
+        var app = new Vue({
+            el: "#app1",
+            data: {
+                items: [
+
+                ]
+            }
+        });
+
+        $.get("json.json", function (e) {
+            app.items = e.recipes
+        })
+        //加入Json資料
+        //抽換btn_order的文字
+        $("#btn_order ul li button").on("click", function () {
+            console.log(123);
+            console.log(this.innerText);
+            $("#btn_order>button").text(`排序依: ${this.innerText}`);
+        })
+        //抽換btn_order的文字
+    </script>
+</body>
+
+</html>
