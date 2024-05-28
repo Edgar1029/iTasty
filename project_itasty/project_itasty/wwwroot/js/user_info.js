@@ -155,36 +155,48 @@ $(document).ready(function () {
 });
 
 //發送使用者資訊更新
-function user_edit(id) {
+async function user_edit(id) {
 
-    fetch($("#img_user_icon").prop('src'))
-        .then(res => res.blob())
-        .then(blob => {
+    //fetch($("#img_user_icon").prop('src'))
+    //    .then(res => res.blob())
+    //    .then(blob => {
+    //        console.log(blob);
+    //    });
 
-            var formData = new FormData();
-            formData.append('id', id.toString());
-            formData.append('name', $("#input_user_name").prop('value'));
-            formData.append('photo', blob);
+    const user_icon = await get_img_blob($("#img_user_icon").prop('src'))
+    const user_banner = await get_img_blob($("#img_user_banner").prop('src'))
 
 
-            $.ajax({
-                type: "post",
-                url: `/api/userapi`,
-                contentType: false,
-                processData: false,
-                data: formData,
-                success: function (e) {
-                    $("#modal_user_info").modal("hide");
-                    $(".text_user_name").html($("#input_user_name").val());
-                    $(".img_user_icon").prop('src', $("#img_user_icon").prop('src'))
-                },
-                error: function (xmlhttpreq, textstatus) {
-                    console.log(xmlhttpreq);
-                    console.log(textstatus);
-                }
-            });
+    var formData = new FormData();
+    formData.append('id', id.toString());
+    formData.append('name', $("#input_user_name").prop('value'));
+    formData.append('intro', $("#input_user_info").prop('value'));
+    formData.append('photo', user_icon);
+    formData.append('banner', user_banner);
 
-        });
+    $.ajax({
+        type: "post",
+        url: `/api/userapi`,
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (e) {
+            $("#modal_user_info").modal("hide");
+            $(".text_user_name").html($("#input_user_name").val());
+            $(".img_user_icon").prop('src', $("#img_user_icon").prop('src'))
+            $(".img_user_banner").prop('src', $("#img_user_banner").prop('src'))
+        },
+        error: function (xmlhttpreq, textstatus) {
+            console.log(xmlhttpreq);
+            console.log(textstatus);
+        }
+    });
+}
+
+// 取得圖片blob
+async function get_img_blob(src) {
+    const response = await fetch(src);
+    return response.blob()
 }
 
 //切換頁籤顯示的內容

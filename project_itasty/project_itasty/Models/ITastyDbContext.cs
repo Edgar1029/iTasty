@@ -23,11 +23,19 @@ public partial class ITastyDbContext : DbContext
 
     public virtual DbSet<HelpForm> HelpForms { get; set; }
 
+    public virtual DbSet<IngredientsTable> IngredientsTables { get; set; }
+
+    public virtual DbSet<MessageTable> MessageTables { get; set; }
+
     public virtual DbSet<Recipe> Recipes { get; set; }
+
+    public virtual DbSet<RecipeTable> RecipeTables { get; set; }
 
     public virtual DbSet<SeasonalIngredient> SeasonalIngredients { get; set; }
 
     public virtual DbSet<ShoppingReceipe> ShoppingReceipes { get; set; }
+
+    public virtual DbSet<StepTable> StepTables { get; set; }
 
     public virtual DbSet<UserFollower> UserFollowers { get; set; }
 
@@ -35,13 +43,13 @@ public partial class ITastyDbContext : DbContext
 
 //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("Server=.;Database=iTastyDB;Integrated Security=True;Encrypt=False;");
+//        => optionsBuilder.UseSqlServer("Server=.;Database=iTastyDB;Integrated Security=True;Encrypt=False;MultipleActiveResultSets=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CustomRecipeFolder>(entity =>
         {
-            entity.HasKey(e => new { e.UserId, e.CustomFolderId }).HasName("PK__customRe__2001186C6A6C12EC");
+            entity.HasKey(e => new { e.UserId, e.CustomFolderId }).HasName("PK__customRe__2001186C524F22CC");
 
             entity.ToTable("customRecipeFolder");
 
@@ -67,7 +75,7 @@ public partial class ITastyDbContext : DbContext
 
         modelBuilder.Entity<EditedRecipe>(entity =>
         {
-            entity.HasKey(e => new { e.UserId, e.EditedRecipeId }).HasName("PK__editedRe__45BD02F77A68B3E3");
+            entity.HasKey(e => new { e.UserId, e.EditedRecipeId }).HasName("PK__editedRe__45BD02F78AA5EE02");
 
             entity.ToTable("editedRecipe");
 
@@ -90,7 +98,7 @@ public partial class ITastyDbContext : DbContext
 
         modelBuilder.Entity<FavoritesRecipe>(entity =>
         {
-            entity.HasKey(e => new { e.UserId, e.FavoriteRecipeId }).HasName("PK__favorite__957EF6416F72CCA3");
+            entity.HasKey(e => new { e.UserId, e.FavoriteRecipeId }).HasName("PK__favorite__957EF641DDCDF556");
 
             entity.ToTable("favoritesRecipe");
 
@@ -113,7 +121,7 @@ public partial class ITastyDbContext : DbContext
 
         modelBuilder.Entity<HelpForm>(entity =>
         {
-            entity.HasKey(e => e.FormId).HasName("PK__helpForm__51BCB72B290CD113");
+            entity.HasKey(e => e.FormId).HasName("PK__helpForm__51BCB72BADE52E04");
 
             entity.ToTable("helpForm");
 
@@ -133,9 +141,71 @@ public partial class ITastyDbContext : DbContext
                 .HasConstraintName("FK_Questionnaire_User");
         });
 
+        modelBuilder.Entity<IngredientsTable>(entity =>
+        {
+            entity.ToTable("ingredientsTable");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Checkbox).HasColumnName("checkbox");
+            entity.Property(e => e.IngredientsId)
+                .HasMaxLength(12)
+                .IsUnicode(false)
+                .IsFixedLength()
+                .HasColumnName("ingredientsID");
+            entity.Property(e => e.IngredientsName)
+                .HasMaxLength(20)
+                .HasColumnName("ingredientsName");
+            entity.Property(e => e.IngredientsNumber).HasColumnName("ingredientsNumber");
+            entity.Property(e => e.IngredientsPrice).HasColumnName("ingredientsPrice");
+            entity.Property(e => e.IngredientsUnit)
+                .HasMaxLength(5)
+                .HasColumnName("ingredientsUnit");
+            entity.Property(e => e.RecipeId).HasColumnName("recipeId");
+            entity.Property(e => e.TitleId).HasColumnName("titleId");
+            entity.Property(e => e.TitleName)
+                .HasMaxLength(20)
+                .HasColumnName("titleName");
+
+            entity.HasOne(d => d.Recipe).WithMany(p => p.IngredientsTables)
+                .HasForeignKey(d => d.RecipeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ingredientsTable_recipeTable");
+
+            entity.HasOne(d => d.Title).WithMany(p => p.InverseTitle)
+                .HasForeignKey(d => d.TitleId)
+                .HasConstraintName("FK_ingredientsTable_ingredientsTable");
+        });
+
+        modelBuilder.Entity<MessageTable>(entity =>
+        {
+            entity.ToTable("messageTable");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ChangeTime)
+                .HasColumnType("smalldatetime")
+                .HasColumnName("changeTime");
+            entity.Property(e => e.CreateTime)
+                .HasColumnType("smalldatetime")
+                .HasColumnName("createTime");
+            entity.Property(e => e.MessageContent)
+                .HasMaxLength(150)
+                .HasColumnName("messageContent");
+            entity.Property(e => e.RecipeId).HasColumnName("recipeId");
+            entity.Property(e => e.TopMessageid).HasColumnName("topMessageid");
+            entity.Property(e => e.UserId).HasColumnName("userID");
+            entity.Property(e => e.ViolationStatus)
+                .HasMaxLength(20)
+                .HasColumnName("violationStatus");
+
+            entity.HasOne(d => d.Recipe).WithMany(p => p.MessageTables)
+                .HasForeignKey(d => d.RecipeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_messageTable_recipeTable");
+        });
+
         modelBuilder.Entity<Recipe>(entity =>
         {
-            entity.HasKey(e => e.RecipeId).HasName("PK__recipe__C114EE8365EADB17");
+            entity.HasKey(e => e.RecipeId).HasName("PK__recipe__C114EE834861EFFF");
 
             entity.ToTable("recipe");
 
@@ -178,9 +248,52 @@ public partial class ITastyDbContext : DbContext
                 .HasConstraintName("FK__recipe__userId__5812160E");
         });
 
+        modelBuilder.Entity<RecipeTable>(entity =>
+        {
+            entity.ToTable("recipeTable");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ChangeTime)
+                .HasColumnType("smalldatetime")
+                .HasColumnName("changeTime");
+            entity.Property(e => e.Collections).HasColumnName("collections");
+            entity.Property(e => e.CreateTime)
+                .HasColumnType("smalldatetime")
+                .HasColumnName("createTime");
+            entity.Property(e => e.CuisineStyle)
+                .HasMaxLength(5)
+                .HasColumnName("cuisineStyle");
+            entity.Property(e => e.HealthyOptions)
+                .HasMaxLength(5)
+                .HasColumnName("healthyOptions");
+            entity.Property(e => e.MealType)
+                .HasMaxLength(5)
+                .HasColumnName("mealType");
+            entity.Property(e => e.Name)
+                .HasMaxLength(20)
+                .HasColumnName("name");
+            entity.Property(e => e.OriginalRecipeid).HasColumnName("originalRecipeid");
+            entity.Property(e => e.ProteinUsed)
+                .HasMaxLength(4)
+                .HasColumnName("proteinUsed");
+            entity.Property(e => e.PublicOrnot)
+                .HasMaxLength(10)
+                .IsFixedLength()
+                .HasColumnName("publicORnot");
+            entity.Property(e => e.RecipeCover).HasColumnName("recipeCover");
+            entity.Property(e => e.RecipeIntroduction)
+                .HasMaxLength(200)
+                .HasColumnName("recipeIntroduction");
+            entity.Property(e => e.RecipeState)
+                .HasMaxLength(10)
+                .HasColumnName("recipeState");
+            entity.Property(e => e.TimesWatched).HasColumnName("timesWatched");
+            entity.Property(e => e.UserId).HasColumnName("userId");
+        });
+
         modelBuilder.Entity<SeasonalIngredient>(entity =>
         {
-            entity.HasKey(e => e.IngredientsId).HasName("PK__seasonal__A9B070FB258841EF");
+            entity.HasKey(e => e.IngredientsId).HasName("PK__seasonal__A9B070FBB0F78204");
 
             entity.ToTable("seasonalIngredients");
 
@@ -194,7 +307,7 @@ public partial class ITastyDbContext : DbContext
 
         modelBuilder.Entity<ShoppingReceipe>(entity =>
         {
-            entity.HasKey(e => new { e.UserId, e.ShoppingReceipeId }).HasName("PK__shopping__3C59E2382B45DFCD");
+            entity.HasKey(e => new { e.UserId, e.ShoppingReceipeId }).HasName("PK__shopping__3C59E2384744113C");
 
             entity.ToTable("shoppingReceipe");
 
@@ -215,9 +328,26 @@ public partial class ITastyDbContext : DbContext
                 .HasConstraintName("FK__shoppingR__userI__6754599E");
         });
 
+        modelBuilder.Entity<StepTable>(entity =>
+        {
+            entity.ToTable("stepTable");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.RecipeId).HasColumnName("recipeId");
+            entity.Property(e => e.StepImg).HasColumnName("stepImg");
+            entity.Property(e => e.StepText)
+                .HasMaxLength(150)
+                .HasColumnName("stepText");
+
+            entity.HasOne(d => d.Recipe).WithMany(p => p.StepTables)
+                .HasForeignKey(d => d.RecipeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_stepTable_recipeTable");
+        });
+
         modelBuilder.Entity<UserFollower>(entity =>
         {
-            entity.HasKey(e => new { e.UserId, e.FollowerId }).HasName("PK__userFoll__CE0DEA7494712316");
+            entity.HasKey(e => new { e.UserId, e.FollowerId }).HasName("PK__userFoll__CE0DEA7496F15FE0");
 
             entity.ToTable("userFollower");
 
@@ -243,11 +373,11 @@ public partial class ITastyDbContext : DbContext
 
         modelBuilder.Entity<UserInfo>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__userInfo__CB9A1CFF1D71FAEF");
+            entity.HasKey(e => e.UserId).HasName("PK__userInfo__CB9A1CFF334E7AEF");
 
             entity.ToTable("userInfo");
 
-            entity.HasIndex(e => e.Email, "UQ__userInfo__AB6E6164DBD31543").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__userInfo__AB6E6164C582F710").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("userId");
             entity.Property(e => e.CreateTime)

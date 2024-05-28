@@ -23,26 +23,41 @@ namespace project_itasty.Controllers
 		}
 
 		[HttpPost]
-        public async Task<ActionResult> UpdateUser(IFormFile photo, [FromForm] string name, [FromForm] string id)
-        {
-			byte[] fileBytes;
-			using (var memorystream  = new MemoryStream())
+		public async Task<ActionResult> UpdateUser(IFormFile photo, IFormFile banner, [FromForm] string name, [FromForm] string id, [FromForm] string intro = "")
+		{
+			byte[] fileBytes_photo;
+			using (var memorystream = new MemoryStream())
 			{
 				photo.CopyTo(memorystream);
-				fileBytes = memorystream.ToArray();
+				fileBytes_photo = memorystream.ToArray();
+			}
+			byte[] fileBytes_banner;
+			using (var memorystream = new MemoryStream())
+			{
+				banner.CopyTo(memorystream);
+				fileBytes_banner = memorystream.ToArray();
 			}
 
-			UserInfo userInfo = new UserInfo()
+			//UserInfo userInfo = new UserInfo()
+			//{
+			//	UserId = int.Parse(id),
+			//	UserName = name,
+			//	UserPhoto = fileBytes
+			//};
+
+			UserInfo? userInfo = _context.UserInfos.Find(int.Parse(id));
+			if (userInfo != null)
 			{
-				UserId = int.Parse(id),
-				UserName = name,
-                UserPhoto = fileBytes
-            };
+				userInfo.UserName = name;
+				userInfo.UserIntro = intro;
+				userInfo.UserPhoto = fileBytes_photo;
+				userInfo.UserBanner = fileBytes_banner;
 
-            _context.Entry(userInfo).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+				_context.Entry(userInfo).State = EntityState.Modified;
+				await _context.SaveChangesAsync();
+			}
 
-            return Ok(name);
+			return Ok(name);
 		}
 	}
 }

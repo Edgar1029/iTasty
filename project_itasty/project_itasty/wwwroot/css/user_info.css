@@ -1,6 +1,7 @@
-.container_user{
+.container_user {
     width: 70%;
 }
+
 .area_user_info {
     height: 230px;
     border: #ccc9a1 1px solid;
@@ -102,12 +103,19 @@
             height: 200px;
         }
 
-        .area_article > div > div:nth-child(2) {
+        .area_article > div > a:nth-child(2) {
             position: absolute;
             top: 45px;
             left: 270px;
             font-size: 20px;
+            color: #212529;
+            text-decoration: none;
         }
+
+            .area_article > div > a:nth-child(2):hover {
+                color: #e87543;
+                text-decoration: underline;
+            }
 
         .area_article > div > div:nth-child(3) {
             position: absolute;
@@ -122,6 +130,12 @@
             /* 行數 */
             -webkit-box-orient: vertical;
             white-space: normal;
+        }
+
+        .area_article > div > div:nth-child(4) {
+            position: absolute;
+            top: 70px;
+            left: 270px;
         }
 
         .area_article > div > div:nth-child(5) {
@@ -175,11 +189,18 @@
             left: 75px;
             font-size: 16px;
         }
-        .area_fan > :nth-child(2) > div > :nth-child(2) a {
-            font-size: 16px;
-            color: #212529;
-            text-decoration: none;
-        }
+
+            .area_fan > :nth-child(2) > div > :nth-child(2) a {
+                font-size: 16px;
+                color: #212529;
+                text-decoration: none;
+            }
+
+                .area_fan > :nth-child(2) > div > :nth-child(2) a:hover {
+                    font-size: 16px;
+                    color: #e87543;
+                    text-decoration: underline;
+                }
 
         .area_fan > :nth-child(2) > div > :nth-child(3) {
             position: absolute;
@@ -187,7 +208,7 @@
             left: 75px;
         }
 
-            .area_fan > :nth-child(2) > div > :nth-child(3) > div{
+            .area_fan > :nth-child(2) > div > :nth-child(3) > div {
                 color: #7c7777;
                 font-size: 12;
                 margin-right: 20px;

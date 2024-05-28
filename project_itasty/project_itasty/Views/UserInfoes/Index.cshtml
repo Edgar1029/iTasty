@@ -2,17 +2,9 @@
 @model UserInfo;
 
 @{
-	ViewData["Title"] = "Index";
+	ViewData["Title"] = @Model.UserName + " | iTasty";
 	Layout = "~/Views/Shared/_itastyLayout.cshtml";
 }
-@{
-	var num_follow = 0;
-	foreach (var i in ViewBag.user)
-	{
-		num_follow++;
-	}
-}
-
 
 @section MyHeadScripts {
 	<script src="~/js/croppie.js"></script>
@@ -20,14 +12,23 @@
 	<link rel="stylesheet" href="~/css/croppie.css">
 	<script src="~/js/user_info.js"></script>
 	<link rel="stylesheet" href="~/css/user_info.css">
-	
+
 }
 
 <div class="container container_user gx-0">
 	<div class="row gx-0">
 		<!-- 使用者資訊背景 -->
 		<div class="px-0 ratio" style="--bs-aspect-ratio: 33.33%;">
-			<img src="~/img/img_user_info.png">
+			@{
+				if (Model.UserBanner != null)
+				{
+					<img src="data:image/jpg;base64, @Convert.ToBase64String(Model.UserBanner)" class="img_user_banner rounded-top" />
+				}
+				else
+				{
+					<img src="~/img/img_user_info.png" class="img_user_banner rounded-top">
+				}
+			}
 		</div>
 		<!-- 使用者資訊 -->
 		<div class="area_user_info position-relative px-0">
@@ -38,20 +39,18 @@
 				}
 				else
 				{
-					<img src="" class="img_user_icon d-inline rounded-circle">
-					// <img src="~/img/img_user_icon.png" class="img_user_icon d-inline rounded-circle">
+					<img src="~/img/img_user_icon.png" class="img_user_icon d-inline rounded-circle">
 				}
-
 			}
 
 			<div class="text_user_name d-inline">@Model.UserName</div>
-			<div class="text_recipe d-inline">999 食譜</div>
-			<div class="text_fan d-inline">@num_follow 位粉絲</div>
+			<div class="text_recipe d-inline">@ViewBag.recipe_count 食譜</div>
+			<div class="text_fan d-inline">@ViewBag.user_count 位粉絲</div>
 
 			<div class="text_user_info d-flex align-items-center">
 				<p class="m-0">
 					<!-- 這個人很懶，什麼都沒有留下<br> -->
-					這個人很懶，什麼都沒有留下
+					@(!String.IsNullOrEmpty(Model.UserIntro) ? Model.UserIntro : "這個人很懶，什麼都沒有留下")
 				</p>
 			</div>
 
@@ -76,7 +75,7 @@
 		</div>
 		<!-- 文章列表 -->
 		<div class="area_article row mx-0 px-0">
-			<div class="position-relative px-0">
+			<div class="position-relative px-0" hidden>
 				<img src="~/img/img_recipe_icon.png">
 				<div>食譜標題</div>
 				<div>
@@ -99,151 +98,30 @@
 				<div>5月11日</div>
 				<div>
 					<i class="fa-regular fa-eye"></i>
-					<div class="d-inline"></i>9999</div>
+					<div class="d-inline">9999</div>
 					<i class="fa-solid fa-tag"></i>
-					<div class="d-inline"></i>9999</div>
+					<div class="d-inline">9999</div>
 				</div>
 			</div>
-			<div class="position-relative px-0">
-				<img src="~/img/img_recipe_icon.png">
-				<div>食譜標題</div>
-				<div>
-					食譜內文<br>
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一
-					三行<br>
-					四行 一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-				</div>
-				<div>5月11日</div>
-				<div>
-					<i class="fa-regular fa-eye"></i>
-					<div class="d-inline"></i>9999</div>
-					<i class="fa-solid fa-tag"></i>
-					<div class="d-inline"></i>9999</div>
-				</div>
-			</div>
-			<div class="position-relative px-0">
-				<img src="~/img/img_recipe_icon.png">
-				<div>食譜標題</div>
-				<div>
-					食譜內文<br>
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一
-					三行<br>
-					四行 一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-				</div>
-				<div>5月11日</div>
-				<div>
-					<i class="fa-regular fa-eye"></i>
-					<div class="d-inline"></i>9999</div>
-					<i class="fa-solid fa-tag"></i>
-					<div class="d-inline"></i>9999</div>
-				</div>
-			</div>
-			<div class="position-relative px-0">
-				<img src="~/img/img_recipe_icon.png">
-				<div>食譜標題</div>
-				<div>
-					食譜內文<br>
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一
-					三行<br>
-					四行 一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-				</div>
-				<div>5月11日</div>
-				<div>
-					<i class="fa-regular fa-eye"></i>
-					<div class="d-inline"></i>9999</div>
-					<i class="fa-solid fa-tag"></i>
-					<div class="d-inline"></i>9999</div>
-				</div>
-			</div>
-			<div class="position-relative px-0">
-				<img src="~/img/img_recipe_icon.png">
-				<div>食譜標題</div>
-				<div>
-					食譜內文<br>
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一
-					三行<br>
-					四行 一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-				</div>
-				<div>5月11日</div>
-				<div>
-					<i class="fa-regular fa-eye"></i>
-					<div class="d-inline"></i>9999</div>
-					<i class="fa-solid fa-tag"></i>
-					<div class="d-inline"></i>9999</div>
-				</div>
-			</div>
-			<div class="position-relative px-0">
-				<img src="~/img/img_recipe_icon.png">
-				<div>食譜標題</div>
-				<div>
-					食譜內文<br>
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一
-					三行<br>
-					四行 一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-				</div>
-				<div>5月11日</div>
-				<div>
-					<i class="fa-regular fa-eye"></i>
-					<div class="d-inline"></i>9999</div>
-					<i class="fa-solid fa-tag"></i>
-					<div class="d-inline"></i>9999</div>
-				</div>
-			</div>
+			@{
+				foreach (var i in ViewBag.recipe)
+				{
+					<div class="position-relative px-0">
+						<img src="data:image/jpg;base64, @Convert.ToBase64String(i.RecipeCover)">
+						<a href="">@i.Name</a>
+						<div>
+							@i.RecipeIntroduction
+						</div>
+						<div>@(i.ChangeTime.Month)月@(i.ChangeTime.Day)日</div>
+						<div>
+							<i class="fa-regular fa-eye"></i>
+							<div class="d-inline">9999</div>
+							<i class="fa-solid fa-tag"></i>
+							<div class="d-inline">9999</div>
+						</div>
+					</div>
+				}
+			}
 		</div>
 		<!-- 粉絲 -->
 		<div class="area_fan row mx-0 px-0">
@@ -257,21 +135,16 @@
 				@{
 					foreach (var i in ViewBag.User)
 					{
-						num_follow = 0;
 						<div class="position-relative">
 							<img src="data:image/jpg;base64, @Convert.ToBase64String(i.u.UserPhoto)" class="rounded-circle">
 
 							<div><a href="~/user/@((i.u.Email).Split('@')[0])">@i.u.UserName</a></div>
-							
+
 							<div>
-								<div class="d-inline">999食譜</div>
-								@foreach (var j in (ViewData[$"follower_{i.u.UserId}"] as IEnumerable<UserFollower>))
-								{
-									num_follow++;
-								}
-								<div class="d-inline">@num_follow 粉絲數</div>
+								<div class="d-inline">@((int?)ViewData[$"recipe_{i.u.UserId}"]) 食譜</div>
+								<div class="d-inline">@((int?)ViewData[$"follower_{i.u.UserId}"]) 粉絲數</div>
 							</div>
-							<div>自介</div>
+							<div>@i.u.UserIntro</div>
 							<button>追蹤</button>
 						</div>
 					}
@@ -300,7 +173,16 @@
 				<div class="modal-body row">
 					<!-- 背景上傳 -->
 					<div class="position-relative">
-						<img src="~/img/img_user_info.png" id="img_user_banner">
+						@{
+							if (Model.UserBanner != null)
+							{
+								<img src="data:image/jpg;base64, @Convert.ToBase64String(Model.UserBanner)" class="rounded-top" id="img_user_banner" />
+							}
+							else
+							{
+								<img src="~/img/img_user_info.png" class="rounded-top" id="img_user_banner">
+							}
+						}
 						<button type="button" class="opacity-50 translate-middle" id="btn_user_banner">
 							<svg viewBox="0 0 24 24" aria-hidden="true"
 								 class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c"
@@ -316,7 +198,16 @@
 					</div>
 					<!-- 頭像上傳 -->
 					<div class="position-relative">
-						<img src="~/img/img_user_icon.png" id="img_user_icon">
+						@{
+							if (Model.UserPhoto != null)
+							{
+								<img src="data:image/jpg;base64, @Convert.ToBase64String(Model.UserPhoto)" class="rounded-circle" id="img_user_icon" />
+							}
+							else
+							{
+								<img src="~/img/img_user_icon.png" class="rounded-circle" id="img_user_icon">
+							}
+						}
 						<button type="button" class="opacity-50 translate-middle" id="btn_user_icon">
 							<svg viewBox="0 0 24 24" aria-hidden="true"
 								 class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c"
@@ -338,7 +229,7 @@
 					</div>
 					<!-- 自介變更 -->
 					<div class="form-floating">
-						<textarea class="form-control" placeholder="自我介紹" id="input_user_info"></textarea>
+						<textarea class="form-control" placeholder="自我介紹" id="input_user_info">@Model.UserIntro</textarea>
 						<label for="input_user_info">自我介紹</label>
 					</div>
 				</div>
