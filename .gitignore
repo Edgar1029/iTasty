@@ -77,3 +77,7 @@ _[Ss]cripts
 *.v2
 *.v7.bin
 project_itasty/.vs/project_itasty/v17/DocumentLayout.json
+*.wsuo
+*/newfoier/*
+*/.vs/ProjectEvalution/*
+*/.vs/*.json
