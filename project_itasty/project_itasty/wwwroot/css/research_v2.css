@@ -1,0 +1,142 @@
+﻿@charset "UTF-8";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: normal;
+}
+
+body {
+    background-image: url("/新增資料夾/img/大理石.jpg");
+}
+
+    body .container form {
+        border: 1px solid black;
+        border-radius: 20px;
+        background-color: rgb(150, 230, 191);
+        box-shadow: 10px 5px 5px gray;
+    }
+
+        body .container form .filter {
+            display: flex;
+            border-radius: 20px;
+        }
+
+            body .container form .filter .myselect {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                border: 1px solid gray;
+                border-radius: 10px;
+                background-color: white;
+                width: 20%;
+                margin: 10px;
+            }
+
+                body .container form .filter .myselect img {
+                    margin-top: 20px;
+                    width: 75px;
+                }
+
+                body .container form .filter .myselect label {
+                    margin-bottom: 20px;
+                    font-size: 1.2rem;
+                }
+
+                body .container form .filter .myselect select {
+                    width: 100%;
+                    border: none;
+                    border-top: 1px solid gray;
+                    text-align: center;
+                    height: 60px;
+                    font-size: 20px;
+                    /* Safari and Chrome */
+                    -webkit-appearance: none;
+                    /* Firefox */
+                    -moz-appearance: none;
+                    /* Standard */
+                    appearance: none;
+                    /* 自定義箭頭圖像 */
+                    background: url("/img/research_img/down-arrow.png") no-repeat;
+                    background-position: right 1.8rem center;
+                    /* 根據箭頭圖像的大小調整填充 */
+                    background-size: 25px;
+                }
+
+        body .container form .fliter_2 {
+            display: flex;
+            justify-content: center;
+        }
+
+            body .container form .fliter_2 .search_bar {
+                margin-left: 30%;
+            }
+
+                body .container form .fliter_2 .search_bar .input-group select {
+                    border-radius: 10px;
+                    border: 1px solid black;
+                }
+
+            body .container form .fliter_2 .clean {
+                border-radius: 10px;
+                margin-left: 25%;
+                font-size: 15px;
+                height: 40px;
+            }
+
+    body .container .search_result {
+        display: flex;
+        border-radius: 20px;
+        margin-top: 30px;
+        position: relative;
+        background-color: rgba(255, 255, 255, 0.5);
+        box-shadow: 10px 5px 5px gray;
+        transition: box-shadow 0.5s, transform 0.5s;
+    }
+
+        body .container .search_result:hover {
+            box-shadow: 20px 10px 10px gray;
+            transform: scale(1.05);
+        }
+
+        body .container .search_result img.recipes_img {
+            border-radius: 20px;
+            height: 25vh;
+        }
+
+        body .container .search_result .recipes_detail {
+            margin-left: 30px;
+            padding-right: 20px;
+        }
+
+            body .container .search_result .recipes_detail .recipes_title {
+                font-size: 20px;
+                margin-top: 15px;
+            }
+
+            body .container .search_result .recipes_detail .recipes_author {
+                display: flex;
+            }
+
+            body .container .search_result .recipes_detail .recipes_description {
+                font-size: 15px;
+                margin-top: 15px;
+            }
+
+            body .container .search_result .recipes_detail .recipes_views {
+                display: flex;
+                position: absolute;
+                bottom: 10px;
+                right: 20px;
+            }
+/*# sourceMappingURL=research_v2.css.map */

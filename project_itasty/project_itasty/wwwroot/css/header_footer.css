@@ -1,0 +1,242 @@
+.nav_text_size {
+    font-size: 20px;
+}
+
+.list_img_size {
+    width: 100px;
+}
+
+.bg-img {
+    background-image:url("./img/大理石.jpg")
+}
+.search_result{
+    background-color: rgb(255, 255, 255,0.5);
+    box-shadow: 10px 5px 5px gray;
+    transition: box-shadow 0.5s, transform 0.5s;
+}
+.search_result:hover{
+    box-shadow: 20px 10px 10px gray;
+    transform: scale(1.05);
+}
+/* 下面是全域設定檔的css(一定要加)-------------------------------------------------------------------------------------------------- */
+* {
+    box-sizing: border-box;
+    font-family: "Noto Serif TC", serif;
+    font-family: "Stardos Stencil", system-ui;
+    font-style: normal;
+    font-weight: bold;
+}
+
+body {
+    clear: both;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(245, 245, 245);
+    background-image: url("../img/pexels-karolina-grabowska-4705933.jpg");
+    background-position:inherit;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+}
+/* 下面是header的css-------------------------------------------------------------------------------------------------- */
+header{
+    width: 100%;
+    margin: auto;
+    height: 60px;
+    line-height: 60px;
+    display: flex;
+}
+header::after{
+    content: "";
+    display: block;
+    clear: both;
+}
+.header-left{
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    width: 65%;
+    align-items: left;
+    display: flex;
+}
+.header-left > span{
+    width: 84px;
+    height: 60px;
+    line-height: 60px;
+    margin-left: 12px;
+    font-size: 15px;
+    cursor: pointer;
+    color:rgb(30, 30, 30);
+    font-weight: 600;
+}
+.header-left > span:hover{
+    color: rgb(232, 117, 67);
+}
+.header-left-img{
+    /* width: 100%;
+    display: block;
+    margin: auto;
+    background-color: rgb(255, 255, 255);
+    align-items: center;
+    object-fit: contain; */
+    width: 170px;
+    height: 90%;
+    margin: auto;
+    margin-left: 20px;
+    margin-right: 10px;
+    margin-top: 10px;
+    background-image: url("./img/logo_text.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    align-items: center;
+}
+.header-middle{
+    background-color:rgb(255, 255, 255);
+    text-align: center;
+    width:0%;
+}
+.header-right{
+    /* padding-left: 30%; */
+    background-color:rgb(255, 255, 255);
+    padding-right: 43px;
+    width:35%;
+    justify-content: flex-end;
+}
+.loginsignbtn{
+    display: flex;
+    width: 130px;
+}
+.login{
+     width: 40px;
+     margin-right: 12px;
+     cursor: pointer;
+}
+.sign{
+    width: 90px;
+    height: 40px;
+    background-color: rgb(232, 117, 67);
+    align-items: center;
+    text-align:center;
+    line-height: 40px;
+    margin: auto;
+    border-radius: 4px;
+    color: aliceblue;
+    cursor: pointer;
+}
+.spacebar{
+    width: 1px;
+    height: 32px;
+    margin-left:16px;
+    margin-right:16px;
+    margin-top: 14px;
+    background-color: rgb(200, 200, 200);
+}
+.shoppingcart{
+    width:40px;
+    height:24px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.shoppingcart:hover{
+    color:rgb(232, 117, 67);
+}
+.profile{
+    width:40px;
+    height:24px;
+    cursor: pointer;
+}
+.profile:hover{
+    color:rgb(232, 117, 67);
+}
+/* 下面是footer的css-------------------------------------------------------------------------------------------------- */
+footer{
+    clear: both;
+    display: block;
+    content: " ";
+}
+.footer-header{
+    font-size: 1vw+0.5rem;
+    height: 80px;
+    line-height: 80px;
+    font-weight: 600;
+    border-bottom: rgb(241, 241, 238) 1px solid;
+    justify-content: center;
+}
+.footer-header-top{
+    width: 440px;
+    display: flex;
+}
+.footer-header-text{
+    height: 40px;
+    line-height: 40px;
+    margin: auto;
+    width: 380px;
+}
+.footer-header-button{
+    height: 40px;
+    line-height: 40px;
+    margin: auto;
+    width: 60px;
+    text-align: center;
+    background-color: rgb(79, 169, 112);
+    color: #FFFFFF;
+    border-radius: 3px;
+    margin-left: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.footer-class{
+    width: 80%;
+    height:auto;
+    margin: auto;
+    background-color: #FFFFFF;
+}
+.footer-link{
+    width: 200px;
+    padding: 24px 16px;
+    margin-left: 10%;
+    transition: all 0.3s;
+}
+.footer-link a{
+    color: #787878;
+    text-decoration: none;
+}
+.footer-link a:hover{
+    color: rgb(235, 96, 96);
+}
+.link-label{
+    margin-bottom: 16px;
+    font-size: 1vw;
+}
+.footer-link ul{
+    padding: 0px;
+    margin: 0px;
+    font-size: 0.8vw;
+    color: #b8b8b8;
+}
+.footer-link ul>li{
+    list-style: none;
+    margin-bottom: 5px;
+    transition: all 0.3s;
+}
+.footer-logo{
+    width: 300px;
+    background-image: url("./img/logo.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-left: 5%;
+}
+.footer-footer{
+    font-size: 1vw+0.5rem;
+    margin: 0;
+    padding: 0;
+    padding-left: 40%;
+    height: 80px;
+    line-height: 80px;
+    font-weight: 600;
+    border-top: rgb(241, 241, 238) 1px solid;
+}
+/* -------------------------------------------------------------------------------------------------- */

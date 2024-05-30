@@ -42,4 +42,5 @@ public partial class RecipeTable
     public virtual ICollection<MessageTable> MessageTables { get; set; } = new List<MessageTable>();
 
     public virtual ICollection<StepTable> StepTables { get; set; } = new List<StepTable>();
+
 }
