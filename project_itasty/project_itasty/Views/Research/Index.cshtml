@@ -199,7 +199,7 @@
 
                     <div class="search_result">
                         <!-- 料理圖片 -->
-                        <img class="recipes_img" alt="食物圖片" src="./img/image_1.jfif" />
+                        <img src="data:image/jpg;base64, @Convert.ToBase64String(recipe.RecipeCover)" alt="食物圖片" class="recipes_img" />
                         <!-- 料理圖片 -->
                         <div class="recipes_detail">
                             <p class="recipes_title">料理名稱:  @recipe.Name</p>

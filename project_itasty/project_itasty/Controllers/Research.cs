@@ -28,8 +28,9 @@ namespace project_itasty.Controllers
                                     HealthyOptions=r.HealthyOptions,
                                     CuisineStyle = r.CuisineStyle,
                                     RecipeIntroduction=r.RecipeIntroduction,
-                                    Collections=r.Collections
-                          }; // 只選擇 RecipeTable 對象
+                                    Collections=r.Collections,
+                                    RecipeCover=r.RecipeCover,
+                          }; 
 
 
             // 根據時間選項過濾
