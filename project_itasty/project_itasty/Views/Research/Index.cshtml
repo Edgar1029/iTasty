@@ -1,4 +1,4 @@
-﻿ @model List<RecipeTable>
+﻿
 <!DOCTYPE html>
 <html lang="zh-Hant">
 
@@ -55,7 +55,7 @@
                         <option value="15min">少於15分鐘</option>
                         <option value="30min">少於30分鐘</option>
                         <option value="60min">少於60分鐘</option>
-                        <option value="60min_up">多於60分鐘</option>
+                        <option value="60min_up">60分鐘以上</option>
                     </select>
                 </div>
                 <!-- 篩選欄1 -->
@@ -66,7 +66,7 @@
                     <select name="food" id="food">
                         <option value="all">所有選項</option>
                         <option value="chicken">雞肉</option>
-                        <option value="pork">豬肉</option>
+                        <option value="豬肉">豬肉</option>
                         <option value="beef">牛肉</option>
                         <option value="mutton">羊肉</option>
                         <option value="seafood">海鮮</option>
@@ -80,7 +80,7 @@
                     <select name="meat" id="meat">
                         <option value="all">所有選項</option>
                         <option value="breakfast">早餐</option>
-                        <option value="dinner">午晚餐</option>
+                        <option value="午晚餐">午晚餐</option>
                         <option value="dessert">甜品</option>
                         <option value="snacks">小食</option>
                     </select>
@@ -92,7 +92,7 @@
                     <label for="vegetable">膳食</label>
                     <select name="vegetable" id="vegetable">
                         <option value="all">所有選項</option>
-                        <option value="health">健康食譜</option>
+                        <option value="健康餐">健康食譜</option>
                         <option value="vegan">素食食譜</option>
                     </select>
                 </div>
@@ -103,7 +103,7 @@
                     <label for="type">菜式</label>
                     <select name="type" id="type">
                         <option value="all">所有選項</option>
-                        <option value="chinese">中式食譜</option>
+                        <option value="中式">中式食譜</option>
                         <option value="japan">日式食譜</option>
                         <option value="korea">韓式食譜</option>
                         <option value="western">西式食譜</option>
@@ -155,7 +155,7 @@
             </div>
             <!-- 排序 -->
             <!-- 結果 -->
-            <div id="app1">
+            @* <div id="app1">
                 <div class="search_result" v-for="item in items">
                     <!-- 料理圖片 -->
                     <img class="recipes_img" alt="食物圖片" src="./img/image_1.jfif" />
@@ -187,10 +187,16 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> *@
             <!-- 結果 -->
+               
+            @if (Model.Count != 0)
+            {
+
+                
                 @foreach (var recipe in Model)
                 {
+
                     <div class="search_result">
                         <!-- 料理圖片 -->
                         <img class="recipes_img" alt="食物圖片" src="./img/image_1.jfif" />
@@ -199,11 +205,11 @@
                             <p class="recipes_title">料理名稱:  @recipe.Name</p>
                             <div class="recipes_author">
                                 <img alt="" src="./img/user.svg" />
-                                <div>作者: @recipe.Name</div>
+                                <div>作者: @recipe.UserName</div>
                             </div>
                             <!-- 料理描述 -->
                             <p class="recipes_description">
-                                @recipe.Name
+                                @recipe.RecipeIntroduction
                             </p>
                             <!-- 料理描述 -->
                             <div class="recipes_views">
@@ -221,6 +227,11 @@
                         </div>
                     </div>
                 }
+
+            } else
+            {
+                <div class="d-flex justify-content-center alert" style="font-size:large">沒有符合項目!</div>
+            }
 
 
 
