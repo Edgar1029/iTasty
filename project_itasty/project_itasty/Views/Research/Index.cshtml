@@ -1,13 +1,14 @@
-﻿<!DOCTYPE html>
+﻿ @model List<RecipeTable>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Itasty | 篩選頁</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@@@@5.2.0-beta1/dist/css/bootstrap.min.css">
-    <script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
+    <script src="http://code.jquery.com/jquery-3.7.1.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
     <link rel="stylesheet" href="/css/research_v2.css">
     <link rel="stylesheet" href="/css/header_footer.css">
 </head>
@@ -188,6 +189,40 @@
                 </div>
             </div>
             <!-- 結果 -->
+                @foreach (var recipe in Model)
+                {
+                    <div class="search_result">
+                        <!-- 料理圖片 -->
+                        <img class="recipes_img" alt="食物圖片" src="./img/image_1.jfif" />
+                        <!-- 料理圖片 -->
+                        <div class="recipes_detail">
+                            <p class="recipes_title">料理名稱:  @recipe.Name</p>
+                            <div class="recipes_author">
+                                <img alt="" src="./img/user.svg" />
+                                <div>作者: @recipe.Name</div>
+                            </div>
+                            <!-- 料理描述 -->
+                            <p class="recipes_description">
+                                @recipe.Name
+                            </p>
+                            <!-- 料理描述 -->
+                            <div class="recipes_views">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                                     fill="#5f6368">
+                                    <path d="M856-390 570-104q-12 12-27 18t-30 6q-15 0-30-6t-27-18L103-457q-11-11-17-25.5T80-513v-287q0-33 23.5-56.5T160-880h287q16 0 31 6.5t26 17.5l352 353q12 12 17.5 27t5.5 30q0 15-5.5 29.5T856-390ZM513-160l286-286-353-354H160v286l353 354ZM260-640q25 0 42.5-17.5T320-700q0-25-17.5-42.5T260-760q-25 0-42.5 17.5T200-700q0 25 17.5 42.5T260-640Zm220 160Z" />
+                                </svg>
+                                <div>@recipe.Name</div>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                                     fill="#5f6368">
+                                    <path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z" />
+                                </svg>
+                                <div>@recipe.Name</div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
 
         </div>
 
@@ -242,18 +277,18 @@
     @* <script src="https://cdn.jsdelivr.net/npm/bootstrap@@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script> *@
     <script>
         //加入Json資料
-        var app = new Vue({
-            el: "#app1",
-            data: {
-                items: [
+        // var app = new Vue({
+        //     el: "#app1",
+        //     data: {
+        //         items: [
 
-                ]
-            }
-        });
+        //         ]
+        //     }
+        // });
 
-        $.get("json.json", function (e) {
-            app.items = e.recipes
-        })
+        // $.get("json.json", function (e) {
+        //     app.items = e.recipes
+        // })
         //加入Json資料
         //抽換btn_order的文字
         $("#btn_order ul li button").on("click", function () {
