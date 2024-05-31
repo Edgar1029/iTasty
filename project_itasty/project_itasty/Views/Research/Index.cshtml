@@ -65,11 +65,11 @@
                     <label for="food">食材</label>
                     <select name="food" id="food">
                         <option value="all">所有選項</option>
-                        <option value="chicken">雞肉</option>
+                        <option value="雞肉">雞肉</option>
                         <option value="豬肉">豬肉</option>
-                        <option value="beef">牛肉</option>
-                        <option value="mutton">羊肉</option>
-                        <option value="seafood">海鮮</option>
+                        <option value="牛肉">牛肉</option>
+                        <option value="羊肉">羊肉</option>
+                        <option value="海鮮">海鮮</option>
                     </select>
                 </div>
                 <!-- 篩選欄2 -->
@@ -79,10 +79,10 @@
                     <label for="meat">餐類</label>
                     <select name="meat" id="meat">
                         <option value="all">所有選項</option>
-                        <option value="breakfast">早餐</option>
+                        <option value="早餐">早餐</option>
                         <option value="午晚餐">午晚餐</option>
-                        <option value="dessert">甜品</option>
-                        <option value="snacks">小食</option>
+                        <option value="甜品">甜品</option>
+                        <option value="小食">小食</option>
                     </select>
                 </div>
                 <!-- 篩選欄3 -->
@@ -93,7 +93,7 @@
                     <select name="vegetable" id="vegetable">
                         <option value="all">所有選項</option>
                         <option value="健康餐">健康食譜</option>
-                        <option value="vegan">素食食譜</option>
+                        <option value="素食">素食食譜</option>
                     </select>
                 </div>
                 <!-- 篩選欄4 -->
@@ -104,10 +104,10 @@
                     <select name="type" id="type">
                         <option value="all">所有選項</option>
                         <option value="中式">中式食譜</option>
-                        <option value="japan">日式食譜</option>
-                        <option value="korea">韓式食譜</option>
-                        <option value="western">西式食譜</option>
-                        <option value="other">其他</option>
+                        <option value="日式">日式食譜</option>
+                        <option value="韓式">韓式食譜</option>
+                        <option value="西式">西式食譜</option>
+                        <option value="其他">其他</option>
                     </select>
                 </div>
                 <!-- 篩選欄5 -->
@@ -119,11 +119,11 @@
                 <!-- search_bar -->
                 <div class="mb-3 col-4 search_bar">
                     <div class="input-group">
-                        <select name="search_type">
+                        <select name="search_type" id="search_select">
                             <option value="recipes">食譜</option>
                             <option value="author">作者</option>
                         </select>
-                        <input type="text" name="search" class="form-control border-dark border-end-0">
+                        <input type="text" name="search" class="form-control border-dark border-end-0" placeholder="  請輸入食譜 ">
                         <button class="btn border-start-0 border-dark" type="submit" style="background-color: white;">
                             <img src="/img/research_img/search.png" alt="" style="width: 25px;"></button>
                     </div>
@@ -138,62 +138,9 @@
         </form>
         <!-- 篩選選單form  -->
         <div class="justify-content-center">
-            <!-- 排序 -->
-            <div class="btn-group mt-4 justify-content-end" style="margin-left: 90%; width: 10%;" id="btn_order">
-                <button type="button" class="btn border dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
-                    data-bs-display="static">
-                    排序依
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start w-100"
-                    style="overflow:scroll; max-height: 200px;">
-                    <li><button class="dropdown-item" type="button">預設</button></li>
-                    <li><button class="dropdown-item" type="button">點閱數</button></li>
-                    <li><button class="dropdown-item" type="button">瀏覽數</button></li>
-                    <li><button class="dropdown-item" type="button">作者</button></li>
-                    <li><button class="dropdown-item" type="button">烹調時間</button></li>
-                </ul>
-            </div>
-            <!-- 排序 -->
-            <!-- 結果 -->
-            @* <div id="app1">
-                <div class="search_result" v-for="item in items">
-                    <!-- 料理圖片 -->
-                    <img class="recipes_img" alt="食物圖片" src="./img/image_1.jfif" />
-                    <!-- 料理圖片 -->
-                    <div class="recipes_detail">
-                        <p class="recipes_title">料理名稱: {{item.title}}</p>
-                        <div class="recipes_author">
-                            <img alt="" src="./img/user.svg" />
-                            <div>作者:{{item.author}}</div>
-                        </div>
-                        <!-- 料理描述 -->
-                        <p class="recipes_description">
-                            {{item.description}}
-                        </p>
-                        <!-- 料理描述 -->
-                        <div class="recipes_views">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                                fill="#5f6368">
-                                <path
-                                    d="M856-390 570-104q-12 12-27 18t-30 6q-15 0-30-6t-27-18L103-457q-11-11-17-25.5T80-513v-287q0-33 23.5-56.5T160-880h287q16 0 31 6.5t26 17.5l352 353q12 12 17.5 27t5.5 30q0 15-5.5 29.5T856-390ZM513-160l286-286-353-354H160v286l353 354ZM260-640q25 0 42.5-17.5T320-700q0-25-17.5-42.5T260-760q-25 0-42.5 17.5T200-700q0 25 17.5 42.5T260-640Zm220 160Z" />
-                            </svg>
-                            <div>{{item.views}}</div>
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                                fill="#5f6368">
-                                <path
-                                    d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z" />
-                            </svg>
-                            <div>{{item.clicks}}</div>
-                        </div>
-                    </div>
-                </div>
-            </div> *@
-            <!-- 結果 -->
-               
+            <!-- 結果 -->   
             @if (Model.Count != 0)
             {
-
-                
                 @foreach (var recipe in Model)
                 {
 
@@ -232,8 +179,7 @@
             {
                 <div class="d-flex justify-content-center alert" style="font-size:large">沒有符合項目!</div>
             }
-
-
+            <!-- 結果 -->
 
         </div>
 
@@ -308,6 +254,17 @@
             $("#btn_order>button").text(`排序依: ${this.innerText}`);
         })
         //抽換btn_order的文字
+
+        //抽換input的placeholder
+        $("#search_select").on("change", function () {
+            var search_select_value = $("#search_select").val()
+            if (search_select_value == "author") {
+                $("#search_select + input").attr("placeholder", "  請輸入作者")
+            } else { 
+                $("#search_select + input").attr("placeholder", "  請輸入食譜")
+            }
+        })
+        //抽換input的placeholder
     </script>
 </body>
 
