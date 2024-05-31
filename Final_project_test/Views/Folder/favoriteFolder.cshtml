@@ -1,0 +1,222 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model Final_project_test.Models.array2js
+
+@section MyHeadScripts {
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ITASTY | Perfect Receipe Await</title>
+        <link rel="icon" href="../img/logo_.png">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+              integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+              crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+                crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="~/css/favorite_css.css">
+        <script src="~/js/jquery-3.7.1.min.js"></script>
+        <script src="~/js/favorite_script.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+}
+
+<body class="row gx-0" style="position:relative">
+    <!-- 下面是header---------------------------------------------------------------------------- -->
+    @* <header class="row gx-0">
+        <div class="header-first d-lg-flex d-sm-none" style="display:flex">
+            <div class="header-left row gx-0">
+                <div class="header-left-img">
+                </div>
+                <span id="all-receipe">所有食譜</span>
+                <span id="my-receipe">我的食譜</span>
+                <span id="my-page">我的頁面</span>
+            </div>
+            <div class="header-middle row gx-0">
+            </div>
+            <div class="header-right row gx-0">
+                <div class="loginsignbtn">
+                </div>
+                <div class="spacebar">
+                </div>
+                <div class="shoppingcart">
+                    會員
+                </div>
+                <div class="profile">
+                    客戶
+                </div>
+            </div>
+        </div>
+        <div class="header-second d-lg-none" style="display:flex">
+            <div class="nav-left">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+                <div class="left-title">
+                    <p id="all-receipe" class="left-title-bar"><a href="">所有食譜</a></p>
+                    <p class="bababa"></p>
+                    <p id="my-receipe" class="left-title-bar"><a href="">我的食譜</a></p>
+                    <p class="bababa"></p>
+                    <p id="my-page" class="left-title-bar"><a href="">我的頁面</a></p>
+                </div>
+            </div>
+            <div class="nav-middle">
+                <div class="nav-middle-img"></div>
+            </div>
+            <div class="nav-right">
+                <i class="fa-regular fa-user fa-2x nav-profile-icon"></i>
+                <div class="right-title">
+                    <p class="loginsignbtn right-title-bar">
+                    </p>
+                    <p class="bababa"></p>
+                    <p class="shoppingcart right-title-bar">
+                        <a href="">會員</a>
+                    </p>
+                    <p class="bababa"></p>
+                    <p class="profile right-title-bar">
+                        <a href="">客戶</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </header> *@
+    <!-- 下面是container的---------------------------------------------------------------------------- -->
+    <div class="container row gx-0">
+        <div class="container-header">
+            <div class="right-container-header row col-12 gx-0">
+                <div class="right-container-left row gx-0" id="select-menu">
+                    採買清單
+                </div>
+                <div class="right-container-middle col-xxl-7 col-xl-7 col-lg-7 col-7 row gx-0">
+                    @* <select name="" id="" aria-placeholder="排序依:最新食譜">
+                        <option value="">排序依: 最新食譜</option>
+                        <option value="">排序依: 按讚數最高</option>
+                        <option value="">排序依: 瀏覽數最高</option> 
+                    </select> *@
+                    收藏夾解釋
+                    <span style="width:15px"><i class="fa-solid fa-circle-info" id="more-label"></i></span>
+                </div>
+                <div class = "col-xxl-2 col-xl-1 col-1 row gx-0" style="height:47px;"></div>
+                <div class="right-container-right col-xl-2 col-lg-4 col-4 row gx-0"><span class="row gx-0" id="edit-file">編輯收藏夾</span></div>
+            </div>
+        </div>
+        <div class="container-left col-xl-3 col-lg-4 col-5 gx-0 container-left-radio col-sm-5">
+            <div class="container-left-buy-area row gx-0">
+                <div class="row gx-0">
+                    <input type="radio" class="d-none" name="radio-bookmark" id="radio-favorite" checked>
+                    <label for="radio-favorite">
+                        <p class="container-left-favorite gx-0">
+                            <i class="fa-solid fa-heart" style="margin-left: 7%;"></i>
+                            收藏的食譜
+                        </p>
+                    </label>
+                </div>
+            </div>
+            <div class="container-left-edit-area row gx-0">
+                <div class="row gx-0 draggable-something" id="draggable">
+                    <input type="radio" class="d-none" name="radio-bookmark" id="radio-buy">
+                    <label for="radio-buy" id="radio-buy-id">
+                        <p class="container-left-buy gx-0">
+                            <i class="fa-solid fa-cart-shopping" style="margin-left: 7%;"></i>
+                            採買清單
+                        </p>
+                    </label>
+                </div>
+                <div class="row gx-0 " id="radio-edit-id" >
+                    <input type="radio" class="d-none" name="radio-bookmark" id="radio-edit">
+                    <label for="radio-edit">
+                        <p class="container-left-edit gx-0">
+                            <i class="fa-solid fa-pen-to-square" style="margin-left: 7%;"></i>
+                            編輯後的食譜
+                        </p>
+                    </label>
+                </div>
+            </div>
+            <div class="container-left-customize-area row gx-0 ui-widget-content" id="customize-sample">
+                        <!-- 客製化食譜的範例----------------------------------------------------------- -->
+            </div>
+            <div class="container-left-trash-area row gx-0" id="trash-bin">
+                <p class="container-left-trash gx-0">
+                    <i class="fa-solid fa-trash" style="margin-left: 20px;"></i>    
+                    垃圾桶
+                </p>
+            </div>
+            <div class="container-left-add-area row gx-0">
+                <p class="container-left-add gx-0" id="add-more-bookmark">
+                    增加收藏夾
+                </p>
+            </div>
+        </div>
+        <div class="container-right col-xl-9 col-lg-8 col-7 row gx-0 col-sm-7">
+            <div class="container-right-container row gx-0">
+                <div class="area-to-clone row gx-0">
+                    <div class="right-container-menu row gx-0">
+                        <div class="hot_receipe_space col-xl-12 row gx-0" id="receipe-collection">
+                            <!-- BOOKMARK的範例----------------------------------------------------------- -->
+                            <!-- <div class="ingredient"><input type="checkbox" name="" class="ingredient-prepare"><span class="ingredient-name">食材名稱</span><span class="ingredient-count">10</span><span class="ingredient-unit">g</span><span class="ingredient-price">100</span>元<span></span></div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 下面是label的---------------------------------------------------------------------------- -->
+    <div class="add-label gx-0">
+        <div class="label-background"></div>
+        <div class="label-dialog gx-0 row">
+            <div class="label-header"></div>
+            <div class="input-label col-6" style="padding-left: 10%;">請輸入收藏夾名稱:</div>
+            <input type="text" class="input-name col-5" id="new-file-name">
+            <div class="label-footer row gx-0">
+                <span class="label-confirm col-6" id="label-confirm-button">確認</span>
+                <span class="label-deny col-6" id="label-deny-button">取消</span>
+            </div>
+        </div>
+    </div>
+    <!-- 下面是footer的---------------------------------------------------------------------------- -->
+    @* <footer class="footer-class row gx-0">
+        <div class="footer-header col-12 row gx-0">
+            KEEP IN TOUCH WITH OUR WEBSITE
+        </div>
+        <div class="footer-link col-xl-3 col-4">
+            <div class="link-label">
+                首頁
+            </div>
+            <ul>
+                <li><a href="">會員登入頁</a></li>
+                <li><a href="">會員註冊頁</a></li>
+                <li><a href="">客戶服務頁</a></li>
+            </ul>
+        </div>
+        <div class="footer-link col-xl-3 col-4">
+            <div class="link-label">
+                頁籤
+            </div>
+            <ul>
+                <li><a href="">查詢頁</a></li>
+                <li><a href="">收藏頁</a></li>
+                <li><a href="">我的首頁</a></li>
+            </ul>
+        </div>
+        <div class="footer-link col-xl-3 col-4">
+            <div class="link-label">
+                頁籤
+            </div>
+            <ul>
+                <li><a href="">查詢頁</a></li>
+                <li><a href="">收藏頁</a></li>
+                <li><a href="">我的首頁</a></li>
+            </ul>
+        </div>
+        <div class="footer-logo col-xl-3 d-xl-block d-sm-none"></div>
+        <div class="footer-space"></div>
+        <div class="footer-footer">
+            © 2024 - 2024 ITASTY | Perfect Receipe Await. All Rights Reserved.
+        </div>
+    </footer> *@
+</body>
+</html>

@@ -1,0 +1,876 @@
+/* 下面是全域設定檔的css(一定要加)-------------------------------------------------------------------------------------------------- */
+* {
+    box-sizing: border-box;
+    font-family: "Noto Serif TC", serif;
+    font-family: "Stardos Stencil", system-ui;
+    font-style: normal;
+    font-weight: bold;
+}
+body {
+    clear: both;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(245, 245, 245);
+    background-image: url("../img/pexels-karolina-grabowska-4705933.jpg");    
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    transition: all 0.3s;
+}
+/* 下面是header的css-------------------------------------------------------------------------------------------------- */
+header{
+    width: 100%;
+    margin: auto;
+    height: 60px;
+    line-height: 60px;
+    display: flex;
+}
+header::after{
+    content: "";
+    display: block;
+    clear: both;
+}
+.header-left{
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    width: 65%;
+    align-items: left;
+    /* display: flex; */
+}
+.header-left > span{
+    width: 84px;
+    height: 60px;
+    line-height: 60px;
+    margin-left: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    color:rgb(30, 30, 30);
+    font-weight: 600;
+}
+.header-left > span:hover{
+    color: rgb(232, 117, 67);
+}
+.header-left-img{
+    /* width: 100%;
+    display: block;
+    margin: auto;
+    background-color: rgb(255, 255, 255);
+    align-items: center;
+    object-fit: contain; */
+    width: 170px;
+    height: 90%;
+    margin: auto;
+    margin-left: 20px;
+    margin-right: 10px;
+    margin-top: 10px;
+    background-image: url("../img/logo_text.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    align-items: center;
+}
+.header-middle{
+    background-color:rgb(255, 255, 255);
+    text-align: center;
+    width:0%;
+}
+.header-right{
+    /* padding-left: 30%; */
+    background-color:rgb(255, 255, 255);
+    padding-right: 43px;
+    width:35%;
+    justify-content: flex-end;
+}
+.loginsignbtn{
+    display: flex;
+    width: 130px;
+}
+.login{
+     width: 40px;
+     margin-right: 12px;
+     cursor: pointer;
+     color: #111111;
+}
+.login:hover{
+    color:rgb(232, 117, 67);
+}
+.sign{
+    width: 90px;
+    height: 40px;
+    background-color: rgb(232, 117, 67);
+    align-items: center;
+    text-align:center;
+    line-height: 40px;
+    margin: auto;
+    border-radius: 4px;
+    color: aliceblue;
+    cursor: pointer;
+}
+.spacebar{
+    width: 1px;
+    height: 32px;
+    margin-left:16px;
+    margin-right:16px;
+    margin-top: 14px;
+    background-color: rgb(200, 200, 200);
+}
+.shoppingcart{
+    width:40px;
+    height:24px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.shoppingcart:hover{
+    color:rgb(232, 117, 67);
+}
+.profile{
+    width:40px;
+    height:24px;
+    cursor: pointer;
+}
+.profile:hover{
+    color:rgb(232, 117, 67);
+}
+.header-second{
+    width: 100%;
+    height:60px;
+    background-color: #FFFFFF;
+}
+.nav-left{
+    position: relative;
+    width:10%;
+    display: inline-block;
+    cursor: pointer;
+    margin: auto;
+    padding-left: 2%;
+    /* background-color: #a93635; */
+}
+.left-title{
+    position: absolute; 
+    left: 0px;
+    background-color: #FFFFFF;
+    z-index: 999;
+    display: none;
+}
+.bar1, .bar2, .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: 0.4s;
+  }
+  
+  .change .bar1 {
+    transform: translate(0, 11px) rotate(-45deg);
+  }
+  
+  .change .bar2 {opacity: 0;}
+  
+  .change .bar3 {
+    transform: translate(0, -11px) rotate(45deg);
+}
+.left-title-bar{
+    width: 140px;
+    margin: 0px;
+    text-align: center;
+}
+.bababa{
+    height: 1px;
+    width: 120px;
+    margin: auto;
+    background-color: rgb(241, 241, 238);
+}
+.left-title a{
+    text-decoration: none;
+    color: #111111;
+}
+.left-title a:hover{
+    color: rgb(232, 117, 67);
+}
+.nav-middle{
+    width:80%;
+}
+.nav-middle-img{
+    width: 170px;
+    height: 90%;
+    margin: auto;
+    margin-top: 10px;
+    background-image: url("../img/logo_text.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    align-items: center;
+}
+.nav-right{
+    position: relative;
+    width:10%;
+    display: inline-block;
+    cursor: pointer;
+}
+.nav-profile-icon{
+    width:100%;
+    height: 30px;
+    text-align: right;
+    margin-top: 15px;
+    padding-right: 15px;
+}
+.right-title-bar{
+    width: 160px;
+    height: 55px;
+    line-height: 40px;
+    margin: auto;
+    padding: 8px;
+    text-align: center;
+    align-items: center;
+}
+.right-title a{
+    text-decoration: none;
+    color: #111111;
+}
+.right-title a:hover{
+    color: rgb(232, 117, 67);
+}
+.right-title{
+    position: absolute; 
+    right: 0px;
+    top: 60px;
+    background-color: #FFFFFF;
+    z-index: 999;
+    display: none;
+}
+/* 下面是container的css-------------------------------------------------------------------------------------------------- */
+.container{
+    width: 1200px;
+    /* height: 850px; */
+    margin: auto;
+    /* background-color: rgb(241, 241, 238); */
+}
+.container-header{
+    height: 130px;
+}
+.container::after{
+    content: "";
+    display: block;
+    clear: both;
+}
+.container-left{
+    float:left;
+    background-color: #FFFFFF;
+    height: 230px;
+}
+.container-left-buy-area{
+    /* height: 105px; */
+    margin-top:0px;
+    width:100%;
+}
+.container-left-buy{
+    /* background-color: rgb(232, 117, 67); */
+    /* border-radius: 0px 10px 10px 0px; */
+    /* margin-top: 50px; */
+    margin: auto;
+    line-height: 40px;
+    font-weight: 600;
+    width: 90%;
+    transition: all 0.3s;
+    color: #000000;
+    font-size: 1rem;
+    cursor: pointer;
+    border-bottom: rgb(241, 241, 238) 1px solid;
+}
+.container-left-radio > div > div > input:checked+label > p{
+    width: 100%;
+    background-color: rgb(232, 117, 67);
+    color: #FFFFFF;
+    transition: all 0.3;
+}
+.full-width{
+    width: 100%;
+    background-color: #b8b8b8;
+    color: #494343;
+    transition: all 0.3;
+}
+.container-left-edit-area{
+    /* height: 125px; */
+    width:100%;
+}
+.container-left-favorite{
+    margin: auto;
+    line-height: 40px;
+    height: 40px;
+    font-weight: 600;
+    width: 90%;
+    transition: all 0.3s;
+    color: #000000;
+    font-size: 1rem;
+    cursor: pointer;
+}
+.draggable-something{
+    height: 40px;
+    line-height: 40px;
+}
+.container-left-edit{
+    margin: auto;
+    line-height: 40px;
+    font-weight: 600;
+    width: 90%;
+    transition: all 0.3s;
+    color: #000000;
+    font-size: 1rem;
+    cursor: pointer;
+    border-bottom: rgb(241, 241, 238) 1px solid;
+}
+label{
+    height: 40px;
+}
+.container-left-customize-area{
+    width:100%;
+    /* height: 300px; */
+    overflow: hidden;
+}
+.container-left-customize{
+    margin: auto;
+    line-height: 40px;
+    font-weight: 600;
+    width: 90%;
+    transition: all 0.3s;
+    color: #000000;
+    font-size: 0.8vw;
+    cursor: pointer;
+    border-bottom: rgb(241, 241, 238) 1px solid;
+}
+.container-left-trash-area{
+    width:100%;
+}
+.container-left-trash{
+    margin: auto;
+    line-height: 40px;
+    font-weight: 600;
+    width: 90%;
+    transition: all 0.3s;
+    color: #000000;
+    font-size: 1rem;
+    cursor: pointer;
+    border-top: rgb(241, 241, 238) 1px solid;
+    border-bottom: rgb(241, 241, 238) 1px solid;
+}
+.ui-state-hover .container-left-trash{
+    background-color: #a93635;
+}
+.container-left-add-area{
+    width:100%;
+}
+.turn-red{
+    background-color: #a93635 !important;
+    color: #FFFFFF !important;
+}
+.turn-green{
+    background-color: rgb(79, 169, 112) !important;
+    color: #FFFFFF !important;
+    transition: all 0.3s;
+}
+.turn-yellow{
+    background-color: #ad9b6d !important;
+    color: #FFFFFF !important;
+    transition: all 0.3s;
+}
+.container-left-add{
+    /* background-color: #7C7474; */
+    border-radius: 5px;
+    line-height: 24px;
+    height: 24px;
+    margin:auto;
+    margin-top: 25px;
+    font-weight: bold;
+    width: 53%;
+    transition: all 0.3s;
+    color: #494343;
+    border: #787878 1px solid;
+    /* font-size: 18px; */
+    text-align: center;
+    cursor: pointer;
+}
+.container-left-add:hover{
+    background-color: rgb(79, 169, 112);
+    color: #FFFFFF;
+    border: none;
+}
+.container-right{
+    /* width:85%; */
+    /* height: 640px; */
+    float:right;
+    display: flex;
+    flex-direction: column;
+    height: auto; /* 确保容器高度自动调整 */
+    transition: all 0.3s;
+}
+.container-right-header{
+    width:80%;
+    margin: auto;
+    margin-right:12%;
+    border-bottom: #111111 2px dashed;
+}
+.right-header-area{
+    width: 80%;
+    margin-left:5%;
+    margin-top:20px;
+    margin-bottom:20px;
+    height:35px;
+}
+.right-header-area ul li{
+    list-style: none;
+    float: left;
+    text-align: center;
+    line-height: 35px;
+    position: relative;
+}
+.container-right-container{
+    width:100%;
+    margin: auto;
+    margin-top: 0px;
+    margin-right:12%;
+}
+.right-container-header{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 47px;
+    position: relative;
+}
+.right-container-left{
+    font-size: 30px;
+    line-height: 47px;
+    height: 47px;
+    width: 100%;
+    padding-left: 20px;
+    /* justify-content: center; */
+}
+.more-information-label{
+    background-color: #D7D7CD;
+    width: 100%;
+    margin-bottom: 24px;
+    height: 132px;
+    border-radius: 4px;
+}
+.label-title{
+    font-size: 1vw+4rem;
+    padding-left: 30px;
+    padding-top: 20px;
+}
+.label-information{
+    font-size: 0.5vw+4rem;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+}
+.right-container-middle{
+    /* font-size:20px; */
+    line-height: 47px;
+    height: 47px;
+    padding-left: 20px;
+    position: relative;
+    font-size:1rem;
+    font-weight:600;
+}
+.right-container-middle > select{
+    width:200px;
+    height:25px;
+    font-size: 17px;
+    border-radius: 5px;
+    margin: auto;
+    margin-left: 0px;
+    border-color: #b8b8b8;
+}
+.right-container-middle > select > option{
+    color: #111111;
+}
+.right-container-middle > span{
+    position: absolute;
+    left: 110px;
+    cursor: pointer;
+}
+.right-container-right{
+    /* font-size: 20px; */
+    height: 47px;
+    justify-content: right;
+}
+.right-container-right > span{
+    justify-content: center;
+    width: 120px;
+    line-height: 30px;
+    height: 30px;
+    /* font-size: 17px; */
+    margin: auto;
+    border: 1px solid #b8b8b8;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #FFFFFF;
+    color: #000000;
+    transition: all 0.3s;
+    
+}
+.right-container-right > span:hover{
+    background-color: #a93635;
+    color: #FFFFFF;
+    transition: all 0.3s;
+}
+/* -------------------------------------------------------------------------------------------------- */
+.right-container-menu{
+    width: 100%;
+    overflow-x: auto;
+    float: left;
+}
+.hot_receipe_space{
+    display: flex;
+    height: auto;
+    width: 100%;
+    margin: auto;
+    /* justify-content: space-around; */
+    flex-wrap: wrap; 
+    padding-left: 6%;
+    padding-right: 4%;
+    /* margin-top: 10px; */
+    /* margin-bottom: 10px; */
+    /* overflow:auto; */
+    /* background-color: rgb(245, 245, 245); */
+    &::-webkit-scrollbar {
+        width: 6px;
+        height: 3px;
+    }
+    &::-webkit-scrollbar-button {
+        background: transparent;
+        border-radius: 4px;
+    }
+    &::-webkit-scrollbar-track-piece {
+        background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background-color: rgb(200,200,200);
+    }
+    &::-webkit-scrollbar-track {
+        box-shadow: transparent;
+    }
+}
+.ingredient{
+    width: 220px;
+    margin: auto;
+    height: 40px;
+    line-height: 40px;
+    background-color: rgb(250, 250, 250);
+    border-bottom: 1px solid #c8c8c8;
+}
+.ingredient-prepare {
+    width: 20px;
+    margin-left: 20px;
+    height: 40px;
+    line-height: 40px;
+    float: left;
+}
+.ingredient-name {
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 10px;
+    font-size: 0.8rem;
+    float: left;
+}
+.ingredient-count {
+    width: 20px;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 15px;
+    font-size: 0.8rem;
+    float: left;
+    text-align: right;
+}
+.ingredient-unit {
+    width: 20px;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 2px;
+    font-size: 0.8rem;
+    float: left;
+}
+.hotreceipebookmark{
+    position: relative;
+    width: 230px;
+    height: 290px;
+    margin: 10px 15px;
+    float: left;
+    border-radius: 5px;
+    /* border: 1px solid #111111; */
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.hotreceipebookmark-heightchange{
+    height: 440px;
+    transition: all 0.3s;
+}
+.hotreceipe-img{
+    height: 230px;
+    margin: auto;
+    border-radius: 5px 5px 0px 0px;
+    /*background-image: url("../img/steak.png");*/
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.hotreceipe-introduction{
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    font-size: large;
+    background-color: #FFFFFF;
+    color: #000000;
+    border-radius: 0px 0px 5px 5px;
+}
+.hotreceipe-information{
+    text-align: center;
+    height: 20px;
+    font-size: 13px;
+    background-color: #FFFFFF;
+}
+.hotreceipe-ingredient{
+    position: absolute;
+}
+.hot-receipe-data{
+    list-style: none;
+    color: #7C7474;
+}
+.hot-receipe-data ul>li{
+    justify-content: center;
+    float: left;
+    display: flex;
+}
+#edit-file:hover{
+    transition: all 0.3s;
+    color: #FFFFFF;
+    background-color: #A53F2B;
+}
+.edit-icon{
+    position:absolute;
+    right:-2px;
+    top:-2px;
+    background-color: rgb(245, 245, 245);
+    padding: 6px;
+    border-radius: 5px;
+    border: #b8b8b8 1px solid;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.edit-icon:hover{
+    color: #FFFFFF;
+    background-color: #A53F2B;
+    transition: all 0.3s;
+}
+/* -------------------------------------------------------------------------------------------------- */
+.select-receipe{
+    height: 35px;
+    width: 80%;
+    text-decoration: none;
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    border:1px solid #000000;   
+    border-radius: 10px;
+    /* font-size: 20px; */
+    line-height: 35px;
+}
+.select-receipe::placeholder {
+    text-align: center;
+    margin-top: 0px;
+    line-height: 35px;
+    height: 35px;
+    color: #aaa;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .icon {
+    position: absolute;
+    top: 50%;
+    right: 12%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+  }
+/* 下面是add-label的css-------------------------------------------------------------------------------------------------- */
+.add-label{
+    position: absolute;
+    left:0%;
+    top: 0%;
+    width: 100%;
+    height: 100%;
+    display: none;
+    transition: 0.3s;
+}
+.label-background{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #111111;
+    opacity: 50%;
+    z-index:998;
+}
+.label-dialog {
+    position: absolute;
+    position: fixed;
+    width: 400px;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 40%;
+    /* height: 10%; */
+    background-color: #FFFFFF;
+    z-index: 999;
+    /*border:1px solid #000000;*/
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+.label-header{
+    width: 100%;
+    height: 20px;
+    background-color: rgb(232, 117, 67);
+    border-radius: 4px 4px 0px 0px ;
+}
+.input-label{
+    line-height: 28px;
+    height: 28px;
+    margin-right: 0px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.input-name{
+    line-height: 28px;
+    height: 28px;
+    margin: auto;
+    margin-left: 0px;
+}
+.label-footer{
+    width: 100%;
+}
+.label-confirm{
+    margin: auto;
+    height: 100%;
+    line-height: 20px;
+    text-align: center;
+}
+.label-confirm:hover{
+    transition: 0.3s;
+    background-color: rgb(109, 109, 199);
+    color: #FFFFFF;
+    border-radius:0px 0px 0px 4px;
+    cursor: pointer;
+}
+.label-deny{
+    margin: auto;
+    height: 100%;
+    line-height: 20px;
+    text-align: center;
+}
+.label-deny:hover{
+    transition: 0.3s;
+    background-color: rgb(235, 96, 96);
+    color: #FFFFFF;
+    border-radius:0px 0px 4px 0px;
+    cursor: pointer;
+}
+/* 下面是footer的css-------------------------------------------------------------------------------------------------- */
+footer{
+    clear: both;
+    display: block;
+    content: " ";
+}
+.footer-header{
+    font-size: 1vw+0.5rem;
+    height: 80px;
+    line-height: 80px;
+    font-weight: 600;
+    border-bottom: rgb(241, 241, 238) 1px solid;
+    justify-content: center;
+}
+.footer-header-top{
+    width: 440px;
+    display: flex;
+}
+.footer-header-text{
+    height: 40px;
+    line-height: 40px;
+    margin: auto;
+    width: 380px;
+}
+.footer-header-button{
+    height: 40px;
+    line-height: 40px;
+    margin: auto;
+    width: 60px;
+    text-align: center;
+    background-color: rgb(79, 169, 112);
+    color: #FFFFFF;
+    border-radius: 3px;
+    margin-left: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.footer-class{
+    width: 1536px;
+    height:auto;
+    margin: auto;
+    background-color: #FFFFFF;
+}
+.footer-link{
+    /* width: 14%; */
+    padding: 24px 16px;
+    padding-left: 10%;
+    transition: all 0.3s;
+}
+.footer-link a{
+    color: #787878;
+    text-decoration: none;
+    font-size: 0.8rem;
+}
+.footer-link a:hover{
+    color: rgb(235, 96, 96);
+}
+.link-label{
+    margin-bottom: 16px;
+    font-size: 1rem;
+}
+.footer-link ul{
+    padding: 0px;
+    margin: 0px;
+    font-size: 1rem;
+    color: #b8b8b8;
+}
+.footer-link ul>li{
+    list-style: none;
+    margin-bottom: 5px;
+    transition: all 0.3s;
+}
+.footer-logo{
+    /* width: 18%; */
+    background-image: url("../img/logo.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 300px;
+    padding-left: 5%;
+}
+.footer-space{
+    width: 100%;
+    height: 1px;
+    background-color: rgb(241, 241, 238);
+}
+.footer-footer{
+    font-size: 1rem;
+    /* padding-left: 40%; */
+    height: 80px;
+    line-height: 80px;
+    font-weight: 600;
+    margin: auto;
+    margin-left: 20px;
+    width: 556px;
+    color: #c8c8c8;
+    /* border-top: rgb(241, 241, 238) 1px solid; */
+}
+/* -------------------------------------------------------------------------------------------------- */
