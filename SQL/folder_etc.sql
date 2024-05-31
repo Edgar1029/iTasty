@@ -2,8 +2,8 @@
 (
 	userId		int primary key identity(1,1) not null,
 	userName	nvarchar(20) not null,
-	userEmail	nvarchar(20) UNIQUE,  
-	userPassword nvarchar(20) not null,
+	userEmail	nvarchar(30) UNIQUE,  
+	userPassword nvarchar(MAX) not null,
 	userPhoto	varbinary(MAX),
 	userBanner	varbinary(MAX),	
 	userIntro	nvarchar(50),
