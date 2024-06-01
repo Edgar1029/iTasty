@@ -8,7 +8,6 @@
     <title>Itasty | 篩選頁</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
     <script src="http://code.jquery.com/jquery-3.7.1.min.js"></script> 
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
     <link rel="stylesheet" href="/css/research_v2.css">
     <link rel="stylesheet" href="/css/header_footer.css">
 </head>
@@ -43,7 +42,7 @@
     </header>
     <div class="container">
         <!-- 篩選選單form -->
-        <form>
+        <form id="filter_form">
             <!-- 第一層篩選欄 -->
             <div class="filter">
                 <!-- 篩選欄1 -->
@@ -119,7 +118,7 @@
                 <!-- search_bar -->
                 <div class="mb-3 col-4 search_bar">
                     <div class="input-group">
-                        <select name="search_type" id="search_select">
+                        <select name="search_type" id="search_type">
                             <option value="recipes">食譜</option>
                             <option value="author">作者</option>
                         </select>
@@ -140,14 +139,25 @@
         <div class="justify-content-center">
 
             <!-- 排序 -->
-            <form action="/Research" method="post" id="order_by" style="background-color:rgba(255,255,255,0); border:none; box-shadow:none">
-            <select class="form-select mt-4" id="select_order" style="margin-left:90%;width: 10%;">
-                <option value="default">預設</option>
-                <option value="views">點閱數</option>
-                <option value="browsing">瀏覽數</option>
-                <option value="author">作者</option>
-                <option value="cooking_time">烹調時間</option>
-            </select>
+            <form id="order_by" style="background-color:rgba(255,255,255,0); border:none; box-shadow:none">
+
+                <!-- 儲存篩選條件 -->
+                <input type="hidden" name="selected_time" id="selected_time">
+                <input type="hidden" name="selected_food" id="selected_food">
+                <input type="hidden" name="selected_meat" id="selected_meat">
+                <input type="hidden" name="selected_vegetable" id="selected_vegetable">
+                <input type="hidden" name="selected_type" id="selected_type">
+                <input type="hidden" name="selected_search_type" id="selected_search_type">
+                <input type="hidden" name="selected_search" id="selected_search">
+                <!-- 儲存篩選條件 -->
+
+                <select class="form-select mt-4" id="order_by" style="margin-left:90%;width: 10%;" name="order_by">
+					<option value="default">預設</option>
+                    <option value="TimesWatched">瀏覽數</option>
+                    <option value="UserName">作者</option>
+                    <option value="cooking_time">烹調時間</option>
+                </select>
+
             </form>
             <!-- 排序 -->
 
@@ -261,30 +271,137 @@
         //     app.items = e.recipes
         // })
         //加入Json資料
-        //抽換btn_order的文字
-        $("#btn_order ul li button").on("click", function () {
-            console.log(123);
-            console.log(this.innerText);
-            $("#btn_order>button").text(`排序依: ${this.innerText}`);
-        })
-        //抽換btn_order的文字
 
         //抽換input的placeholder
-        $("#search_select").on("change", function () {
-            var search_select_value = $("#search_select").val()
-            if (search_select_value == "author") {
-                $("#search_select + input").attr("placeholder", "  請輸入作者")
+        $("#search_type").on("change", function () {
+            var search_type_value = $("#search_type").val()
+            if (search_type_value == "author") {
+                $("#search_type + input").attr("placeholder", "  請輸入作者")
             } else { 
-                $("#search_select + input").attr("placeholder", "  請輸入食譜")
+                $("#search_type + input").attr("placeholder", "  請輸入食譜")
             }
         })
         //抽換input的placeholder
 
-        $("#order_by").on("change", function () { 
+        //從url取得上次的搜尋紀錄
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
 
+        // 從url抓下來input-hidden的值
+        if (getUrlParameter('selected_time')) {
+            $('#selected_time').val(getUrlParameter('selected_time'));
+        } else if (getUrlParameter('time_option')) {
+            $('#selected_time').val(getUrlParameter('time_option'));
+        }
+        if (getUrlParameter('selected_food')) {
+            $('#selected_food').val(getUrlParameter('selected_food'));
+        } else if (getUrlParameter('food')) {
+            $('#selected_food').val(getUrlParameter('food'));
+        }
+        if (getUrlParameter('selected_meat')) {
+            $('#selected_meat').val(getUrlParameter('selected_meat'));
+        } else if (getUrlParameter('meat')) {
+            $('#selected_meat').val(getUrlParameter('meat'));
+        }
+        if (getUrlParameter('selected_vegetable')) {
+            $('#selected_vegetable').val(getUrlParameter('selected_vegetable'));
+        } else if (getUrlParameter('vegetable')) {
+            $('#selected_vegetable').val(getUrlParameter('vegetable'));
+        }
+        if (getUrlParameter('selected_type')) {
+            $('#selected_type').val(getUrlParameter('selected_type'));
+        } else if (getUrlParameter('type')) {
+            $('#selected_type').val(getUrlParameter('type'));
+        }
+        if (getUrlParameter('selected_search_type')) {
+            $('#selected_search_type').val(getUrlParameter('selected_search_type'));
+        } else if (getUrlParameter('search_type')) {
+            $('#selected_search_type').val(getUrlParameter('search_type'));
+        }
+        if (getUrlParameter('selected_search')) {
+            $('#selected_search').val(getUrlParameter('selected_search'));
+        } else if (getUrlParameter('search')) {
+            $('#selected_search').val(getUrlParameter('search'));
+        }
+
+        // 將url的值填入input中
+        function url_input(){
+            //排序欄位的input-hidden
+            if (getUrlParameter('selected_time')) {
+                $('#time').val(getUrlParameter('selected_time'));
+            }
+            if (getUrlParameter('selected_food')) {
+                $('#food').val(getUrlParameter('selected_food'));
+            }
+            if (getUrlParameter('selected_meat')) {
+                $('#meat').val(getUrlParameter('selected_meat'));
+            }
+            if (getUrlParameter('selected_vegetable')) {
+                $('#vegetable').val(getUrlParameter('selected_vegetable'));
+            }
+            if (getUrlParameter('selected_type')) {
+                $('#type').val(getUrlParameter('selected_type'));
+            }
+            if (getUrlParameter('selected_search_type')) {
+                $('#search_type').val(getUrlParameter('selected_search_type'));
+            }
+            if (getUrlParameter('selected_search')) {
+                $('input[name="search"]').val(getUrlParameter('selected_search'));
+            }
+
+            //篩選欄位的input
+            if (getUrlParameter('time_option')) {
+                $('#time').val(getUrlParameter('time_option'));
+            }
+            if (getUrlParameter('food')) {
+                $('#food').val(getUrlParameter('food'));
+            }
+            if (getUrlParameter('meat')) {
+                $('#meat').val(getUrlParameter('meat'));
+            }
+            if (getUrlParameter('vegetable')) {
+                $('#vegetable').val(getUrlParameter('vegetable'));
+            }
+            if (getUrlParameter('type')) {
+                $('#type').val(getUrlParameter('type'));
+            }
+            if (getUrlParameter('order_by')) {
+                $('#order_by').val(getUrlParameter('order_by'));
+            }
+            if (getUrlParameter('search_type')) {
+                $('#search_type').val(getUrlParameter('search_type'));
+            }
+            if (getUrlParameter('search')) {
+                $('input[name="search"]').val(getUrlParameter('search'));
+            }
+ 
+        }
+
+        // 更新input-hidden值的方法
+        function updateHiddenInputs() {
+            $('#selected_time').val($('#time').val());
+            $('#selected_food').val($('#food').val());
+            $('#selected_meat').val($('#meat').val());
+            $('#selected_vegetable').val($('#vegetable').val());
+            $('#selected_type').val($('#type').val());
+            $('#selected_search_type').val($('#search_type').val());
+        }
+
+        // 綁定input change 事件，更新input-hidden值
+        $('#time, #food, #meat, #vegetable, #type').on('change', function () {
+            updateHiddenInputs();
+        });
+
+        // 將要排序的要求船置controller
+        $("#order_by").on("change", function () {
             $("#order_by").submit();
-        })
+        });
 
+        url_input();
     </script>
 </body>
 
