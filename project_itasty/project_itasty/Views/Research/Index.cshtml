@@ -257,6 +257,12 @@
     @* <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@@2.11.5/dist/umd/popper.min.js"></script> *@
     @* <script src="https://cdn.jsdelivr.net/npm/bootstrap@@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script> *@
     <script>
+
+        //流程:點選篩選欄 --> 從url擷取Value值 --> 將擷取到的Value值複製一份進input-hidden --> 點選search按鈕傳篩選欄的Value進Controller                        --> Controller進行篩選          -->返回結果  --> 點選排序 --> 將排序的要求以及input-hidden裡的資訊傳進Controller  --> Controller進行篩選以及排序  -->返回結果
+        //                                                                                 --> 點選排序 --> 將排序的要求以及input-hidden裡的資訊傳進Controller  --> Controller進行篩選以及排序  -->返回結果
+
+
+
         //加入Json資料
         // var app = new Vue({
         //     el: "#app1",

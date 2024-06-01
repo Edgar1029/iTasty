@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using project_itasty.Models;
+using System.Data.Entity;
 using System.Linq;
 
 namespace project_itasty.Controllers
@@ -32,18 +34,17 @@ namespace project_itasty.Controllers
                                     RecipeCover=r.RecipeCover,
                           };
 
-            // 根據 order_by 参数指定的字段进行排序
-            if (!string.IsNullOrEmpty(order_by))
+            // 根據 order_by 進行排序
+            if (order_by != null)
             {
                 switch (order_by)
                 {
                     case "TimesWatched":
-                        recipes = recipes.OrderBy(r => r.TimesWatched);
+                        recipes = recipes.OrderByDescending(r => r.TimesWatched);
                         break;
                     case "UserName":
                         recipes = recipes.OrderBy(r => r.UserName);
                         break;
-                    // 可根据需要添加更多的排序字段
                     default:
                         break;
                 }
@@ -51,7 +52,7 @@ namespace project_itasty.Controllers
 
 
             // 根據時間選項過濾
-            if (!string.IsNullOrEmpty(time_option) && time_option != "all")
+            if (time_option != null && time_option != "all")
             {
                 int maxTime = time_option switch
                 {
@@ -73,31 +74,31 @@ namespace project_itasty.Controllers
             }
 
             // 根據食材選項過濾
-            if (!string.IsNullOrEmpty(food) && food != "all")
+            if (food!=null && food != "all")
             {
                 recipes = recipes.Where(r => r.ProteinUsed.Contains(food));
             }
 
             // 根據餐類選項過濾
-            if (!string.IsNullOrEmpty(meat) && meat != "all")
+            if (meat != null && meat != "all")
             {
                 recipes = recipes.Where(r => r.MealType.Contains(meat));
             }
 
             // 根據膳食選項過濾
-            if (!string.IsNullOrEmpty(vegetable) && vegetable != "all")
+            if (vegetable != null && vegetable != "all")
             {
                 recipes = recipes.Where(r => r.HealthyOptions.Contains(vegetable));
             }
 
             // 根據菜式選項過濾
-            if (!string.IsNullOrEmpty(type) && type != "all")
+            if (type != null && type != "all")
             {
                 recipes = recipes.Where(r => r.CuisineStyle.Contains(type));
             }
 
             // 根據搜索類型和搜索關鍵字過濾
-            if (!string.IsNullOrEmpty(search))
+            if (search != null)
             {
                 if (search_type == "recipes")
                 {
@@ -110,7 +111,7 @@ namespace project_itasty.Controllers
             }
 
             // 根據時間選項過濾
-            if (!string.IsNullOrEmpty(selected_time_option) && selected_time_option != "all")
+            if (selected_time_option != null && selected_time_option != "all")
             {
                 int maxTime = selected_time_option switch
                 {
@@ -131,32 +132,32 @@ namespace project_itasty.Controllers
                 }
             }
 
-            // 根據食材選項過濾
-            if (!string.IsNullOrEmpty(selected_food) && selected_food != "all")
+            // 根據input-hidden食材選項過濾
+            if (selected_food != null && selected_food != "all")
             {
                 recipes = recipes.Where(r => r.ProteinUsed.Contains(selected_food));
             }
 
-            // 根據餐類選項過濾
-            if (!string.IsNullOrEmpty(selected_meat) && selected_meat != "all")
+            // 根據input-hidden餐類選項過濾
+            if (selected_meat != null && selected_meat != "all")
             {
                 recipes = recipes.Where(r => r.MealType.Contains(selected_meat));
             }
 
-            // 根據膳食選項過濾
-            if (!string.IsNullOrEmpty(selected_vegetable) && selected_vegetable != "all")
+            // 根據input-hidden膳食選項過濾
+            if (selected_vegetable != null && selected_vegetable != "all")
             {
                 recipes = recipes.Where(r => r.HealthyOptions.Contains(selected_vegetable));
             }
 
-            // 根據菜式選項過濾
-            if (!string.IsNullOrEmpty(selected_type) && selected_type != "all")
+            // 根據input-hidden菜式選項過濾
+            if (selected_type != null && selected_type != "all")
             {
                 recipes = recipes.Where(r => r.CuisineStyle.Contains(selected_type));
             }
 
-            // 根據搜索類型和搜索關鍵字過濾
-            if (!string.IsNullOrEmpty(selected_search))
+            // 根據input-hidden搜索類型和搜索關鍵字過濾
+            if (selected_search != null)
             {
                 if (selected_search_type == "recipes")
                 {
