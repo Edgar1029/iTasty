@@ -56,6 +56,13 @@ namespace project_itasty.Controllers
 							   select r;
 			ViewBag.recipe = query_recipe;
 			ViewBag.recipe_count = query_recipe.Count();
+			foreach( var item in query_recipe)
+			{
+				var recipe_view_count = from v in _context.RecipeViews
+								   where v.RecipeId == item.RecipeId
+								   select v;
+				ViewData[$"recipe_view_{item.RecipeId}"] = recipe_view_count.Sum(x => x.ViewNum);
+			}
 
 
 			return View(user_info);

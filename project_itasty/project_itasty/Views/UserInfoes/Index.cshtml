@@ -145,7 +145,7 @@
 						<div>@(i.LastModifiedDate.Month)月@(i.LastModifiedDate.Day)日</div>
 						<div>
 							<i class="fa-regular fa-eye"></i>
-							<div class="d-inline">9999</div>
+							<div class="d-inline">@((int?)ViewData[$"recipe_view_{i.RecipeId}"])</div>
 							<i class="fa-solid fa-tag"></i>
 							<div class="d-inline">9999</div>
 						</div>
