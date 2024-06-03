@@ -27,7 +27,12 @@ namespace project_itasty.Controllers
 								  where obj.UserEmail.IndexOf(email + '@') == 0
 								  select obj;
 
-			UserInfo user_info = select_userinfo.First();
+			UserInfo? user_info = select_userinfo.FirstOrDefault();
+
+			if (user_info == null)
+			{
+				return Redirect("~/home/");
+			}
 
 			var query = from o in _context.UserFollowers
 						where o.UserId == user_info.UserId
