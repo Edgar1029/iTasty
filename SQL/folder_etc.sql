@@ -15,9 +15,9 @@ CREATE TABLE userFollower
 (
 	userId			int not null,
 	followerId		int not null,
-	followDate		DATETIME not null,
-	unfollowDate	DATETIME,
-	primary key (userId, followerID),
+	followDate		DATE not null,
+	unfollowDate	DATE,
+	primary key (userId, followerId, followDate),
 	FOREIGN KEY (userId) REFERENCES userInfo(userId),
 	FOREIGN KEY (followerId) REFERENCES userInfo(userId) 
 )
@@ -44,6 +44,15 @@ CREATE TABLE recipeTable(
     calories INT, --卡路里
 	FOREIGN KEY (userId) REFERENCES userInfo(userId),
 	FOREIGN KEY (parentRecipeId) REFERENCES recipeTable(recipeId)
+);
+--------------------------------------------------------------------------
+create table recipeView
+(
+	recipeId	int,
+	viewDate	Date,
+	viewNum		int,
+	primary key (recipeId, viewDate),
+	FOREIGN KEY (recipeId) REFERENCES recipeTable([recipeId]),
 );
 --------------------------------------------------------------------------
 CREATE TABLE customRecipeFolder (
