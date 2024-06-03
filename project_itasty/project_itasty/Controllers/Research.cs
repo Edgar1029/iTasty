@@ -21,17 +21,7 @@ namespace project_itasty.Controllers
             var recipes = from r in _context.RecipeTables
                           join u in _context.UserInfos on r.UserId equals u.UserId
                           select new {
-                                    Id=r.Id,
-                                    Name=r.Name,
-                                    UserName=u.UserName,
-                                    TimesWatched=r.TimesWatched,
-                                    ProteinUsed = r.ProteinUsed,
-                                    MealType = r.MealType,
-                                    HealthyOptions=r.HealthyOptions,
-                                    CuisineStyle = r.CuisineStyle,
-                                    RecipeIntroduction=r.RecipeIntroduction,
-                                    Collections=r.Collections,
-                                    RecipeCover=r.RecipeCover,
+                                    r,u
                           };
 
             // 根據 order_by 進行排序
@@ -39,11 +29,14 @@ namespace project_itasty.Controllers
             {
                 switch (order_by)
                 {
-                    case "TimesWatched":
-                        recipes = recipes.OrderByDescending(r => r.TimesWatched);
+                    case "Views":
+                        recipes = recipes.OrderByDescending(r => r.r.Views);
                         break;
                     case "UserName":
-                        recipes = recipes.OrderBy(r => r.UserName);
+                        recipes = recipes.OrderBy(r => r.u.UserName);
+                        break;
+                    case "CookingTime":
+                        recipes = recipes.OrderBy(r => r.r.CookingTime);
                         break;
                     default:
                         break;
@@ -65,36 +58,36 @@ namespace project_itasty.Controllers
 
                 if (time_option != "60min_up")
                 {
-                    recipes = recipes.Where(r => r.TimesWatched <= maxTime);
+                    recipes = recipes.Where(r => r.r.CookingTime <= maxTime);
                 }
                 else
                 {
-                    recipes = recipes.Where(r => r.TimesWatched > 60);
+                    recipes = recipes.Where(r => r.r.CookingTime > 60);
                 }
             }
 
             // 根據食材選項過濾
             if (food!=null && food != "all")
             {
-                recipes = recipes.Where(r => r.ProteinUsed.Contains(food));
+                recipes = recipes.Where(r => r.r.ProteinUsed.Contains(food));
             }
 
             // 根據餐類選項過濾
             if (meat != null && meat != "all")
             {
-                recipes = recipes.Where(r => r.MealType.Contains(meat));
+                recipes = recipes.Where(r => r.r.MealType.Contains(meat));
             }
 
             // 根據膳食選項過濾
             if (vegetable != null && vegetable != "all")
             {
-                recipes = recipes.Where(r => r.HealthyOptions.Contains(vegetable));
+                recipes = recipes.Where(r => r.r.HealthyOptions.Contains(vegetable));
             }
 
             // 根據菜式選項過濾
             if (type != null && type != "all")
             {
-                recipes = recipes.Where(r => r.CuisineStyle.Contains(type));
+                recipes = recipes.Where(r => r.r.CuisineStyle.Contains(type));
             }
 
             // 根據搜索類型和搜索關鍵字過濾
@@ -102,11 +95,11 @@ namespace project_itasty.Controllers
             {
                 if (search_type == "recipes")
                 {
-                    recipes = recipes.Where(r => r.Name.Contains(search));
+                    recipes = recipes.Where(r => r.r.RecipeName.Contains(search));
                 }
                 else if (search_type == "author")
                 {
-                    recipes = recipes.Where(r => r.UserName.Contains(search));
+                    recipes = recipes.Where(r => r.u.UserName.Contains(search));
                 }
             }
 
@@ -124,36 +117,36 @@ namespace project_itasty.Controllers
 
                 if (selected_time_option != "60min_up")
                 {
-                    recipes = recipes.Where(r => r.TimesWatched <= maxTime);
+                    recipes = recipes.Where(r => r.r.CookingTime <= maxTime);
                 }
                 else
                 {
-                    recipes = recipes.Where(r => r.TimesWatched > 60);
+                    recipes = recipes.Where(r => r.r.CookingTime > 60);
                 }
             }
 
             // 根據input-hidden食材選項過濾
             if (selected_food != null && selected_food != "all")
             {
-                recipes = recipes.Where(r => r.ProteinUsed.Contains(selected_food));
+                recipes = recipes.Where(r => r.r.ProteinUsed.Contains(selected_food));
             }
 
             // 根據input-hidden餐類選項過濾
             if (selected_meat != null && selected_meat != "all")
             {
-                recipes = recipes.Where(r => r.MealType.Contains(selected_meat));
+                recipes = recipes.Where(r => r.r.MealType.Contains(selected_meat));
             }
 
             // 根據input-hidden膳食選項過濾
             if (selected_vegetable != null && selected_vegetable != "all")
             {
-                recipes = recipes.Where(r => r.HealthyOptions.Contains(selected_vegetable));
+                recipes = recipes.Where(r => r.r.HealthyOptions.Contains(selected_vegetable));
             }
 
             // 根據input-hidden菜式選項過濾
             if (selected_type != null && selected_type != "all")
             {
-                recipes = recipes.Where(r => r.CuisineStyle.Contains(selected_type));
+                recipes = recipes.Where(r => r.r.CuisineStyle.Contains(selected_type));
             }
 
             // 根據input-hidden搜索類型和搜索關鍵字過濾
@@ -161,11 +154,11 @@ namespace project_itasty.Controllers
             {
                 if (selected_search_type == "recipes")
                 {
-                    recipes = recipes.Where(r => r.Name.Contains(selected_search));
+                    recipes = recipes.Where(r => r.r.RecipeName.Contains(selected_search));
                 }
                 else if (selected_search_type == "author")
                 {
-                    recipes = recipes.Where(r => r.UserName.Contains(selected_search));
+                    recipes = recipes.Where(r => r.u.UserName.Contains(selected_search));
                 }
             }
 
