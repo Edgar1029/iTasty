@@ -72,10 +72,18 @@
 					}
 				}
 				@{
-					if (userId != 0)
+					if (userId != 0 && Model.UserId != userId)
 					{
-						<button class="btn_follow">追蹤</button>
-						<button class="btn_unfollow">取消追蹤</button>
+						foreach (var i in ViewBag.User)
+						{
+							if (i.o.FollowerId == userId)
+							{
+								<button onclick="">取消追蹤</button>
+								goto loopout;
+							}
+						}
+					<button onclick="">追蹤</button>
+					loopout:;
 					}
 				}
 			</div>
@@ -168,14 +176,29 @@
 						<div class="position-relative">
 							<img src="data:image/jpg;base64, @Convert.ToBase64String(i.u.UserPhoto)" class="rounded-circle">
 
-							<div><a href="~/user/@((i.u.Email).Split('@')[0])">@i.u.UserName</a></div>
+							<div><a href="~/user/@((i.u.UserEmail).Split('@')[0])">@i.u.UserName</a></div>
 
 							<div>
 								<div class="d-inline">@((int?)ViewData[$"recipe_{i.u.UserId}"]) 食譜</div>
-								<div class="d-inline">@((int?)ViewData[$"follower_{i.u.UserId}"]) 粉絲數</div>
+								<div class="d-inline">@(((IQueryable<UserFollower>)ViewData[$"follower_{i.u.UserId}"]).Count()) 粉絲數</div>
 							</div>
 							<div>@i.u.UserIntro</div>
-							<button>追蹤</button>
+
+							@{
+								if (i.u.UserId != userId)
+								{
+									foreach (var l in (IQueryable<UserFollower>)ViewData[$"follower_{i.u.UserId}"])
+									{
+										if (l.FollowerId == userId)
+										{
+											<button onclick="">取消追蹤</button>
+											goto loopout;
+										}
+									}
+								<button onclick="">追蹤</button>
+								loopout:;
+								}
+							}
 						</div>
 					}
 				}
