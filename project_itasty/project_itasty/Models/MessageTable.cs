@@ -5,7 +5,7 @@ namespace project_itasty.Models;
 
 public partial class MessageTable
 {
-    public int Id { get; set; }
+    public int MessageId { get; set; }
 
     public int RecipeId { get; set; }
 
@@ -22,4 +22,6 @@ public partial class MessageTable
     public string? ViolationStatus { get; set; }
 
     public virtual RecipeTable Recipe { get; set; } = null!;
+
+    public virtual UserInfo User { get; set; } = null!;
 }

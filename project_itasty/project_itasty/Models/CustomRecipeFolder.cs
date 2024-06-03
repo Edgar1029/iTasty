@@ -11,9 +11,9 @@ public partial class CustomRecipeFolder
 
     public string CustomFolderName { get; set; } = null!;
 
-    public int RecipeId { get; set; }
+    public int? RecipeId { get; set; }
 
-    public virtual Recipe Recipe { get; set; } = null!;
+    public virtual RecipeTable? Recipe { get; set; }
 
     public virtual UserInfo User { get; set; } = null!;
 }

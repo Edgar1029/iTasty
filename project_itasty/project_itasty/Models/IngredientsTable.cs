@@ -7,6 +7,8 @@ public partial class IngredientsTable
 {
     public int Id { get; set; }
 
+    public int UserId { get; set; }
+
     public int RecipeId { get; set; }
 
     public string? TitleName { get; set; }
@@ -21,13 +23,11 @@ public partial class IngredientsTable
 
     public string? IngredientsUnit { get; set; }
 
-    public int? IngredientsPrice { get; set; }
-
     public bool? Checkbox { get; set; }
 
-    public virtual ICollection<IngredientsTable> InverseTitle { get; set; } = new List<IngredientsTable>();
+    public virtual IngredientDetail? Ingredients { get; set; }
 
     public virtual RecipeTable Recipe { get; set; } = null!;
 
-    public virtual IngredientsTable? Title { get; set; }
+    public virtual UserInfo User { get; set; } = null!;
 }

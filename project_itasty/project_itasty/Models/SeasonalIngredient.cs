@@ -5,11 +5,13 @@ namespace project_itasty.Models;
 
 public partial class SeasonalIngredient
 {
-    public int IngredientsId { get; set; }
+    public int Id { get; set; }
 
     public int MonthId { get; set; }
 
-    public string IngredientsName { get; set; } = null!;
+    public string? SeasonalIngredientId { get; set; }
 
-    public byte[]? IngredientsImg { get; set; }
+    public string? CommonName { get; set; }
+
+    public virtual IngredientDetail? SeasonalIngredientNavigation { get; set; }
 }

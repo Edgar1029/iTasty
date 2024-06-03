@@ -9,9 +9,9 @@ public partial class UserFollower
 
     public int FollowerId { get; set; }
 
-    public DateTime FollowDate { get; set; }
+    public DateOnly FollowDate { get; set; }
 
-    public DateTime? UnfollowDate { get; set; }
+    public DateOnly? UnfollowDate { get; set; }
 
     public virtual UserInfo Follower { get; set; } = null!;
 

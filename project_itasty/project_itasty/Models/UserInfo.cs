@@ -9,9 +9,9 @@ public partial class UserInfo
 
     public string UserName { get; set; } = null!;
 
-    public string Email { get; set; } = null!;
+    public string? UserEmail { get; set; }
 
-    public string Password { get; set; } = null!;
+    public string UserPassword { get; set; } = null!;
 
     public byte[]? UserPhoto { get; set; }
 
@@ -21,7 +21,7 @@ public partial class UserInfo
 
     public int UserPermissions { get; set; }
 
-    public DateTime CreateTime { get; set; }
+    public DateTime UserCreateTime { get; set; }
 
     public virtual ICollection<CustomRecipeFolder> CustomRecipeFolders { get; set; } = new List<CustomRecipeFolder>();
 
@@ -31,7 +31,11 @@ public partial class UserInfo
 
     public virtual ICollection<HelpForm> HelpForms { get; set; } = new List<HelpForm>();
 
-    public virtual ICollection<Recipe> Recipes { get; set; } = new List<Recipe>();
+    public virtual ICollection<IngredientsTable> IngredientsTables { get; set; } = new List<IngredientsTable>();
+
+    public virtual ICollection<MessageTable> MessageTables { get; set; } = new List<MessageTable>();
+
+    public virtual ICollection<RecipeTable> RecipeTables { get; set; } = new List<RecipeTable>();
 
     public virtual ICollection<ShoppingReceipe> ShoppingReceipes { get; set; } = new List<ShoppingReceipe>();
 

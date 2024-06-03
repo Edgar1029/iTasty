@@ -24,7 +24,7 @@ namespace project_itasty.Controllers
 		{
 			//var userinfo = _context.UserInfos.Find(id);
 			var select_userinfo = from obj in _context.UserInfos
-								  where obj.Email.IndexOf(email + '@') == 0
+								  where obj.UserEmail.IndexOf(email + '@') == 0
 								  select obj;
 
 			UserInfo user_info = select_userinfo.First();

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using project_itasty.Models;
+using Microsoft.AspNetCore.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("itastyContext");
@@ -7,6 +8,8 @@ builder.Services.AddDbContext<ITastyDbContext>(x => x.UseSqlServer(connectionStr
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();
 
@@ -17,6 +20,7 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseStaticFiles();
 
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();

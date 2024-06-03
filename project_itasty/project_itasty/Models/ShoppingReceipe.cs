@@ -11,7 +11,7 @@ public partial class ShoppingReceipe
 
     public int RecipeId { get; set; }
 
-    public virtual Recipe Recipe { get; set; } = null!;
+    public virtual RecipeTable Recipe { get; set; } = null!;
 
     public virtual UserInfo User { get; set; } = null!;
 }

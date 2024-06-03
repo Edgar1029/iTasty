@@ -1,5 +1,12 @@
-﻿@using project_itasty.Models;
+﻿@using Microsoft.AspNetCore.Http
+@using project_itasty.Models;
 @model UserInfo;
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor hca
+@{
+	string userEmail = hca.HttpContext?.Session.GetString("userEmail") ?? "Guest";
+	int userId = hca.HttpContext?.Session.GetInt32("userId") ?? 0;
+}
 
 @{
 	ViewData["Title"] = @Model.UserName + " | iTasty";
@@ -55,64 +62,87 @@
 			</div>
 
 			<div class="area_button d-flex flex-row-reverse">
-				<button class="btn_user_edit" data-bs-toggle="modal"
-						data-bs-target="#modal_user_info">
-					編輯個人資料
-				</button>
-				<button class="btn_follow">追蹤</button>
-				<button class="btn_unfollow">取消追蹤</button>
+				@{
+					if (Model.UserId == userId)
+					{
+						<button class="btn_user_edit" data-bs-toggle="modal"
+								data-bs-target="#modal_user_info">
+							編輯個人資料
+						</button>
+					}
+				}
+				@{
+					if (userId != 0)
+					{
+						<button class="btn_follow">追蹤</button>
+						<button class="btn_unfollow">取消追蹤</button>
+					}
+				}
 			</div>
-			<button class="btn_new_recipe">寫食譜</button>
+			@{
+				if (Model.UserId == userId)
+				{
+					<button class="btn_new_recipe">寫食譜</button>
+				}
+			}
 
 			<div class="area_radio">
 				<input type="radio" name="radio_user_info" id="radio_article" class="d-none" checked>
 				<label for="radio_article">所有食譜</label>
 				<input type="radio" name="radio_user_info" id="radio_fan" class="d-none">
 				<label for="radio_fan">粉絲</label>
-				<input type="radio" name="radio_user_info" id="radio_analysis" class="d-none">
-				<label for="radio_analysis">分析</label>
+
+				@{
+					if (Model.UserId == userId)
+					{
+						<input type="radio" name="radio_user_info" id="radio_analysis" class="d-none">
+						<label for="radio_analysis">分析</label>
+					}
+				}
 			</div>
 		</div>
 		<!-- 文章列表 -->
 		<div class="area_article row mx-0 px-0">
-			<div class="position-relative px-0" hidden>
-				<img src="~/img/img_recipe_icon.png">
-				<div>食譜標題</div>
-				<div>
-					食譜內文<br>
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一
-					三行<br>
-					四行 一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-					一二三四五六七八九十
-				</div>
-				<div>5月11日</div>
-				<div>
-					<i class="fa-regular fa-eye"></i>
-					<div class="d-inline">9999</div>
-					<i class="fa-solid fa-tag"></i>
-					<div class="d-inline">9999</div>
-				</div>
+
+			@* <div class="position-relative px-0">
+			<img src="~/img/img_recipe_icon.png">
+			<div>食譜標題</div>
+			<div>
+			食譜內文<br>
+			一二三四五六七八九十
+			一二三四五六七八九十
+			一二三四五六七八九十
+			一二三四五六七八九十
+			一二三四五六七八九十
+			一二三四五六七八九十
+			一
+			三行<br>
+			四行 一二三四五六七八九十
+			一二三四五六七八九十
+			一二三四五六七八九十
+			一二三四五六七八九十
+			一二三四五六七八九十
+			一二三四五六七八九十
 			</div>
+			<div>5月11日</div>
+			<div>
+			<i class="fa-regular fa-eye"></i>
+			<div class="d-inline">9999</div>
+			<i class="fa-solid fa-tag"></i>
+			<div class="d-inline">9999</div>
+			</div>
+			</div> *@
+
 			@{
 				foreach (var i in ViewBag.recipe)
 				{
 					<div class="position-relative px-0">
-						<img src="data:image/jpg;base64, @Convert.ToBase64String(i.RecipeCover)">
-						<a href="">@i.Name</a>
+						<img src="data:image/jpg;base64, @((i.RecipeCoverImage != null)?Convert.ToBase64String(i.RecipeCoverImage):"")" @((i.RecipeCoverImage == null) ? "hidden" : "")>
+						<a href="">@i.RecipeName</a>
 						<div>
 							@i.RecipeIntroduction
 						</div>
-						<div>@(i.ChangeTime.Month)月@(i.ChangeTime.Day)日</div>
+						<div>@(i.LastModifiedDate.Month)月@(i.LastModifiedDate.Day)日</div>
 						<div>
 							<i class="fa-regular fa-eye"></i>
 							<div class="d-inline">9999</div>
@@ -153,10 +183,16 @@
 		</div>
 	</div>
 	<!-- 分析圖表 -->
-	<div class="area_analyze">
-		分析圖表
-		<canvas id="myChart"></canvas>
-	</div>
+	@{
+		if (Model.UserId == userId)
+		{
+			<div class="area_analyze">
+				分析圖表
+				<canvas id="myChart"></canvas>
+			</div>
+		}
+	}
+
 	<!-- 編輯 -->
 	<!-- Vertically centered modal -->
 	<div class="area_edit modal fade" id="modal_user_info" tabindex="-1" aria-labelledby="text_title"
