@@ -78,11 +78,11 @@
 						{
 							if (i.o.FollowerId == userId)
 							{
-								<button onclick="">取消追蹤</button>
+								<button onclick="user_follow(@userId, @Model.UserId)">取消追蹤</button>
 								goto loopout;
 							}
 						}
-					<button onclick="">追蹤</button>
+						<button onclick="user_follow(@userId, @Model.UserId)">追蹤</button>
 					loopout:;
 					}
 				}
@@ -191,11 +191,11 @@
 									{
 										if (l.FollowerId == userId)
 										{
-											<button onclick="">取消追蹤</button>
+											<button onclick="user_follow(@userId, @i.u.UserId)">取消追蹤</button>
 											goto loopout;
 										}
 									}
-								<button onclick="">追蹤</button>
+									<button onclick="user_follow(@userId, @i.u.UserId)">追蹤</button>
 								loopout:;
 								}
 							}

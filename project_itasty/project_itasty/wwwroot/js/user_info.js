@@ -129,7 +129,6 @@ $(document).ready(function () {
         radio_change();
     });
 
-
     //分析圖表
     if ($('#myChart').length > 0) {
         const xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
@@ -211,4 +210,7 @@ function radio_change() {
 
 }
 
-//圖表
+//追蹤or取消追蹤
+function user_follow(id, tar_id) {
+    console.log("id: "+id+" tar_id: "+tar_id);
+}
