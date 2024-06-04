@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using project_itasty.Models;
-using System.Data.Entity;
 using System.Linq;
 
 namespace project_itasty.Controllers
@@ -16,15 +15,15 @@ namespace project_itasty.Controllers
             _context = context;
         }
 
-        public IActionResult Index(string time_option, string food,string meat,string vegetable,string type, string search_type, string search, string selected_time_option, string selected_food, string selected_meat, string selected_vegetable, string selected_type, string selected_search_type, string selected_search, string order_by)
+        public IActionResult Index(string time_option, string food, string meat, string vegetable, string type, string search_type, string search, string selected_time, string selected_food, string selected_meat, string selected_vegetable, string selected_type, string selected_search_type, string selected_search, string order_by)
         {
             var recipes = from r in _context.RecipeTables
                           join u in _context.UserInfos on r.UserId equals u.UserId
                           select new {
-                                    r,u
+                              r, u
                           };
 
-            // 根據 order_by 進行排序
+            #region 根據 order_by 進行排序
             if (order_by != null)
             {
                 switch (order_by)
@@ -42,9 +41,9 @@ namespace project_itasty.Controllers
                         break;
                 }
             }
+            #endregion
 
-
-            // 根據時間選項過濾
+            #region 根據時間選項過濾
             if (time_option != null && time_option != "all")
             {
                 int maxTime = time_option switch
@@ -65,32 +64,37 @@ namespace project_itasty.Controllers
                     recipes = recipes.Where(r => r.r.CookingTime > 60);
                 }
             }
+            #endregion
 
-            // 根據食材選項過濾
-            if (food!=null && food != "all")
+            #region 根據食材選項過濾
+            if (food != null && food != "all")
             {
                 recipes = recipes.Where(r => r.r.ProteinUsed.Contains(food));
             }
+            #endregion
 
-            // 根據餐類選項過濾
+            #region 根據餐類選項過濾
             if (meat != null && meat != "all")
             {
                 recipes = recipes.Where(r => r.r.MealType.Contains(meat));
             }
+            #endregion
 
-            // 根據膳食選項過濾
+            #region 根據膳食選項過濾
             if (vegetable != null && vegetable != "all")
             {
                 recipes = recipes.Where(r => r.r.HealthyOptions.Contains(vegetable));
             }
+            #endregion
 
-            // 根據菜式選項過濾
+            #region 根據菜式選項過濾
             if (type != null && type != "all")
             {
                 recipes = recipes.Where(r => r.r.CuisineStyle.Contains(type));
             }
+            #endregion
 
-            // 根據搜索類型和搜索關鍵字過濾
+            #region 根據搜索類型和搜索關鍵字過濾
             if (search != null)
             {
                 if (search_type == "recipes")
@@ -102,11 +106,12 @@ namespace project_itasty.Controllers
                     recipes = recipes.Where(r => r.u.UserName.Contains(search));
                 }
             }
+            #endregion
 
-            // 根據時間選項過濾
-            if (selected_time_option != null && selected_time_option != "all")
+            #region 根據input-hidden時間選項過濾
+            if (selected_time != null && selected_time != "all")
             {
-                int maxTime = selected_time_option switch
+                int maxTime = selected_time switch
                 {
                     "15min" => 15,
                     "30min" => 30,
@@ -115,7 +120,7 @@ namespace project_itasty.Controllers
                     _ => int.MaxValue
                 };
 
-                if (selected_time_option != "60min_up")
+                if (selected_time != "60min_up")
                 {
                     recipes = recipes.Where(r => r.r.CookingTime <= maxTime);
                 }
@@ -124,32 +129,37 @@ namespace project_itasty.Controllers
                     recipes = recipes.Where(r => r.r.CookingTime > 60);
                 }
             }
+            #endregion
 
-            // 根據input-hidden食材選項過濾
+            #region 根據input-hidden食材選項過濾
             if (selected_food != null && selected_food != "all")
             {
                 recipes = recipes.Where(r => r.r.ProteinUsed.Contains(selected_food));
             }
+            #endregion
 
-            // 根據input-hidden餐類選項過濾
+            #region 根據input-hidden餐類選項過濾
             if (selected_meat != null && selected_meat != "all")
             {
                 recipes = recipes.Where(r => r.r.MealType.Contains(selected_meat));
             }
+            #endregion
 
-            // 根據input-hidden膳食選項過濾
+            #region 根據input-hidden膳食選項過濾
             if (selected_vegetable != null && selected_vegetable != "all")
             {
                 recipes = recipes.Where(r => r.r.HealthyOptions.Contains(selected_vegetable));
             }
+            #endregion
 
-            // 根據input-hidden菜式選項過濾
+            #region 根據input-hidden菜式選項過濾
             if (selected_type != null && selected_type != "all")
             {
                 recipes = recipes.Where(r => r.r.CuisineStyle.Contains(selected_type));
             }
+            #endregion
 
-            // 根據input-hidden搜索類型和搜索關鍵字過濾
+            #region 根據input-hidden搜索類型和搜索關鍵字過濾
             if (selected_search != null)
             {
                 if (selected_search_type == "recipes")
@@ -161,10 +171,12 @@ namespace project_itasty.Controllers
                     recipes = recipes.Where(r => r.u.UserName.Contains(selected_search));
                 }
             }
+            #endregion
 
             var viewModel = recipes.ToList();
             return View(viewModel);
         }
+
 
 
     }
