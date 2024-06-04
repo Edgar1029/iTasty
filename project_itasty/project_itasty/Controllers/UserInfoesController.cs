@@ -35,7 +35,7 @@ namespace project_itasty.Controllers
 			}
 
 			var query = from o in _context.UserFollowers
-						where o.UserId == user_info.UserId
+						where o.UserId == user_info.UserId & o.UnfollowDate == null
 						join u in _context.UserInfos on o.FollowerId equals u.UserId
 						orderby o.FollowDate descending
 						select new { o, u };
@@ -45,9 +45,9 @@ namespace project_itasty.Controllers
 			foreach (var item in query)
 			{
 				var follow_count = from c in _context.UserFollowers
-								   where c.UserId == item.u.UserId
+								   where c.UserId == item.u.UserId & c.UnfollowDate == null
 								   select c;
-				ViewData[$"follower_{item.u.UserId}"] = follow_count.Count();
+				ViewData[$"follower_{item.u.UserId}"] = follow_count;
 
 				var recipe_count = from c in _context.RecipeTables
 								   where c.UserId == item.u.UserId
