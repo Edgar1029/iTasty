@@ -211,6 +211,25 @@ function radio_change() {
 }
 
 //追蹤or取消追蹤
-function user_follow(id, tar_id) {
-    console.log("id: "+id+" tar_id: "+tar_id);
+function user_follow(user_id, follower_id, btn_user_follow) {
+
+    $.ajax({
+        type: "post",
+        url: `/api/userapi`,
+        data: {
+            "user_id": user_id.toString(),
+            "follower_id": follower_id.toString(),
+        },
+        success: function (e) {
+            if (e)
+                btn_user_follow.innerText = "追蹤";
+            else
+                btn_user_follow.innerText = "取消追蹤";
+
+        },
+        error: function (xmlhttpreq, textstatus) {
+            console.log(xmlhttpreq);
+            console.log(textstatus);
+        }
+    });
 }

@@ -5,7 +5,7 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor hca
 @{
 	string userEmail = hca.HttpContext?.Session.GetString("userEmail") ?? "Guest";
-	int userId = hca.HttpContext?.Session.GetInt32("userId") ?? 0;
+	int userId = hca.HttpContext?.Session.GetInt32("userId") ?? 1;
 }
 
 @{
@@ -78,11 +78,11 @@
 						{
 							if (i.o.FollowerId == userId)
 							{
-								<button onclick="user_follow(@userId, @Model.UserId)">取消追蹤</button>
+								<button onclick="user_follow(@Model.UserId, @userId, this)">取消追蹤</button>
 								goto loopout;
 							}
 						}
-						<button onclick="user_follow(@userId, @Model.UserId)">追蹤</button>
+						<button onclick="user_follow(@Model.UserId, @userId, this)">追蹤</button>
 					loopout:;
 					}
 				}
@@ -191,11 +191,11 @@
 									{
 										if (l.FollowerId == userId)
 										{
-											<button onclick="user_follow(@userId, @i.u.UserId)">取消追蹤</button>
+											<button onclick="user_follow(@i.u.UserId, @userId, this)">取消追蹤</button>
 											goto loopout;
 										}
 									}
-									<button onclick="user_follow(@userId, @i.u.UserId)">追蹤</button>
+									<button onclick="user_follow(@i.u.UserId, @userId, this)">追蹤</button>
 								loopout:;
 								}
 							}
