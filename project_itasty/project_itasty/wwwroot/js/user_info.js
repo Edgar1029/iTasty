@@ -1,5 +1,6 @@
 $(document).ready(function () {
     var myCrop;
+    var list_analyze_recipe = [];
 
     //橫幅儲存
     $(".btn_save_banner").on("click", function () {
@@ -128,6 +129,110 @@ $(document).ready(function () {
     $("#radio_analysis").on('change', function () {
         radio_change();
     });
+
+    //分析圖表切換分析項目
+    //粉絲數
+    $("#radio_analyze_fan").on('change', function () {
+        $(".area_analyze_recipe").html(``);
+    });
+
+    //點閱數
+    $("#radio_analyze_view").on('change', function () {
+        $(".area_analyze_recipe").html(`
+			<label>選擇食譜：</label>
+			<p>
+				<i class="fa-solid fa-brush"></i>
+				食譜名稱
+				<button><i class="fa-regular fa-square-minus"></i></button>
+			</p>
+			<p>
+				<button>
+					<i class="fa-regular fa-square-plus" data-bs-toggle="modal" data-bs-target="#modal_select_recipe">加入食譜</i>
+				</button>
+			</p>
+        `);
+    });
+
+    //時間篩選:年
+    $("#radio_analyze_year").on('change', function () {
+        $(".area_select_time").html(`
+		    <div class="form-switch d-inline">
+			    <input class="form-check-input" type="checkbox" id="check_last_year" />
+			    <label for="check_last_year">最近一年</label>
+		    </div>
+		    <div class="form-switch d-inline">
+			    <input class="form-check-input" type="checkbox" id="check_two_year" />
+			    <label for="check_two_year">最近兩年</label>
+		    </div>
+        `);
+    });
+
+    //時間篩選:季
+    $("#radio_analyze_season").on('change', function () {
+        $(".area_select_time").html(`
+			<div class="form-switch d-inline">
+				<input class="form-check-input" type="checkbox" id="check_last_sea" />
+				<label for="check_last_sea">最近一季</label>
+			</div>
+			<div class="form-switch d-inline">
+				<input class="form-check-input" type="checkbox" id="check_two_sea" />
+				<label for="check_two_sea">最近兩季</label>
+			</div>
+			<div class="form-switch d-inline">
+				<input class="form-check-input" type="checkbox" id="check_three_sea" />
+				<label for="check_three_sea">最近三季</label>
+			</div>
+        `);
+    });
+
+    //時間篩選:月
+    $("#radio_analyze_month").on('change', function () {
+        $(".area_select_time").html(`
+			<div class="form-switch d-inline">
+				<input class="form-check-input" type="checkbox" id="check_last_mon" />
+				<label for="check_last_mon">最近一月</label>
+			</div>
+			<div class="form-switch d-inline">
+				<input class="form-check-input" type="checkbox" id="check_two_mon" />
+				<label for="check_two_mon">最近兩月</label>
+			</div>
+        `);
+    });
+
+    //時間篩選:週
+    $("#radio_analyze_week").on('change', function () {
+        $(".area_select_time").html(`
+		    <div class="form-switch d-inline">
+			    <input class="form-check-input" type="checkbox" id="check_last_wee" />
+			    <label for="check_last_wee">最近一週</label>
+		    </div>
+		    <div class="form-switch d-inline">
+			    <input class="form-check-input" type="checkbox" id="check_two_wee" />
+			    <label for="check_two_wee">最近兩週</label>
+		    </div>
+		    <div class="form-switch d-inline">
+			    <input class="form-check-input" type="checkbox" id="check_three_wee" />
+			    <label for="check_three_wee">最近三週</label>
+		    </div>
+        `);
+    });
+
+    //食譜選擇
+    $("input[name='chekcbox_select_recipe']").on("change", function () {
+        //選擇上限
+        if ($("input[name='chekcbox_select_recipe']:checked").length > 3) {
+            this.checked = false;
+        }
+        else {
+            list_analyze_recipe.push({
+                "recipe_name": 1,
+                "recipe_id": 1
+            });
+        }
+        console.log($(this).attr("recipe_name"))
+        console.log(list_analyze_recipe);
+    });
+
 
     //分析圖表
     if ($('#myChart').length > 0) {
