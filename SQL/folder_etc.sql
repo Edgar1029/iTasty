@@ -184,16 +184,16 @@ VALUES
 ------------------------------------------------------------------------
 INSERT INTO recipeTable (recipeId, userId, recipeName, recipeCoverImage, recipeIntroduction, views, favorites, parentRecipeId, createdDate, lastModifiedDate, recipeStatus, publicPrivate, proteinUsed, mealType, cuisineStyle, healthyOptions, cookingTime, servings, calories)
 VALUES
-(1, 1, '意大利面', NULL, '美味的意大利面食谱', 100, 10, NULL, GETDATE(), GETDATE(), 'active', 'public', '牛肉', '晚餐', '意大利菜', '葷', 30, 4, 400),
-(2, 2, '披萨', NULL, '美味的披萨食谱', 200, 20, NULL, GETDATE(), GETDATE(), 'active', 'public', '鸡肉', '午餐', '意大利菜', '葷', 45, 8, 1200),
-(3, 3, '沙拉', NULL, '健康的沙拉食谱', 150, 15, NULL, GETDATE(), GETDATE(), 'active', 'public', '豆腐', '小吃', '美式菜', '素', 15, 2, 150),
-(4, 4, '汤', NULL, '温暖的汤食谱', 120, 12, NULL, GETDATE(), GETDATE(), 'active', 'public', '鸡肉', '晚餐', '亚洲菜', '素', 60, 6, 300),
-(5, 5, '蛋糕', NULL, '美味的蛋糕食谱', 180, 18, NULL, GETDATE(), GETDATE(), 'active', 'public', '鸡蛋', '甜点', '法式菜', '素', 90, 10, 2500),
-(6, 6, '三明治', NULL, '简单的三明治食谱', 110, 11, NULL, GETDATE(), GETDATE(), 'active', 'public', '火鸡肉', '午餐', '美式菜', '葷', 10, 1, 350),
-(7, 7, '煎饼', NULL, '松软的煎饼食谱', 130, 13, NULL, GETDATE(), GETDATE(), 'active', 'public', '牛奶', '早餐', '美式菜', '葷', 20, 4, 500),
-(8, 8, '奶昔', NULL, '健康的奶昔食谱', 140, 14, NULL, GETDATE(), GETDATE(), 'active', 'public', '酸奶', '小吃', '美式菜', '素', 5, 2, 200),
-(9, 9, '汉堡', NULL, '多汁的汉堡食谱', 160, 16, NULL, GETDATE(), GETDATE(), 'active', 'public', '牛肉', '晚餐', '美式菜', '葷', 25, 1, 700),
-(10, 10, '陽春面', NULL, '美味的陽春面食谱', 170, 17, NULL, GETDATE(), GETDATE(), 'active', 'public', '鸡肉', '晚餐', '意大利菜', '葷', 35, 4, 600);
+(1, 1, N'意大利麵', NULL, N'美味的意大利麵食譜', 100, 10, NULL, GETDATE(), GETDATE(), 'active', 'public', N'牛肉', N'晚餐', N'西式菜', N'葷', 30, 4, 400),
+(2, 2, N'披薩', NULL, N'美味的披薩食譜', 200, 20, NULL, GETDATE(), GETDATE(), 'active', 'public', N'雞肉', N'午餐', N'西式菜', N'葷', 45, 8, 1200),
+(3, 3, N'沙拉', NULL, N'健康的沙拉食譜', 150, 15, NULL, GETDATE(), GETDATE(), 'active', 'public', N'豆腐', N'小吃', N'西式菜', N'素', 15, 2, 150),
+(4, 4, N'湯', NULL, N'温暖的湯食譜', 120, 12, NULL, GETDATE(), GETDATE(), 'active', 'public', N'雞肉', N'晚餐', N'中式菜', N'素', 60, 6, 300),
+(5, 5, N'蛋糕', NULL, N'美味的蛋糕食譜', 180, 18, NULL, GETDATE(), GETDATE(), 'active', 'public', N'雞蛋', N'甜點', N'西式菜', N'素', 90, 10, 2500),
+(6, 6, N'三明治', NULL, N'簡單的三明治食譜', 110, 11, NULL, GETDATE(), GETDATE(), 'active', 'public', N'火雞肉', N'午餐', N'西式菜', N'葷', 10, 1, 350),
+(7, 7, N'煎餅', NULL, N'鬆軟的煎餅食譜', 130, 13, NULL, GETDATE(), GETDATE(), 'active', 'public', N'牛奶', N'早餐', N'西式菜', N'葷', 20, 4, 500),
+(8, 8, N'奶昔', NULL, N'健康的奶昔食譜', 140, 14, NULL, GETDATE(), GETDATE(), 'active', 'public', N'酸奶', N'小吃', N'西式菜', N'素', 5, 2, 200),
+(9, 9, N'漢堡', NULL, N'多汁的漢堡食譜', 160, 16, NULL, GETDATE(), GETDATE(), 'active', 'public', N'牛肉', N'晚餐', N'西式菜', N'葷', 25, 1, 700),
+(10, 10, N'陽春麵', NULL, N'美味的陽春麵食譜', 170, 17, NULL, GETDATE(), GETDATE(), 'active', 'public', N'雞肉', N'晚餐', N'西式菜', N'葷', 35, 4, 600);
 ------------------------------------------------------------------------
 INSERT INTO customRecipeFolder (userId, customFolderName, recipeId)
 VALUES
@@ -264,11 +264,11 @@ VALUES
 ------------------------------------------------------------------------
 INSERT INTO messageTable (recipeId, userId, messageContent, topMessageId, createTime, changeTime, violationStatus)
 VALUES
-(1, 1, '這道菜看起來很棒！', NULL, '2024-05-01 10:00', '2024-05-01 10:00', NULL),
-(2, 2, '我試過這個食譜，很好吃！', NULL, '2024-05-02 12:00', '2024-05-02 12:00', NULL),
-(3, 3, '有沒有人有更好的做法？', NULL, '2024-05-03 14:00', '2024-05-03 14:00', 'No Violation'),
-(4, 4, '這道菜需要更多鹽。', NULL, '2024-05-04 16:00', '2024-05-04 16:00', 'No Violation'),
-(5, 5, '這是一個垃圾食譜。', NULL, '2024-05-05 18:00', '2024-05-05 18:00', 'Violation Reported');
+(1, 1, N'這道菜看起來很棒！', NULL, '2024-05-01 10:00', '2024-05-01 10:00', NULL),
+(2, 2, N'我試過這個食譜，很好吃！', NULL, '2024-05-02 12:00', '2024-05-02 12:00', NULL),
+(3, 3, N'有沒有人有更好的做法？', NULL, '2024-05-03 14:00', '2024-05-03 14:00', 'No Violation'),
+(4, 4, N'這道菜需要更多鹽。', NULL, '2024-05-04 16:00', '2024-05-04 16:00', 'No Violation'),
+(5, 5, N'這是一個垃圾食譜。', NULL, '2024-05-05 18:00', '2024-05-05 18:00', 'Violation Reported');
 
 ------------------------------------------------------------------------
 INSERT INTO stepTable (recipeId, stepText, stepImg)
