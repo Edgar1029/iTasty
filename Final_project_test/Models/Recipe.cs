@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Final_project_test.Models;
 
-public partial class RecipeTable
+public partial class Recipe
 {
     public int RecipeId { get; set; }
 
@@ -37,12 +37,6 @@ public partial class RecipeTable
 
     public string? HealthyOptions { get; set; }
 
-    public int? CookingTime { get; set; }
-
-    public int? Servings { get; set; }
-
-    public int? Calories { get; set; }
-
     public virtual ICollection<CustomRecipeFolder> CustomRecipeFolders { get; set; } = new List<CustomRecipeFolder>();
 
     public virtual ICollection<EditedRecipe> EditedRecipes { get; set; } = new List<EditedRecipe>();
@@ -51,15 +45,13 @@ public partial class RecipeTable
 
     public virtual ICollection<IngredientsTable> IngredientsTables { get; set; } = new List<IngredientsTable>();
 
-    public virtual ICollection<RecipeTable> InverseParentRecipe { get; set; } = new List<RecipeTable>();
+    public virtual ICollection<Recipe> InverseParentRecipe { get; set; } = new List<Recipe>();
 
     public virtual ICollection<MessageTable> MessageTables { get; set; } = new List<MessageTable>();
 
-    public virtual RecipeTable? ParentRecipe { get; set; }
+    public virtual Recipe? ParentRecipe { get; set; }
 
-    public virtual ICollection<RecipeView> RecipeViews { get; set; } = new List<RecipeView>();
-
-    public virtual ICollection<ShoppingRecipe> ShoppingRecipes { get; set; } = new List<ShoppingRecipe>();
+    public virtual ICollection<ShoppingReceipe> ShoppingReceipes { get; set; } = new List<ShoppingReceipe>();
 
     public virtual ICollection<StepTable> StepTables { get; set; } = new List<StepTable>();
 

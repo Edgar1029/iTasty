@@ -23,7 +23,7 @@ public partial class IngredientsTable
 
     public string? IngredientsUnit { get; set; }
 
-    public bool? Checkbox { get; set; }
+    public virtual ICollection<FavoritesCheck> FavoritesChecks { get; set; } = new List<FavoritesCheck>();
 
     public virtual IngredientDetail? Ingredients { get; set; }
 

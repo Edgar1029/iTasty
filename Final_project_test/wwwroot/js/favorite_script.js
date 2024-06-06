@@ -7,7 +7,7 @@
 //客製化資料夾每個的詳細資訊:每個資料夾客製化的id
 //每個食譜的詳細資訊:食譜圖片、食譜名字、食譜按讚數、食譜瀏覽數、食譜創建日期
 $(document).ready(function () {
-    var userNum = 4;
+    var userNum = 3;
     var checklogin = 0;
     var customFolderName = [];
     $(".loginsignbtn").empty();
@@ -39,6 +39,7 @@ $(document).ready(function () {
                 $(".add-label").css("display", "none");
                 clonedelement.droppable({
                     drop: function (event, ui) {
+                        $(ui.draggable).css("opacity", "1");
                         var isnotreceipebook = $(ui.draggable).attr("class") == "hotreceipebookmark col-xl-2 gx-0 ui-sortable-helper";
                         if (isnotreceipebook == true) {
                             console.log(`選取到的物件為bookmark`);
@@ -67,12 +68,14 @@ $(document).ready(function () {
                         var isnotreceipebook = $(ui.draggable).attr("class") == "hotreceipebookmark col-xl-2 gx-0 ui-sortable-helper";
                         if (isnotreceipebook == true) {
                             $(this).find("p").addClass("turn-green");
+                            $(ui.draggable).css("opacity","0.5");
                         }
                     }
                     , out: function (event, ui) {
                         var isnotreceipebook = $(ui.draggable).attr("class") == "hotreceipebookmark col-xl-2 gx-0 ui-sortable-helper";
                         if (isnotreceipebook == true) {
                             $(this).find("p").removeClass("turn-green");
+                            $(ui.draggable).css("opacity", "1");
                         }
                     }
                 }
@@ -125,14 +128,17 @@ $(document).ready(function () {
         drop: function( event, ui ) {
             alert("導向到編輯食譜頁面");
             $(this).find("p").removeClass("turn-yellow");
+            $(ui.draggable).css("opacity", "1");
         }
         ,over:function( event, ui ) {
             console.log(ui.draggable);
             $(this).find("p").addClass("turn-yellow");
+            $(ui.draggable).css("opacity", "0.5");
         }
         ,out:function( event, ui ) {
             console.log(ui.draggable);
             $(this).find("p").removeClass("turn-yellow");
+            $(ui.draggable).css("opacity", "1");
         }
         }
     );
@@ -173,7 +179,7 @@ $(document).ready(function () {
     })
     // 左邊選取到的資料夾是哪一個(採買清單、收藏食譜...)------------------------------------------------------------------------------------------
     $(document).on('change', 'input[type="radio"][name="radio-bookmark"]', function () {
-
+        
         var selectedRadioName = $('input[name="radio-bookmark"]:checked').next().find("p").text();
         selectedRadioId = $('input[name="radio-bookmark"]:checked').prop("id");
         $(document).find(".more-information-label").remove();
@@ -199,7 +205,6 @@ $(document).ready(function () {
                     radiocount = index;
                 }
         });
-
         const radioButtons = document.querySelectorAll('input[name="radio-bookmark"]');
         const radioGroup = Array.from(radioButtons);
         console.log(radioGroup);
@@ -212,24 +217,28 @@ $(document).ready(function () {
                 break;
             }
         }
-
-        for (var i = 1; i < array2D[radiocount].length; i++) {
-            var x = array2D[radiocount][i];
-            console.log(`第${radiocount + 1}個收藏夾的第${i}個元素id為${array2D[radiocount][i]}的食譜`);
-            fetch(`/api/UserFolder/recipe/${x}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(recipe => {
-                    //------------------------------------------------------------------------------------------------------------------
-                    //console.log(`recipe.RecipeCoverImage=${recipe.recipeCoverImage}`);
-                    $("#receipe-collection").append(`
+        if (radiocount == 1) {
+            getShopRecipe(userNum);
+        } else {
+            for (var i = 1; i < array2D[radiocount].length; i++) {
+                var x = array2D[radiocount][i];
+                console.log(`第${radiocount + 1}個收藏夾的第${i}個元素id為${array2D[radiocount][i]}的食譜`);
+                fetch(`/api/UserFolder/recipe/${userNum}/${x}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(recipe => {
+                        //------------------------------------------------------------------------------------------------------------------
+                        //console.log(`recipe.RecipeCoverImage=${recipe.recipeCoverImage}`);
+                        //<div class="hotreceipe-img" style="background-image: url('data:image/png;base64,${recipe.recipeCoverImage}');"></div>
+                        $("#receipe-collection").append(`
                                         <!-- ----------------------------------------------------------- -->
                                         <div class="hotreceipebookmark col-xl-2 gx-0" id="${recipe.recipeId}">
-                                            <div class="hotreceipe-img" style="background-image: url('data:image/png;base64,${recipe.recipeCoverImage}');"></div>
+                                        <i class="show-list fa-solid fa-list-check"  style="color:#000000;position:absolute; top:235px; right:5px;"></i>
+                                            <div class="hotreceipe-img" style="background-image: url(../img/steak.png);"></div>
                                             <div class="hotreceipe-information row gx-0">
                                                 <ul class="hot-receipe-data row gx-0">
                                                     <li class="col-3 gx-0"><i class="fa-regular fa-eye"></i>${recipe.views}</li>
@@ -240,19 +249,20 @@ $(document).ready(function () {
                                         </div>
                                         <!-- ----------------------------------------------------------- -->
                         `);
-                    if (radiocount == 1) {
-                        $(".hotreceipebookmark").prepend(`<i class="show-list fa-solid fa-list-check"  style="color:#000000;position:absolute; top:5px; left:5px;"></i>`);
-                    }
-                    adjustContainerHeight();
-                    //------------------------------------------------------------------------------------------------------------------
-                })
-                .catch(error => {
-                    console.error('There was a problem with the fetch operation:', error);
-                });
+                        //$(".hotreceipebookmark").prepend(`<i class="show-list fa-solid fa-list-check"  style="color:#000000;position:absolute; top:235px; right:5px;"></i>`);
+                        adjustContainerHeight();
+                        //------------------------------------------------------------------------------------------------------------------
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+                //});
                 //------------------------------------------------------------------------------------------------------------------
+            }
         }
         // 從example-receipe.json載入各食譜的相關資訊並匯入到各個recipebookmark-------------------------------------------------------------------------------------------------------------------------------
-        console.log(`點擊到第${radiocount+1}個收藏夾，收藏夾裡有的食譜id為${array2D[radiocount]}`);
+        
+        console.log(`點擊到第${radiocount + 1}個收藏夾，收藏夾裡有的食譜id為${array2D[radiocount]}`);
         console.log(`第${radiocount+1}收藏夾有${array2D[radiocount].length-1}個食譜`);
     });
     // 客製化收藏夾內把食譜刪除icon(顯示、消失)------------------------------------------------------------------------------------------
@@ -261,6 +271,9 @@ $(document).ready(function () {
         //$("#edit-file").toggleClass("turn-red");
         if(checkediticon==0){
             $(".hotreceipebookmark").each(function(index,value){
+                $(this).prepend(`<i class="fa-regular fa-trash-can edit-icon" id="edit-iconid${index}"></i>`);
+            })
+            $(".hotshopreceipebookmark").each(function (index, value) {
                 $(this).prepend(`<i class="fa-regular fa-trash-can edit-icon" id="edit-iconid${index}"></i>`);
             })
             checkediticon=1;
@@ -278,30 +291,38 @@ $(document).ready(function () {
         /*array2D[radiocount][$(this).closest('.hotreceipebookmark').prop("id")]="null";*/
         let selectedRadio = document.querySelector('input[name="radio-bookmark"]:checked');
         let label = document.querySelector(`label[for="${selectedRadio.id}"]`);
-        console.log(label.innerText);
-        console.log(`----------------------------------${userNum}${label.innerText}${$(this).closest('.hotreceipebookmark').prop("id")}----------------------------------`);
+        //console.log(label.innerText);
+        //console.log(`----------------------------------${userNum}${label.innerText}${$(this).closest('.hotreceipebookmark').prop("id")}----------------------------------`);
         const elementToRemove = $(this).closest('.hotreceipebookmark').prop("id");
-        for (let j = 0; j < array2D[radiocount].length; j++) {
-            if (array2D[radiocount][j] == elementToRemove) {
-                array2D[radiocount].splice(j, 1);
-                break;
+        const shopelementToRemove = $(this).closest('.hotshopreceipebookmark').prop("id");
+        if (radiocount == 1) {
+            //console.log(`${$(this).closest(".folderName").find(".folderName-title").text()}==============${elementToRemove}`);
+            deleteshoprecipefolder(userNum, $(this).closest(".folderName").find(".folderName-title").text(), shopelementToRemove);
+            $(this).closest('.hotshopreceipebookmark').remove();
+        } else {
+            for (let j = 0; j < array2D[radiocount].length; j++) {
+                if (array2D[radiocount][j] == elementToRemove) {
+                    array2D[radiocount].splice(j, 1);
+                    break;
+                }
             }
+            deleterecipe(userNum, label.innerText, elementToRemove);
+            console.log(array2D);
+            console.log(array2D[radiocount]);
+            //for(var i=0;i<array2D[radiocount].length;i++){
+            //    console.log(`第${radiocount+1}個收藏夾的第${i}個元素id為${array2D[radiocount][i]}的食譜`);
+            //}
+            $(this).closest('.hotreceipebookmark').remove();
+            adjustContainerHeight();
         }
-        deleterecipe(userNum,label.innerText,elementToRemove);
-        console.log(array2D);
-        console.log(array2D[radiocount]);
-        //for(var i=0;i<array2D[radiocount].length;i++){
-        //    console.log(`第${radiocount+1}個收藏夾的第${i}個元素id為${array2D[radiocount][i]}的食譜`);
-        //}
-        $(this).closest('.hotreceipebookmark').remove();
     });
     // 根據該食譜多寡來調整container-right的height(***超重要***)------------------------------------------------------------------------------------------
     function adjustContainerHeight() {
         const rightContainerMenu = document.querySelector('.right-container-menu');
         const containerRight = document.querySelector('.container-right');
-        
+        containerRight.style.height = '700px';
         const menuHeight = rightContainerMenu.clientHeight;
-        console.log(`menuHeight=${menuHeight}px`);
+        //console.log(`menuHeight=${menuHeight}px`);
         // console.log(menuHeight);
         if (menuHeight > 700) {
             containerRight.style.height = `${menuHeight}px`;
@@ -315,6 +336,48 @@ $(document).ready(function () {
     //----------------------------------------------------------------------------------------------------------------------------------------------------------
     $(document).on("click", ".hotreceipe-img, .show-list", function () {
         if (radiocount == 1) {
+            var $bookmark = $(this).closest(".hotshopreceipebookmark");
+            var $ingredients = $bookmark.find('.ingredient');
+            if ($ingredients.length > 0) {
+                $ingredients.remove();
+                var receipeheight = parseInt($bookmark.css("height")) - $ingredients.length * 40;
+                $bookmark.css("height", receipeheight + "px");
+            } else {
+                var receipeheight = parseInt($bookmark.css("height"));
+                console.log(`hotbookmark=${$bookmark.prop("id")}`);
+                var category = $(this).closest(".folderName").find(".folderName-title").text();
+                fetch(`/api/UserFolder/shopingredient/${userNum}/${category}/${$bookmark.prop("id")}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(ingredient => {
+                        console.log('ingredient details:', ingredient);
+                        for (var temp = 0; temp < ingredient.length; temp++) {
+                            console.log('ingredient details:', ingredient[temp]);
+                            console.log(ingredient[temp].checkbox);
+                            if (ingredient[temp].checkbox) {
+                                $bookmark.append(`<div class="ingredient" id="${ingredient[temp].recipeName}"><input type="checkbox" id="ingredientCheckbox" name="" class="ingredient-prepare" checked><span class="ingredient-name">${ingredient[temp].shoppingIngredientsName}</span><span class="ingredient-count">${ingredient[temp].shoppingIngredientsNumber}</span><span class="ingredient-unit">${ingredient[temp].shoppingIngredientsUnit}</span></div>`);
+                            }
+                            else {
+                                $bookmark.append(`<div class="ingredient" id="${ingredient[temp].recipeName}"><input type="checkbox" id="ingredientCheckbox" name="" class="ingredient-prepare"><span class="ingredient-name">${ingredient[temp].shoppingIngredientsName}</span><span class="ingredient-count">${ingredient[temp].shoppingIngredientsNumber}</span><span class="ingredient-unit">${ingredient[temp].shoppingIngredientsUnit}</span></div>`);
+                            }
+                            adjustContainerHeight();
+                            receipeheight += 40;
+                            $bookmark.css("height", receipeheight + "px");
+                        }
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            }
+            $bookmark.on('transitionend', function () {
+                adjustContainerHeight();
+                $bookmark.off('transitionend');
+            });
+        } else {
             var $bookmark = $(this).closest(".hotreceipebookmark");
             var $ingredients = $bookmark.find('.ingredient');
             if ($ingredients.length > 0) {
@@ -325,49 +388,39 @@ $(document).ready(function () {
                 var receipeheight = parseInt($bookmark.css("height"));
                 console.log(`hotbookmark=${$bookmark.prop("id")}`);
 
-                fetch(`/api/UserFolder/ingredient/${userNum}/${$bookmark.prop("id") }`)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
+                fetch(`/api/UserFolder/ingredient/${userNum}/${$bookmark.prop("id")}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(ingredient => {
+                        console.log('ingredient details:', ingredient);
+                        for (var temp = 0; temp < ingredient.length; temp++) {
+                            console.log('ingredient details:', ingredient[temp]);
+                            console.log(ingredient[temp].checkbox);
+                            if (ingredient[temp].checkbox) {
+                                $bookmark.append(`<div class="ingredient" id="${ingredient[temp].ingredientsName}"><input type="checkbox" id="ingredientCheckbox" name="" class="ingredient-prepare" checked><span class="ingredient-name">${ingredient[temp].ingredientsName}</span><span class="ingredient-count">${ingredient[temp].ingredientsNumber}</span><span class="ingredient-unit">${ingredient[temp].ingredientsUnit}</span></div>`);
                             }
-                            return response.json();
-                        })
-                        .then(ingredient => {
-                            console.log('ingredient details:', ingredient);
-                            for (var temp = 0; temp < ingredient.length; temp++){
-                                console.log('ingredient details:', ingredient[temp]);
-                                console.log(ingredient[temp].checkbox);
-                                if (ingredient[temp].checkbox) {
-                                    $bookmark.append(`<div class="ingredient" id="${ingredient[temp].ingredientsName}"><input type="checkbox" id="ingredientCheckbox" name="" class="ingredient-prepare" checked><span class="ingredient-name">${ingredient[temp].ingredientsName}</span><span class="ingredient-count">${ingredient[temp].ingredientsNumber}</span><span class="ingredient-unit">${ingredient[temp].ingredientsUnit}</span></div>`);
-                                }
-                                else {
-                                    $bookmark.append(`<div class="ingredient" id="${ingredient[temp].ingredientsName}"><input type="checkbox" id="ingredientCheckbox" name="" class="ingredient-prepare"><span class="ingredient-name">${ingredient[temp].ingredientsName}</span><span class="ingredient-count">${ingredient[temp].ingredientsNumber}</span><span class="ingredient-unit">${ingredient[temp].ingredientsUnit}</span></div>`);
-                                }
-                                //if (ingredient[temp].checkbox == 1)
-                                //    console.log(`ingredient[temp].checkbox=${ingredient[temp].Checkbox}`);
-/*                                checkbox.checked = true;*/
-                                receipeheight += 40;
-                                // console.log(receipeheight);
-                                $bookmark.css("height", receipeheight + "px");
+                            else {
+                                $bookmark.append(`<div class="ingredient" id="${ingredient[temp].ingredientsName}"><input type="checkbox" id="ingredientCheckbox" name="" class="ingredient-prepare"><span class="ingredient-name">${ingredient[temp].ingredientsName}</span><span class="ingredient-count">${ingredient[temp].ingredientsNumber}</span><span class="ingredient-unit">${ingredient[temp].ingredientsUnit}</span></div>`);
                             }
-                        })
-                        .catch(error => {
-                            console.error('There was a problem with the fetch operation:', error);
-                        });
-
-
-                //for (var i = 0; i < 3; i++) {
-                //    $bookmark.append(`<div class="ingredient"><input type="checkbox" name="" class="ingredient-prepare"><span class="ingredient-name">食材名稱</span><span class="ingredient-count">10</span><span class="ingredient-unit">g</span></div>`);
-                //    receipeheight += 40;
-                //    // console.log(receipeheight);
-                //    $bookmark.css("height", receipeheight + "px");
-                //}
+                            adjustContainerHeight();
+                            receipeheight += 40;
+                            $bookmark.css("height", receipeheight + "px");
+                        }
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
             }
             $bookmark.on('transitionend', function () {
                 adjustContainerHeight();
                 $bookmark.off('transitionend');
             });
         }
+        //}
     });
     // ------------------------------------------------------------
     $(document).on("change", ".ingredient", function () {
@@ -378,6 +431,15 @@ $(document).ready(function () {
         console.log("Checkbox Id status:", $(this).prop("id"));
         console.log("Checkbox checked status:", $(this).find("#ingredientCheckbox").prop("checked"));
         changecheckbox(userNum, $(this).closest(".hotreceipebookmark").prop("id"), $(this).prop("id"), $(this).find("#ingredientCheckbox").prop("checked"));
+    });
+    // ------------------------------------------------------------
+    $(document).on("change", ".folderIngredient", function () {
+        var category = $(this).closest(".folderName").find(".folderName-title").text();
+        var ingredientName = $(this).find(".folderIngredientName").text();
+        ingredientName = ` ${ingredientName}`;
+        var ingredientcheck = $(this).find(".folderPrepare").prop("checked");
+        console.log(`Check: ${ingredientcheck}, Category: ${category}, Ingredient: ${ingredientName}`);
+        changeshopbox(userNum,category,ingredientName,ingredientcheck);
     });
     // ------------------------------------------------------------
     var displayleft=0;
@@ -416,6 +478,7 @@ $(document).ready(function () {
                 console.log(array2D);
                 for (var i = 0; i < data.favoriteRecipe.length; i++) {
                     array2D[0].push(data.favoriteRecipe[i]);
+                    //console.log(`array[0].push=${data.favoriteRecipe[i]}`);
                 }
                 for (var i = 0; i < data.shopRecipe.length; i++) {
                     array2D[1].push(data.shopRecipe[i]);
@@ -433,6 +496,19 @@ $(document).ready(function () {
             })
             .catch(error => console.error('Error fetching user folder data:', error));
         
+        console.log(array2D);
+    }
+    //依據recipeId匯入view資料----------------------------------------------------------------------------------------------------------------------------------------------------------
+    //getrecipeIdView(recipeId);
+    var recipeView;
+    function getRecipeIdView(recipeId) {
+        fetch(`/api/UserFolder/recipeView/${recipeId}`)
+            .then(response => response.json())
+            .then(data => {
+                recipeView = data;
+            })
+            .catch(error => console.error('Error fetching user folder data:', error));
+
         console.log(array2D);
     }
     //依據recipeId匯入相關資料----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -476,6 +552,7 @@ $(document).ready(function () {
             $(".add-label").css("display", "none");
             clonedelement.droppable({
                 drop: function (event, ui) {
+                    $(ui.draggable).css("opacity", "1");
                     var isnotreceipebook = $(ui.draggable).attr("class") == "hotreceipebookmark col-xl-2 gx-0 ui-sortable-helper";
                     if (isnotreceipebook == true) {
                         console.log(`選取到的物件為bookmark`);
@@ -505,18 +582,20 @@ $(document).ready(function () {
                     var isnotreceipebook = $(ui.draggable).attr("class") == "hotreceipebookmark col-xl-2 gx-0 ui-sortable-helper";
                     if (isnotreceipebook == true) {
                         $(this).find("p").addClass("turn-green");
+                        $(ui.draggable).css("opacity", "0.5");
                     }
                 }
                 , out: function (event, ui) {
                     var isnotreceipebook = $(ui.draggable).attr("class") == "hotreceipebookmark col-xl-2 gx-0 ui-sortable-helper";
                     if (isnotreceipebook == true) {
                         $(this).find("p").removeClass("turn-green");
+                        $(ui.draggable).css("opacity", "1");
                     }
                 }
             }
             );
             $("#customize-sample").append(clonedelement);
-            console.log($(".container-left").css("height"));
+            //console.log($(".container-left").css("height"));
             var height = parseInt($(".container-left").css("height")) + 40;
             $(".container-left").css("height", height);
         }
@@ -546,7 +625,7 @@ $(document).ready(function () {
             })
             .then(data => {
                 console.log('Success:', data);
-                alert('Recipe added to custom folder successfully');
+                //alert('Recipe added to custom folder successfully');
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
@@ -576,7 +655,7 @@ $(document).ready(function () {
             })
             .then(data => {
                 console.log('Success:', data);
-                alert('Added new custom folder successfully');
+                //alert('Added new custom folder successfully');
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
@@ -606,7 +685,7 @@ $(document).ready(function () {
             })
             .then(data => {
                 console.log('Success:', data);
-                alert('delete custom folder successfully');
+                //alert('delete custom folder successfully');
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
@@ -675,9 +754,35 @@ $(document).ready(function () {
                 console.error('There was a problem with the fetch operation:', error);
             });
     }
+    //調整shopingredient的checkbox---------------------------------------------------------------------------------------------------------------------
+    function changeshopbox(userid, folderName, ingredientName, check) {
+        var url = `/api/UserFolder/changeshopcheckbox/${userid}/${folderName}/${ingredientName}/${check}`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify()
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+                //alert('Change checkbox recipe successfully');
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+
+    }
     //設置使用者可以把食譜拉進採買清單---------------------------------------------------------------------------------------------------------------------
     $("#radio-buy-id").droppable({
         drop: function (event, ui) {
+            $(ui.draggable).css("opacity", "1");
             var isnotreceipebook = $(ui.draggable).attr("class") == "hotreceipebookmark col-xl-2 gx-0 ui-sortable-helper";
             if (isnotreceipebook == true) {
                 console.log(`選取到的物件為bookmark`);
@@ -697,22 +802,417 @@ $(document).ready(function () {
                 }
                 console.log($(this).find("p")[0].innerText);
                 console.log(`我要把第${radiocount + 1}個收藏夾裡(食譜id為${$(ui.draggable).prop("id")})放進${$(this).find("p")[0].innerText}資料夾`);
-                addrecipe2custom(userNum, $(this).find("p")[0].innerText, $(ui.draggable).prop("id"));
-                array2D[1].push($(ui.draggable).prop("id"));
+//                addrecipe2custom(userNum, $(this).find("p")[0].innerText, $(ui.draggable).prop("id"));
+                let selectedRadio = document.querySelector('input[name="radio-bookmark"]:checked');
+                let label = document.querySelector(`label[for="${selectedRadio.id}"]`);
+                console.log(label.innerText);
+                shoppingRecipeDetail(userNum, $(ui.draggable).prop("id"), label.innerText);
+                //array2D[1].push($(ui.draggable).prop("id"));
             }
         }
         , over: function (event, ui) {
             var isnotreceipebook = $(ui.draggable).attr("class") == "hotreceipebookmark col-xl-2 gx-0 ui-sortable-helper";
             if (isnotreceipebook == true) {
                 $(this).find("p").addClass("turn-yellow");
+                $(ui.draggable).css("opacity", "0.5");
             }
         }
         , out: function (event, ui) {
             var isnotreceipebook = $(ui.draggable).attr("class") == "hotreceipebookmark col-xl-2 gx-0 ui-sortable-helper";
             if (isnotreceipebook == true) {
                 $(this).find("p").removeClass("turn-yellow");
+                $(ui.draggable).css("opacity", "1");
             }
         }
     }
     );
+    //調整ingredient的checkbox---------------------------------------------------------------------------------------------------------------------
+    function shoppingRecipeDetail(userid, recipeid, foldername) {
+        const shopIngredientDetail = {
+            UserId: parseInt(userid),
+            RecipeId: parseInt(recipeid),
+            FolderName: foldername.toString()
+        };
+        console.log(shopIngredientDetail);
+        console.log(JSON.stringify(shopIngredientDetail));
+        var url = "/api/UserFolder/addToShoppingList";
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(shopIngredientDetail)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+                //alert('Change checkbox recipe successfully');
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    function getShopRecipe(userId) {
+        fetch(`/api/UserFolder/ShowShoppingList/${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                console.log(showFirstType(data));
+                console.log(showSecondType(data));
+                //console.log(findSuitableRecipe(data, "Lettuce", 200));
+            })
+            .catch(error => console.error('Error fetching user folder data:', error));
+    }
+    function showFirstType(data) {
+        const groupedByFolder = data.reduce((acc, curr) => {
+            const folderName = curr.folderName.trim();
+            if (!acc[folderName]) {
+                acc[folderName] = [];
+            }
+            acc[folderName].push(curr);
+            return acc;
+        }, {});
+        const result = {};
+        for (const folderName in groupedByFolder) {
+            const items = groupedByFolder[folderName];
+            const summedItems = items.reduce((acc, curr) => {
+                const key = curr.shoppingIngredientsName;
+                if (!acc[key]) {
+                    acc[key] = {
+                        shoppingIngredientsName: curr.shoppingIngredientsName,
+                        shoppingIngredientsNumber: 0,
+                        shoppingIngredientsUnit: curr.shoppingIngredientsUnit,
+                        checkbox: curr.checkbox,
+                        ingredientTime: curr.ingredientTime
+                    };
+                }
+                acc[key].shoppingIngredientsNumber += curr.shoppingIngredientsNumber;
+                return acc;
+            }, {});
+            result[folderName] = Object.values(summedItems);
+        }
+        const recipeCategories = Object.keys(result);
+        //console.log(recipeCategories);
+        recipeCategories.forEach(category => {
+            $("#receipe-collection").append(`<div class="folderName " id="folder-${category}"><span class="folderName-title">${category}</span><span class="switch-space">顯示食譜<label class="switch"><input type="checkbox"><span class="slider round"></span></label></span><i class="fa-solid fa-delete-left fa-lg delete-shopfolder" style=""></i></div>`);
+            //收藏的食譜[0].shoppingIngredientsName
+            const recipes = result[category];
+            recipes.forEach(ingredientdetail => {
+                var temp = `#folder-${category}`;
+                if(ingredientdetail.checkbox==true)
+                    $(temp).append(`<div class="folderIngredient" id="ingredientdetail"><input type="checkbox" name="" class="folderPrepare" checked><span class="folderIngredientName">${ingredientdetail.shoppingIngredientsName}</span><span class="folderCount">${ingredientdetail.shoppingIngredientsNumber}</span><span class="folderUnit">${ingredientdetail.shoppingIngredientsUnit}</span></div>`);
+                else
+                    $(temp).append(`<div class="folderIngredient" id="ingredientdetail"><input type="checkbox" name="" class="folderPrepare"><span class="folderIngredientName">${ingredientdetail.shoppingIngredientsName}</span><span class="folderCount">${ingredientdetail.shoppingIngredientsNumber}</span><span class="folderUnit">${ingredientdetail.shoppingIngredientsUnit}</span></div>`);                    
+                adjustContainerHeight();
+            })
+        });
+        return result;
+    }
+    function showSecondType(data) {
+        return data.reduce((acc, curr) => {
+            const folderName = curr.folderName.trim();
+            if (!acc[folderName]) {
+                acc[folderName] = [];
+            }
+            acc[folderName].push(curr);
+            return acc;
+        }, {});
+    }
+    function groupAndSumByFolderName(data) {
+        const groupedByFolder = data.reduce((acc, curr) => {
+            const folderName = curr.folderName.trim();
+            if (!acc[folderName]) {
+                acc[folderName] = [];
+            }
+            acc[folderName].push(curr);
+            return acc;
+        }, {});
+        const result = {};
+        for (const folderName in groupedByFolder) {
+            const items = groupedByFolder[folderName];
+            const summedItems = items.reduce((acc, curr) => {
+                const key = curr.shoppingIngredientsName;
+                if (!acc[key]) {
+                    acc[key] = {
+                        shoppingIngredientsName: curr.shoppingIngredientsName,
+                        shoppingIngredientsNumber: 0,
+                        shoppingIngredientsUnit: curr.shoppingIngredientsUnit,
+                        checkbox: curr.checkbox,
+                        ingredientTime: curr.ingredientTime
+                    };
+                }
+                acc[key].shoppingIngredientsNumber += curr.shoppingIngredientsNumber;
+                return acc;
+            }, {});
+            result[folderName] = Object.values(summedItems);
+        }
+        return result;
+    }
+    function findSuitableRecipe(data, ingredientName, availableQuantity) {
+        const groupedData = groupAndSumByFolderName(data);
+        const suitableRecipes = [];
+        for (const folderName in groupedData) {
+            const ingredients = groupedData[folderName];
+            for (const ingredient of ingredients) {
+                if (ingredient.shoppingIngredientsName === ingredientName && ingredient.shoppingIngredientsNumber <= availableQuantity) {
+                    suitableRecipes.push({
+                        folderName,
+                        recipeName: ingredient.recipeName,
+                        shoppingIngredientsNumber: ingredient.shoppingIngredientsNumber,
+                        shoppingIngredientsUnit: ingredient.shoppingIngredientsUnit
+                    });
+                }
+            }
+        }
+        return suitableRecipes.length > 0 ? suitableRecipes[0] : {};
+        //const availableQuantity = 125;
+        const suitableRecipe = findSuitableRecipe(data, "Lettuce", availableQuantity);
+        //console.log(suitableRecipe);
+    }
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    let greenrecipe = [];
+    $(document).on("change", ".switch", async function () {
+        var category = $(this).closest(".folderName").find(".folderName-title").text();
+        var check = $(this).find("input").prop("checked");
+        greenrecipe.length=0;
+        console.log(greenrecipe);
+        if (check == true) {
+            await GreenRecipe(userNum, category);
+            getShopFolderRecipe(userNum, category);
+        } else {
+            $(this).closest(".folderName").find(".hotshopreceipebookmark").remove();
+        } 
+        console.log(`Category: ${category},Check: ${check}`);
+    });
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    var colorgreen = 1;
+
+    async function getShopFolderRecipe(userId, folderName) {
+        try {
+            const response = await fetch(`/api/UserFolder/getShopFolderRecipe/${userId}/${folderName}`);
+            const data = await response.json();
+
+            for (let i = 0; i < data.length; i++) {
+                colorgreen = 0;
+                console.log(`greenrecipe.length=${greenrecipe.length}`);
+                for (let j = 0; j < greenrecipe.length; j++) {
+                    if (data[i] == greenrecipe[j]) {
+                        console.log(`${data[i]} need to be color`);
+                        colorgreen = 1;
+                        break;
+                    } else {
+                        console.log(`${data[i]} don't need to be color`);
+                    }
+                }
+                console.log(`${data[i]} colorgreen is ${colorgreen}`);
+                if (colorgreen == 1) {
+                    const recipeResponse = await fetch(`/api/UserFolder/recipe/${userNum}/${data[i]}`);
+                    if (!recipeResponse.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const recipe = await recipeResponse.json();
+                    var folderId = `#folder-${folderName}`;
+                    $(folderId).append(`
+                    <div class="hotshopreceipebookmark addgreencool col-xl-2 gx-0" data-ingredient="${recipe.recipeId}" id="${recipe.recipeId}">
+                        <i class="show-list fa-solid fa-list-check"  style="color:#000000;position:absolute; top:235px; right:5px;"></i>
+                        <div class="hotreceipe-img" style="background-image: url(../img/steak.png);"></div>
+                        <div class="hotreceipe-information row gx-0">
+                            <ul class="hot-receipe-data row gx-0">
+                                <li class="col-3 gx-0"><i class="fa-regular fa-eye"></i>${recipe.views}</li>
+                                <li class="col-3 gx-0"><i class="fa-regular fa-thumbs-up"></i>${recipe.favorites}</li>
+                            </ul>
+                        </div>
+                        <div class="hotreceipe-introduction">${recipe.recipeName}</div>
+                    </div>
+                `);
+                    adjustContainerHeight();
+                } else {
+                    const recipeResponse = await fetch(`/api/UserFolder/recipe/${userNum}/${data[i]}`);
+                    if (!recipeResponse.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const recipe = await recipeResponse.json();
+                    var folderId = `#folder-${folderName}`;
+                    $(folderId).append(`
+                    <div class="hotshopreceipebookmark addredcool col-xl-2 gx-0" data-ingredient="${recipe.recipeId}" id="${recipe.recipeId}">
+                        <i class="show-list fa-solid fa-list-check"  style="color:#000000;position:absolute; top:235px; right:5px;"></i>
+                        <div class="hotreceipe-img" style="background-image: url(../img/steak.png);"></div>
+                        <div class="hotreceipe-information row gx-0">
+                            <ul class="hot-receipe-data row gx-0">
+                                <li class="col-3 gx-0"><i class="fa-regular fa-eye"></i>${recipe.views}</li>
+                                <li class="col-3 gx-0"><i class="fa-regular fa-thumbs-up"></i>${recipe.favorites}</li>
+                            </ul>
+                        </div>
+                        <div class="hotreceipe-introduction">${recipe.recipeName}</div>
+                    </div>
+                `);
+                    adjustContainerHeight();
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching user folder data:', error);
+        }
+    }
+//    var colorgreen = 1;
+//    function getShopFolderRecipe(userId, folderName) {
+//        fetch(`/api/UserFolder/getShopFolderRecipe/${userId}/${folderName}`)
+//            .then(response => response.json())
+//            .then(data => {
+//                for (var i = 0; i < data.length; i++) {
+//                    colorgreen = 0;
+//                    console.log(`greenrecipe.length=${greenrecipe.length}`);
+//                    for (var j = 0; j < greenrecipe.length; j++) {
+//                        if (data[i] == greenrecipe[j]) {
+//                            console.log(`${data[i]} need to be color`);
+//                            colorgreen = 1;
+//                            break;
+//                        } else {
+//                            console.log(`${data[i]} dont need to be color`);
+//                        }
+//                    }
+//                    console.log(`${data[i]} colorgreen is ${colorgreen}`);
+//                    if (colorgreen == 1) {
+//                        fetch(`/api/UserFolder/recipe/${userNum}/${data[i]}`)
+//                            .then(response => {
+//                                if (!response.ok) {
+//                                    throw new Error('Network response was not ok');
+//                                }
+//                                return response.json();
+//                            })
+//                            .then(recipe => {
+//                                //------------------------------------------------------------------------------------------------------------------
+//                                //console.log(`recipe.RecipeCoverImage=${recipe.recipeCoverImage}`);
+//                                //<div class="hotreceipe-img" style="background-image: url('data:image/png;base64,${recipe.recipeCoverImage}');"></div>
+//                                var folderId = `#folder-${folderName}`;
+//                                //console.log(`folderId=${folderId}`);
+//                                $(folderId).append(`
+//                                        <div class="hotshopreceipebookmark addgreencool col-xl-2 gx-0" data-ingredient="${recipe.recipeId}" id="${recipe.recipeId}">
+//                                        <i class="show-list fa-solid fa-list-check"  style="color:#000000;position:absolute; top:235px; right:5px;"></i>
+//                                            <div class="hotreceipe-img" style="background-image: url(../img/steak.png);"></div>
+//                                            <div class="hotreceipe-information row gx-0">
+//                                                <ul class="hot-receipe-data row gx-0">
+//                                                    <li class="col-3 gx-0"><i class="fa-regular fa-eye"></i>${recipe.views}</li>
+//                                                    <li class="col-3 gx-0"><i class="fa-regular fa-thumbs-up"></i>${recipe.favorites}</li>
+//                                                </ul>
+//                                            </div>
+//                                            <div class="hotreceipe-introduction">${recipe.recipeName}</div>
+//                                        </div>
+//                        `);
+//                                //$(".hotreceipebookmark").prepend(`<i class="show-list fa-solid fa-list-check"  style="color:#000000;position:absolute; top:235px; right:5px;"></i>`);
+//                                adjustContainerHeight();
+//                                //------------------------------------------------------------------------------------------------------------------
+//                            })
+//                            .catch(error => {
+//                                console.error('There was a problem with the fetch operation:', error);
+//                            });
+//                    } else {
+//                        fetch(`/api/UserFolder/recipe/${userNum}/${data[i]}`)
+//                            .then(response => {
+//                                if (!response.ok) {
+//                                    throw new Error('Network response was not ok');
+//                                }
+//                                return response.json();
+//                            })
+//                            .then(recipe => {
+//                                //------------------------------------------------------------------------------------------------------------------
+//                                //console.log(`recipe.RecipeCoverImage=${recipe.recipeCoverImage}`);
+//                                //<div class="hotreceipe-img" style="background-image: url('data:image/png;base64,${recipe.recipeCoverImage}');"></div>
+//                                var folderId = `#folder-${folderName}`;
+///*                                console.log(`folderId=${folderId}`);*/
+//                                $(folderId).append(`
+//                                        <div class="hotshopreceipebookmark col-xl-2 gx-0" data-ingredient="${recipe.recipeId}" id="${recipe.recipeId}">
+//                                        <i class="show-list fa-solid fa-list-check"  style="color:#000000;position:absolute; top:235px; right:5px;"></i>
+//                                            <div class="hotreceipe-img" style="background-image: url(../img/steak.png);"></div>
+//                                            <div class="hotreceipe-information row gx-0">
+//                                                <ul class="hot-receipe-data row gx-0">
+//                                                    <li class="col-3 gx-0"><i class="fa-regular fa-eye"></i>${recipe.views}</li>
+//                                                    <li class="col-3 gx-0"><i class="fa-regular fa-thumbs-up"></i>${recipe.favorites}</li>
+//                                                </ul>
+//                                            </div>
+//                                            <div class="hotreceipe-introduction">${recipe.recipeName}</div>
+//                                        </div>
+//                        `);
+//                                //$(".hotreceipebookmark").prepend(`<i class="show-list fa-solid fa-list-check"  style="color:#000000;position:absolute; top:235px; right:5px;"></i>`);
+//                                adjustContainerHeight();
+//                                //------------------------------------------------------------------------------------------------------------------
+//                            })
+//                            .catch(error => {
+//                                console.error('There was a problem with the fetch operation:', error);
+//                            });
+//                    }
+//                }
+
+//            })
+//            .catch(error => console.error('Error fetching user folder data:', error));
+//    }
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    function deleteshopfolder(userId,folderName) {
+        fetch(`/api/UserFolder/deleteshopfolder/${userId}/${folderName}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify()
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    $(document).on("click", ".delete-shopfolder", function () {
+        var category = $(this).closest(".folderName").find(".folderName-title").text();
+        $(this).closest(".folderName").remove();
+        deleteshopfolder(userNum,category);
+        console.log(`Category: ${category}`);
+    });
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    function deleteshoprecipefolder(userId, folderName,recipeId) {
+        fetch(`/api/UserFolder/deleteshoprecipefolder/${userId}/${folderName}/${recipeId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify()
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    async function GreenRecipe(userId, category) {
+    try {
+        const response = await fetch(`/api/UserFolder/filtered-recipes/${userId}/${category}`);
+        const data = await response.json();
+        for (let i = 0; i < data.length; i++) {
+            greenrecipe.push(data[i]);
+        }
+    } catch (error) {
+        console.error('Error fetching user folder data:', error);
+    }
+}
+    
 });

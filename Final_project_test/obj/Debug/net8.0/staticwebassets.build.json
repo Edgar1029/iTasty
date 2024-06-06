@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "l0v6/KcLdEVceAFKkW9r44IIzDQDEUqh8OXK+Pb25gU=",
+  "Hash": "3fmmLuEXHXGt1/+ITSgVmlfNSuntpDG3KaYqCElPPzo=",
   "Source": "Final_project_test",
   "BasePath": "_content/Final_project_test",
   "Mode": "Default",
@@ -490,6 +490,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\120.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\User\\Desktop\\Ispan\\Final_Project\\Final_project_test\\Final_project_test\\wwwroot\\img\\c-bg.jpg",
+      "SourceId": "Final_project_test",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\Desktop\\Ispan\\Final_Project\\Final_project_test\\Final_project_test\\wwwroot\\",
+      "BasePath": "_content/Final_project_test",
+      "RelativePath": "img/c-bg.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\c-bg.jpg"
     },
     {
       "Identity": "C:\\Users\\User\\Desktop\\Ispan\\Final_Project\\Final_project_test\\Final_project_test\\wwwroot\\img\\jquery-ui-1.13.3.custom.zip",

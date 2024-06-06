@@ -105,6 +105,10 @@
       "PackagePath": "staticwebassets\\img\\XAML (1).zip"
     },
     {
+      "Id": "C:\\Users\\User\\Desktop\\Ispan\\Final_Project\\Final_project_test\\Final_project_test\\wwwroot\\img\\c-bg.jpg",
+      "PackagePath": "staticwebassets\\img\\c-bg.jpg"
+    },
+    {
       "Id": "C:\\Users\\User\\Desktop\\Ispan\\Final_Project\\Final_project_test\\Final_project_test\\wwwroot\\img\\jquery-ui-1.13.3.custom.zip",
       "PackagePath": "staticwebassets\\img\\jquery-ui-1.13.3.custom.zip"
     },

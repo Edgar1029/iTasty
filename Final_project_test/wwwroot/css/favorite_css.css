@@ -13,7 +13,8 @@ body {
     margin: 0;
     padding: 0;
     background-color: rgb(245, 245, 245);
-    background-image: url("../img/pexels-karolina-grabowska-4705933.jpg");    
+    background-image: url("../img/pexels-karolina-grabowska-4705933.jpg");
+    backdrop-filter: blur(1px);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -551,8 +552,67 @@ label{
         box-shadow: transparent;
     }
 }
-.ingredient{
-    width: 220px;
+.folderName{
+    cursor:pointer;
+    width:100%;
+    /*height:40px;*/
+    margin:auto;
+    background-color: rgb(255, 255, 255,0.5);
+    /*border:1px solid #111111;*/
+    position:relative;
+    margin-bottom:10px;
+    border-radius:4px;
+    padding-bottom:10px;
+}
+.folderName-title{
+    margin-left:20px;
+    font-size:1.5rem;
+}
+.folderIngredient {
+    width: 95.6521%;
+    margin: auto;
+    height: 40px;
+    line-height: 40px;
+    background-color: rgb(250, 250, 250);
+}
+
+.folderPrepare {
+    width: 20px;
+    margin-left: 20px;
+    height: 40px;
+    line-height: 40px;
+    float: left;
+}
+
+.folderIngredientName {
+    width: 41%;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 10px;
+    font-size: 0.8rem;
+    float: left;
+}
+
+.folderCount {
+    width: 9%;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 5px;
+    font-size: 0.8rem;
+    float: left;
+    text-align: right;
+}
+
+.folderUnit {
+    width: 9%;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 7px;
+    font-size: 0.8rem;
+    float: left;
+}
+.ingredient {
+    width: 95.6521%;
     margin: auto;
     height: 40px;
     line-height: 40px;
@@ -560,14 +620,14 @@ label{
     border-bottom: 1px solid #c8c8c8;
 }
 .ingredient-prepare {
-    width: 20px;
+    width: 9%;
     margin-left: 20px;
     height: 40px;
     line-height: 40px;
-    float: left;
+    float: left;    
 }
 .ingredient-name {
-    width: 100px;
+    width: 41%;
     height: 40px;
     line-height: 40px;
     margin-left: 10px;
@@ -575,19 +635,19 @@ label{
     float: left;
 }
 .ingredient-count {
-    width: 20px;
+    width: 9%;
     height: 40px;
     line-height: 40px;
-    margin-left: 15px;
+    margin-left: 5px;
     font-size: 0.8rem;
     float: left;
     text-align: right;
 }
 .ingredient-unit {
-    width: 20px;
+    width: 9%;
     height: 40px;
     line-height: 40px;
-    margin-left: 2px;
+    margin-left: 7px;
     font-size: 0.8rem;
     float: left;
 }
@@ -602,8 +662,33 @@ label{
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     transition: all 0.3s;
+    opacity:1;
 }
 .hotreceipebookmark-heightchange{
+    height: 440px;
+    transition: all 0.3s;
+}
+.hotshopreceipebookmark {
+    position: relative;
+    width: 230px;
+    height: 290px;
+    margin: 10px 15px;
+    float: left;
+    border-radius: 5px;
+    /* border: 1px solid #111111; */
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s;
+    opacity: 1;
+}
+
+.addgreencool {
+    box-shadow: 0px 0px 5px 2px green;
+}
+.addredcool {
+    box-shadow: 0px 0px 5px 2px rgb(232, 117, 67);
+}
+.hotshopreceipebookmark-heightchange {
     height: 440px;
     transition: all 0.3s;
 }
@@ -663,6 +748,84 @@ label{
     background-color: #A53F2B;
     transition: all 0.3s;
 }
+.delete-shopfolder {
+    position: absolute;
+    right: -5px;
+    top: 10px;
+    color: #111111;
+    transition: all 0.3s;
+}
+    .delete-shopfolder:hover {
+        color: rgb(232, 117, 67);
+        background-color: #A53F2B;
+        transition: all 0.3s;
+    }
+/* -------------------------------------------------------------------------------------------------- */
+.switch-space {
+    position: absolute;
+    right: 30px;
+    top: 10px;
+    line-height:18px;
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 32px;
+    height: 18px;
+}
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 14px;
+        width: 14px;
+        left: 3px;
+        bottom: 2px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+input:checked + .slider {
+    background-color: rgb(232, 117, 67);
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(12px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
 /* -------------------------------------------------------------------------------------------------- */
 .select-receipe{
     height: 35px;

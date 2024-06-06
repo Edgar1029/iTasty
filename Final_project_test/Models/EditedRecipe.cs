@@ -11,6 +11,10 @@ public partial class EditedRecipe
 
     public int RecipeId { get; set; }
 
+    public string RecipeName { get; set; } = null!;
+
+    public byte[]? RecipeCoverImage { get; set; }
+
     public virtual RecipeTable Recipe { get; set; } = null!;
 
     public virtual UserInfo User { get; set; } = null!;
