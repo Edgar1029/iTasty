@@ -216,18 +216,7 @@
 					<label>瀏覽數<input type="radio" name="radio_analyze_type" id="radio_analyze_view" /></label>
 				</div>
 				<div class="area_analyze_recipe">
-					<label>選擇食譜：</label>
-					<p>
-						<i class="fa-solid fa-brush"></i>
-						食譜名稱
-						<button><i class="fa-regular fa-square-minus"></i></button>
-					</p>
-					<p>
-
-						<button>
-							<i class="fa-regular fa-square-plus">加入食譜</i>
-						</button>
-					</p>
+					
 
 				</div>
 				<div>
@@ -239,7 +228,7 @@
 				</div>
 				<div class="area_select_time">
 				</div>
-				<button>分析</button>
+				<button id="btn_analyze">分析</button>
 				<hr />
 				<canvas id="myChart"></canvas>
 			</div>
@@ -351,37 +340,27 @@
 				<div class="modal-header">
 					<button type="button" class="btn_close btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					<h5 class="text_title modal-title d-inline me-auto" id="label_select_recipe">選擇食譜</h5>
-					<button class="btn_save" onclick="" data-bs-dismiss="modal">儲存</button>
+					<button class="btn_save" onclick="save_analyze_recipe()" data-bs-dismiss="modal">儲存</button>
 				</div>
 				<div class="modal-body row">
-					<div class="col-4 mb-3">
-						<label class="p-1 rounded">
-							<input type="checkbox" name="chekcbox_select_recipe" hidden recipe_name="name" recipe_id="1" />
-							<img src="~/img/img_recipe_icon.png" class="img-fluid" />
-							<p class="text-center m-0">NAME</p>
-						</label>
-					</div>
-					<div class="col-4 mb-3">
-						<label class="p-1 rounded">
-							<input type="checkbox" name="chekcbox_select_recipe" hidden />
-							<img src="~/img/img_recipe_icon.png" class="img-fluid" />
-							<p class="text-center m-0">NAME</p>
-						</label>
-					</div>
-					<div class="col-4 mb-3">
-						<label class="p-1 rounded">
-							<input type="checkbox" name="chekcbox_select_recipe" hidden />
-							<img src="~/img/img_recipe_icon.png" class="img-fluid" />
-							<p class="text-center m-0">NAME</p>
-						</label>
-					</div>
-					<div class="col-4 mb-3">
-						<label class="p-1 rounded">
-							<input type="checkbox" name="chekcbox_select_recipe" hidden />
-							<img src="~/img/img_recipe_icon.png" class="img-fluid" />
-							<p class="text-center m-0">NAME</p>
-						</label>
-					</div>
+					@* <div class="col-4 mb-3">
+					<label class="p-1 rounded">
+					<input type="checkbox" name="chekcbox_select_recipe" hidden recipe_name="name" recipe_id="1" />
+					<img src="~/img/img_recipe_icon.png" class="img-fluid" />
+					<p class="text-center m-0">NAME</p>
+					</label>
+					</div> *@
+
+					@for (int i = 0; i < 10; i++)
+					{
+						<div class="col-4 mb-3">
+							<label class="p-1 rounded">
+								<input type="checkbox" name="chekcbox_select_recipe" hidden recipe_name="@($"name{i}")" recipe_id="@i" />
+								<img src="~/img/img_recipe_icon.png" class="img-fluid" />
+								<p class="text-center m-0">NAME</p>
+							</label>
+						</div>
+					}
 
 				</div>
 			</div>

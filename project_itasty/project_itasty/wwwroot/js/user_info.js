@@ -1,6 +1,7 @@
+var list_analyze_recipe = [];
+var temp_analyze_recipe = [];
 $(document).ready(function () {
     var myCrop;
-    var list_analyze_recipe = [];
 
     //橫幅儲存
     $(".btn_save_banner").on("click", function () {
@@ -140,11 +141,8 @@ $(document).ready(function () {
     $("#radio_analyze_view").on('change', function () {
         $(".area_analyze_recipe").html(`
 			<label>選擇食譜：</label>
-			<p>
-				<i class="fa-solid fa-brush"></i>
-				食譜名稱
-				<button><i class="fa-regular fa-square-minus"></i></button>
-			</p>
+			<div class="list_analyze_recipe">
+			</div>
 			<p>
 				<button>
 					<i class="fa-regular fa-square-plus" data-bs-toggle="modal" data-bs-target="#modal_select_recipe">加入食譜</i>
@@ -219,23 +217,45 @@ $(document).ready(function () {
 
     //食譜選擇
     $("input[name='chekcbox_select_recipe']").on("change", function () {
-        //選擇上限
-        if ($("input[name='chekcbox_select_recipe']:checked").length > 3) {
-            this.checked = false;
+        if ($(this).is(":checked")) {
+            //選擇上限
+            if ($("input[name='chekcbox_select_recipe']:checked").length > 3) {
+                this.checked = false;
+            }
+            //紀錄選取
+            else {
+                temp_analyze_recipe.push({
+                    "recipe_name": $(this).attr("recipe_name"),
+                    "recipe_id": $(this).attr("recipe_id")
+                });
+            }
         }
+        //取消選取
         else {
-            list_analyze_recipe.push({
-                "recipe_name": 1,
-                "recipe_id": 1
-            });
+            temp_analyze_recipe = temp_analyze_recipe.filter(elm => elm.recipe_id != $(this).attr("recipe_id"))
         }
-        console.log($(this).attr("recipe_name"))
-        console.log(list_analyze_recipe);
     });
 
+    //視窗關閉觸發事件
+    $("#modal_select_recipe").on("hidden.bs.modal", function () {
+        show_analyze_recipe();
+    });
+
+    //視窗開啟觸發事件
+    $("#modal_select_recipe").on("show.bs.modal", function () {
+        temp_analyze_recipe = list_analyze_recipe;
+        $("input[name='chekcbox_select_recipe']").each(function () {
+            if (temp_analyze_recipe.findIndex(x => x.recipe_id === $(this).attr("recipe_id")) != -1) {
+                $(this).prop("checked", true);
+            }
+            else {
+                $(this).prop("checked", false);
+            }
+        });
+    });
 
     //分析圖表
-    if ($('#myChart').length > 0) {
+    $("#btn_analyze").on("click", function () {
         const xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
         new Chart("myChart", {
             type: "line",
@@ -259,7 +279,7 @@ $(document).ready(function () {
                 legend: { display: false }
             }
         });
-    }
+    });
 });
 
 //發送使用者資訊更新
@@ -337,4 +357,39 @@ function user_follow(user_id, follower_id, btn_user_follow) {
             console.log(textstatus);
         }
     });
+}
+
+//清空要分析的食譜選擇
+function reset_analyze_recipe() {
+    list_analyze_recipe = [];
+    console.log(list_analyze_recipe);
+}
+
+//儲存要分析的食譜選擇
+function save_analyze_recipe() {
+    list_analyze_recipe = temp_analyze_recipe;
+    console.log(list_analyze_recipe);
+}
+
+//顯示要分析的食譜選擇
+function show_analyze_recipe() {
+    $(".list_analyze_recipe").html("");
+    for (let i in Array.from(list_analyze_recipe)) {
+        console.log(i)
+        $(".list_analyze_recipe").html(
+            $(".list_analyze_recipe").html()+`
+		    <p>
+			    <i class="fa-solid fa-brush"></i>
+			    ${list_analyze_recipe[i].recipe_name}
+			    <button onclick="remove_analyze_recipe(${list_analyze_recipe[i].recipe_id})"><i class="fa-regular fa-square-minus"></i></button>
+		    </p>
+
+        `);
+    }
+}
+
+//移除要分析的食譜選擇
+function remove_analyze_recipe(recipe_id) {
+    list_analyze_recipe = list_analyze_recipe.filter(elm => elm.recipe_id != recipe_id)
+    show_analyze_recipe();
 }
