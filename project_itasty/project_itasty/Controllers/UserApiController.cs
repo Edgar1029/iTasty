@@ -16,10 +16,19 @@ namespace project_itasty.Controllers
 			_context = context;
 		}
 
-		[HttpGet]
-		public async Task<ActionResult<IEnumerable<UserInfo>>> GetTodoItemList()
+		//[HttpGet]
+		//public async Task<ActionResult<IEnumerable<UserInfo>>> GetTodoItemList()
+		//{
+		//	return await _context.UserInfos.ToListAsync();
+		//}
+
+		[HttpGet("{id}")]
+		public async Task<ActionResult<IEnumerable<UserFollower>>> GetFollower(int id)
 		{
-			return await _context.UserInfos.ToListAsync();
+			var query = from o in _context.UserFollowers
+						where o.UserId == id
+						select o;
+			return await query.ToListAsync();
 		}
 
 		[HttpPost]

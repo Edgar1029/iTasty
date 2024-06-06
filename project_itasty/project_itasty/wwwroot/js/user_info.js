@@ -256,29 +256,8 @@ $(document).ready(function () {
 
     //分析圖表
     $("#btn_analyze").on("click", function () {
-        const xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
-        new Chart("myChart", {
-            type: "line",
-            data: {
-                labels: xValues,
-                datasets: [{
-                    data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
-                    borderColor: "red",
-                    fill: false
-                }, {
-                    data: [1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000],
-                    borderColor: "green",
-                    fill: false
-                }, {
-                    data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
-                    borderColor: "blue",
-                    fill: false
-                }]
-            },
-            options: {
-                legend: { display: false }
-            }
-        });
+        get_follower(21, 0);
+
     });
 });
 
@@ -377,7 +356,7 @@ function show_analyze_recipe() {
     for (let i in Array.from(list_analyze_recipe)) {
         console.log(i)
         $(".list_analyze_recipe").html(
-            $(".list_analyze_recipe").html()+`
+            $(".list_analyze_recipe").html() + `
 		    <p>
 			    <i class="fa-solid fa-brush"></i>
 			    ${list_analyze_recipe[i].recipe_name}
@@ -392,4 +371,63 @@ function show_analyze_recipe() {
 function remove_analyze_recipe(recipe_id) {
     list_analyze_recipe = list_analyze_recipe.filter(elm => elm.recipe_id != recipe_id)
     show_analyze_recipe();
+}
+
+//取得follower資料
+function get_follower(day_length, day_shift, date_type) {
+    let d;
+    let last_week = [];
+    let last_week_fan = [];
+
+    for (let i = 0; i < day_length; i++) {
+        d = new Date();
+        last_week.push(new Date(d.setDate(d.getDate() - (day_length + day_shift - 1) + i)).toLocaleDateString());
+        last_week_fan.push(0);
+    }
+
+    $.get("/api/userapi/1", function (data, status) {
+        d = new Date();
+        for (let i of data) {
+
+            let diff_follow_day = (day_length - 1) - Math.floor((d - new Date(i.followDate)) / (1000 * 60 * 60 * 24));
+            let diff_unfollow_day = (i.unfollowDate == null) ? day_length : (day_length - 1) - Math.floor((d - new Date(i.unfollowDate)) / (1000 * 60 * 60 * 24));
+
+            for (let j = diff_follow_day; j < diff_unfollow_day; j++) {
+                last_week_fan[j] += 1;
+            }
+        }
+        set_alanyze_canvas(last_week_fan, last_week);
+        console.log(last_week_fan);
+    });
+}
+
+//設定圖表
+function set_alanyze_canvas(alanyze_y, alanyze_x) {
+    const xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+    new Chart("myChart", {
+        type: "line",
+        data: {
+            //labels: xValues,
+            labels: alanyze_x,
+            datasets: [{
+                //    data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
+                //    borderColor: "red",
+                //    fill: false
+                //}, {
+                //    data: [1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000],
+                //    borderColor: "green",
+                //    fill: false
+                //}, {
+                //    data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
+                //    borderColor: "blue",
+                //    fill: false
+                data: alanyze_y,
+                borderColor: "blue",
+                fill: false
+            }]
+        },
+        options: {
+            legend: { display: false }
+        }
+    });
 }
