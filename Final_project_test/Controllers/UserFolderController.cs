@@ -100,24 +100,24 @@ namespace Final_project_test.Controllers.Api
             var id = (from a in _context.IngredientsTables
                       where a.RecipeId == recipeId
                       select a.Id).ToList();
-                FavoritesCheck favoritecheck = new FavoritesCheck();
-                foreach (var item in id)
+            FavoritesCheck favoritecheck = new FavoritesCheck();
+            foreach (var item in id)
+            {
+                favoritecheck = (from check in _context.FavoritesChecks
+                                 where check.FavoriteRecipeId == favoriteRecipeId && check.Id == item
+                                 select check).FirstOrDefault();
+                if (favoritecheck == null)
                 {
-                    favoritecheck = (from check in _context.FavoritesChecks
-                                     where check.FavoriteRecipeId == favoriteRecipeId && check.Id == item
-                                     select check).FirstOrDefault();
-                    if (favoritecheck == null)
+                    var fav = new FavoritesCheck
                     {
-                        var fav = new FavoritesCheck
-                        {
-                            FavoriteRecipeId = favoriteRecipeId,
-                            Id = item,
-                            Checkbox = false,
-                        };
-                        _context.FavoritesChecks.Add(fav);
-                        _context.SaveChanges();
-                    }
+                        FavoriteRecipeId = favoriteRecipeId,
+                        Id = item,
+                        Checkbox = false,
+                    };
+                    _context.FavoritesChecks.Add(fav);
+                    _context.SaveChanges();
                 }
+            }
             var recipe = _context.RecipeTables.FirstOrDefault(r => r.RecipeId == recipeId);
 
             if (recipe == null)
@@ -128,22 +128,22 @@ namespace Final_project_test.Controllers.Api
             return Ok(recipe);
         }
         //--------------------------------------------------------------------------------------------------------------------------------------------
-        
+
         [HttpGet("ingredient/{userId}/{recipeId}")]
         public IActionResult GetRecipeingrdient(int userId, int recipeId)
         {
             var favoriteRecipeId = (from a in _context.FavoritesRecipes
-                                   where a.RecipeId == recipeId && a.UserId == userId
-                                   select a.FavoriteRecipeId).FirstOrDefault();
+                                    where a.RecipeId == recipeId && a.UserId == userId
+                                    select a.FavoriteRecipeId).FirstOrDefault();
             var id = (from a in _context.IngredientsTables
-                     where a.RecipeId == recipeId
-                     select a.Id).ToList();
-            FavoritesCheck favoritecheck= new FavoritesCheck();
+                      where a.RecipeId == recipeId
+                      select a.Id).ToList();
+            FavoritesCheck favoritecheck = new FavoritesCheck();
             foreach (var item in id)
             {
                 favoritecheck = (from check in _context.FavoritesChecks
-                                     where check.FavoriteRecipeId == favoriteRecipeId && check.Id == item
-                                     select check).FirstOrDefault();
+                                 where check.FavoriteRecipeId == favoriteRecipeId && check.Id == item
+                                 select check).FirstOrDefault();
 
                 if (favoritecheck == null)
                 {
@@ -217,6 +217,18 @@ namespace Final_project_test.Controllers.Api
                 };
                 _context.CustomRecipeFolders.Add(customFolder);
                 _context.SaveChanges();
+            }
+            else
+            {
+                var checktotfalse = (from a in _context.ShoppingRecipes
+                                     where a.UserId == customRecipeFolderDto.UserId && a.RecipeId == customRecipeFolderDto.RecipeId
+                                     select a).ToList();
+                foreach (var item in checktotfalse)
+                {
+                    item.Checkbox = false;
+                    _context.ShoppingRecipes.Update(item);
+                    _context.SaveChanges();
+                }
             }
             return Ok(customRecipeFolderDto);
         }
@@ -295,12 +307,6 @@ namespace Final_project_test.Controllers.Api
             }
             else if (recipeDto.CustomFolderName == " 採買清單")
             {
-                //var ShopRecipe = _context.ShoppingRecipes.FirstOrDefault(fr => fr.UserId == recipeDto.UserId && fr.RecipeId == recipeDto.RecipeId);
-                //if (ShopRecipe != null)
-                //{
-                //    _context.ShoppingRecipes.Remove(ShopRecipe);
-                //    _context.SaveChanges();
-                //}
                 return Ok(recipeDto);
             }
             else if (recipeDto.CustomFolderName == " 編輯後的食譜")
@@ -342,8 +348,8 @@ namespace Final_project_test.Controllers.Api
             }
             bool isChecked = ingredientDto.Checkbox == "true";
             var Id = (from a in _context.IngredientsTables
-                       where a.IngredientsName == ingredientDto.IngredientsName
-                       select a.Id).FirstOrDefault();
+                      where a.IngredientsName == ingredientDto.IngredientsName
+                      select a.Id).FirstOrDefault();
             var favoriteRecipeId = (from a in _context.FavoritesRecipes
                                     where a.UserId == ingredientDto.UserId && a.RecipeId == ingredientDto.RecipeId
                                     select a.FavoriteRecipeId).FirstOrDefault();
@@ -376,35 +382,134 @@ namespace Final_project_test.Controllers.Api
                           where a.RecipeId == ingredientDto.RecipeId
                           select a.RecipeName).First();
             var recipeimg = (from a in _context.RecipeTables
-                          where a.RecipeId == ingredientDto.RecipeId
-                          select a.RecipeCoverImage).First();
-
+                             where a.RecipeId == ingredientDto.RecipeId
+                             select a.RecipeCoverImage).First();
             var nnaammee = ingredientDto.FolderName.TrimStart();
-            foreach (var ingredient in ingredients)
+            var checkifsame = (from a in _context.ShoppingRecipes
+                               where a.UserId == ingredientDto.UserId && a.RecipeId == ingredientDto.RecipeId && a.FolderName == nnaammee
+                               select a).FirstOrDefault();
+            if (checkifsame == null)
             {
-                var favoriteRecipeId = (from a in _context.FavoritesRecipes
-                                        where a.UserId == ingredientDto.UserId && a.RecipeId == ingredientDto.RecipeId
-                                        select a.FavoriteRecipeId).FirstOrDefault();
-                var ingredientcheck = (from a in _context.FavoritesChecks
-                                       where a.FavoriteRecipeId == favoriteRecipeId && a.Id == ingredient.Id
-                                       select a.Checkbox).FirstOrDefault();
-                var shoppingIngredient = new ShoppingRecipe
+                foreach (var ingredient in ingredients)
                 {
-                    UserId = ingredientDto.UserId,
-                    RecipeId = ingredientDto.RecipeId,
-                    RecipeName = recipe,
-                    RecipeCoverImage = recipeimg,
-                    FolderName = nnaammee,
-                    ShoppingIngredientsName = ingredient.IngredientsName,
-                    ShoppingIngredientsNumber = ingredient.IngredientsNumber,
-                    ShoppingIngredientsUnit = ingredient.IngredientsUnit,
-                    Checkbox = ingredientcheck,
-                    IngredientTime = DateTime.Now
-                };
-                _context.ShoppingRecipes.Add(shoppingIngredient);
-                _context.SaveChanges();
+                    var favoriteRecipeId = (from a in _context.FavoritesRecipes
+                                            where a.UserId == ingredientDto.UserId && a.RecipeId == ingredientDto.RecipeId
+                                            select a.FavoriteRecipeId).FirstOrDefault();
+                    var ingredientcheck = (from a in _context.FavoritesChecks
+                                           where a.FavoriteRecipeId == favoriteRecipeId && a.Id == ingredient.Id
+                                           select a.Checkbox).FirstOrDefault();
+                    var shoppingIngredient = new ShoppingRecipe
+                    {
+                        UserId = ingredientDto.UserId,
+                        RecipeId = ingredientDto.RecipeId,
+                        RecipeName = recipe,
+                        RecipeCoverImage = recipeimg,
+                        FolderName = nnaammee,
+                        ShoppingIngredientsName = ingredient.IngredientsName,
+                        ShoppingIngredientsNumber = ingredient.IngredientsNumber,
+                        ShoppingIngredientsUnit = ingredient.IngredientsUnit,
+                        Checkbox = ingredientcheck,
+                        IngredientTime = DateTime.Now
+                    };
+                    _context.ShoppingRecipes.Add(shoppingIngredient);
+                    _context.SaveChanges();
+                }
             }
-            return Ok(ingredients);
+            else
+            {
+                foreach (var ingredient in ingredients)
+                {
+                    var needtoadd = (from a in _context.ShoppingRecipes
+                                     where a.UserId == ingredientDto.UserId && a.RecipeId == ingredientDto.RecipeId && a.FolderName == nnaammee && a.ShoppingIngredientsName == ingredient.IngredientsName
+                                     select a).ToList();
+                    foreach (var ingredientmore in needtoadd)
+                    {
+                        ingredientmore.ShoppingIngredientsNumber = ingredientmore.ShoppingIngredientsNumber + ingredient.IngredientsNumber;
+                        _context.ShoppingRecipes.Update(ingredientmore);
+                        _context.SaveChanges();
+                    }
+                }
+            }
+            var sameingredientdifrecipe = (from a in _context.IngredientsTables
+                                           where a.RecipeId == ingredientDto.RecipeId
+                                           select a.IngredientsName).ToList();
+            foreach (var item in sameingredientdifrecipe)
+            {
+                var inshopplistdifrecipe = (from a in _context.ShoppingRecipes
+                                            where a.ShoppingIngredientsName == item && a.FolderName == nnaammee
+                                            select a).ToList();
+                foreach(var item2 in inshopplistdifrecipe)
+                {
+                    item2.Checkbox = false;
+                    _context.ShoppingRecipes.Update(item2);
+                    _context.SaveChanges();
+                }
+            }
+            
+
+
+
+            //if (checkifsame == null)
+            //{
+            //    foreach (var ingredient in ingredients)
+            //    {
+            //        var sameingredientdifrecipe = (from a in _context.ShoppingRecipes
+            //                                       where a.UserId == ingredientDto.UserId && a.ShoppingIngredientsName == ingredient.IngredientsName && a.FolderName == nnaammee
+            //                                       select a).FirstOrDefault();
+            //        if (sameingredientdifrecipe != null)
+            //        {
+            //            var sameingredientdifrecipelist = (from a in _context.ShoppingRecipes
+            //                                               where a.UserId == ingredientDto.UserId && a.ShoppingIngredientsName == ingredient.IngredientsName && a.FolderName == nnaammee
+            //                                               select a).ToList();
+            //            foreach (var aaa in sameingredientdifrecipelist)
+            //            {
+            //                aaa.Checkbox = false;
+            //                _context.ShoppingRecipes.Update(aaa);
+            //                _context.SaveChanges();
+            //            }
+            //        }
+            //        else
+            //        {
+            //            var favoriteRecipeId = (from a in _context.FavoritesRecipes
+            //                                    where a.UserId == ingredientDto.UserId && a.RecipeId == ingredientDto.RecipeId
+            //                                    select a.FavoriteRecipeId).FirstOrDefault();
+            //            var ingredientcheck = (from a in _context.FavoritesChecks
+            //                                   where a.FavoriteRecipeId == favoriteRecipeId && a.Id == ingredient.Id
+            //                                   select a.Checkbox).FirstOrDefault();
+            //            var shoppingIngredient = new ShoppingRecipe
+            //            {
+            //                UserId = ingredientDto.UserId,
+            //                RecipeId = ingredientDto.RecipeId,
+            //                RecipeName = recipe,
+            //                RecipeCoverImage = recipeimg,
+            //                FolderName = nnaammee,
+            //                ShoppingIngredientsName = ingredient.IngredientsName,
+            //                ShoppingIngredientsNumber = ingredient.IngredientsNumber,
+            //                ShoppingIngredientsUnit = ingredient.IngredientsUnit,
+            //                Checkbox = ingredientcheck,
+            //                IngredientTime = DateTime.Now
+            //            };
+            //            _context.ShoppingRecipes.Add(shoppingIngredient);
+            //            _context.SaveChanges();
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    foreach (var ingredient in ingredients)
+            //    {
+            //        var needtoadd = (from a in _context.ShoppingRecipes
+            //                         where a.UserId == ingredientDto.UserId && a.RecipeId == ingredientDto.RecipeId && a.FolderName == nnaammee && a.ShoppingIngredientsName == ingredient.IngredientsName
+            //                         select a).ToList();
+            //        foreach (var ingredientmore in needtoadd)
+            //        {
+            //            ingredientmore.ShoppingIngredientsNumber = ingredientmore.ShoppingIngredientsNumber + ingredient.IngredientsNumber;
+            //            _context.ShoppingRecipes.Update(ingredientmore);
+            //            _context.SaveChanges();
+            //        }
+            //    }
+            //}
+            return Ok(checkifsame);
         }
         //--------------------------------------------------------------------------------------------------------------------------------------------
         [HttpGet("ShowShoppingList/{userId}")]
@@ -423,15 +528,16 @@ namespace Final_project_test.Controllers.Api
         }
         //--------------------------------------------------------------------------------------------------------------------------------------------
         [HttpPost("changeshopcheckbox/{userId}/{categoryId}/{ingredient}/{check}")]
-        public IActionResult ChangeShopCheckbox(int userId,string categoryId,string ingredient,bool check)
+        public IActionResult ChangeShopCheckbox(int userId, string categoryId, string ingredient, bool check)
         {
             ingredient = ingredient.TrimStart();
             var shoplist = (from a in _context.ShoppingRecipes
-                           where a.UserId == userId && a.FolderName == categoryId && a.ShoppingIngredientsName == ingredient
-                           select a).ToList();
-            foreach(var shop in shoplist)
+                            where a.UserId == userId && a.FolderName == categoryId && a.ShoppingIngredientsName == ingredient
+                            select a).ToList();
+            foreach (var shop in shoplist)
             {
-                shop.Checkbox= check;
+                shop.IngredientTime = DateTime.Now;
+                shop.Checkbox = check;
                 _context.ShoppingRecipes.Update(shop);
                 _context.SaveChanges();
             }
@@ -439,7 +545,7 @@ namespace Final_project_test.Controllers.Api
         }
         //--------------------------------------------------------------------------------------------------------------------------------------------
         [HttpGet("getShopFolderRecipe/{userId}/{folderName}")]
-        public IActionResult GetShopFolderRecipe(int userId,string folderName)
+        public IActionResult GetShopFolderRecipe(int userId, string folderName)
         {
             var shopRecipeIds = (from Ingredient in _context.ShoppingRecipes
                                  where Ingredient.UserId == userId && Ingredient.FolderName == folderName
@@ -468,7 +574,7 @@ namespace Final_project_test.Controllers.Api
         }
         //--------------------------------------------------------------------------------------------------------------------------------------------
         [HttpPost("deleteshoprecipefolder/{userId}/{folderName}/{recipeId}")]
-        public IActionResult DeleteShopRecipeFolder(int userId, string folderName,int recipeId)
+        public IActionResult DeleteShopRecipeFolder(int userId, string folderName, int recipeId)
         {
             var shoplist = (from a in _context.ShoppingRecipes
                             where a.UserId == userId && a.FolderName == folderName && a.RecipeId == recipeId
@@ -482,7 +588,7 @@ namespace Final_project_test.Controllers.Api
         }
         //--------------------------------------------------------------------------------------------------------------------------------------------
         [HttpGet("shopingredient/{userId}/{folderName}/{recipeId}")]
-        public IActionResult ShopIngredient(int userId,string folderName,int recipeId)
+        public IActionResult ShopIngredient(int userId, string folderName, int recipeId)
         {
             var shopRecipeIds = (from Ingredient in _context.ShoppingRecipes
                                  where Ingredient.UserId == userId && Ingredient.FolderName == folderName && Ingredient.RecipeId == recipeId
@@ -503,8 +609,8 @@ namespace Final_project_test.Controllers.Api
         public IActionResult GetFilteredRecipes(int userId, string category)
         {
             var data = (from a in _context.ShoppingRecipes
-                       where a.UserId == userId && a.FolderName == category
-                       select a).ToList();
+                        where a.UserId == userId && a.FolderName == category
+                        select a).ToList();
             var result = data
             .GroupBy(r => r.RecipeId)
             .Where(g => g.All(r => r.Checkbox == true))
