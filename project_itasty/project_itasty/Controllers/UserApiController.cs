@@ -16,10 +16,19 @@ namespace project_itasty.Controllers
 			_context = context;
 		}
 
-		[HttpGet]
-		public async Task<ActionResult<IEnumerable<UserInfo>>> GetTodoItemList()
+		//[HttpGet]
+		//public async Task<ActionResult<IEnumerable<UserInfo>>> GetTodoItemList()
+		//{
+		//	return await _context.UserInfos.ToListAsync();
+		//}
+
+		[HttpGet("{id}")]
+		public async Task<ActionResult<IEnumerable<UserFollower>>> GetFollower(int id)
 		{
-			return await _context.UserInfos.ToListAsync();
+			var query = from o in _context.UserFollowers
+						where o.UserId == id
+						select o;
+			return await query.ToListAsync();
 		}
 
 		[HttpPost]
@@ -58,6 +67,51 @@ namespace project_itasty.Controllers
 			}
 
 			return Ok(name);
+		}
+
+		[HttpPost]
+		public async Task<ActionResult> UpdateFollower()
+		{
+			int user_id = int.Parse(Request.Form["user_id"]);
+			int follower_id = int.Parse(Request.Form["follower_id"]);
+			var query = from u in _context.UserFollowers
+						where u.UnfollowDate == null & u.UserId == user_id & u.FollowerId == follower_id
+						select u;
+
+			UserFollower? userFollower = await query.FirstOrDefaultAsync();
+			if (userFollower != null)
+			{
+				userFollower.UnfollowDate = DateOnly.FromDateTime(DateTime.Now);
+				_context.Entry(userFollower).State = EntityState.Modified;
+				await _context.SaveChangesAsync();
+			}
+			else
+			{
+				query = from u in _context.UserFollowers
+						where u.UnfollowDate != null & u.UserId == user_id & u.FollowerId == follower_id & u.FollowDate == DateOnly.FromDateTime(DateTime.Now)
+						select u;
+				userFollower = await query.FirstOrDefaultAsync();
+				if (userFollower != null)
+				{
+					userFollower.UnfollowDate = null;
+					_context.Entry(userFollower).State = EntityState.Modified;
+					await _context.SaveChangesAsync();
+				}
+				else
+				{
+					userFollower = new UserFollower()
+					{
+						UserId = user_id,
+						FollowerId = follower_id,
+						FollowDate = DateOnly.FromDateTime(DateTime.Now),
+						UnfollowDate = null
+					};
+					_context.UserFollowers.Add(userFollower);
+					await _context.SaveChangesAsync();
+				}
+			}
+
+			return Ok(userFollower.UnfollowDate);
 		}
 	}
 }

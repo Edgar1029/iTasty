@@ -241,7 +241,8 @@
             white-space: normal;
         }
 
-.area_edit .btn_close {
+.area_edit .btn_close,
+.area_select_recipe .btn_close {
     width: 20px;
     height: 20px;
     margin-right: 10px;
@@ -253,7 +254,8 @@
 
 .area_edit .btn_save,
 .area_edit .btn_save_banner,
-.area_edit .btn_save_icon {
+.area_edit .btn_save_icon,
+.area_select_recipe .btn_save {
     background-color: #000000;
     border-radius: 15px;
     color: #ffffff;
@@ -325,3 +327,6 @@
     .area_edit .btn_back i {
         font-size: 16px;
     }
+.area_select_recipe label:has(input:checked) {
+    background-color: #e87543;
+}

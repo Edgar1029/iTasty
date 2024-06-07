@@ -1,3 +1,5 @@
+var list_analyze_recipe = [];
+var temp_analyze_recipe = [];
 $(document).ready(function () {
     var myCrop;
 
@@ -129,32 +131,134 @@ $(document).ready(function () {
         radio_change();
     });
 
-    //分析圖表
-    if ($('#myChart').length > 0) {
-        const xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
-        new Chart("myChart", {
-            type: "line",
-            data: {
-                labels: xValues,
-                datasets: [{
-                    data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
-                    borderColor: "red",
-                    fill: false
-                }, {
-                    data: [1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000],
-                    borderColor: "green",
-                    fill: false
-                }, {
-                    data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
-                    borderColor: "blue",
-                    fill: false
-                }]
-            },
-            options: {
-                legend: { display: false }
+    //分析圖表切換分析項目
+    //粉絲數
+    $("#radio_analyze_fan").on('change', function () {
+        $(".area_analyze_recipe").html(``);
+    });
+
+    //點閱數
+    $("#radio_analyze_view").on('change', function () {
+        $(".area_analyze_recipe").html(`
+			<label>選擇食譜：</label>
+			<div class="list_analyze_recipe">
+			</div>
+			<p>
+				<button>
+					<i class="fa-regular fa-square-plus" data-bs-toggle="modal" data-bs-target="#modal_select_recipe">加入食譜</i>
+				</button>
+			</p>
+        `);
+    });
+
+    //時間篩選:年
+    $("#radio_analyze_year").on('change', function () {
+        $(".area_select_time").html(`
+		    <div class="form-switch d-inline">
+			    <input class="form-check-input" type="checkbox" id="check_last_year" />
+			    <label for="check_last_year">最近一年</label>
+		    </div>
+		    <div class="form-switch d-inline">
+			    <input class="form-check-input" type="checkbox" id="check_two_year" />
+			    <label for="check_two_year">最近兩年</label>
+		    </div>
+        `);
+    });
+
+    //時間篩選:季
+    $("#radio_analyze_season").on('change', function () {
+        $(".area_select_time").html(`
+			<div class="form-switch d-inline">
+				<input class="form-check-input" type="checkbox" id="check_last_sea" />
+				<label for="check_last_sea">最近一季</label>
+			</div>
+			<div class="form-switch d-inline">
+				<input class="form-check-input" type="checkbox" id="check_two_sea" />
+				<label for="check_two_sea">最近兩季</label>
+			</div>
+			<div class="form-switch d-inline">
+				<input class="form-check-input" type="checkbox" id="check_three_sea" />
+				<label for="check_three_sea">最近三季</label>
+			</div>
+        `);
+    });
+
+    //時間篩選:月
+    $("#radio_analyze_month").on('change', function () {
+        $(".area_select_time").html(`
+			<div class="form-switch d-inline">
+				<input class="form-check-input" type="checkbox" id="check_last_mon" />
+				<label for="check_last_mon">最近一月</label>
+			</div>
+			<div class="form-switch d-inline">
+				<input class="form-check-input" type="checkbox" id="check_two_mon" />
+				<label for="check_two_mon">最近兩月</label>
+			</div>
+        `);
+    });
+
+    //時間篩選:週
+    $("#radio_analyze_week").on('change', function () {
+        $(".area_select_time").html(`
+		    <div class="form-switch d-inline">
+			    <input class="form-check-input" type="checkbox" id="check_last_wee" />
+			    <label for="check_last_wee">最近一週</label>
+		    </div>
+		    <div class="form-switch d-inline">
+			    <input class="form-check-input" type="checkbox" id="check_two_wee" />
+			    <label for="check_two_wee">最近兩週</label>
+		    </div>
+		    <div class="form-switch d-inline">
+			    <input class="form-check-input" type="checkbox" id="check_three_wee" />
+			    <label for="check_three_wee">最近三週</label>
+		    </div>
+        `);
+    });
+
+    //食譜選擇
+    $("input[name='chekcbox_select_recipe']").on("change", function () {
+        if ($(this).is(":checked")) {
+            //選擇上限
+            if ($("input[name='chekcbox_select_recipe']:checked").length > 3) {
+                this.checked = false;
+            }
+            //紀錄選取
+            else {
+                temp_analyze_recipe.push({
+                    "recipe_name": $(this).attr("recipe_name"),
+                    "recipe_id": $(this).attr("recipe_id")
+                });
+            }
+        }
+        //取消選取
+        else {
+            temp_analyze_recipe = temp_analyze_recipe.filter(elm => elm.recipe_id != $(this).attr("recipe_id"))
+        }
+    });
+
+    //視窗關閉觸發事件
+    $("#modal_select_recipe").on("hidden.bs.modal", function () {
+        show_analyze_recipe();
+    });
+
+    //視窗開啟觸發事件
+    $("#modal_select_recipe").on("show.bs.modal", function () {
+        temp_analyze_recipe = list_analyze_recipe;
+        $("input[name='chekcbox_select_recipe']").each(function () {
+            if (temp_analyze_recipe.findIndex(x => x.recipe_id === $(this).attr("recipe_id")) != -1) {
+                $(this).prop("checked", true);
+            }
+            else {
+                $(this).prop("checked", false);
             }
         });
-    }
+    });
+
+    //分析圖表
+    $("#btn_analyze").on("click", function () {
+        get_follower(21, 0);
+
+    });
 });
 
 //發送使用者資訊更新
@@ -211,6 +315,119 @@ function radio_change() {
 }
 
 //追蹤or取消追蹤
-function user_follow(id, tar_id) {
-    console.log("id: "+id+" tar_id: "+tar_id);
+function user_follow(user_id, follower_id, btn_user_follow) {
+
+    $.ajax({
+        type: "post",
+        url: `/api/userapi`,
+        data: {
+            "user_id": user_id.toString(),
+            "follower_id": follower_id.toString(),
+        },
+        success: function (e) {
+            if (e)
+                btn_user_follow.innerText = "追蹤";
+            else
+                btn_user_follow.innerText = "取消追蹤";
+
+        },
+        error: function (xmlhttpreq, textstatus) {
+            console.log(xmlhttpreq);
+            console.log(textstatus);
+        }
+    });
+}
+
+//清空要分析的食譜選擇
+function reset_analyze_recipe() {
+    list_analyze_recipe = [];
+    console.log(list_analyze_recipe);
+}
+
+//儲存要分析的食譜選擇
+function save_analyze_recipe() {
+    list_analyze_recipe = temp_analyze_recipe;
+    console.log(list_analyze_recipe);
+}
+
+//顯示要分析的食譜選擇
+function show_analyze_recipe() {
+    $(".list_analyze_recipe").html("");
+    for (let i in Array.from(list_analyze_recipe)) {
+        console.log(i)
+        $(".list_analyze_recipe").html(
+            $(".list_analyze_recipe").html() + `
+		    <p>
+			    <i class="fa-solid fa-brush"></i>
+			    ${list_analyze_recipe[i].recipe_name}
+			    <button onclick="remove_analyze_recipe(${list_analyze_recipe[i].recipe_id})"><i class="fa-regular fa-square-minus"></i></button>
+		    </p>
+
+        `);
+    }
+}
+
+//移除要分析的食譜選擇
+function remove_analyze_recipe(recipe_id) {
+    list_analyze_recipe = list_analyze_recipe.filter(elm => elm.recipe_id != recipe_id)
+    show_analyze_recipe();
+}
+
+//取得follower資料
+function get_follower(day_length, day_shift, date_type) {
+    let d;
+    let last_week = [];
+    let last_week_fan = [];
+
+    for (let i = 0; i < day_length; i++) {
+        d = new Date();
+        last_week.push(new Date(d.setDate(d.getDate() - (day_length + day_shift - 1) + i)).toLocaleDateString());
+        last_week_fan.push(0);
+    }
+
+    $.get("/api/userapi/1", function (data, status) {
+        d = new Date();
+        for (let i of data) {
+
+            let diff_follow_day = (day_length - 1) - Math.floor((d - new Date(i.followDate)) / (1000 * 60 * 60 * 24));
+            let diff_unfollow_day = (i.unfollowDate == null) ? day_length : (day_length - 1) - Math.floor((d - new Date(i.unfollowDate)) / (1000 * 60 * 60 * 24));
+
+            for (let j = diff_follow_day; j < diff_unfollow_day; j++) {
+                last_week_fan[j] += 1;
+            }
+        }
+        set_alanyze_canvas(last_week_fan, last_week);
+        console.log(last_week_fan);
+    });
+}
+
+//設定圖表
+function set_alanyze_canvas(alanyze_y, alanyze_x) {
+    const xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+    new Chart("myChart", {
+        type: "line",
+        data: {
+            //labels: xValues,
+            labels: alanyze_x,
+            datasets: [{
+                //    data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
+                //    borderColor: "red",
+                //    fill: false
+                //}, {
+                //    data: [1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000],
+                //    borderColor: "green",
+                //    fill: false
+                //}, {
+                //    data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
+                //    borderColor: "blue",
+                //    fill: false
+                data: alanyze_y,
+                borderColor: "blue",
+                fill: false
+            }]
+        },
+        options: {
+            legend: { display: false }
+        }
+    });
 }
