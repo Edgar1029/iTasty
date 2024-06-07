@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -19,7 +23,7 @@
     <!-- 下面是header---------------------------------------------------------------------------- -->
     <header class="row gx-0">
         <div class="header-left row gx-0">
-            <div class="header-left-img">
+            <div class="header-left-img" style="background-image: url('./img/logo_text.png');">
             </div>
         </div>
         <div class="header-middle row gx-0">
@@ -74,30 +78,18 @@
                             <th>留言數</th>
                             <th>狀態</th>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>番茄炒蛋</td>
-                            <td>王小明</td>
-                            <td>100</td>
-                            <td>3</td>
-                            <td>正常</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>義大利披薩</td>
-                            <td>李小龍</td>
-                            <td>99</td>
-                            <td>5</td>
-                            <td>正常</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>義大利麵</td>
-                            <td>菜頭貴</td>
-                            <td>52</td>
-                            <td>10</td>
-                            <td>遭檢舉</td>
-                        </tr>
+                        @for (int i = 0; i < 10; i++)
+                        {
+                            <tr>
+                                <td>@(i + 1)</td>
+                                <td>@Model.RecipedTable[i].RecipedName</td>
+                                <td>@Model.RecipedTable[i].Author</td>
+                                <td>@Model.RecipedTable[i].RecipedView</td>
+                                <td>@Model.RecipedTable[i].NumberOfComment</td>
+                                <td>@Model.RecipedTable[i].RecipedStatus</td>
+                            </tr>
+                        }
+
                     </table>
                 </div>
                 <div class="tab-pane fade" id="list_user" role="tabpanel" aria-labelledby="list_user_list">
@@ -195,10 +187,10 @@
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['5/19', '5/20', '5/21', '5/22', '5/23'],
+                labels: @Html.Raw(Json.Serialize(Model.ChartViewsData.Labels)),
                 datasets: [{
                     label: '瀏覽數',
-                    data: [12, 19, 3, 5, 2],
+                    data: @Html.Raw(Json.Serialize(Model.ChartViewsData.Data)),
                     borderWidth: 1
                 }]
             },
@@ -216,12 +208,12 @@
         const stackedLine = new Chart(ctz, {
             type: 'line',
             data: {
-                labels: ['一月', '二月', '三月', '四月', '五月', '六月', '七月'], // X 軸標籤
+                labels: @Html.Raw(Json.Serialize(Model.ChartMembershipData.Labels)), // X 軸標籤
                 datasets: [{
                     label: '會員增長數', // 數據集標籤
                     backgroundColor: 'rgba(75, 192, 192, 0.2)', // 填充顏色
                     borderColor: 'rgba(75, 192, 192, 1)', // 邊框顏色
-                    data: [65, 59, 80, 81, 56, 55, 40] // 數據點
+                    data: @Html.Raw(Json.Serialize(Model.ChartMembershipData.Data)) // 數據點
                 }]
             },
             options: {

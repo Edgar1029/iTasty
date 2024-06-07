@@ -73,7 +73,7 @@ header::after{
 .header-left > span:hover{
     color: rgb(232, 117, 67);
 }
-.header-left-img{
+.header-left-img {
     /* width: 100%;
     display: block;
     margin: auto;
@@ -86,7 +86,7 @@ header::after{
     margin-left: 20px;
     margin-right: 10px;
     margin-top: 10px;
-    background-image: url("./img/logo_text.png");
+    background-image: url('./img/logo_text.png');
     background-repeat: no-repeat;
     background-size: contain;
     align-items: center;
