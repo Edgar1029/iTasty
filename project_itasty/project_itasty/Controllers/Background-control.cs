@@ -30,21 +30,35 @@ namespace project_itasty.Controllers
             #endregion
 
             #region 從recipedTable拿資料，並把資料灌進自建的模型(Background_Control_RecipedTable)
-            var RecipedTable = new List<Background_Control_RecipedTable>();
 
             var recipeList = _context.RecipeTables.OrderByDescending(r => r.Views).ToList();
+            var userList = _context.UserInfos.ToList();
 
-            foreach (var recipe in recipeList)
+            var joinedList = from recipe in recipeList
+                             join user in userList on recipe.UserId equals user.UserId
+                             select new
+                             {
+                                 RecipedName = recipe.RecipeName,
+                                 Author = user.UserName,
+                                 RecipedView = recipe.Views,
+                                 NumberOfComment = recipe.Favorites,
+                                 RecipedStatus = recipe.RecipeStatus
+                             };
+
+            var RecipedTable = new List<Background_Control_RecipedTable>();
+
+            foreach (var item in joinedList)
             {
                 RecipedTable.Add(new Background_Control_RecipedTable
                 {
-                    RecipedName = recipe.RecipeName,
-                    Author = recipe.UserId, 
-                    RecipedView = recipe.Views, 
-                    NumberOfComment = recipe.Favorites,
-                    RecipedStatus = recipe.RecipeStatus
+                    RecipedName = item.RecipedName,
+                    Author = item.Author,
+                    RecipedView = item.RecipedView,
+                    NumberOfComment = item.NumberOfComment,
+                    RecipedStatus = item.RecipedStatus
                 });
             }
+
             #endregion
 
 

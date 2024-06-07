@@ -20,7 +20,7 @@ namespace project_itasty.Models
     public class Background_Control_RecipedTable 
     {
         public string RecipedName { get; set; }
-        public int Author { get; set; }
+        public string Author { get; set; }
         public int RecipedView { get; set; }
         public int NumberOfComment { get; set; }
         public string RecipedStatus { get; set; }
