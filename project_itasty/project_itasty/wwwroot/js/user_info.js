@@ -256,7 +256,25 @@ $(document).ready(function () {
 
     //分析圖表
     $("#btn_analyze").on("click", function () {
-        get_follower(21, 0);
+        if ($("#radio_analyze_year").is(":checked")) {
+            console.log("year");
+            if ($("#check_last_year").is(":checked")) {
+                get_follower_year(12, 1);
+            }
+            else if ($("#check_two_year").is(":checked")) {
+                get_follower_year(24, 2);
+            }
+        }
+        else if ($("#radio_analyze_season").is(":checked")) {
+            console.log("season");
+        }
+        else if ($("#radio_analyze_month").is(":checked")) {
+            console.log("month");
+        }
+        else if ($("#radio_analyze_week").is(":checked")) {
+            console.log("week");
+            get_follower_week(21, 0);
+        }
 
     });
 });
@@ -373,8 +391,39 @@ function remove_analyze_recipe(recipe_id) {
     show_analyze_recipe();
 }
 
-//取得follower資料
-function get_follower(day_length, day_shift, date_type) {
+//取得follower年資料
+function get_follower_year(day_length, day_shift) {
+    let d;
+    let last_date = [];
+    let last_date_fan = [];
+
+    d = new Date();
+    d.setFullYear(2024 - day_shift);
+    d.setMonth(0);
+    for (let i = 1; i <= day_length; i++) {
+        last_date.push(`${d.getFullYear()}/${d.getMonth() + i}`);
+        last_date_fan.push(0);
+    }
+
+    $.get("/api/userapi/follower/1", function (data, status) {
+        for (let i of data) {
+
+            //判斷追隨年、月份
+            let diff_follow_year = (new Date(i.followDate).getFullYear() < d.getFullYear()) ? 0 : (new Date(i.followDate).getFullYear() - d.getFullYear());
+            let diff_follow_month = (new Date(i.followDate).getFullYear() < d.getFullYear()) ? 0 : new Date(i.followDate).getMonth() + diff_follow_year * 12;
+            //判斷退追年、月份
+            let diff_unfollow_year = (i.unfollowDate == null) ? day_length : (new Date(i.unfollowDate).getFullYear() < d.getFullYear()) ? 0 : (new Date(i.unfollowDate).getFullYear() - d.getFullYear());
+            let diff_unfollow_month = (i.unfollowDate == null) ? diff_unfollow_year : (new Date(i.unfollowDate).getFullYear() < d.getFullYear()) ? 0 : new Date(i.unfollowDate).getMonth() + diff_unfollow_year * 12;
+            //追隨開始~退追之間的月份+1，同一個月則發生不紀錄
+            for (let j = diff_follow_month; j < diff_unfollow_month; j++) {
+                last_date_fan[j] += 1;
+            }
+        }
+        set_alanyze_canvas(last_date_fan, last_date);
+    });
+}
+//取得follower週資料
+function get_follower_week(day_length, day_shift) {
     let d;
     let last_week = [];
     let last_week_fan = [];
@@ -385,7 +434,7 @@ function get_follower(day_length, day_shift, date_type) {
         last_week_fan.push(0);
     }
 
-    $.get("/api/userapi/1", function (data, status) {
+    $.get("/api/userapi/follower/1", function (data, status) {
         d = new Date();
         for (let i of data) {
 
@@ -397,7 +446,6 @@ function get_follower(day_length, day_shift, date_type) {
             }
         }
         set_alanyze_canvas(last_week_fan, last_week);
-        console.log(last_week_fan);
     });
 }
 

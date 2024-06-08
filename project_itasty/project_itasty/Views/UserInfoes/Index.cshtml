@@ -174,7 +174,15 @@
 					foreach (var i in ViewBag.User)
 					{
 						<div class="position-relative">
-							<img src="data:image/jpg;base64, @Convert.ToBase64String(i.u.UserPhoto)" class="rounded-circle">
+							@{
+								if (i.u.UserPhoto != null){
+									<img src="data:image/jpg;base64, @Convert.ToBase64String(i.u.UserPhoto)" class="rounded-circle">
+								}
+								else
+								{
+									<img src="~/img/img_user_info.png" class=" rounded-circle">
+								}
+							}
 
 							<div><a href="~/user/@((i.u.UserEmail).Split('@')[0])">@i.u.UserName</a></div>
 
@@ -216,8 +224,6 @@
 					<label>瀏覽數<input type="radio" name="radio_analyze_type" id="radio_analyze_view" /></label>
 				</div>
 				<div class="area_analyze_recipe">
-					
-
 				</div>
 				<div>
 					<label>時間篩選：</label>

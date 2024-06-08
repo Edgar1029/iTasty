@@ -22,7 +22,7 @@ namespace project_itasty.Controllers
 		//	return await _context.UserInfos.ToListAsync();
 		//}
 
-		[HttpGet("{id}")]
+		[HttpGet("follower/{id}")]
 		public async Task<ActionResult<IEnumerable<UserFollower>>> GetFollower(int id)
 		{
 			var query = from o in _context.UserFollowers
