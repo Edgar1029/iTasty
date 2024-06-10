@@ -31,6 +31,15 @@ namespace project_itasty.Controllers
 			return await query.ToListAsync();
 		}
 
+		[HttpGet("recipeview/{id}")]
+		public async Task<ActionResult<IEnumerable<RecipeView>>> GetRecipeView(int id)
+		{
+			var query = from o in _context.RecipeViews
+						where o.RecipeId == id
+						select o;
+			return await query.ToListAsync();
+		}
+
 		[HttpPost]
 		public async Task<ActionResult> UpdateUser(IFormFile photo, IFormFile banner, [FromForm] string name, [FromForm] string id, [FromForm] string intro = "")
 		{

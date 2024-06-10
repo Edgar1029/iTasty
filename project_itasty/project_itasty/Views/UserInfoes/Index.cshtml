@@ -175,7 +175,8 @@
 					{
 						<div class="position-relative">
 							@{
-								if (i.u.UserPhoto != null){
+								if (i.u.UserPhoto != null)
+								{
 									<img src="data:image/jpg;base64, @Convert.ToBase64String(i.u.UserPhoto)" class="rounded-circle">
 								}
 								else
@@ -220,23 +221,38 @@
 			<div class="area_analyze">
 				<div>
 					<label>分析項目：</label>
-					<label>粉絲數<input type="radio" name="radio_analyze_type" id="radio_analyze_fan" /></label>
+					<label>粉絲數<input type="radio" name="radio_analyze_type" id="radio_analyze_fan" checked /></label>
 					<label>瀏覽數<input type="radio" name="radio_analyze_type" id="radio_analyze_view" /></label>
 				</div>
 				<div class="area_analyze_recipe">
 				</div>
 				<div>
 					<label>時間篩選：</label>
-					<label>年<input type="radio" name="radio_analyze_time" id="radio_analyze_year" /></label>
+					<label>年<input type="radio" name="radio_analyze_time" id="radio_analyze_year" checked /></label>
 					<label>季<input type="radio" name="radio_analyze_time" id="radio_analyze_season" /></label>
 					<label>月<input type="radio" name="radio_analyze_time" id="radio_analyze_month" /></label>
 					<label>週<input type="radio" name="radio_analyze_time" id="radio_analyze_week" /></label>
 				</div>
 				<div class="area_select_time">
+					<div class="form-switch d-inline">
+						<input class="form-check-input" type="checkbox" id="check_last_year" name="check_year" checked />
+						<label for="check_last_year">最近一年</label>
+					</div>
+					<div class="form-switch d-inline">
+						<input class="form-check-input" type="checkbox" id="check_two_year" name="check_year" />
+						<label for="check_two_year">最近兩年</label>
+					</div>
+				</div>
+				<div>
+					<label>分析類型：</label>
+					<label>總數<input type="radio" name="radio_analyze_data" id="radio_analyze_sum" checked /></label>
+					<label>成長數<input type="radio" name="radio_analyze_data" id="radio_analyze_grow" /></label>
 				</div>
 				<button id="btn_analyze">分析</button>
 				<hr />
-				<canvas id="myChart"></canvas>
+				<div class="area_analyze_chart">
+					<canvas id="myChart"></canvas>
+				</div>
 			</div>
 		}
 	}
@@ -357,13 +373,13 @@
 					</label>
 					</div> *@
 
-					@for (int i = 0; i < 10; i++)
+					@foreach (var i in ViewBag.recipe)
 					{
 						<div class="col-4 mb-3">
 							<label class="p-1 rounded">
-								<input type="checkbox" name="chekcbox_select_recipe" hidden recipe_name="@($"name{i}")" recipe_id="@i" />
-								<img src="~/img/img_recipe_icon.png" class="img-fluid" />
-								<p class="text-center m-0">NAME</p>
+								<input type="checkbox" name="chekcbox_select_recipe" hidden recipe_name="@($"{i.RecipeName}")" recipe_id="@i.RecipeId" />
+								<img src="data:image/jpg;base64, @((i.RecipeCoverImage != null)?Convert.ToBase64String(i.RecipeCoverImage):"")" @((i.RecipeCoverImage == null) ? "hidden" : "") />
+								<p class="text-center m-0">@i.RecipeName</p>
 							</label>
 						</div>
 					}
