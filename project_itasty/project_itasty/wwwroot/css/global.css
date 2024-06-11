@@ -45,7 +45,9 @@ header {
     /* display: flex; */
 }
 
-    .header-left > span {
+    .header-left > span,
+    .header-left > a,
+    .header-left > a > span {
         width: 84px;
         height: 60px;
         line-height: 60px;
@@ -54,9 +56,11 @@ header {
         cursor: pointer;
         color: rgb(30, 30, 30);
         font-weight: 600;
+        text-decoration: none;
     }
 
-        .header-left > span:hover {
+        .header-left > span:hover,
+        .header-left > a:hover > span {
             color: rgb(232, 117, 67);
         }
 
