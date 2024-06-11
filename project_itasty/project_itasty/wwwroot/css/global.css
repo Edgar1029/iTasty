@@ -40,25 +40,21 @@ header {
     text-align: center;
     width: 65%;
     align-items: left;
-    display: flex;
+    /* display: flex; */
 }
 
-    .header-left > span,
-    .header-left > a,
-    .header-left > a > span {
+    .header-left > span {
         width: 84px;
         height: 60px;
         line-height: 60px;
         margin-left: 12px;
-        font-size: 15px;
+        font-size: 1rem;
         cursor: pointer;
         color: rgb(30, 30, 30);
         font-weight: 600;
-        text-decoration: none;
     }
 
-        .header-left > span:hover,
-        .header-left > a:hover > span {
+        .header-left > span:hover {
             color: rgb(232, 117, 67);
         }
 
@@ -104,7 +100,12 @@ header {
     width: 40px;
     margin-right: 12px;
     cursor: pointer;
+    color: #111111;
 }
+
+    .login:hover {
+        color: rgb(232, 117, 67);
+    }
 
 .sign {
     width: 90px;
@@ -148,6 +149,130 @@ header {
     .profile:hover {
         color: rgb(232, 117, 67);
     }
+
+.header-second {
+    width: 100%;
+    height: 60px;
+    background-color: #FFFFFF;
+}
+
+.nav-left {
+    position: relative;
+    width: 10%;
+    display: inline-block;
+    cursor: pointer;
+    margin: auto;
+    padding-left: 2%;
+    /* background-color: #a93635; */
+}
+
+.left-title {
+    position: absolute;
+    left: 0px;
+    background-color: #FFFFFF;
+    z-index: 999;
+    display: none;
+}
+
+.bar1, .bar2, .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+.change .bar1 {
+    transform: translate(0, 11px) rotate(-45deg);
+}
+
+.change .bar2 {
+    opacity: 0;
+}
+
+.change .bar3 {
+    transform: translate(0, -11px) rotate(45deg);
+}
+
+.left-title-bar {
+    width: 140px;
+    margin: 0px;
+    text-align: center;
+}
+
+.bababa {
+    height: 1px;
+    width: 120px;
+    margin: auto;
+    background-color: rgb(241, 241, 238);
+}
+
+.left-title a {
+    text-decoration: none;
+    color: #111111;
+}
+
+    .left-title a:hover {
+        color: rgb(232, 117, 67);
+    }
+
+.nav-middle {
+    width: 80%;
+}
+
+.nav-middle-img {
+    width: 170px;
+    height: 90%;
+    margin: auto;
+    margin-top: 10px;
+    background-image: url("../img/logo_text.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    align-items: center;
+}
+
+.nav-right {
+    position: relative;
+    width: 10%;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.nav-profile-icon {
+    width: 100%;
+    height: 30px;
+    text-align: right;
+    margin-top: 15px;
+    padding-right: 15px;
+}
+
+.right-title-bar {
+    width: 160px;
+    height: 55px;
+    line-height: 40px;
+    margin: auto;
+    padding: 8px;
+    text-align: center;
+    align-items: center;
+}
+
+.right-title a {
+    text-decoration: none;
+    color: #111111;
+}
+
+    .right-title a:hover {
+        color: rgb(232, 117, 67);
+    }
+
+.right-title {
+    position: absolute;
+    right: 0px;
+    top: 60px;
+    background-color: #FFFFFF;
+    z-index: 999;
+    display: none;
+}
 /* 下面是footer的css-------------------------------------------------------------------------------------------------- */
 footer {
     clear: both;
@@ -192,22 +317,23 @@ footer {
 }
 
 .footer-class {
-    width: 70%;
+    width: 1536px;
     height: auto;
     margin: auto;
     background-color: #FFFFFF;
 }
 
 .footer-link {
-    width: 200px;
+    /* width: 14%; */
     padding: 24px 16px;
-    margin-left: 10%;
+    padding-left: 10%;
     transition: all 0.3s;
 }
 
     .footer-link a {
         color: #787878;
         text-decoration: none;
+        font-size: 0.8rem;
     }
 
         .footer-link a:hover {
@@ -216,13 +342,13 @@ footer {
 
 .link-label {
     margin-bottom: 16px;
-    font-size: 1vw;
+    font-size: 1rem;
 }
 
 .footer-link ul {
     padding: 0px;
     margin: 0px;
-    font-size: 0.8vw;
+    font-size: 1rem;
     color: #b8b8b8;
 }
 
@@ -233,22 +359,31 @@ footer {
     }
 
 .footer-logo {
-    width: 300px;
+    /* width: 18%; */
     background-image: url("../img/logo.png");
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    margin-left: 5%;
+    width: 300px;
+    padding-left: 5%;
+}
+
+.footer-space {
+    width: 100%;
+    height: 1px;
+    background-color: rgb(241, 241, 238);
 }
 
 .footer-footer {
-    font-size: 1vw+0.5rem;
-    margin: 0;
-    padding: 0;
-    padding-left: 40%;
+    font-size: 1rem;
+    /* padding-left: 40%; */
     height: 80px;
     line-height: 80px;
     font-weight: 600;
-    border-top: rgb(241, 241, 238) 1px solid;
+    margin: auto;
+    margin-left: 20px;
+    width: 556px;
+    color: #c8c8c8;
+    /* border-top: rgb(241, 241, 238) 1px solid; */
 }
 /* -------------------------------------------------------------------------------------------------- */
