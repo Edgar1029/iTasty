@@ -45,7 +45,9 @@ header {
     /* display: flex; */
 }
 
-    .header-left > span {
+    .header-left > span,
+    .header-left > a,
+    .header-left > a > span {
         width: 84px;
         height: 60px;
         line-height: 60px;
@@ -54,13 +56,20 @@ header {
         cursor: pointer;
         color: rgb(30, 30, 30);
         font-weight: 600;
+        text-decoration: none;
     }
 
+<<<<<<< HEAD
         .header-left > span:hover {
             background: -webkit-gradient(linear,left top,right top,from(#ff8a00),to(#da1b60));
             background: linear-gradient(to right, #a53f2b,#280004);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+=======
+        .header-left > span:hover,
+        .header-left > a:hover > span {
+            color: rgb(232, 117, 67);
+>>>>>>> 069d1d2ba83a2a5491fddd8d4272e97c3587012f
         }
 
 .header-left-img {
