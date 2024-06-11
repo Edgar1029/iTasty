@@ -57,7 +57,10 @@ header {
     }
 
         .header-left > span:hover {
-            color: rgb(232, 117, 67);
+            background: -webkit-gradient(linear,left top,right top,from(#ff8a00),to(#da1b60));
+            background: linear-gradient(to right, #a53f2b,#280004);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
 .header-left-img {
@@ -106,13 +109,16 @@ header {
 }
 
     .login:hover {
-        color: rgb(232, 117, 67);
+        background: -webkit-gradient(linear,left top,right top,from(#ff8a00),to(#da1b60));
+        background: linear-gradient(to right, #a53f2b,#280004);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
 .sign {
     width: 90px;
     height: 40px;
-    background-color: rgb(232, 117, 67);
+    background:linear-gradient(to right, #a53f2b,#280004);
     align-items: center;
     text-align: center;
     line-height: 40px;
@@ -133,23 +139,29 @@ header {
 
 .shoppingcart {
     width: 40px;
-    height: 24px;
+    height: 60px;
     margin-right: 10px;
     cursor: pointer;
 }
 
     .shoppingcart:hover {
-        color: rgb(232, 117, 67);
+        background: -webkit-gradient(linear,left top,right top,from(#ff8a00),to(#da1b60));
+        background: linear-gradient(to right, #a53f2b,#280004);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
 .profile {
     width: 40px;
-    height: 24px;
+    height: 60px;
     cursor: pointer;
 }
 
     .profile:hover {
-        color: rgb(232, 117, 67);
+        background: -webkit-gradient(linear,left top,right top,from(#ff8a00),to(#da1b60));
+        background: linear-gradient(to right, #a53f2b,#280004);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
 .header-second {
