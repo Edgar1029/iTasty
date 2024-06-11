@@ -2,8 +2,8 @@
 (
 	userId		int primary key identity(1,1) not null,
 	userName	nvarchar(20) not null,
-	userEmail	nvarchar(20) UNIQUE,  
-	userPassword nvarchar(20) not null,
+	userEmail	nvarchar(30) UNIQUE,  
+	userPassword nvarchar(MAX) not null,
 	userPhoto	varbinary(MAX),
 	userBanner	varbinary(MAX),	
 	userIntro	nvarchar(50),
@@ -167,9 +167,9 @@ CREATE TABLE [dbo].[stepTable](
 CREATE TABLE [dbo].[seasonalIngredients](
 	[id] [int] IDENTITY(1,1) primary key NOT NULL,
 	[monthId] [int] NOT NULL,
-	[seasonalIngredientId] [char](12) NULL,
 	[commonName] [nvarchar](max) NULL,
-	FOREIGN KEY ([seasonalIngredientId]) REFERENCES [IngredientDetail]([ingredientId])
+	ingredientsImg varbinary(MAX),
+	IsActive bit
 )
 ----------------------------------------------------------------------------
 INSERT INTO userInfo (userName, userEmail, userPassword, userPhoto, userBanner, userIntro, userPermissions, userCreateTime)
