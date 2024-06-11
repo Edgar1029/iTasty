@@ -15,9 +15,9 @@ CREATE TABLE userFollower
 (
 	userId			int not null,
 	followerId		int not null,
-	followDate		DATE not null,
-	unfollowDate	DATE,
-	primary key (userId, followerId, followDate),
+	followDate		DATETIME not null,
+	unfollowDate	DATETIME,
+	primary key (userId, followerID),
 	FOREIGN KEY (userId) REFERENCES userInfo(userId),
 	FOREIGN KEY (followerId) REFERENCES userInfo(userId) 
 )
@@ -69,6 +69,8 @@ CREATE TABLE editedRecipe(
     userId INT not null,
     editedRecipeId INT IDENTITY,
     recipeId INT NOT NULL,
+	recipeName NVARCHAR(255) not null,
+	recipeCoverImage varbinary(MAX),
 	primary key(userId,editedRecipeId),
 	FOREIGN KEY (userId) REFERENCES userInfo(userId),
 	FOREIGN KEY (recipeId) REFERENCES recipeTable(recipeId)
@@ -76,17 +78,24 @@ CREATE TABLE editedRecipe(
 --------------------------------------------------------------------------
 CREATE TABLE favoritesRecipe (
     userId INT not null,
-    favoriteRecipeId INT IDENTITY,
+    favoriteRecipeId INT IDENTITY primary key,
     recipeId INT NOT NULL,
-	primary key(userId,favoriteRecipeId),
 	FOREIGN KEY (userId) REFERENCES userInfo(userId),
 	FOREIGN KEY (recipeId) REFERENCES recipeTable(recipeId)
 );
 --------------------------------------------------------------------------
-CREATE TABLE shoppingReceipe (
+CREATE TABLE shoppingRecipe (
     userId INT not null,
     shoppingReceipeId INT IDENTITY,
     recipeId INT NOT NULL,
+	recipeName NVARCHAR(255) not null,
+	recipeCoverImage varbinary(MAX),
+	folderName NVARCHAR(50) NOT NULL,
+	[shoppingIngredientsName] [nvarchar](20) NULL,
+	[shoppingIngredientsNumber] [real] NULL,
+	[shoppingIngredientsUnit] [nvarchar](50) NULL,
+	[checkbox] [bit] NULL,
+	[ingredientTime] [smalldatetime] NOT NULL,
 	primary key(userId,shoppingReceipeId),
 	FOREIGN KEY (userId) REFERENCES userInfo(userId),
 	FOREIGN KEY (recipeId) REFERENCES recipeTable(recipeId)
@@ -109,10 +118,18 @@ CREATE TABLE [dbo].[ingredientsTable](
 	[ingredientsName] [nvarchar](20) NULL,
 	[ingredientsNumber] [real] NULL,
 	[ingredientsUnit] [nvarchar](50) NULL,
-	[checkbox] [bit] NULL,
 	FOREIGN KEY (userId) REFERENCES userInfo(userId),
 	FOREIGN KEY (recipeId) REFERENCES recipeTable(recipeId),
 	FOREIGN KEY ([ingredientsID]) REFERENCES [IngredientDetail]([ingredientId])
+)	
+----------------------------------------------------------------------------
+CREATE TABLE favoritesCheck(
+	favoriteRecipeId INT ,
+	[id] int NOT NULL,
+	[checkbox] [bit] NULL,
+	primary key(id,favoriteRecipeId),
+	FOREIGN KEY ([id]) REFERENCES [ingredientsTable](id),
+	FOREIGN KEY (favoriteRecipeId) REFERENCES favoritesRecipe(favoriteRecipeId)
 )
 ----------------------------------------------------------------------------
 CREATE TABLE [dbo].[helpForm](
@@ -150,11 +167,10 @@ CREATE TABLE [dbo].[stepTable](
 CREATE TABLE [dbo].[seasonalIngredients](
 	[id] [int] IDENTITY(1,1) primary key NOT NULL,
 	[monthId] [int] NOT NULL,
-	[seasonalIngredientId] [char](12) NULL,
 	[commonName] [nvarchar](max) NULL,
-	FOREIGN KEY ([seasonalIngredientId]) REFERENCES [IngredientDetail]([ingredientId])
+	ingredientsImg varbinary(MAX),
+	IsActive bit
 )
-
 ----------------------------------------------------------------------------
 INSERT INTO userInfo (userName, userEmail, userPassword, userPhoto, userBanner, userIntro, userPermissions, userCreateTime)
 VALUES
@@ -184,118 +200,149 @@ VALUES
 ------------------------------------------------------------------------
 INSERT INTO recipeTable (recipeId, userId, recipeName, recipeCoverImage, recipeIntroduction, views, favorites, parentRecipeId, createdDate, lastModifiedDate, recipeStatus, publicPrivate, proteinUsed, mealType, cuisineStyle, healthyOptions, cookingTime, servings, calories)
 VALUES
-(1, 1, N'意大利麵', NULL, N'美味的意大利麵食譜', 100, 10, NULL, GETDATE(), GETDATE(), 'active', 'public', N'牛肉', N'晚餐', N'西式菜', N'葷', 30, 4, 400),
-(2, 2, N'披薩', NULL, N'美味的披薩食譜', 200, 20, NULL, GETDATE(), GETDATE(), 'active', 'public', N'雞肉', N'午餐', N'西式菜', N'葷', 45, 8, 1200),
-(3, 3, N'沙拉', NULL, N'健康的沙拉食譜', 150, 15, NULL, GETDATE(), GETDATE(), 'active', 'public', N'豆腐', N'小吃', N'西式菜', N'素', 15, 2, 150),
-(4, 4, N'湯', NULL, N'温暖的湯食譜', 120, 12, NULL, GETDATE(), GETDATE(), 'active', 'public', N'雞肉', N'晚餐', N'中式菜', N'素', 60, 6, 300),
-(5, 5, N'蛋糕', NULL, N'美味的蛋糕食譜', 180, 18, NULL, GETDATE(), GETDATE(), 'active', 'public', N'雞蛋', N'甜點', N'西式菜', N'素', 90, 10, 2500),
-(6, 6, N'三明治', NULL, N'簡單的三明治食譜', 110, 11, NULL, GETDATE(), GETDATE(), 'active', 'public', N'火雞肉', N'午餐', N'西式菜', N'葷', 10, 1, 350),
-(7, 7, N'煎餅', NULL, N'鬆軟的煎餅食譜', 130, 13, NULL, GETDATE(), GETDATE(), 'active', 'public', N'牛奶', N'早餐', N'西式菜', N'葷', 20, 4, 500),
-(8, 8, N'奶昔', NULL, N'健康的奶昔食譜', 140, 14, NULL, GETDATE(), GETDATE(), 'active', 'public', N'酸奶', N'小吃', N'西式菜', N'素', 5, 2, 200),
-(9, 9, N'漢堡', NULL, N'多汁的漢堡食譜', 160, 16, NULL, GETDATE(), GETDATE(), 'active', 'public', N'牛肉', N'晚餐', N'西式菜', N'葷', 25, 1, 700),
-(10, 10, N'陽春麵', NULL, N'美味的陽春麵食譜', 170, 17, NULL, GETDATE(), GETDATE(), 'active', 'public', N'雞肉', N'晚餐', N'西式菜', N'葷', 35, 4, 600);
+(1, 1, '意大利麵', NULL, '美味的意大利麵食譜', 100, 10, NULL, GETDATE(), GETDATE(), '啟用', '公開', '牛肉', '晚餐', '意大利菜', '葷', 30, 4, 400),
+(2, 2, '披薩', NULL, '美味的披薩食譜', 200, 20, NULL, GETDATE(), GETDATE(), '啟用', '公開', '雞肉', '午餐', '意大利菜', '葷', 45, 8, 1200),
+(3, 3, '沙拉', NULL, '健康的沙拉食譜', 150, 15, NULL, GETDATE(), GETDATE(), '啟用', '公開', '豆腐', '小吃', '美式菜', '素', 15, 2, 150),
+(4, 4, '湯', NULL, '溫暖的湯食譜', 120, 12, NULL, GETDATE(), GETDATE(), '啟用', '公開', '雞肉', '晚餐', '亞洲菜', '素', 60, 6, 300),
+(5, 5, '蛋糕', NULL, '美味的蛋糕食譜', 180, 18, NULL, GETDATE(), GETDATE(), '啟用', '公開', '雞蛋', '甜點', '法式菜', '素', 90, 10, 2500),
+(6, 6, '三明治', NULL, '簡單的三明治食譜', 110, 11, NULL, GETDATE(), GETDATE(), '啟用', '公開', '火雞肉', '午餐', '美式菜', '葷', 10, 1, 350),
+(7, 7, '煎餅', NULL, '鬆軟的煎餅食譜', 130, 13, NULL, GETDATE(), GETDATE(), '啟用', '公開', '牛奶', '早餐', '美式菜', '葷', 20, 4, 500),
+(8, 8, '奶昔', NULL, '健康的奶昔食譜', 140, 14, NULL, GETDATE(), GETDATE(), '啟用', '公開', '酸奶', '小吃', '美式菜', '素', 5, 2, 200),
+(9, 9, '漢堡', NULL, '多汁的漢堡食譜', 160, 16, NULL, GETDATE(), GETDATE(), '啟用', '公開', '牛肉', '晚餐', '美式菜', '葷', 25, 1, 700),
+(10, 10, '陽春麵', NULL, '美味的陽春麵食譜', 170, 17, NULL, GETDATE(), GETDATE(), '啟用', '公開', '雞肉', '晚餐', '亞洲菜', '葷', 35, 4, 600);
+
 ------------------------------------------------------------------------
-INSERT INTO customRecipeFolder (userId, customFolderName, recipeId)
-VALUES
-(1, 'My Favorites', 1),
-(1, 'Quick Meals', 2),
-(2, 'Healthy Recipes', 3),
-(2, 'Family Dinners', 4),
-(3, 'Desserts', 5),
-(3, 'Lunch Ideas', 6),
-(4, 'Breakfast Recipes', 7),
-(4, 'Smoothies', 8),
-(5, 'Dinner Parties', 9),
-(5, 'Pasta Dishes', 10);
-------------------------------------------------------------------------
-INSERT INTO editedRecipe (userId, recipeId)
-VALUES
-(1, 1),
-(1, 2),
-(2, 3),
-(2, 4),
-(3, 5),
-(3, 6),
-(4, 7),
-(4, 8),
-(5, 9),
-(5, 10);
+
 ------------------------------------------------------------------------
 INSERT INTO favoritesRecipe (userId, recipeId)
 VALUES
-(1, 1),
-(1, 2),
-(2, 3),
-(2, 4),
+(3, 3),
+(3, 4),
 (3, 5),
 (3, 6),
-(4, 7),
-(4, 8),
-(5, 9),
-(5, 10);
+(3, 9),
+(3, 10),
+(3, 7),
+(3, 8);
 ------------------------------------------------------------------------
-INSERT INTO shoppingReceipe (userId, recipeId)
-VALUES
-(1, 1),
-(1, 2),
-(2, 3),
-(2, 4),
-(3, 5),
-(3, 6),
-(4, 7),
-(4, 8),
-(5, 9),
-(5, 10);
 
 ------------------------------------------------------------------------
 INSERT INTO helpForm (userId, questionType, questionContent, questionImage)
 VALUES
-(1, 'Technical Issue', 'Unable to login', NULL),
-(2, 'Account Support', 'Password reset', NULL),
-(3, 'Billing Issue', 'Incorrect charge', NULL),
-(4, 'Feature Request', 'Add dark mode', NULL),
-(5, 'Bug Report', 'App crashes on startup', NULL),
-(6, 'General Inquiry', 'How to use feature X?', NULL),
-(7, 'Feedback', 'Great app but needs Y', NULL),
-(8, 'Complaint', 'Slow customer service', NULL),
-(9, 'Suggestion', 'Improve UI design', NULL),
-(10, 'Other', 'Can I change my username?', NULL);
+(1, '技術問題', '無法登入', NULL),
+(2, '帳號支援', '重置密碼', NULL),
+(3, '帳單問題', '收費錯誤', NULL),
+(4, '功能請求', '新增黑暗模式', NULL),
+(5, '錯誤報告', '應用程式啟動時崩潰', NULL),
+(6, '一般查詢', '如何使用功能X？', NULL),
+(7, '回饋', '很棒的應用，但需要Y', NULL),
+(8, '投訴', '客服服務緩慢', NULL),
+(9, '建議', '改進UI設計', NULL),
+(10, '其他', '我可以更改我的用戶名嗎？', NULL);
 
 ------------------------------------------------------------------------
 INSERT INTO messageTable (recipeId, userId, messageContent, topMessageId, createTime, changeTime, violationStatus)
 VALUES
-(1, 1, N'這道菜看起來很棒！', NULL, '2024-05-01 10:00', '2024-05-01 10:00', NULL),
-(2, 2, N'我試過這個食譜，很好吃！', NULL, '2024-05-02 12:00', '2024-05-02 12:00', NULL),
-(3, 3, N'有沒有人有更好的做法？', NULL, '2024-05-03 14:00', '2024-05-03 14:00', 'No Violation'),
-(4, 4, N'這道菜需要更多鹽。', NULL, '2024-05-04 16:00', '2024-05-04 16:00', 'No Violation'),
-(5, 5, N'這是一個垃圾食譜。', NULL, '2024-05-05 18:00', '2024-05-05 18:00', 'Violation Reported');
+(1, 1, '這道菜看起來很棒！', NULL, '2024-05-01 10:00', '2024-05-01 10:00', NULL),
+(2, 2, '我試過這個食譜，很好吃！', NULL, '2024-05-02 12:00', '2024-05-02 12:00', NULL),
+(3, 3, '有沒有人有更好的做法？', NULL, '2024-05-03 14:00', '2024-05-03 14:00', '無違規'),
+(4, 4, '這道菜需要更多鹽。', NULL, '2024-05-04 16:00', '2024-05-04 16:00', '無違規'),
+(5, 5, '這是一個垃圾食譜。', NULL, '2024-05-05 18:00', '2024-05-05 18:00', '已報告違規');
 
 ------------------------------------------------------------------------
 INSERT INTO stepTable (recipeId, stepText, stepImg)
 VALUES
-(1, 'Boil water and cook spaghetti.', NULL),
-(1, 'Prepare sauce and toss spaghetti.', NULL),
-(2, 'Prepare dough and spread sauce.', NULL),
-(2, 'Add toppings and bake.', NULL),
-(3, 'Chop vegetables and mix.', NULL),
-(3, 'Add dressing and serve.', NULL),
-(4, 'Sauté vegetables and add broth.', NULL),
-(4, 'Cook chicken and season soup.', NULL),
-(5, 'Mix ingredients and bake.', NULL),
-(5, 'Decorate and serve.', NULL),
-(6, 'Prepare ingredients and assemble sandwich.', NULL),
-(6, 'Cut and serve.', NULL),
-(7, 'Mix batter and cook pancakes.', NULL),
-(7, 'Serve with toppings.', NULL),
-(8, 'Combine ingredients and blend.', NULL),
-(8, 'Pour into glasses and serve.', NULL),
-(9, 'Season and cook patties.', NULL),
-(9, 'Assemble burgers and serve.', NULL),
-(10, 'Boil pasta and cook garlic.', NULL),
-(10, 'Toss pasta with garlic-infused oil.', NULL);
+(1, '煮沸水並烹煮意大利麵。', NULL),
+(1, '準備醬汁並拌意大利麵。', NULL),
+(2, '準備麵團並鋪上醬汁。', NULL),
+(2, '加上配料並烘烤。', NULL),
+(3, '切碎蔬菜並混合。', NULL),
+(3, '加上調味料並上桌。', NULL),
+(4, '炒蔬菜並加入高湯。', NULL),
+(4, '烹調雞肉並調味湯。', NULL),
+(5, '混合材料並烘烤。', NULL),
+(5, '裝飾並上桌。', NULL),
+(6, '準備材料並組裝三明治。', NULL),
+(6, '切割並上桌。', NULL),
+(7, '混合麵糊並煮煎餅。', NULL),
+(7, '加上配料並上桌。', NULL),
+(8, '混合材料並攪拌。', NULL),
+(8, '倒入杯中並上桌。', NULL),
+(9, '調味並煮漢堡肉。', NULL),
+(9, '組裝漢堡並上桌。', NULL),
+(10, '煮麵並煮蒜頭。', NULL),
+(10, '用蒜味油拌麵。', NULL);
+
+------------------------------------------------------------------------
+INSERT INTO IngredientDetail (ingredientId, ingredientName, commonName, kcalg)
+VALUES
+('ING101', '番茄', '常見番茄', 18),
+('ING102', '洋蔥', '常見洋蔥', 40),
+('ING103', '麵粉', '小麥麵粉', 364),
+('ING104', '乳酪', '切達乳酪', 402),
+('ING105', '萵苣', '冰山萵苣', 14),
+('ING106', '胡蘿蔔', '常見胡蘿蔔', 41),
+('ING107', '雞肉', '雞胸肉', 165),
+('ING108', '高湯', '雞肉高湯', 15),
+('ING109', '糖', '白砂糖', 387),
+('ING110', '雞蛋', '雞蛋', 155),
+('ING111', '牛奶', '全脂牛奶', 42),
+('ING112', '奶油', '無鹽奶油', 717),
+('ING113', '麵包', '白麵包', 265),
+('ING114', '火腿', '熟火腿', 145),
+('ING115', '香蕉', '香蕉', 89),
+('ING116', '草莓', '草莓', 32),
+('ING117', '牛肉', '牛絞肉', 250),
+('ING118', '萵苣', '長葉萵苣', 17),
+('ING119', '意大利麵', '意大利麵', 158),
+('ING120', '番茄醬', '罐裝番茄醬', 32);
+
+------------------------------------------------------------------------
+INSERT INTO ingredientsTable (userId, recipeId, ingredientsID, ingredientsName, ingredientsNumber, ingredientsUnit)
+VALUES 
+-- 插入 使用者ID 1 的 食譜ID 1 的成分數據（意大利麵）
+(1, 1, 'ING119', '意大利麵', 200, '克'),
+(1, 1, 'ING120', '番茄醬', 150, '克'),
+
+-- 插入 使用者ID 2 的 食譜ID 2 的成分數據（披薩）
+(2, 2, 'ING103', '麵粉', 200, '克'),
+(2, 2, 'ING104', '乳酪', 100, '克'),
+
+-- 插入 使用者ID 3 的 食譜ID 3 的成分數據（沙拉）
+(3, 3, 'ING105', '萵苣', 100, '克'),
+(3, 3, 'ING102', '洋蔥', 50, '克'),
+
+-- 插入 使用者ID 4 的 食譜ID 4 的成分數據（湯）
+(4, 4, 'ING107', '雞肉', 200, '克'),
+(4, 4, 'ING106', '胡蘿蔔', 100, '克'),
+
+-- 插入 使用者ID 5 的 食譜ID 5 的成分數據（蛋糕）
+(5, 5, 'ING103', '麵粉', 300, '克'),
+(5, 5, 'ING109', '糖', 150, '克'),
+
+-- 插入 使用者ID 6 的 食譜ID 6 的成分數據（三明治）
+(6, 6, 'ING113', '麵包', 2, '片'),
+(6, 6, 'ING114', '火腿', 100, '克'),
+
+-- 插入 使用者ID 7 的 食譜ID 7 的成分數據（煎餅）
+(7, 7, 'ING103', '麵粉', 200, '克'),
+(7, 7, 'ING111', '牛奶', 200, '毫升'),
+
+-- 插入 使用者ID 8 的 食譜ID 8 的成分數據（奶昔）
+(8, 8, 'ING111', '牛奶', 200, '毫升'),
+(8, 8, 'ING115', '香蕉', 1, '根'),
+
+-- 插入 使用者ID 9 的 食譜ID 9 的成分數據（漢堡）
+(9, 9, 'ING117', '牛肉', 150, '克'),
+(9, 9, 'ING118', '萵苣', 100, '克'),
+
+-- 插入 使用者ID 10 的 食譜ID 10 的成分數據（陽春麵）
+(10, 10, 'ING119', '意大利麵', 200, '克'),
+(10, 10, 'ING107', '雞肉', 100, '克');
 
 ------------------------------------------------------------------------
 Install-Package Microsoft.EntityFrameworkCore.Tools
 install-package Microsoft.EntityFrameworkCore.SqlServer
 Scaffold-DbContext "Data Source=DESKTOP-AVM54SB;Initial Catalog=iTastyDB;Persist Security Info=False;User ID=sa;PassWord=111111;Encrypt=False;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Force
 Scaffold-DbContext "Data Source=DESKTOP-PIAH2TG;Initial Catalog=iTastyDB;Persist Security Info=False;User ID=sa;PassWord=111111;Encrypt=False;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Force
+TRUNCATE TABLE shoppingRecipe;
