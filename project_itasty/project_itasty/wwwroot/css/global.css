@@ -22,6 +22,7 @@ body {
     width: 100%;
     transition: all 0.3s;
 }
+
 /* 下面是header的css-------------------------------------------------------------------------------------------------- */
 header {
     width: 100%;
@@ -59,17 +60,12 @@ header {
         text-decoration: none;
     }
 
-<<<<<<< HEAD
-        .header-left > span:hover {
-            background: -webkit-gradient(linear,left top,right top,from(#ff8a00),to(#da1b60));
-            background: linear-gradient(to right, #a53f2b,#280004);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-=======
         .header-left > span:hover,
         .header-left > a:hover > span {
-            color: rgb(232, 117, 67);
->>>>>>> 069d1d2ba83a2a5491fddd8d4272e97c3587012f
+            background: -webkit-gradient(linear, left top, right top, from(#ff8a00), to(#da1b60));
+            background: linear-gradient(to right, #a53f2b, #280004);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
 .header-left-img {
@@ -85,10 +81,11 @@ header {
     margin-left: 20px;
     margin-right: 10px;
     margin-top: 10px;
-    background-image: url("../img/logo_text.png");
+    background-image: url("/img/logo_text.png");
     background-repeat: no-repeat;
     background-size: contain;
     align-items: center;
+    cursor: pointer;
 }
 
 .header-middle {
@@ -118,8 +115,8 @@ header {
 }
 
     .login:hover {
-        background: -webkit-gradient(linear,left top,right top,from(#ff8a00),to(#da1b60));
-        background: linear-gradient(to right, #a53f2b,#280004);
+        background: -webkit-gradient(linear, left top, right top, from(#ff8a00), to(#da1b60));
+        background: linear-gradient(to right, #a53f2b, #280004);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
@@ -127,7 +124,7 @@ header {
 .sign {
     width: 90px;
     height: 40px;
-    background:linear-gradient(to right, #a53f2b,#280004);
+    background: linear-gradient(to right, #a53f2b, #280004);
     align-items: center;
     text-align: center;
     line-height: 40px;
@@ -135,7 +132,12 @@ header {
     border-radius: 4px;
     color: aliceblue;
     cursor: pointer;
+    text-decoration: none;
 }
+
+    .sign:hover {
+        color: aliceblue;
+    }
 
 .spacebar {
     width: 1px;
@@ -154,8 +156,8 @@ header {
 }
 
     .shoppingcart:hover {
-        background: -webkit-gradient(linear,left top,right top,from(#ff8a00),to(#da1b60));
-        background: linear-gradient(to right, #a53f2b,#280004);
+        background: -webkit-gradient(linear, left top, right top, from(#ff8a00), to(#da1b60));
+        background: linear-gradient(to right, #a53f2b, #280004);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
@@ -167,8 +169,8 @@ header {
 }
 
     .profile:hover {
-        background: -webkit-gradient(linear,left top,right top,from(#ff8a00),to(#da1b60));
-        background: linear-gradient(to right, #a53f2b,#280004);
+        background: -webkit-gradient(linear, left top, right top, from(#ff8a00), to(#da1b60));
+        background: linear-gradient(to right, #a53f2b, #280004);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
@@ -197,7 +199,9 @@ header {
     display: none;
 }
 
-.bar1, .bar2, .bar3 {
+.bar1,
+.bar2,
+.bar3 {
     width: 35px;
     height: 5px;
     background-color: #333;
@@ -279,14 +283,16 @@ header {
     align-items: center;
 }
 
-.right-title a {
+.right-title p:nth-child(3) a,
+.right-title p:nth-child(5) a {
     text-decoration: none;
     color: #111111;
 }
 
-    .right-title a:hover {
-        color: rgb(232, 117, 67);
-    }
+.right-title p:nth-child(3) a:hover,
+.right-title p:nth-child(5) a:hover {
+    color: rgb(232, 117, 67);
+}
 
 .right-title {
     position: absolute;
@@ -296,6 +302,7 @@ header {
     z-index: 999;
     display: none;
 }
+
 /* 下面是container的css-------------------------------------------------------------------------------------------------- */
 
 /* 下面是footer的css-------------------------------------------------------------------------------------------------- */
@@ -411,4 +418,5 @@ footer {
     color: #c8c8c8;
     /* border-top: rgb(241, 241, 238) 1px solid; */
 }
+
 /* -------------------------------------------------------------------------------------------------- */

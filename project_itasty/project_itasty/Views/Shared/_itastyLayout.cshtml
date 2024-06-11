@@ -28,11 +28,20 @@
 	<header class="row gx-0">
 		<div class="header-first d-lg-flex d-sm-none" style="display:flex">
 			<div class="header-left row gx-0">
-				<div class="header-left-img">
-				</div>
-				<span id="all-receipe">所有食譜</span>
-				<span id="my-receipe">我的食譜</span>
-				<a href="~/user/@(userEmail.Split('@')[0])"><span id="my-page">我的頁面</span></a>
+				<div class="header-left-img" onclick="page_home()"></div>
+				<a href="~/Research/Index"><span id="all-receipe">所有食譜</span></a>
+				@{
+					if (userId != 0)
+					{
+						<a href="~/Folder/favoriteFolder"><span id="my-receipe">我的食譜</span></a>
+						<a href="~/user/@(userEmail.Split('@')[0])"><span id="my-page">我的頁面</span></a>
+					}
+					else
+					{
+						<a href="/UserRegister/Create"><span id="my-receipe">我的食譜</span></a>
+						<a href="/UserRegister/Create"><span id="my-page">我的頁面</span></a>
+					}
+				}
 			</div>
 			<div class="header-middle row gx-0">
 			</div>

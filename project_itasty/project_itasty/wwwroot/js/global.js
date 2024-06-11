@@ -1,14 +1,13 @@
 $(document).ready(function () {
     var displayleft = 0;
     var displayright = 0;
-    var checklogin = 0;
+    var checklogin = sessionStorage.getItem("userId");
 
     $(".loginsignbtn").empty();
-    if (checklogin == 0) {
+    if (checklogin != null) {
         $(".loginsignbtn").append(`<div class="sign" style="margin-right:20px;">LogOut</div>`)
     } else {
-        $(".loginsignbtn").append(`<div class="login">Login</div>
-                                <div class="sign">Sign up</div>`)
+        $(".loginsignbtn").append(`<a href="/UserRegister/Create" class="sign">Sign up</a>`)
     }
 
     $(".nav-left").on("click", function () {
@@ -37,3 +36,7 @@ $(document).ready(function () {
         }
     })
 })
+
+function page_home() {
+    window.location.href = "/home";
+}

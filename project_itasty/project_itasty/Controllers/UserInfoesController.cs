@@ -31,7 +31,7 @@ namespace project_itasty.Controllers
 
 			if (user_info == null)
 			{
-				return Redirect("~/home/");
+				return Redirect("~/UserRegister/Create");
 			}
 
 			var query = from o in _context.UserFollowers

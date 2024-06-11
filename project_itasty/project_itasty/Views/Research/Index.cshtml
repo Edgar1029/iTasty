@@ -1,20 +1,17 @@
 ﻿@{
-	ViewData["Title"] ="iTasty";
+	ViewData["Title"] = "iTasty | 篩選頁";
 	Layout = "~/Views/Shared/_itastyLayout.cshtml";
 }
-<!DOCTYPE html>
-<html lang="zh-Hant">
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Itasty | 篩選頁</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
-	<script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
+@section MyHeadScripts {
+	<script src="~/js/croppie.js"></script>
+	<script src="~/js/Chart.min.js"></script>
+	<link rel="stylesheet" href="~/css/croppie.css">
+	<script src="~/js/user_info.js"></script>
+	<link rel="stylesheet" href="~/css/user_info.css">
 	<link rel="stylesheet" href="/css/research_v2.css">
-	<link rel="stylesheet" href="/css/header_footer.css">
-</head>
 
+}
 <body>
 	
 	<div class="container">
@@ -368,5 +365,3 @@
 		url_input();
 	</script>
 </body>
-
-</html>
