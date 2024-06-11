@@ -12,12 +12,15 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	@* <meta name="viewport" content="width=device-width" /> *@
-	<title>@ViewBag.Title</title>
+	<title>@ViewData["Title"] - project_itasty</title>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 	<link rel="stylesheet" href="~/css/global.css">
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/project_itasty.styles.css" asp-append-version="true" />
 	@RenderSection("MyHeadScripts", required: false)
 
 
