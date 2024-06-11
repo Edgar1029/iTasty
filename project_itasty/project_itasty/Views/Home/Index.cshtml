@@ -1,8 +1,592 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using project_itasty.Models;
+@* @model project_itasty.Models.SeasonalIngredient; *@
+@{
+    ViewData["Title"] = "Itasty";
+    Layout = "~/Views/Shared/_itastyLayout.cshtml";
+    
 }
+@section MyHeadScripts {
+    <link rel="stylesheet" href="~/css/index_css.css">
+    <script href="~/js/index_scearch.js"></script>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+}
+@model project_itasty.Controllers.HomeController.MyViewModel
+
+<!-- 搜尋區 -->
+<div class="container-center search_img position-relative">
+    <div class=" px-0">
+        <div class="position-absolute top-50 start-50 translate-middle">
+
+            <!-- 放搜尋 -->
+            <form asp-action="Index" asp-controller="Research" method="post">
+                <div class="search_bar">
+                    <!-- 下拉選單 -->
+                    <div class="dropdown" style="height:40px">
+                        <div class="dropdown_text" id="drop_text">
+                            <span id="search_bar_span">食譜</span>
+
+                            <i id="dropdown_icon" class="fa-solid fa-chevron-down dropdown_icon"></i>
+                        </div>
+                        <ul class="dropdown_list show" id="list" >
+                            <li class="dropdown_list_item" >作者</li>
+                            <li class="dropdown_list_item">食譜</li>
+                        </ul>
+                    </div>
+                    <input type="hidden" name="search_type" id="search_type" value="recipes">
+                    <!-- 搜尋 -->
+                    <div class="search_box">
+                        <input type="text" id="search_input" name="search" style="height:40px" placeholder="      請輸入食譜">
+                       
+                        <button type="submit" style="border:none;background-color:white ">
+                            <i class="fa-solid fa-magnifying-glass" id="search_icon"></i>
+                        </button>
+                    </div>
+                </div>
+			</form>
+
+            <!--  -->
+        </div>
+
+    </div>
 </div>
+
+
+<!-- 當季食材內容區 -->
+<div class="container-center row justify-content-center season_container">
+
+    <div class="col-8">
+
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+
+            <div class="carousel-indicators">
+                @if(Model.Ingredients.Count>1){
+                    @for (int i = 0; i < Model.Ingredients.Count; i++)
+                    {
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="@i" class=" @(i == 0 ? "active" : " ") "
+                                aria-current=" @(i == 0 ? "true" : " ")" aria-label="Slide @i" id="Slide_@i" onclick=" var j=0; while( j < @Model.Ingredients.Count){var element='Recipelist_'+j; if(j==@i){document.getElementById('Recipelist_@i').classList.remove('hidden');}else{document.getElementById(element).classList.add('hidden');}  j++;}"></button>
+                                          }
+                }
+            </div>
+
+            <div class="carousel-inner">
+				<h2>當季食材 </h2>
+                @if (Model.Ingredients.Count > 1)
+                {
+                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+                        <div class="carousel-inner">
+
+                            @for (int i = 0; i < Model.Ingredients.Count; i++)
+                            {
+                                <div class="carousel-item @(i == 0 ? "active" : " ") " id="season_imgId_@i">
+
+                                    <div class="carousel_img">
+                                        @{
+                                            if (Model.Ingredients[i].IngredientsImg != null)
+                                            {
+                                                            <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Ingredients[i].IngredientsImg)" class="d-block w-100 " alt="..." style="height:570px; " />
+                                            }
+                                            else
+                                            {
+                                                            <img src="" class="">
+
+                                            }
+                                        }
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <h5>@Model.Ingredients[i].CommonName</h5>
+                                        </div>
+                                    </div>
+                                </div> 
+                            }
+                        </div>
+                    </div>
+              }else{
+               
+                <div class="carousel-item">
+                    <div class="carousel_img">
+                        <img src="~/img/Basil.jpg" id="season_img1" class="d-block w-100" alt="..." style="height:570px;">
+                    </div>
+				</div>
+                    <div class="carousel-item">
+                        <div class="carousel_img">
+                            <img src="~/img/cabbage.png" id="season_img2" class="d-block w-100" alt="..." style="height:570px;">
+                        </div>
+                    </div>
+                }
+            </div>
+               
+         </div>
+
+    </div>
+    
+
+
+</div>
+<!-- 當季食材內容區 -->
+
+<!-- 當季食材食譜區 -->
+<div class="container-center row justify-content-center" id="Recipelist_con">
+    @* 當季食材for迴圈 *@
+   
+        @for (int i = 0; i < Model.Ingredients.Count; i++)
+        {
+        <div class="container row  justify-content-center @(i == 0 ? "" : "hidden")" id="Recipelist_@i">
+			
+
+                <div class="col-8 ">
+                <h2>當季食材食譜</h2>
+
+                            @{
+                             var ingredient = Model.Ingredients[i];
+                             var recipes = Model.SeasonRecipeTable[ingredient.CommonName];
+                             }
+
+                             <div class="carousel slide" data-bs-ride="carousel" id="ingredientCarousel_@i">
+                                 <div class="carousel-inner">
+
+                                     @if (recipes.Count > 0)
+                                     {
+                                         for (int j = 0; j < recipes.Count; j += 3)
+                                         {
+                                             <div class="carousel-item @(j == 0 ? "active" : "")">
+                                                 <div class="row">
+                                                     @for (int k = 0; k < 3 && (j + k) < recipes.Count; k++)
+                                                     {
+                                                         var recipe = recipes[j + k];
+                                                         <div class="col-4">
+                                                            <div class="card shadow-sm">
+                                                                 <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
+                                                                 <div class="card-body">
+                                                                     
+                                                                     <p class="card-text">@recipe.RecipeName</p>
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+                                                     }
+                                                 </div>
+                                             </div>
+                                         }
+                                     }
+                                     else
+                                     {
+                                         <div class="carousel-item active">
+                                             <div class="row">
+                                                 <div class="col-12">
+                                                     <p>沒有相關食譜</p>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     }
+                                 </div>
+                                     <a class="carousel-control-prev" href="#ingredientCarousel_@i" role="button" data-bs-slide="prev">
+                                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                         <span class="visually-hidden">Previous</span>
+                                     </a>
+                                     <a class="carousel-control-next" href="#ingredientCarousel_@i" role="button" data-bs-slide="next">
+                                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                         <span class="visually-hidden">Next</span>
+                                     </a>
+                                 </div>
+
+                </div>
+            </div>
+        
+    
+        }
+    
+
+    @* 當季食材for迴圈 *@
+ 
+</div>
+
+
+<!-- 當季食材食譜區 -->
+<!-- 熱門食譜 -->
+<div class="container-center row Popular_container">
+    <div class="col-2"></div>
+    <div id="Popular_Carousel" class="carousel slide col-8" data-bs-ride="carousel" data-bs-interval="100000">
+        <h2>熱門食譜</h2>
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#Popular_Carousel" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#Popular_Carousel" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#Popular_Carousel" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="row ">
+                    <!-- 1 -->
+                    <div class="col-4">
+                        <div class="card shadow-sm">
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+                                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
+                                 preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#55595c" />
+                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
+                            </svg>
+
+                            <div class="card-body">
+                                <p class="card-text">test</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card shadow-sm">
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+                                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
+                                 preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#55595c" />
+                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
+                            </svg>
+
+                            <div class="card-body">
+                                <p class="card-text">test</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card shadow-sm">
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+                                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
+                                 preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#55595c" />
+                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
+                            </svg>
+
+                            <div class="card-body">
+                                <p class="card-text">test</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 1 -->
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="row ">
+                    <!-- 1 -->
+                    <div class="col-4">
+                        <div class="card shadow-sm">
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+                                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
+                                 preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#55595c" />
+                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
+                            </svg>
+
+                            <div class="card-body">
+                                <p class="card-text">test</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card shadow-sm">
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+                                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
+                                 preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#55595c" />
+                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
+                            </svg>
+
+                            <div class="card-body">
+                                <p class="card-text">test</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card shadow-sm">
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+                                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
+                                 preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#55595c" />
+                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
+                            </svg>
+
+                            <div class="card-body">
+                                <p class="card-text">test</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 1 -->
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#Popular_Carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#Popular_Carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <div class="col-2"></div>
+</div>
+<!-- 熱門食譜 -->
+<!-- 最新食譜 --> 
+@if(Model.Recipes.Count!=0){
+<div class="container-center row news_container">
+    <div class="col-2"></div>
+    <div id="news_Carousel" class="carousel slide col-8" data-bs-ride="carousel" data-bs-interval="100000">
+      <h2>最新食譜</h2>
+       
+        <div class="carousel-inner">
+        
+                <div class="carousel-item active">
+                    <div class="row ">
+                        <!-- 1 -->
+                        <div class="col-4">
+                        <div class="card shadow-sm">
+                          
+                                @{
+                                
+                                    if (Model.Recipes[0].RecipeCoverImage != null)
+                                    {
+                                                    <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[0].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
+                                    }
+                                    else
+                                    {
+                                                    <img src="" class="">
+
+                                    }
+                                }
+                                <title>@Model.Recipes[0].RecipeName</title>
+                                <rect width="100%" height="100%" fill="#55595c" />
+                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
+                           
+
+                            <div class="card-body">
+                                <p class="card-text">@Model.Recipes[0].RecipeName</p>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="col-4">
+                        <div class="card shadow-sm">
+                            @{
+                                if (Model.Recipes[1].RecipeCoverImage != null)
+                                {
+                                                <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[1].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
+                                }
+                                else
+                                {
+                                                <img src="" class="">
+
+                                }
+                            }
+                            <title>@Model.Recipes[1].RecipeName</title>
+                            <rect width="100%" height="100%" fill="#55595c" />
+                            <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
+
+
+                            <div class="card-body">
+                                <p class="card-text">@Model.Recipes[1].RecipeName</p>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="col-4">
+                            <div class="card shadow-sm">
+                                @{
+                                    if (Model.Recipes[2].RecipeCoverImage != null)
+                                    {
+                                                    <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[2].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
+                                    }
+                                    else
+                                    {
+                                                    <img src="" class="">
+
+                                    }
+                                }
+                                
+                                <rect width="100%" height="100%" fill="#55595c" />
+                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
+
+
+                                <div class="card-body">
+                                    <p class="card-text">@Model.Recipes[2].RecipeName</p>
+                        </div>
+                    </div>
+                        <!-- 1 -->
+                    </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row ">
+                        <!-- 2 -->
+                        <div class="col-4">
+                            <div class="card shadow-sm">
+                                @{
+                                    if (Model.Recipes[3].RecipeCoverImage != null)
+                                    {
+                                                    <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[3].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
+                                    }
+                                    else
+                                    {
+                                                    <img src="" class="">
+
+                                    }
+                                }
+
+                                <rect width="100%" height="100%" fill="#55595c" />
+                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
+
+
+                                <div class="card-body">
+                                    <p class="card-text">@Model.Recipes[3].RecipeName</p>
+                                </div>
+                            </div>
+                    </div>
+                        <div class="col-4">
+                            <div class="card shadow-sm">
+                                @{
+                                    if (Model.Recipes[4].RecipeCoverImage != null)
+                                    {
+                                                    <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[4].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
+                                    }
+                                    else
+                                    {
+                                                    <img src="" class="">
+
+                                    }
+                                }
+
+                                <rect width="100%" height="100%" fill="#55595c" />
+                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
+
+
+                                <div class="card-body">
+                                    <p class="card-text">@Model.Recipes[4].RecipeName</p>
+                                </div>
+                            </div>
+                    </div>
+                        <div class="col-4">
+                            <div class="card shadow-sm">
+                                @{
+                                    if (Model.Recipes[5].RecipeCoverImage != null)
+                                    {
+                                                    <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[5].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
+                                    }
+                                    else
+                                    {
+                                                    <img src="" class="">
+
+                                    }
+                                }
+
+                                <rect width="100%" height="100%" fill="#55595c" />
+                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
+
+
+                                <div class="card-body">
+                                    <p class="card-text">@Model.Recipes[5].RecipeName</p>
+                                </div>
+                            </div>
+                    </div>
+                        <!-- 2 -->
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#news_Carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#news_Carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        
+     </div>
+
+	
+    <div class="col-2"></div>
+</div>
+}
+<!-- 最新食譜 -->
+<script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function () {
+    let x = 0;
+    //下拉選單觸發事件
+    window.onclick = function (e) {
+
+        if (
+            e.target.id !== "drop_text" &&
+            e.target.id !== "search_bar_span" &&
+            e.target.id !== "dropdown_icon" && x == 1
+        ) {
+            x = 0;
+            $("#list").css("max-height", "0px");
+            $(".dropdown_icon").css("rotate", "0deg");
+            //關掉show class屬性
+            //icon角度歸零
+        }
+        if (e.target.id == "drop_text" || e.target.id == "search_bar_span" || e.target.id == "dropdown_icon") {
+            if (x == 0) {
+                x = 1;
+                $("#list").css("max-height", "300px");
+                $(".dropdown_icon").css("rotate", "0deg");
+
+            } else {
+
+                x = 0;
+                $("#list").css("max-height", "0");
+                $(".dropdown_icon").css("rotate", "-180deg");
+            }
+        }
+
+    };
+
+    let input = document.getElementById("search_input");
+    let listitems = document.querySelectorAll(".dropdown_list_item");
+    let span = document.getElementById("search_bar_span");
+    for (item of listitems) {
+        item.onclick = function (e) {
+            //$("span").text(e.target.innerText);
+            span.innerText = e.target.innerText;
+            input.placeholder = "      請輸入" + e.target.innerText
+            $(".dropdown_icon").css("rotate", "-180deg");
+        };
+    }
+
+
+    // 輪播
+
+
+
+
+
+
+    //搜尋
+       
+            // 當點擊 <li> 元素時觸發
+        $('#list li').click(function () {
+                // 獲取點擊的 <li> 元素的文本內容
+            var liText = "";
+            if ($(this).text() == "作者") {
+                var liText = "author";
+            } else if ($(this).text() == "食譜") {
+                var liText = "recipes";
+            }
+                // 將文本內容設置為 <input> 元素的值
+            $('#search_type').val(liText);
+         });
+        
+       
+
+   
+});
+</script>
+
+

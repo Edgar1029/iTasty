@@ -1,0 +1,117 @@
+﻿@model project_itasty.Models.UserInfo
+@using Newtonsoft.Json
+
+@{
+    ViewData["Title"] = "Iteasty";
+    Layout = "~/Views/Shared/_itastyLayout.cshtml";
+}
+@section MyHeadScripts {
+
+    <link rel="stylesheet" href="~/css/login.css">
+}
+
+
+
+ <div class="container " id="login_container">
+        
+        <div class="mx-auto col-8   ">
+
+            <!-- 表單 -->
+
+            <div class="content_container" id="content_container">
+                <div class="form_container form_register">
+                <form asp-action="Create" id="form_register">
+                    <h1>創建帳號</h1>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                  
+                        <!-- <label asp-for="Name" class="control-label"></label> -->
+                    <input asp-for="UserName" type="text" class="form-control" placeholder="請輸入名稱" id="Register_UserName" required />
+                        <!-- <label asp-for="Photo" class="control-label" ></label> -->
+                    <input asp-for="UserPhoto" class="form-control" hidden disabled />
+
+                    
+                        <!-- <label asp-for="Email" class="control-label"></label> -->
+                    <input asp-for="UserEmail" type="email" class="form-control" placeholder="請輸入信箱:example@xxx.xxx" id="Register_Email" required pattern="[a-z0-9._%+\-]+@@[a-z0-9.\-]+\.[a-z]{2,}$" />
+                      
+                   
+                        <!-- <label asp-for="Password" class="control-label"></label> -->
+                    <input asp-for="UserPassword" type="password" class="form-control" placeholder="請輸入密碼" id="Register_Password" />
+                       
+                    
+                        <!-- <label asp-for="Banner" class="control-label"></label> -->
+                    <input asp-for="UserBanner" class="form-control" hidden disabled />
+                       
+                    
+                        <!-- <label asp-for="Intro" class="control-label"></label> -->
+                    <input asp-for="UserIntro" class="form-control" hidden disabled />
+                       
+                    
+                   
+                        <!-- <label asp-for="UserPermissions" class="control-label"></label> -->
+                        <input asp-for="UserPermissions" class="form-control" value="2" hidden  />
+
+
+
+                    <input type="submit" value="註冊" class="btn btn-primary login_btn " onclick="register_btn_click ()" />
+                        
+                </form>
+                </div>
+                <div class="form_container form_login">
+                <form id="form_login" method="post" asp-action="Login">
+                    <h1>
+                        登入 
+                    </h1>
+                  
+
+
+
+                 
+                    <input asp-for="UserEmail" name="UserEmail" type="email" placeholder="請輸入信箱" id="Login_Email" required>
+                    <input asp-for="UserPassword" name="Userpassword" type="password" placeholder="請輸入密碼" id="Login_Password" required>
+                        <!-- <a href="#">忘記密碼</a> -->
+                        <!-- 這裡依情況而定 -->
+					<input id="login_btn" type="submit" value="登入">
+                    </form>
+                </div>
+                <div class="toggle_container">
+                    <div class="toggle">
+                        <div class="toggle_panel toggle_left">
+                            <h1>已經擁有帳戶?</h1>
+                            <button class="hidden" id="toggle_login">立即登入</button>
+                        </div>
+                        <div class="toggle_panel toggle_right">
+                            <h1>是新會員嗎?</h1>
+                            <p>歡迎你的到來!</p>
+                            <button class="hidden " id="toggle_register" >註冊帳號</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <!--  表單-->
+
+        </div>
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="~/js/login.js"></script>
+
+
+@if (TempData["message"] != null)
+{
+    <script type="text/javascript">
+        var message = @Html.Raw(JsonConvert.SerializeObject(TempData["message"]));
+        alert(message);
+        if (TempData["message"] == "登入成功") {
+            
+            window.location.href = "@Url.Content("~/Home/Index")";
+
+        } else (TempData["message"] == "登入失敗") {
+            
+            window.location.href = "@Url.Content("~/UserRegister/Create")";
+        }
+    </script>
+}
+
+

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<project_itasty.Models.SeasonalIngredient>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">新增資料</a>
+</p>
+<form asp-action="Index" method="post" >
+
+
+
+<table class="table">
+    <h2>當月食材- @ViewBag.month 月</h2>
+    <thead>
+        <tr>
+            <th>
+               月份
+            </th>
+            <th>
+               食材名稱
+            </th>
+           
+            <th>
+                是否輪播
+            </th>
+            <th>
+                查看內容/刪除
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@for (int i = 0; i < Model.Count(); i++) {
+                var item = Model.ElementAt(i);
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem =>item.MonthId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommonName)
+            </td>
+           <td>
+
+                        @Html.Hidden("selectedIngredients_[" + i + "]", item.Id)
+                        @Html.CheckBox("selectedIngredients[" + i + "]", item.IsActive, new { id = "checkbox_" + item.Id })
+
+					
+           </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+    <input type="submit" value="Submit" class="btn btn-primary" />
+</form>
+<script>
+   
+</script>

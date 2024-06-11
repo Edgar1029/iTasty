@@ -1,0 +1,45 @@
+.form_label_style{
+    font-size: 16px;
+}
+form>h2{
+    padding-top: 20px;
+}
+/*  */
+.inputbox {
+    position: relative;
+   
+    
+  }
+  .inputbox input,
+  .inputbox select,
+  .inputbox textarea {
+    width: 100%;
+    background: transparent;
+    color: #000000;
+    border: 2px solid transparent; 
+    /* Adjusted for visibility */
+    outline: none;
+    /* Added padding for better appearance */
+   
+  }
+  
+  .inputbox i {
+    position: absolute;
+    left: 0;
+    bottom: -2px; /* Adjusted to align with the bottom of the input */
+    width: 100%;
+    height: 1px;
+    background: #C8C8C8;
+    overflow: hidden;
+  }
+  .inputbox button{
+    color:#ffffff ;
+    background-color: #a53f2b;
+  }
+   /*表單外的container */
+   .form_container{
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    padding: 0;
+    background-color: #ffffff;
+   } 
+  

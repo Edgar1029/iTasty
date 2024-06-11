@@ -1,0 +1,100 @@
+﻿@model project_itasty.Models.HelpForm
+
+@using Newtonsoft.Json
+@* Install-Package Newtonsoft.Json *@
+
+@{
+    ViewData["Title"] = "Itasty";
+    Layout = "~/Views/Shared/_itastyLayout.cshtml";
+}
+
+@section MyHeadScripts {
+    <link rel="stylesheet" href="~/css/help.css">
+}
+
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor hca
+@{
+    string userEmail = hca.HttpContext.Session.GetString("userEmail") ?? "Guest";
+    var uerId = hca.HttpContext.Session.GetInt32("userid");
+}
+
+
+<div class="mx-auto col-8  content_container row  " style="padding: 20px 0 30px 0;">
+        
+        <div class=" content_container align-self-center  justify-content-center  ">
+
+            <!-- 表單 -->
+
+        <div class="content_container row  " style="padding: 20px 0 30px 0;">
+           
+            <div class="col align-self-center  justify-content-center  ">
+
+                <!-- 表單電腦 -->
+                <div class="container row form_container ">
+
+                    <form class="form_label_style col-6" asp-action="Create" method="post" enctype="multipart/form-data">
+                        <h2>問題&建議</h2>
+                        <div class="mb-3 inputbox " style="padding-top: 20px;">
+                        <input asp-for="UserId" class="form-control" type="hidden" value="@uerId">
+                            <label asp-for="QuestionType" class="form-label">請選擇問題類型</label>
+                            <select asp-for="QuestionType" class="form-select" aria-label="Default select example" id="form_select">
+                                <option selected></option>
+                                <option value="帳號相關問題">帳號相關問題</option>
+                                <option value="網站功能問題">網站功能問題</option>
+                                <option value="使用者建議">使用者建議</option>
+                                <option value="其他">其他</option>
+                            </select>
+                            <i></i>
+                        </div>
+                        <div class="mb-3 inputbox">
+                            <label asp-for="QuestionImage" for="formFile" class="form-label">請選擇問題圖片(選填)</label>
+                            <input asp-for="QuestionImage" class="form-control" type="file" name="file" />
+                            <i></i>
+                        </div>
+                        <div class="mb-3 mt-3 inputbox">
+							<label asp-for="QuestionContent" class="control-label">請輸入問題詳細內容</label>
+                            @* <input asp-for="QuestionContent" class="form-control" /> *@
+                           @*  <textarea asp-for="QuestionContent" class="form-control" class="form-control" rows="5" id="form_comment" name="text"
+                                      placeholder="請在此輸入...." ></textarea> *@
+                            @Html.TextArea("QuestionContent", "", 5, 40, new { @class = "form-control", placeholder = "請在此輸入...." })
+                            <span asp-validation-for="QuestionContent" class="text-danger"></span>
+                          
+                            <i></i>
+                        </div>
+                        <div class="mb-3 mt-3 inputbox">
+                            <input type="submit" value="送出" class="btn btn-primary" />
+                          @*   <button id="form_btn" type="submit" class="btn btn-primary" onclick="sumbitform()">送出</button> *@
+                        </div>
+                        <div>
+                            
+                            @* @if (TempData.ContainsKey("Alert"))
+                            {
+                                <script>alert('@TempData["Alert"]');</script>
+                            } *@
+                        </div>
+                    </form>
+                    <img src="~/img/help_bg_img.png" alt="" class="col-6" style="padding: 0;">
+                </div>
+
+                <!--  表單-->
+               
+            </div>
+            
+        </div>
+        <script src="~/Scripts/toastr.min.js"></script>
+        @if (TempData["message"] != null)
+        {
+            <script type="text/javascript">
+                var message = @Html.Raw(JsonConvert.SerializeObject(TempData["message"]));
+                alert(message);
+            
+                window.location.href ="@Url.Content("~/Home/Index")";
+            </script>
+        }
+
+            <!--  表單-->
+
+
+
+
