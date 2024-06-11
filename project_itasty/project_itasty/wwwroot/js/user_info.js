@@ -275,12 +275,6 @@ $(document).ready(function () {
                     });
                 //get_follower_year(12, 1);
             }
-            if ($("#check_last_year").is(":checked") && $("#radio_analyze_view").is(":checked")) {
-                await get_recipeview()
-                    .then(function (data) {
-                        console.log(data);
-                    });
-            }
             if ($("#check_two_year").is(":checked") && $("#radio_analyze_fan").is(":checked")) {
                 await get_follower_week(getDaysInYear(new Date().getFullYear() - 2), (getDayOfYear() + getDaysInYear(new Date().getFullYear() - 1)))
                     .then(function (data) {
@@ -294,14 +288,38 @@ $(document).ready(function () {
                     });
                 //get_follower_year(24, 2);
             }
+            if ($("#check_last_year").is(":checked") && $("#radio_analyze_view").is(":checked")) {
+                for (var i of list_analyze_recipe) {
+                    await get_recipeview(i.recipe_id, getDaysInYear(new Date().getFullYear() - 1), getDayOfYear())
+                        .then(function (data) {
+                            datasets.push({
+                                label: '最近一年',
+                                data: data.alanyze_y,
+                                borderColor: "blue",
+                                fill: false
+                            });
+                            alanyze_x = data.alanyze_x;
+                        });
+                }
+            }
+            if ($("#check_two_year").is(":checked") && $("#radio_analyze_view").is(":checked")) {
+                for (var i of list_analyze_recipe) {
+                    await get_recipeview(i.recipe_id, getDaysInYear(new Date().getFullYear() - 2), (getDayOfYear() + getDaysInYear(new Date().getFullYear() - 1)))
+                        .then(function (data) {
+                            datasets.push({
+                                label: '最近兩年',
+                                data: data.alanyze_y,
+                                borderColor: "blue",
+                                fill: false
+                            });
+                            alanyze_x = data.alanyze_x;
+                        });
+                }
+            }
         }
         else if ($("#radio_analyze_season").is(":checked")) {
             console.log("season");
             if ($("#check_last_season").is(":checked") && $("#radio_analyze_fan").is(":checked")) {
-                console.log("上一季共有 " + getQuarterInfo(1).days + " 天");
-                console.log("上一季的最后一天是: " + getQuarterInfo(1).lastDay.toLocaleDateString());
-                console.log("距離今天: " + Math.ceil((new Date() - new Date(getQuarterInfo(1).lastDay)) / (1000 * 60 * 60 * 24)));
-
                 await get_follower_week(getQuarterInfo(1).days, Math.ceil((new Date() - new Date(getQuarterInfo(1).lastDay)) / (1000 * 60 * 60 * 24)) - 1)
                     .then(function (data) {
                         datasets.push({
@@ -314,8 +332,6 @@ $(document).ready(function () {
                     });
             }
             if ($("#check_two_season").is(":checked") && $("#radio_analyze_fan").is(":checked")) {
-                console.log("上一季共有 " + getQuarterInfo(2).days + " 天");
-                console.log("上一季的最后一天是: " + getQuarterInfo(2).lastDay.toLocaleDateString());
                 await get_follower_week(getQuarterInfo(2).days, Math.ceil((new Date() - new Date(getQuarterInfo(2).lastDay)) / (1000 * 60 * 60 * 24)) - 1)
                     .then(function (data) {
                         datasets.push({
@@ -328,8 +344,6 @@ $(document).ready(function () {
                     });
             }
             if ($("#check_three_season").is(":checked") && $("#radio_analyze_fan").is(":checked")) {
-                console.log("上一季共有 " + getQuarterInfo(3).days + " 天");
-                console.log("上一季的最后一天是: " + getQuarterInfo(3).lastDay.toLocaleDateString());
                 await get_follower_week(getQuarterInfo(3).days, Math.ceil((new Date() - new Date(getQuarterInfo(3).lastDay)) / (1000 * 60 * 60 * 24)) - 1)
                     .then(function (data) {
                         datasets.push({
@@ -340,6 +354,48 @@ $(document).ready(function () {
                         });
                         alanyze_x = data.alanyze_x;
                     });
+            }
+            if ($("#check_last_season").is(":checked") && $("#radio_analyze_view").is(":checked")) {
+                for (var i of list_analyze_recipe) {
+                    await get_recipeview(i.recipe_id, getQuarterInfo(1).days, Math.ceil((new Date() - new Date(getQuarterInfo(1).lastDay)) / (1000 * 60 * 60 * 24)) - 1)
+                        .then(function (data) {
+                            datasets.push({
+                                label: '最近一季',
+                                data: data.alanyze_y,
+                                borderColor: "blue",
+                                fill: false
+                            });
+                            alanyze_x = data.alanyze_x;
+                        });
+                }
+            }
+            if ($("#check_two_season").is(":checked") && $("#radio_analyze_view").is(":checked")) {
+                for (var i of list_analyze_recipe) {
+                    await get_recipeview(i.recipe_id, getQuarterInfo(2).days, Math.ceil((new Date() - new Date(getQuarterInfo(2).lastDay)) / (1000 * 60 * 60 * 24)) - 1)
+                        .then(function (data) {
+                            datasets.push({
+                                label: '最近兩季',
+                                data: data.alanyze_y,
+                                borderColor: "blue",
+                                fill: false
+                            });
+                            alanyze_x = data.alanyze_x;
+                        });
+                }
+            }
+            if ($("#check_three_season").is(":checked") && $("#radio_analyze_view").is(":checked")) {
+                for (var i of list_analyze_recipe) {
+                    await get_recipeview(i.recipe_id, getQuarterInfo(3).days, Math.ceil((new Date() - new Date(getQuarterInfo(3).lastDay)) / (1000 * 60 * 60 * 24)) - 1)
+                        .then(function (data) {
+                            datasets.push({
+                                label: '最近三季',
+                                data: data.alanyze_y,
+                                borderColor: "blue",
+                                fill: false
+                            });
+                            alanyze_x = data.alanyze_x;
+                        });
+                }
             }
         }
         else if ($("#radio_analyze_month").is(":checked")) {
@@ -367,6 +423,34 @@ $(document).ready(function () {
                         });
                         alanyze_x = data.alanyze_x;
                     });
+            }
+            if ($("#check_last_month").is(":checked") && $("#radio_analyze_view").is(":checked")) {
+                for (var i of list_analyze_recipe) {
+                    await get_recipeview(i.recipe_id, getPreviousMonthDays(1), (new Date).getDate())
+                        .then(function (data) {
+                            datasets.push({
+                                label: '最近一個月',
+                                data: data.alanyze_y,
+                                borderColor: "blue",
+                                fill: false
+                            });
+                            alanyze_x = data.alanyze_x;
+                        });
+                }
+            }
+            if ($("#check_two_month").is(":checked") && $("#radio_analyze_view").is(":checked")) {
+                for (var i of list_analyze_recipe) {
+                    await get_recipeview(i.recipe_id, getPreviousMonthDays(2), (new Date).getDate() + getPreviousMonthDays(1))
+                        .then(function (data) {
+                            datasets.push({
+                                label: '最近兩個月',
+                                data: data.alanyze_y,
+                                borderColor: "blue",
+                                fill: false
+                            });
+                            alanyze_x = data.alanyze_x;
+                        });
+                }
             }
         }
         else if ($("#radio_analyze_week").is(":checked")) {
@@ -406,6 +490,48 @@ $(document).ready(function () {
                         });
                         alanyze_x = data.alanyze_x;
                     });
+            }
+            if ($("#check_last_week").is(":checked") && $("#radio_analyze_view").is(":checked")) {
+                for (var i of list_analyze_recipe) {
+                    await get_recipeview(i.recipe_id, 7, (new Date).getDay() + 1)
+                        .then(function (data) {
+                            datasets.push({
+                                label: '最近一週',
+                                data: data.alanyze_y,
+                                borderColor: "blue",
+                                fill: false
+                            });
+                            alanyze_x = data.alanyze_x;
+                        });
+                }
+            }
+            if ($("#check_two_week").is(":checked") && $("#radio_analyze_view").is(":checked")) {
+                for (var i of list_analyze_recipe) {
+                    await get_recipeview(i.recipe_id, 7, (new Date).getDay() + 1 + 7)
+                        .then(function (data) {
+                            datasets.push({
+                                label: '最近兩週',
+                                data: data.alanyze_y,
+                                borderColor: "blue",
+                                fill: false
+                            });
+                            alanyze_x = data.alanyze_x;
+                        });
+                }
+            }
+            if ($("#check_three_week").is(":checked") && $("#radio_analyze_view").is(":checked")) {
+                for (var i of list_analyze_recipe) {
+                    await get_recipeview(i.recipe_id, 7, (new Date).getDay() + 1 + 14)
+                        .then(function (data) {
+                            datasets.push({
+                                label: '最近三週',
+                                data: data.alanyze_y,
+                                borderColor: "blue",
+                                fill: false
+                            });
+                            alanyze_x = data.alanyze_x;
+                        });
+                }
             }
         }
 
@@ -513,7 +639,6 @@ function show_analyze_recipe() {
         $(".list_analyze_recipe").html(
             $(".list_analyze_recipe").html() + `
 		    <p>
-			    <i class="fa-solid fa-brush"></i>
 			    ${list_analyze_recipe[i].recipe_name}
 			    <button onclick="remove_analyze_recipe(${list_analyze_recipe[i].recipe_id})"><i class="fa-regular fa-square-minus"></i></button>
 		    </p>
@@ -678,11 +803,39 @@ function get_follower_week(day_length, day_shift) {
 }
 
 //取得食譜點閱資料
-function get_recipeview(day_length, day_shift) {
+function get_recipeview(recipe_id, day_length, day_shift) {
+    let d;
+    let array_day = [];
+    let array_day_view = [];
+    for (let i = 0; i < day_length; i++) {
+        d = new Date();
+        d.setDate(d.getDate() - (day_length + day_shift - 1) + i);
+        array_day.push(`Day ${i + 1}`);
+        array_day_view.push(0);
+    }
     return new Promise((resolve) => {
-        $.get("/api/userapi/recipeview/1", function (data, status) {
-            resolve(data);
+        $.get(`/api/userapi/recipeview/${recipe_id}`, function (data, status) {
+            d = new Date();
+            d.setDate(d.getDate() - (day_length + day_shift - 1));
+            for (let i of data) {
+                let diff_view_day = Math.ceil(((new Date(i.viewDate) < d) ? 0 : (new Date(i.viewDate) - d)) / (1000 * 60 * 60 * 24));
+                console.log(diff_view_day);
+                for (let j = diff_view_day; j < day_length; j++) {
+                    array_day_view[j] += i.viewNum;
+                }
+            }
+            if ($("#radio_analyze_grow").is(":checked")) {
+                for (let i = array_day_view.length - 1; i >= 0; i--) {
+                    array_day_view[i] -= array_day_view[0];
+                }
+            }
+
+            resolve({
+                alanyze_x: array_day,
+                alanyze_y: array_day_view
+            });
         });
+
     });
 }
 
