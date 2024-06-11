@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Final_project_test.Models;
+using project_itasty.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Final_project_test.Controllers.Api
+namespace project_itasty.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]

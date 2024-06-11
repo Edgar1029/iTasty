@@ -9,9 +9,9 @@ public partial class SeasonalIngredient
 
     public int MonthId { get; set; }
 
-    public string? SeasonalIngredientId { get; set; }
-
     public string? CommonName { get; set; }
 
-    public virtual IngredientDetail? SeasonalIngredientNavigation { get; set; }
+    public byte[]? IngredientsImg { get; set; }
+
+    public bool? IsActive { get; set; }
 }

@@ -1,9 +1,9 @@
-﻿using Final_project_test.Models;
+﻿using project_itasty.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 
-namespace Final_project_test.Controllers
+namespace project_itasty.Controllers
 {
     public class FolderController : Controller
     {

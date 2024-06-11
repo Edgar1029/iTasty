@@ -14,6 +14,4 @@ public partial class IngredientDetail
     public float? Kcalg { get; set; }
 
     public virtual ICollection<IngredientsTable> IngredientsTables { get; set; } = new List<IngredientsTable>();
-
-    public virtual ICollection<SeasonalIngredient> SeasonalIngredients { get; set; } = new List<SeasonalIngredient>();
 }

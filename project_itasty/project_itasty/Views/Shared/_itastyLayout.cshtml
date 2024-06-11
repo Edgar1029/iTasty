@@ -25,28 +25,59 @@
 <body>
 	<!-- 下面是header---------------------------------------------------------------------------- -->
 	<header class="row gx-0">
-		<div class="header-left row gx-0">
-			<div class="header-left-img">
+		<div class="header-first d-lg-flex d-sm-none" style="display:flex">
+			<div class="header-left row gx-0">
+				<div class="header-left-img">
+				</div>
+				<span id="all-receipe">所有食譜</span>
+				<span id="my-receipe">我的食譜</span>
+				<span id="my-page">我的頁面</span>
 			</div>
-			<span id="all-receipe">所有食譜</span>
-			<span id="my-receipe">我的食譜</span>
-			<a href="~/user/@(userEmail.Split('@')[0])"><span id="my-page">我的頁面</span></a>
+			<div class="header-middle row gx-0">
+			</div>
+			<div class="header-right row gx-0">
+				<div class="loginsignbtn">
+				</div>
+				<div class="spacebar">
+				</div>
+				<div class="shoppingcart">
+					會員
+				</div>
+				<div class="profile">
+					客戶
+				</div>
+			</div>
 		</div>
-		<div class="header-middle row gx-0">
-			<!-- test-middle -->
-		</div>
-		<div class="header-right row gx-0">
-			<div class="loginsignbtn">
-				<div class="login">Login</div>
-				<div class="sign">Sign up</div>
+		<div class="header-second d-lg-none" style="display:flex">
+			<div class="nav-left">
+				<div class="bar1"></div>
+				<div class="bar2"></div>
+				<div class="bar3"></div>
+				<div class="left-title">
+					<p id="all-receipe" class="left-title-bar"><a href="">所有食譜</a></p>
+					<p class="bababa"></p>
+					<p id="my-receipe" class="left-title-bar"><a href="">我的食譜</a></p>
+					<p class="bababa"></p>
+					<p id="my-page" class="left-title-bar"><a href="">我的頁面</a></p>
+				</div>
 			</div>
-			<div class="spacebar">
+			<div class="nav-middle">
+				<div class="nav-middle-img"></div>
 			</div>
-			<div class="shoppingcart">
-				會員
-			</div>
-			<div class="profile">
-				客戶
+			<div class="nav-right">
+				<i class="fa-regular fa-user fa-2x nav-profile-icon"></i>
+				<div class="right-title">
+					<p class="loginsignbtn right-title-bar">
+					</p>
+					<p class="bababa"></p>
+					<p class="shoppingcart right-title-bar">
+						<a href="">會員</a>
+					</p>
+					<p class="bababa"></p>
+					<p class="profile right-title-bar">
+						<a href="">客戶</a>
+					</p>
+				</div>
 			</div>
 		</div>
 	</header>
@@ -57,13 +88,9 @@
 	<!-- 下面是footer的---------------------------------------------------------------------------- -->
 	<footer class="footer-class row gx-0">
 		<div class="footer-header col-12 row gx-0">
-			<!-- <span>請輸入問題:</span> -->
-			<div class="footer-header-top col-4">
-				<input type="text" class="footer-header-text" placeholder="問題回報">
-				<div class="footer-header-button">傳送</div>
-			</div>
+			KEEP IN TOUCH WITH OUR WEBSITE
 		</div>
-		<div class="footer-link">
+		<div class="footer-link col-xl-3 col-4">
 			<div class="link-label">
 				首頁
 			</div>
@@ -73,7 +100,7 @@
 				<li><a href="">客戶服務頁</a></li>
 			</ul>
 		</div>
-		<div class="footer-link">
+		<div class="footer-link col-xl-3 col-4">
 			<div class="link-label">
 				頁籤
 			</div>
@@ -83,7 +110,7 @@
 				<li><a href="">我的首頁</a></li>
 			</ul>
 		</div>
-		<div class="footer-link">
+		<div class="footer-link col-xl-3 col-4">
 			<div class="link-label">
 				頁籤
 			</div>
@@ -93,9 +120,10 @@
 				<li><a href="">我的首頁</a></li>
 			</ul>
 		</div>
-		<div class="footer-logo"></div>
-		<div class="footer-footer col-12 gx-0">
-			KEEP IN TOUCH WITH OUR WEBSITE
+		<div class="footer-logo col-xl-3 d-xl-block d-sm-none"></div>
+		<div class="footer-space"></div>
+		<div class="footer-footer">
+			© 2024 - 2024 ITASTY | Perfect Receipe Await. All Rights Reserved.
 		</div>
 	</footer>
 	@await RenderSectionAsync("MyScripts", required: false)

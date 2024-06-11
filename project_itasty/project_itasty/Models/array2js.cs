@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using project_itasty.Models;
 
-namespace Final_project_test.Models;
+namespace project_itasty.Models;
     public class array2js
     {
     public int UserId { get; set; }

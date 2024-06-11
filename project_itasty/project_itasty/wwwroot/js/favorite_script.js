@@ -13,7 +13,7 @@ $(document).ready(async function () {
     var customFolderName = [];
     $(".loginsignbtn").empty();
     if(checklogin==0){
-        $(".loginsignbtn").append(`<div class="sign" style="margin-right:0px;">LogOut</div>`)
+        $(".loginsignbtn").append(`<div class="sign" style="margin-right:20px;">LogOut</div>`)
     }else{
         $(".loginsignbtn").append(`<div class="login">Login</div>
                                     <div class="sign">Sign up</div>`)

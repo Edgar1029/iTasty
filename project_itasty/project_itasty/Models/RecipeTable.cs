@@ -59,7 +59,7 @@ public partial class RecipeTable
 
     public virtual ICollection<RecipeView> RecipeViews { get; set; } = new List<RecipeView>();
 
-    public virtual ICollection<ShoppingReceipe> ShoppingReceipes { get; set; } = new List<ShoppingReceipe>();
+    public virtual ICollection<ShoppingRecipe> ShoppingRecipes { get; set; } = new List<ShoppingRecipe>();
 
     public virtual ICollection<StepTable> StepTables { get; set; } = new List<StepTable>();
 
