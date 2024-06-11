@@ -1,15 +1,15 @@
-﻿CREATE TABLE userInfo
+CREATE TABLE userInfo
 (
-	userId		int primary key identity(1,1) not null,
-	userName	nvarchar(20) not null,
-	userEmail	nvarchar(30) UNIQUE,  
-	userPassword nvarchar(MAX) not null,
-	userPhoto	varbinary(MAX),
-	userBanner	varbinary(MAX),	
-	userIntro	nvarchar(50),
-	userPermissions int not null check (userPermissions BETWEEN 1 AND 3) ,--1管理員 2一般會員 3停權  狀態
-	userCreateTime smalldatetime not null default GETDATE() 
-)
+	userId          int PRIMARY KEY IDENTITY(1,1) NOT NULL,
+	userName        nvarchar(20) NOT NULL,
+	userEmail       nvarchar(30) UNIQUE,  
+	userPassword    nvarchar(MAX) NOT NULL,
+	userPhoto       varbinary(MAX),
+	userBanner      varbinary(MAX),	
+	userIntro       nvarchar(50),
+	userPermissions int NOT NULL CHECK (userPermissions BETWEEN 1 AND 3), -- 1: Admin, 2: Member, 3: Banned
+	userCreateTime  smalldatetime NOT NULL DEFAULT GETDATE()
+);
 --------------------------------------------------------------------------
 CREATE TABLE userFollower
 (
