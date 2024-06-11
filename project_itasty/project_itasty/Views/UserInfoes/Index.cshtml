@@ -378,7 +378,18 @@
 						<div class="col-4 mb-3">
 							<label class="p-1 rounded">
 								<input type="checkbox" name="chekcbox_select_recipe" hidden recipe_name="@($"{i.RecipeName}")" recipe_id="@i.RecipeId" />
-								<img src="data:image/jpg;base64, @((i.RecipeCoverImage != null)?Convert.ToBase64String(i.RecipeCoverImage):"")" @((i.RecipeCoverImage == null) ? "hidden" : "") />
+								@{
+
+									if (i.RecipeCoverImage != null)
+									{
+										<img src="data:image/jpg;base64, @((i.RecipeCoverImage != null)?Convert.ToBase64String(i.RecipeCoverImage):"")" class="img-fluid" @((i.RecipeCoverImage == null) ? "hidden" : "") />
+
+									}
+									else
+									{
+										<img src="~/img/img_recipe_icon.png" class="img-fluid" />
+									}
+								}
 								<p class="text-center m-0">@i.RecipeName</p>
 							</label>
 						</div>
