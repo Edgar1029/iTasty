@@ -15,7 +15,7 @@ body {
     padding: 0;
     background-color: rgb(245, 245, 245);
     background-image: url("../img/pexels-karolina-grabowska-4705933.jpg");
-    backdrop-filter: blur(5px);
+    /*backdrop-filter: blur(5px);*/
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
