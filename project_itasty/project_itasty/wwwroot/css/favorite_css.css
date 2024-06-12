@@ -796,7 +796,7 @@ label{
     /*height: 80px !important;*/
     /*background-color: #ffffff !important;*/ /* 白色背景 */
     color: #000000 !important; /* 黑色字体 */
-    border-left: 5px solid rgb(232, 117, 67); 
+    border-left: 5px solid rgb(232, 117, 67);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 阴影 */
 }
 /* -------------------------------------------------------------------------------------------------- */
@@ -1051,7 +1051,7 @@ footer{
 }
 .footer-logo{
     /* width: 18%; */
-    background-image: url("../img/logo.png");
+    background-image: url("../img/logo_long.png");
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;

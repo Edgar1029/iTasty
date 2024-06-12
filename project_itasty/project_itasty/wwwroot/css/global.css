@@ -369,7 +369,10 @@ footer {
     }
 
         .footer-link a:hover {
-            color: rgb(235, 96, 96);
+            background: -webkit-gradient(linear, left top, right top, from(#ff8a00), to(#da1b60));
+            background: linear-gradient(to right, #a53f2b, #280004);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
 .link-label {
@@ -392,7 +395,7 @@ footer {
 
 .footer-logo {
     /* width: 18%; */
-    background-image: url("../img/logo.png");
+    background-image: url("../img/logo_long.png");
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;

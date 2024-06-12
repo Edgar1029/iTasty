@@ -1237,6 +1237,7 @@ $(document).ready(async function () {
                     var folderId = `#folder-${folderName}`;
                     $(folderId).append(`
                     <div class="hotshopreceipebookmark addgreencool col-xl-2 gx-0" data-ingredient="${recipe.recipeId}" id="${recipe.recipeId}">
+                    <i class="fa-regular fa-circle-check fa-7x" style="position:absolute; color:green; left:57px; top:59px;"></i>
                         <i class="show-list fa-solid fa-list-check"  style="color:#000000;position:absolute; top:235px; right:5px;"></i>
                         <div class="hotreceipe-img" style="background-image: url(../img/steak.png);"></div>
                         <div class="hotreceipe-information row gx-0">
