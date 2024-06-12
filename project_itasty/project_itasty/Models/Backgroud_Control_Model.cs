@@ -7,9 +7,15 @@ namespace project_itasty.Models
         public Background_Control_ChartData? ChartViewsData { get; set; }
         public Background_Control_ChartData? ChartMembershipData{ get; set; }
 
+        public List<Background_Control_OrderRecipedTable>? OrderRecipedTable { get; set; }
+
+        public List<Background_Control_UserTable>? UserTable { get; set; }
+
+        public List<Background_Control_CommentTable>? CommentTable { get; set; }
+
         public List<Background_Control_RecipedTable>? RecipedTable { get; set; }
 
-    }
+	}
 
     public class Background_Control_ChartData
     {
@@ -17,12 +23,43 @@ namespace project_itasty.Models
         public List<int> Data { get; set; }
     }
 
-    public class Background_Control_RecipedTable 
-    {
-        public string RecipedName { get; set; }
-        public string Author { get; set; }
+    public class Background_Control_OrderRecipedTable
+	{
+        public string? RecipedName { get; set; }
+        public string? Author { get; set; }
         public int RecipedView { get; set; }
         public int NumberOfComment { get; set; }
-        public string RecipedStatus { get; set; }
+        public string? RecipedStatus { get; set; }
     }
+
+    public class Background_Control_UserTable 
+    {
+		public int UserId { get; set; }
+		public string UserName { get; set; }
+
+		public string Email { get; set; }
+
+		public int UserStatus { get; set; }
+	}
+
+	public class Background_Control_CommentTable
+	{
+		public int RecipeId { get; set; }
+		public int UserId { get; set; }
+
+		public string? MessageContent { get; set; }
+
+		public string? ViolationStatus { get; set; }
+	}
+
+	public class Background_Control_RecipedTable
+	{
+		public int RecipedId { get; set; }
+		public string? RecipedName { get; set; }
+		public string? Author { get; set; }
+		public int RecipedView { get; set; }
+		public int? NumberOfComment { get; set; }
+
+		public string? RecipedStatus { get;set; }
+	}
 }

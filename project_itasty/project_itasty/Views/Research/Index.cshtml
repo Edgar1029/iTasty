@@ -89,7 +89,7 @@
 							<option value="recipes">食譜</option>
 							<option value="author">作者</option>
 						</select>
-						<input type="text" name="search" class="form-control border-dark border-end-0" placeholder="  請輸入食譜 ">
+						<input type="text" name="search" class="form-control border-dark border-end-0">
 						<button class="btn border-start-0 border-dark" type="submit" style="background-color: white;">
 							<img src="/img/research_img/search.png" alt="" style="width: 25px;">
 						</button>
@@ -154,22 +154,20 @@
 							<!-- 料理描述 -->
 							<!-- 料理標籤 -->
 							<!-- 料理標籤 -->
+							<span class="align-items-center ms-4">
+								#@recipe.r.ProteinUsed
+							</span>
+							<span>
+								#@recipe.r.MealType
+							</span>
+							<span>
+								#@recipe.r.CuisineStyle
+							</span>
+							<span>
+								#@recipe.r.HealthyOptions
+							</span>
 							<div class="recipes_views">
-								<span>
-									@recipe.r.ProteinUsed
-								</span>
-								<span>
-									@recipe.r.MealType
-								</span>
-								<span>
-									@recipe.r.CuisineStyle
-								</span>
-								<span>
-									@recipe.r.HealthyOptions
-								</span>
-								<span>
-									@recipe.r.LastModifiedDate
-								</span>
+								
 								<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
 									 fill="#5f6368">
 									<path d="M856-390 570-104q-12 12-27 18t-30 6q-15 0-30-6t-27-18L103-457q-11-11-17-25.5T80-513v-287q0-33 23.5-56.5T160-880h287q16 0 31 6.5t26 17.5l352 353q12 12 17.5 27t5.5 30q0 15-5.5 29.5T856-390ZM513-160l286-286-353-354H160v286l353 354ZM260-640q25 0 42.5-17.5T320-700q0-25-17.5-42.5T260-760q-25 0-42.5 17.5T200-700q0 25 17.5 42.5T260-640Zm220 160Z" />
@@ -227,7 +225,14 @@
 		})
 
 
+
 		//抽換input的placeholder
+		if (getUrlParameter('search_type') == "author" || getUrlParameter('selected_search_type') == "author") {
+			$("#search_type + input").attr("placeholder", "  請輸入作者")
+		} else {
+			$("#search_type + input").attr("placeholder", "  請輸入食譜")
+		}
+
 		$("#search_type").on("change", function () {
 			var search_type_value = $("#search_type").val()
 			if (search_type_value == "author") {

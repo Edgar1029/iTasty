@@ -29,12 +29,12 @@ namespace project_itasty.Controllers
             };
             #endregion
 
-            #region 從recipedTable拿資料，並把資料灌進自建的模型(Background_Control_RecipedTable)
+            #region 從recipedTable拿資料，並把資料灌進自建的模型(Background_Control_OrderRecipedTable)
 
-            var recipeList = _context.RecipeTables.OrderByDescending(r => r.Views).ToList();
+            var OrderrecipeList = _context.RecipeTables.OrderByDescending(r => r.Views).ToList();
             var userList = _context.UserInfos.ToList();
 
-            var joinedList = from recipe in recipeList
+            var joinedList = from recipe in OrderrecipeList
                              join user in userList on recipe.UserId equals user.UserId
                              select new
                              {
@@ -45,11 +45,11 @@ namespace project_itasty.Controllers
                                  RecipedStatus = recipe.RecipeStatus
                              };
 
-            var RecipedTable = new List<Background_Control_RecipedTable>();
+            var OrderRecipedTable = new List<Background_Control_OrderRecipedTable>();
 
             foreach (var item in joinedList)
             {
-                RecipedTable.Add(new Background_Control_RecipedTable
+                OrderRecipedTable.Add(new Background_Control_OrderRecipedTable
                 {
                     RecipedName = item.RecipedName,
                     Author = item.Author,
@@ -61,11 +61,78 @@ namespace project_itasty.Controllers
 
             #endregion
 
+            #region 將資料灌進UserList
+            var UserList = _context.UserInfos.ToList();
+
+            var UserTable = new List<Background_Control_UserTable>();
+
+            foreach (var item in UserList)
+            {
+                UserTable.Add(new Background_Control_UserTable
+                {
+                    UserId = item.UserId,
+                    UserName = item.UserName,
+                    Email = item.UserEmail,
+                    UserStatus = item.UserPermissions,
+                });
+            }
+            #endregion
+
+            #region 將資料灌進RecipedTable
+            var recipeList = _context.RecipeTables.ToList();
+
+            var JoinedList = from recipe in recipeList
+                             join user in userList on recipe.UserId equals user.UserId
+                             select new
+                             {
+                                 RecipedId = recipe.RecipeId,
+                                 RecipedName = recipe.RecipeName,
+                                 Author = user.UserName,
+                                 RecipedView = recipe.Views,
+                                 NumberOfComment = recipe.Favorites,
+                                 RecipedStatus = recipe.RecipeStatus
+                             };
+
+            var RecipedTable = new List<Background_Control_RecipedTable>();
+
+            foreach (var item in JoinedList)
+            {
+                RecipedTable.Add(new Background_Control_RecipedTable
+                {
+                    RecipedId=item.RecipedId,
+                    RecipedName = item.RecipedName,
+                    Author = item.Author,
+                    RecipedView = item.RecipedView,
+                    NumberOfComment = item.NumberOfComment,
+                    RecipedStatus = item.RecipedStatus
+                });
+            }
+
+            #endregion
+
+            #region 將資料灌進 Comment
+            var CommentList = _context.MessageTables.Where(r=>r.ViolationStatus == "Violation Reported").ToList();
+
+            var CommentTable = new List<Background_Control_CommentTable>();
+
+            foreach (var item in CommentList)
+            {
+                CommentTable.Add(new Background_Control_CommentTable
+                {
+                    RecipeId = item.RecipeId,
+                    UserId = item.UserId,
+                    MessageContent = item.MessageContent,
+                    ViolationStatus = item.ViolationStatus,
+                });
+            }
+            #endregion
 
             var model =  new Backgroud_Control_Model
             {
                 ChartViewsData = chartData1,
                 ChartMembershipData = chartData2,
+                OrderRecipedTable = OrderRecipedTable,
+                UserTable = UserTable,
                 RecipedTable = RecipedTable,
             };
 

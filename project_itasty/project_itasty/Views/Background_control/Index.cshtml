@@ -82,11 +82,11 @@
                         {
                             <tr>
                                 <td>@(i + 1)</td>
-                                <td>@Model.RecipedTable[i].RecipedName</td>
-                                <td>@Model.RecipedTable[i].Author</td>
-                                <td>@Model.RecipedTable[i].RecipedView</td>
-                                <td>@Model.RecipedTable[i].NumberOfComment</td>
-                                <td>@Model.RecipedTable[i].RecipedStatus</td>
+                                <td>@Model.OrderRecipedTable[i].RecipedName</td>
+                                <td>@Model.OrderRecipedTable[i].Author</td>
+                                <td>@Model.OrderRecipedTable[i].RecipedView</td>
+                                <td>@Model.OrderRecipedTable[i].NumberOfComment</td>
+                                <td>@Model.OrderRecipedTable[i].RecipedStatus</td>
                             </tr>
                         }
 
@@ -102,6 +102,31 @@
                             <th>Email</th>
                             <th>帳號狀態</th>
                         </tr>
+                        @foreach (var i in Model.UserTable)
+                        {
+                            <tr>
+                                <td>@i.UserId</td>
+                                <td>@i.UserName</td>
+                                <td>@i.Email</td>
+                                @if (@i.UserStatus == 1)
+                                {
+                                    <td>管理員</td>
+                                }
+                                else if (@i.UserStatus == 2)
+                                {
+                                    <td style="color:green;">正常</td>
+                                }
+                                else if (@i.UserStatus == 3)
+                                {
+                                    <td style="color:red;">停權</td>
+                                }
+                                else
+                                {
+                                    <td>錯誤</td>
+                                }
+
+                            </tr>
+                        }
                     </table>
                     <h3>檢舉審核</h3>
                     <table class="table table-hover" id="user_review">
@@ -112,6 +137,50 @@
                             <th>被檢舉原因</th>
                             <th>審核狀態</th>
                         </tr>
+                        <!-- 1.先到controller篩選待審核的對象 2.將結果顯示在畫面上 3.使用ajax修改資料庫的狀態 -->
+
+                        @* 加入foreach *@
+                        <tr>
+                            <td>${e.reportId}</td>
+                            <td>${e.reportedUserId}</td>
+                            <td>${e.reportedUserEmail}</td>
+                            <td>${e.reason}</td>
+                            <td id="user_review_0">
+                                <!-- modal的彈出按鈕 -->
+                                <button class="btn btn-primary btn_modal" data-bs-toggle="modal" data-bs-target="#user${e.userId}"
+                                        id="censor">
+                                    待審核
+                                </button>
+                                <!-- modal的彈出按鈕 -->
+                                <!-- modal的本體 -->
+                                <div class="modal fade btn_modalBody" id="user${e.userId}" tabindex="-1" aria-labelledby="modal-title"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <div class="modal-title">
+                                                    審核欄
+                                                </div>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>被檢舉人: ${e.reportedUserId}</p>
+                                                <p>被檢舉原因: ${e.reason}</p>
+                                                <label for="">檢舉圖片:</label>
+                                                <img src="../新增資料夾/img/螢幕擷取畫面 2024-05-21 212334.png" alt="">
+                                                <p>檢舉人: ${e.reporterUserId}</p>
+                                                <p>遭檢舉頁:<a href="#">${e.reportedUserId}的食譜頁</a></p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-primary" data-bs-dismiss="modal">通過</button>
+                                                <button class="btn btn-primary" data-bs-dismiss="modal">駁回</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- modal的本體 -->
+                            </td>
+                        </tr>
+                        @* 加入foreach *@
                     </table>
                 </div>
                 <div class="tab-pane fade" id="list-recipes" role="tabpanel" aria-labelledby="list-recipes-list">
@@ -125,7 +194,17 @@
                             <th>留言數</th>
                             <th>狀態</th>
                         </tr>
-
+                        @foreach (var i in Model.RecipedTable)
+                        {
+                            <tr>
+                                <td>@i.RecipedId</td>
+                                <td>@i.RecipedName</td>
+                                <td>@i.Author</td>
+                                <td>@i.RecipedView</td>
+                                <td>@i.NumberOfComment</td>
+                                <td>@i.RecipedStatus</td>
+                            </tr>
+                        }
                     </table>
                     <h3>食譜檢舉審核</h3>
                     <table class="table table-hover" id="recipes_reports">
@@ -225,6 +304,29 @@
             }
         });
         //折線圖
+
+            //審核欄
+            //更改審核按鈕
+            var temp;
+            $('.btn_modal').on('click', function () {
+                console.log(this.innerText)
+                temp = this
+            })
+            $(".btn_modalBody button").on("click", function () {
+                console.log(this.innerText)
+                if (this != null) {
+                    //$(temp).attr("disabled", true)
+                    $(temp).text(this.innerText)
+                    if (this.innerText == '通過') {
+                        $(temp).removeClass('btn-warning')
+                        $(temp).addClass('btn-success')
+                    } else {
+                        $(temp).removeClass('btn-success')
+                        $(temp).addClass('btn-warning')
+                    }
+                }
+            })
+            //審核欄
 
     </script>
 

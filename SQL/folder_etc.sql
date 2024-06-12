@@ -170,6 +170,14 @@ CREATE TABLE [dbo].[seasonalIngredients](
 	IsActive bit
 )
 ----------------------------------------------------------------------------
+CREATE TABLE [dbo].[ReportTable](
+	[ReportId] [int] IDENTITY(1,1) primary key NOT NULL,
+	[RecipedIdOrCommentId] [int] NOT NULL,
+	ReportedUserId int NOT NULL,
+	ReportType int NOT NULL, 	
+	ReportReason nvarchar(MAX)
+)
+----------------------------------------------------------------------------
 INSERT INTO userInfo (userName, userEmail, userPassword, userPhoto, userBanner, userIntro, userPermissions, userCreateTime)
 VALUES
 ('Alice', 'alice@example.com', 'password1', NULL, NULL, 'Hello, I am Alice!', 2, GETDATE()),
