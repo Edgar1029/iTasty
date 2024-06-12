@@ -30,31 +30,65 @@ namespace project_itasty.Controllers
         // GET: UserRegister
         public async Task<IActionResult> Index()
         {
-            return View(await _context.UserInfos.ToListAsync());
+            string userName = HttpContext.Session.GetString("userEmail") ?? "Guest";
+            var query=from o in _context.UserInfos where o.UserPermissions==1 select o;
+            var permission=query.ToList();
+            foreach(var i in permission)
+            {
+                if (i.UserPermissions == 1&&i.UserEmail==userName&& userName!="Guest")
+                {
+                    return View(await _context.UserInfos.ToListAsync());
+                }
+                else
+                {
+                    return Redirect("/Home/Index");
+                   
+                }
+            }
+            return Redirect("/Home/Index");
+
         }
 
         // GET: UserRegister/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            string userName = HttpContext.Session.GetString("userEmail") ?? "Guest";
+            var query = from o in _context.UserInfos where o.UserPermissions == 1 select o;
+            var permission = query.ToList();
+            foreach (var i in permission)
             {
-                return NotFound();
-            }
+                if (i.UserPermissions == 1 && i.UserEmail == userName && userName != "Guest")
+                {
+                    if (id == null)
+                    {
+                        return NotFound();
+                    }
 
-            var userInfo1 = await _context.UserInfos
-                .FirstOrDefaultAsync(m => m.UserId == id);
-            if (userInfo1 == null)
-            {
-                return NotFound();
-            }
+                    var userInfo1 = await _context.UserInfos
+                        .FirstOrDefaultAsync(m => m.UserId == id);
+                    if (userInfo1 == null)
+                    {
+                        return NotFound();
+                    }
 
-            return View(userInfo1);
+                    return View(userInfo1);
+                }
+                else
+                {
+                    return Redirect("/Home/Index");
+
+                }
+            }
+            return Redirect("/Home/Index");
+
+           
         }
 
         // GET: UserRegister/Create
         public IActionResult Create()
         {
-            TempData["message"] = null;
+            TempData["createMessage"] = null;
+            TempData["loginMessage"] = null;
             string userName = HttpContext.Session.GetString("userEmail") ?? "Guest";
             if (userName != "Guest")
             {
@@ -87,7 +121,7 @@ namespace project_itasty.Controllers
                 
                 _context.UserInfos.Add(userInfo1);
                 await _context.SaveChangesAsync();
-                TempData["message"] = "註冊成功";
+                TempData["createMessage"] = "註冊成功";
                 return View("Create"); //不會到這裡
                
             }
@@ -113,25 +147,34 @@ namespace project_itasty.Controllers
             if (member == null)
             {
                 //ViewData["message"]="帳號或密碼錯誤";
-                TempData["message"] = "登入失敗";
+                TempData["loginMessage"] = "登入失敗";
                 return RedirectToAction("Create", "UserRegister");
                 
             }
             else
             {
-                if (BCrypt.Net.BCrypt.Verify(Userpassword, member.UserPassword)) 
+                TempData["loginMessage"] = "登入失敗";
+                 if (Userpassword == member.UserPassword)
+                {
+                    TempData["loginMessage"] = "登入成功";
+                    return Redirect("/Home/Index");
+                }
+                else 
+                if(BCrypt.Net.BCrypt.Verify(Userpassword, member.UserPassword)) 
                 { 
 
                 HttpContext.Session.SetString("userEmail", UserEmail);
                 HttpContext.Session.SetInt32("userid", member.UserId);
-                TempData["message"] = "登入成功";
+                TempData["loginMessage"] = "登入成功";
                 return Redirect("/Home/Index");
                 }
+                
                 else
                 {
-                    TempData["message"] = "登入失敗";
+                    TempData["loginMessage"] = "登入失敗";
                     return RedirectToAction("Create", "UserRegister");
                 }
+               
             }
           
            
@@ -142,7 +185,8 @@ namespace project_itasty.Controllers
 		public IActionResult Logout()
 		{
 			HttpContext.Session.Remove("userEmail");
-			return Redirect("/Home/Index");
+            HttpContext.Session.Remove("userid");
+            return Redirect("/Home/Index");
 		}
 
         //TEST
@@ -156,17 +200,35 @@ namespace project_itasty.Controllers
         // GET: UserRegister/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            string userName = HttpContext.Session.GetString("userEmail") ?? "Guest";
+            var query = from o in _context.UserInfos where o.UserPermissions == 1 select o;
+            var permission = query.ToList();
+            foreach (var i in permission)
             {
-                return NotFound();
-            }
+                if (i.UserPermissions == 1 && i.UserEmail == userName && userName != "Guest")
+                {
+                    if (id == null)
+                    {
+                        return NotFound();
+                    }
 
-            var userInfo1 = await _context.UserInfos.FindAsync(id);
-            if (userInfo1 == null)
-            {
-                return NotFound();
+                    var userInfo1 = await _context.UserInfos.FindAsync(id);
+                    if (userInfo1 == null)
+                    {
+                        return NotFound();
+                    }
+                    return View(userInfo1);
+                }
+                else
+                {
+                    return Redirect("/Home/Index");
+
+                }
             }
-            return View(userInfo1);
+            return Redirect("/Home/Index");
+
+
+            
         }
 
         // POST: UserRegister/Edit/5
@@ -207,19 +269,36 @@ namespace project_itasty.Controllers
         // GET: UserRegister/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            string userName = HttpContext.Session.GetString("userEmail") ?? "Guest";
+            var query = from o in _context.UserInfos where o.UserPermissions == 1 select o;
+            var permission = query.ToList();
+            foreach (var i in permission)
             {
-                return NotFound();
-            }
+                if (i.UserPermissions == 1 && i.UserEmail == userName && userName != "Guest")
+                {
+                    if (id == null)
+                    {
+                        return NotFound();
+                    }
 
-            var userInfo1 = await _context.UserInfos
-                .FirstOrDefaultAsync(m => m.UserId == id);
-            if (userInfo1 == null)
-            {
-                return NotFound();
-            }
+                    var userInfo1 = await _context.UserInfos
+                        .FirstOrDefaultAsync(m => m.UserId == id);
+                    if (userInfo1 == null)
+                    {
+                        return NotFound();
+                    }
 
-            return View(userInfo1);
+                    return View(userInfo1);
+                }
+                else
+                {
+                    return Redirect("/Home/Index");
+
+                }
+            }
+            return Redirect("/Home/Index");
+
+          
         }
 
         // POST: UserRegister/Delete/5

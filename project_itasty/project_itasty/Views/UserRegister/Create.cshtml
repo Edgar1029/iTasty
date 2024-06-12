@@ -98,19 +98,40 @@
 <script src="~/js/login.js"></script>
 
 
-@if (TempData["message"] != null)
+@if (TempData["loginMessage"] != null)
 {
     <script type="text/javascript">
-        var message = @Html.Raw(JsonConvert.SerializeObject(TempData["message"]));
+        console.log(123)
+        var message = @Html.Raw(JsonConvert.SerializeObject(TempData["loginMessage"]));
+
         alert(message);
-        if (TempData["message"] == "登入成功") {
-            
+        if (message == "登入成功") {
+
             window.location.href = "@Url.Content("~/Home/Index")";
 
-        } else (TempData["message"] == "登入失敗") {
-            
+        } else if (message == "登入失敗") {
+
             window.location.href = "@Url.Content("~/UserRegister/Create")";
+        } else if (message == "註冊成功") {
+            window.location.href = "@Url.Content("~/UserRegister/Create")";
+
         }
+        
+    </script>
+}
+@if (TempData["createMessage"] != null)
+{
+    <script type="text/javascript">
+        console.log(123)
+        var message = @Html.Raw(JsonConvert.SerializeObject(TempData["createMessage"]));
+
+        alert(message);
+        
+        if (message == "註冊成功") {
+            window.location.href = "@Url.Content("~/UserRegister/Create")";
+
+        }
+
     </script>
 }
 
