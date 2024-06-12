@@ -1,5 +1,6 @@
 var list_analyze_recipe = [];
 var temp_analyze_recipe = [];
+var user_id = sessionStorage.userId;
 $(document).ready(function () {
     var myCrop;
 
@@ -263,7 +264,7 @@ $(document).ready(function () {
         if ($("#radio_analyze_year").is(":checked")) {
             console.log("year");
             if ($("#check_last_year").is(":checked") && $("#radio_analyze_fan").is(":checked")) {
-                await get_follower_week(getDaysInYear(new Date().getFullYear() - 1), getDayOfYear())
+                await get_follower_week(user_id, getDaysInYear(new Date().getFullYear() - 1), getDayOfYear())
                     .then(function (data) {
                         datasets.push({
                             label: '最近一年',
@@ -276,7 +277,7 @@ $(document).ready(function () {
                 //get_follower_year(12, 1);
             }
             if ($("#check_two_year").is(":checked") && $("#radio_analyze_fan").is(":checked")) {
-                await get_follower_week(getDaysInYear(new Date().getFullYear() - 2), (getDayOfYear() + getDaysInYear(new Date().getFullYear() - 1)))
+                await get_follower_week(user_id, getDaysInYear(new Date().getFullYear() - 2), (getDayOfYear() + getDaysInYear(new Date().getFullYear() - 1)))
                     .then(function (data) {
                         datasets.push({
                             label: '最近兩年',
@@ -320,7 +321,7 @@ $(document).ready(function () {
         else if ($("#radio_analyze_season").is(":checked")) {
             console.log("season");
             if ($("#check_last_season").is(":checked") && $("#radio_analyze_fan").is(":checked")) {
-                await get_follower_week(getQuarterInfo(1).days, Math.ceil((new Date() - new Date(getQuarterInfo(1).lastDay)) / (1000 * 60 * 60 * 24)) - 1)
+                await get_follower_week(user_id, getQuarterInfo(1).days, Math.ceil((new Date() - new Date(getQuarterInfo(1).lastDay)) / (1000 * 60 * 60 * 24)) - 1)
                     .then(function (data) {
                         datasets.push({
                             label: '最近一季',
@@ -332,7 +333,7 @@ $(document).ready(function () {
                     });
             }
             if ($("#check_two_season").is(":checked") && $("#radio_analyze_fan").is(":checked")) {
-                await get_follower_week(getQuarterInfo(2).days, Math.ceil((new Date() - new Date(getQuarterInfo(2).lastDay)) / (1000 * 60 * 60 * 24)) - 1)
+                await get_follower_week(user_id, getQuarterInfo(2).days, Math.ceil((new Date() - new Date(getQuarterInfo(2).lastDay)) / (1000 * 60 * 60 * 24)) - 1)
                     .then(function (data) {
                         datasets.push({
                             label: '最近兩季',
@@ -344,7 +345,7 @@ $(document).ready(function () {
                     });
             }
             if ($("#check_three_season").is(":checked") && $("#radio_analyze_fan").is(":checked")) {
-                await get_follower_week(getQuarterInfo(3).days, Math.ceil((new Date() - new Date(getQuarterInfo(3).lastDay)) / (1000 * 60 * 60 * 24)) - 1)
+                await get_follower_week(user_id, getQuarterInfo(3).days, Math.ceil((new Date() - new Date(getQuarterInfo(3).lastDay)) / (1000 * 60 * 60 * 24)) - 1)
                     .then(function (data) {
                         datasets.push({
                             label: '最近三季',
@@ -401,7 +402,7 @@ $(document).ready(function () {
         else if ($("#radio_analyze_month").is(":checked")) {
             console.log("month");
             if ($("#check_last_month").is(":checked") && $("#radio_analyze_fan").is(":checked")) {
-                await get_follower_week(getPreviousMonthDays(1), (new Date).getDate())
+                await get_follower_week(user_id, getPreviousMonthDays(1), (new Date).getDate())
                     .then(function (data) {
                         datasets.push({
                             label: '最近一個月',
@@ -413,7 +414,7 @@ $(document).ready(function () {
                     });
             }
             if ($("#check_two_month").is(":checked") && $("#radio_analyze_fan").is(":checked")) {
-                await get_follower_week(getPreviousMonthDays(2), (new Date).getDate() + getPreviousMonthDays(1))
+                await get_follower_week(user_id, getPreviousMonthDays(2), (new Date).getDate() + getPreviousMonthDays(1))
                     .then(function (data) {
                         datasets.push({
                             label: '最近兩個月',
@@ -456,7 +457,7 @@ $(document).ready(function () {
         else if ($("#radio_analyze_week").is(":checked")) {
             console.log("week");
             if ($("#check_last_week").is(":checked") && $("#radio_analyze_fan").is(":checked")) {
-                await get_follower_week(7, (new Date).getDay() + 1)
+                await get_follower_week(user_id, 7, (new Date).getDay() + 1)
                     .then(function (data) {
                         datasets.push({
                             label: '最近一週',
@@ -468,7 +469,7 @@ $(document).ready(function () {
                     });
             }
             if ($("#check_two_week").is(":checked") && $("#radio_analyze_fan").is(":checked")) {
-                await get_follower_week(7, (new Date).getDay() + 1 + 7)
+                await get_follower_week(user_id, 7, (new Date).getDay() + 1 + 7)
                     .then(function (data) {
                         datasets.push({
                             label: '最近兩週',
@@ -480,7 +481,7 @@ $(document).ready(function () {
                     });
             }
             if ($("#check_three_week").is(":checked") && $("#radio_analyze_fan").is(":checked")) {
-                await get_follower_week(7, (new Date).getDay() + 1 + 14)
+                await get_follower_week(user_id, 7, (new Date).getDay() + 1 + 14)
                     .then(function (data) {
                         datasets.push({
                             label: '最近三週',
@@ -756,7 +757,7 @@ function get_follower_year(day_length, day_shift) {
     });
 }
 //取得follower週資料
-function get_follower_week(day_length, day_shift) {
+function get_follower_week(user_id, day_length, day_shift) {
     let d;
     let array_day = [];
     let array_day_fan = [];
@@ -768,7 +769,7 @@ function get_follower_week(day_length, day_shift) {
         array_day_fan.push(0);
     }
     return new Promise((resolve) => {
-        $.get("/api/userapi/follower/1", function (data, status) {
+        $.get(`/api/userapi/follower/${user_id}`, function (data, status) {
 
             d = new Date();
             d.setDate(d.getDate() - (day_length + day_shift - 1));

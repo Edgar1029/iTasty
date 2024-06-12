@@ -66,11 +66,22 @@
 				<div class="bar2"></div>
 				<div class="bar3"></div>
 				<div class="left-title">
-					<p id="all-receipe" class="left-title-bar"><a href="">所有食譜</a></p>
+					<p id="all-receipe" class="left-title-bar"><a href="~/Research/Index">所有食譜</a></p>
 					<p class="bababa"></p>
-					<p id="my-receipe" class="left-title-bar"><a href="">我的食譜</a></p>
-					<p class="bababa"></p>
-					<p id="my-page" class="left-title-bar"><a href="">我的頁面</a></p>
+					@{
+						if (userId != 0)
+						{
+							<p id="my-receipe" class="left-title-bar"><a href="~/Folder/favoriteFolder">我的食譜</a></p>
+							<p class="bababa"></p>
+							<p id="my-page" class="left-title-bar"><a href="~/user/@(userEmail.Split('@')[0])">我的頁面</a></p>
+						}
+						else
+						{
+							<p id="my-receipe" class="left-title-bar"><a href="/UserRegister/Create">我的食譜</a></p>
+							<p class="bababa"></p>
+							<p id="my-page" class="left-title-bar"><a href="/UserRegister/Create">我的頁面</a></p>
+						}
+					}
 				</div>
 			</div>
 			<div class="nav-middle">
@@ -117,9 +128,19 @@
 				頁籤
 			</div>
 			<ul>
-				<li><a href="">查詢頁</a></li>
-				<li><a href="">收藏頁</a></li>
-				<li><a href="">我的首頁</a></li>
+				<li><a href="~/Research/Index">所有食譜</a></li>
+				@{
+					if (userId != 0)
+					{
+						<li><a href="~/Folder/favoriteFolder">我的食譜</a></li>
+						<li><a href="~/user/@(userEmail.Split('@')[0])">我的頁面</a></li>
+					}
+					else
+					{
+						<li><a href="/UserRegister/Create">我的食譜</a></li>
+						<li><a href="/UserRegister/Create">我的頁面</a></li>
+					}
+				}
 			</ul>
 		</div>
 		<div class="footer-link col-xl-3 col-4">
@@ -127,9 +148,19 @@
 				頁籤
 			</div>
 			<ul>
-				<li><a href="">查詢頁</a></li>
-				<li><a href="">收藏頁</a></li>
-				<li><a href="">我的首頁</a></li>
+				<li><a href="~/Research/Index">所有食譜</a></li>
+				@{
+					if (userId != 0)
+					{
+						<li><a href="~/Folder/favoriteFolder">我的食譜</a></li>
+						<li><a href="~/user/@(userEmail.Split('@')[0])">我的頁面</a></li>
+					}
+					else
+					{
+						<li><a href="/UserRegister/Create">我的食譜</a></li>
+						<li><a href="/UserRegister/Create">我的頁面</a></li>
+					}
+				}
 			</ul>
 		</div>
 		<div class="footer-logo col-xl-3 d-xl-block d-sm-none"></div>

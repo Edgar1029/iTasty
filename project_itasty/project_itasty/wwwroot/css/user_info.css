@@ -58,8 +58,12 @@
         font-size: 16px;
     }
 
+        .area_radio label:hover {
+            cursor: pointer;
+        }
+
     .area_radio input:checked + label {
-        color: #cc8566;
+        color: #e87543;
     }
 
 .area_button {
@@ -327,6 +331,60 @@
     .area_edit .btn_back i {
         font-size: 16px;
     }
+
 .area_select_recipe label:has(input:checked) {
     background-color: #e87543;
 }
+
+.list_analyze_recipe > p {
+    margin-left: 83px;
+}
+
+.list_analyze_recipe button {
+    background-color: #00000000;
+    border-style: none;
+}
+
+    .list_analyze_recipe button:hover {
+        color: #e87543;
+        cursor: pointer;
+    }
+
+.area_analyze {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+    .area_analyze p {
+        margin-bottom: 5px;
+    }
+
+    .area_analyze > div > label {
+        min-width: 60px;
+        text-align: center;
+    }
+
+    .area_analyze label:has(input:checked) {
+        color: #e87543;
+    }
+
+    .area_analyze label:hover {
+        cursor: pointer;
+    }
+
+.area_analyze_recipe > p > button,
+#btn_analyze {
+    background-color: #000000;
+    border-radius: 15px;
+    color: #ffffff;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.area_select_time {
+    margin-left: 83px;
+}
+
+    .area_select_time input:checked + label {
+        color: #e87543;
+    }
