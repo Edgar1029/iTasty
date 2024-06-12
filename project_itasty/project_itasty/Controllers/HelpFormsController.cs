@@ -22,27 +22,69 @@ namespace project_itasty.Controllers
         // GET: HelpForms
         public async Task<IActionResult> Index()
         {
-            var iTastyDb01Context = _context.HelpForms.Include(h => h.User);
-            return View(await iTastyDb01Context.ToListAsync());
+            string userEmail = HttpContext.Session.GetString("userEmail") ?? "Guest";
+            if (userEmail != null)
+            {
+
+                var query = from o in _context.UserInfos where o.UserEmail == userEmail select o;
+                var permission = query.FirstOrDefault();
+
+                if (userEmail == permission?.UserEmail && permission.UserPermissions == 1)
+                {
+
+                    var iTastyDb01Context = _context.HelpForms.Include(h => h.User);
+                    return View(await iTastyDb01Context.ToListAsync());
+                }
+                else
+                {
+
+                    return Redirect("/Home/Index");
+
+                }
+            }
+
+            return Redirect("/Home/Index");
+           
         }
 
         // GET: HelpForms/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            string userEmail = HttpContext.Session.GetString("userEmail") ?? "Guest";
+            if (userEmail != null)
             {
-                return NotFound();
+
+                var query = from o in _context.UserInfos where o.UserEmail == userEmail select o;
+                var permission = query.FirstOrDefault();
+
+                if (userEmail == permission?.UserEmail && permission.UserPermissions == 1)
+                {
+                    if (id == null)
+                    {
+                        return NotFound();
+                    }
+
+                    var helpForm = await _context.HelpForms
+                        .Include(h => h.User)
+                        .FirstOrDefaultAsync(m => m.FormId == id);
+                    if (helpForm == null)
+                    {
+                        return NotFound();
+                    }
+
+                    return View(helpForm);
+
+                }
+                else
+                {
+
+                    return Redirect("/Home/Index");
+
+                }
             }
 
-            var helpForm = await _context.HelpForms
-                .Include(h => h.User)
-                .FirstOrDefaultAsync(m => m.FormId == id);
-            if (helpForm == null)
-            {
-                return NotFound();
-            }
-
-            return View(helpForm);
+            return Redirect("/Home/Index");
+           
         }
 
         // GET: HelpForms/Create
@@ -101,18 +143,40 @@ namespace project_itasty.Controllers
         // GET: HelpForms/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            string userEmail = HttpContext.Session.GetString("userEmail") ?? "Guest";
+            if (userEmail != null)
             {
-                return NotFound();
+
+                var query = from o in _context.UserInfos where o.UserEmail == userEmail select o;
+                var permission = query.FirstOrDefault();
+
+                if (userEmail == permission?.UserEmail && permission.UserPermissions == 1)
+                {
+                    if (id == null)
+                    {
+                        return NotFound();
+                    }
+
+                    var helpForm = await _context.HelpForms.FindAsync(id);
+                    if (helpForm == null)
+                    {
+                        return NotFound();
+                    }
+                    ViewData["UserId"] = new SelectList(_context.UserInfos, "Id", "Id", helpForm.UserId);
+                    return View(helpForm);
+
+                }
+                else
+                {
+
+                    return Redirect("/Home/Index");
+
+                }
             }
 
-            var helpForm = await _context.HelpForms.FindAsync(id);
-            if (helpForm == null)
-            {
-                return NotFound();
-            }
-            ViewData["UserId"] = new SelectList(_context.UserInfos, "Id", "Id", helpForm.UserId);
-            return View(helpForm);
+            return Redirect("/Home/Index");
+
+           
         }
 
         // POST: HelpForms/Edit/5
@@ -154,20 +218,41 @@ namespace project_itasty.Controllers
         // GET: HelpForms/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            string userEmail = HttpContext.Session.GetString("userEmail") ?? "Guest";
+            if (userEmail != null)
             {
-                return NotFound();
+
+                var query = from o in _context.UserInfos where o.UserEmail == userEmail select o;
+                var permission = query.FirstOrDefault();
+
+                if (userEmail == permission?.UserEmail && permission.UserPermissions == 1)
+                {
+                    if (id == null)
+                    {
+                        return NotFound();
+                    }
+
+                    var helpForm = await _context.HelpForms
+                        .Include(h => h.User)
+                        .FirstOrDefaultAsync(m => m.FormId == id);
+                    if (helpForm == null)
+                    {
+                        return NotFound();
+                    }
+
+                    return View(helpForm);
+
+                }
+                else
+                {
+
+                    return Redirect("/Home/Index");
+
+                }
             }
 
-            var helpForm = await _context.HelpForms
-                .Include(h => h.User)
-                .FirstOrDefaultAsync(m => m.FormId == id);
-            if (helpForm == null)
-            {
-                return NotFound();
-            }
-
-            return View(helpForm);
+            return Redirect("/Home/Index");
+           
         }
 
         // POST: HelpForms/Delete/5

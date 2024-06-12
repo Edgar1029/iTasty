@@ -346,6 +346,312 @@ VALUES
 (10, 10, 'ING107', N'雞肉', 100, N'克');
 
 ------------------------------------------------------------------------
+-- 插入1月的食材
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES 
+(1, N'皺葉萵苣', NULL,0),
+(1, N'薑黃', NULL,0),
+(1, N'甜椒', NULL,0),
+(1, N'綠花椰', NULL,0),
+(1, N'冬筍', NULL,0),
+(1, N'油菜', NULL,0),
+(1, N'甜菜根', NULL,0),
+(1, N'羽衣甘藍', NULL,0),
+(1, N'馬鈴薯', NULL,0),
+(1, N'茼蒿', NULL,0),
+(1, N'桶柑', NULL,0),
+(1, N'紅甘蔗', NULL,0),
+(1, N'蜜棗', NULL,0);
+
+-- 插入2月的食材
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES 
+(2, N'白花椰', NULL,0),
+(2, N'羅馬花椰菜', NULL,0),
+(2, N'福山萵苣', NULL,0),
+(2, N'包心白菜', NULL,0),
+(2, N'胡蘿蔔', NULL,0),
+(2, N'洋蔥', NULL,0),
+(2, N'猴頭菇', NULL,0),
+(2, N'蒜苗', NULL,0),
+(2, N'茂谷柑', NULL,0),
+(2, N'草莓', NULL,0);
+
+-- 插入3月的食材
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES 
+(3, N'牛番茄', NULL,0),
+(3, N'美白菇', NULL,0),
+(3, N'韭菜', NULL,0),
+(3, N'青蔥', NULL,0),
+(3, N'櫛瓜', NULL,0),
+(3, N'紅鳳菜', NULL,0),
+(3, N'胭脂茄', NULL,0),
+(3, N'白鳳菜', NULL,0),
+(3, N'楊桃', NULL,0),
+(3, N'枇杷', NULL,0),
+(3, N'桑椹', NULL,0);
+
+-- 插入4月的食材
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES 
+(4, N'四季豆', NULL,0),
+(4, N'箭竹筍', NULL,0),
+(4, N'黃豆芽', NULL,0),
+(4, N'龍鬚菜', NULL,0),
+(4, N'扁豆', NULL,0),
+(4, N'地瓜葉', NULL,0),
+(4, N'秀珍菇', NULL,0),
+(4, N'蘆筍', NULL,0),
+(4, N'胭脂梅', NULL,0),
+(4, N'烏梅', NULL,0);
+
+-- 插入5月的食材
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES 
+(5, N'小黃瓜', NULL,0),
+(5, N'黑木耳', NULL,0),
+(5, N'空心菜', NULL,0),
+(5, N'秋葵', NULL,0),
+(5, N'絲瓜', NULL,0),
+(5, N'刺蔥', NULL,0),
+(5, N'紫蘇', NULL,0),
+(5, N'豇豆', NULL,0),
+(5, N'蓮霧', NULL,0),
+(5, N'覆盆莓', NULL,0),
+(5, N'櫻桃', NULL,0),
+(5, N'山竹', NULL,0);
+
+-- 插入6月的食材
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES 
+(6, N'麻竹筍', NULL,0),
+(6, N'納豆', NULL,0),
+(6, N'九層塔', NULL,0),
+(6, N'栗子南瓜', NULL,0),
+(6, N'小米', NULL,0),
+(6, N'白玉苦瓜', NULL,0),
+(6, N'蓮子', NULL,0),
+(6, N'百合', NULL,0),
+(6, N'金鑽鳳梨', NULL,0),
+(6, N'西瓜', NULL,0),
+(6, N'榴槤', NULL,0),
+(6, N'李子', NULL,0),
+(6, N'荔枝', NULL,0);
+
+-- 插入7月的食材
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES 
+(7, N'草菇', NULL,0),
+(7, N'扁蒲', NULL,0),
+(7, N'紅莧菜', NULL,0),
+(7, N'水璉', NULL,0),
+(7, N'珊瑚菇', NULL,0),
+(7, N'銀耳', NULL,0),
+(7, N'冬瓜', NULL,0),
+(7, N'辣椒', NULL,0),
+(7, N'紫米', NULL,0),
+(7, N'芒果', NULL,0),
+(7, N'水蜜桃', NULL,0),
+(7, N'香瓜', NULL,0),
+(7, N'香蕉', NULL,0),
+(7, N'檸檬', NULL,0),
+(7, N'龍眼', NULL,0),
+(7, N'紅毛丹', NULL,0),
+(7, N'百香果', NULL,0);
+
+-- 插入8月的食材
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES 
+(8, N'山苦瓜', NULL,0),
+(8, N'香茅', NULL,0),
+(8, N'竹笙', NULL,0),
+(8, N'碧玉筍', NULL,0),
+(8, N'金針花', NULL,0),
+(8, N'鷹嘴豆', NULL,0),
+(8, N'韭菜花', NULL,0),
+(8, N'花椒', NULL,0),
+(8, N'巨峰葡萄', NULL,0),
+(8, N'紅棗', NULL,0),
+(8, N'黑醋栗', NULL,0),
+(8, N'枸杞', NULL,0),
+(8, N'金桔', NULL,0),
+(8, N'藍莓', NULL,0),
+(8, N'水梨', NULL,0),
+(8, N'椰棗', NULL,0);
+
+-- 插入9月的食材
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES 
+(9, N'青木瓜', NULL,0),
+(9, N'玉米筍', NULL,0),
+(9, N'豆腐', NULL,0),
+(9, N'青椒', NULL,0),
+(9, N'韭黃', NULL,0),
+(9, N'山藥', NULL,0),
+(9, N'山茼蒿', NULL,0),
+(9, N'蓮藕', NULL,0),
+(9, N'綠豆芽', NULL,0),
+(9, N'文旦', NULL,0),
+(9, N'蘋果', NULL,0),
+(9, N'火龍果', NULL,0),
+(9, N'奇異果', NULL,0),
+(9, N'木瓜', NULL,0);
+
+
+-- 插入白胡椒
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (10, N'白胡椒', NULL,0);
+
+-- 插入茭白筍
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (10, N'茭白筍', NULL,0);
+
+-- 插入青花菜芽
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (10, N'青花菜芽', NULL,0);
+
+-- 插入青江菜
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (10, N'青江菜', NULL,0);
+
+-- 插入玉米
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (10, N'玉米', NULL,0);
+
+-- 插入糯米椒
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (10, N'糯米椒', NULL,0);
+
+-- 插入橄欖
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (10, N'橄欖', NULL,0);
+
+-- 插入球芽甘藍
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (10, N'球芽甘藍', NULL,0);
+
+-- 插入蔓越莓
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (10, N'蔓越莓', NULL,0);
+
+-- 插入柿子
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (10, N'柿子', NULL,0);
+
+-- 插入芭樂
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (10, N'芭樂', NULL,0);
+
+-- 插入洛神
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (10, N'洛神', NULL,0);
+
+-- 插入白柚
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (10, N'白柚', NULL,0);
+
+-- 插入小白菜
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (11, N'小白菜', NULL,0);
+
+-- 插入白蘿蔔
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (11, N'白蘿蔔', NULL,0);
+
+-- 插入蘿蔔嬰
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (11, N'蘿蔔嬰', NULL,0);
+
+-- 插入芥蘭菜
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (11, N'芥蘭菜', NULL,0);
+
+-- 插入山蘇
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (11, N'山蘇', NULL,0);
+
+-- 插入荷蘭芹
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (11, N'荷蘭芹', NULL,0);
+
+-- 插入大頭菜
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (11, N'大頭菜', NULL,0);
+
+-- 插入西洋梨
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (11, N'西洋梨', NULL,0);
+
+-- 插入柳丁
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (11, N'柳丁', NULL,0);
+
+-- 插入葡萄柚
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (11, N'葡萄柚', NULL,0);
+
+-- 插入哈密瓜
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (11, N'哈密瓜', NULL,0);
+
+-- 插入黑棗
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (11, N'黑棗', NULL,0);
+
+-- 插入菠菜
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (12, N'菠菜', NULL,0);
+
+-- 插入香菇
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (12, N'香菇', NULL,0);
+
+-- 插入芫荽
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (12, N'芫荽', NULL,0);
+
+-- 插入黑芝麻
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (12, N'黑芝麻', NULL,0);
+
+-- 插入杏鮑菇
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (12, N'杏鮑菇', NULL,0);
+
+-- 插入高麗菜
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (12, N'高麗菜', NULL,0);
+
+-- 插入結球萵苣
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (12, N'結球萵苣', NULL,0);
+
+-- 插入櫻桃蘿蔔
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (12, N'櫻桃蘿蔔', NULL,0);
+
+-- 插入山葵
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (12, N'山葵', NULL,0);
+
+-- 插入紅豆
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (12, N'紅豆', NULL,0);
+
+-- 插入雪蓮果
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (12, N'雪蓮果', NULL,0);
+
+-- 插入仙桃
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (12, N'仙桃', NULL,0);
+
+-- 插入無花果
+INSERT INTO seasonalIngredients (monthId, commonName, ingredientsImg, IsActive)
+VALUES (12, N'無花果', NULL,0);
+------------------------------------------------------------------------
+
 Install-Package Microsoft.EntityFrameworkCore.Tools
 install-package Microsoft.EntityFrameworkCore.SqlServer
 Scaffold-DbContext "Data Source=DESKTOP-AVM54SB;Initial Catalog=iTastyDB;Persist Security Info=False;User ID=sa;PassWord=111111;Encrypt=False;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Force
