@@ -58,7 +58,7 @@
 					<div class="row">
 
 						<div class="col-6 ">
-							<h3>近五天網站流量</h3>
+							<h3>近五天食譜流量</h3>
 							<canvas id="myChart"></canvas>
 						</div>
 
@@ -78,15 +78,15 @@
 							<th>留言數</th>
 							<th>狀態</th>
 						</tr>
-						@foreach (var i in Model.OrderRecipedTable)
+						@for(int i=0;i<10; i++ )
 						{
 							<tr>
-								@* <td>@(i + 1)</td> *@
-								<td>i.RecipedName</td>
-								<td>i.Author</td>
-								<td>i.RecipedView</td>
-								<td>i.NumberOfComment</td>
-								<td>i.RecipedStatus</td>
+								<td>@(i + 1)</td> 
+								<td>@Model.OrderRecipedTable[i].RecipedName</td>
+								<td>@Model.OrderRecipedTable[i].Author</td>
+								<td>@Model.OrderRecipedTable[i].RecipedView</td>
+								<td>@Model.OrderRecipedTable[i].NumberOfComment</td>
+								<td>@Model.OrderRecipedTable[i].RecipedStatus</td>
 							</tr>
 						}
 

@@ -21,8 +21,8 @@
 						<option value="all">所有選項</option>
 						<option value="15min">少於15分鐘</option>
 						<option value="30min">少於30分鐘</option>
-						<option value="60min">少於60分鐘</option>
-						<option value="60min_up">60分鐘以上</option>
+						<option value="60min">60分鐘以下</option>
+						<option value="60min_up">超過60分鐘</option>
 					</select>
 				</div>
 				<!-- 篩選欄1 -->
@@ -134,7 +134,7 @@
 				#region 渲染結果
 				foreach (var recipe in Model)
 				{
-					<div class="search_result" src="/{UserId}">
+					<div class="search_result m-4" src="/{UserId}">
 						<!-- 料理圖片 -->
 						<img src="data:image/jpg;base64, @((recipe.r.RecipeCoverImage != null)?Convert.ToBase64String(recipe.r.RecipeCoverImage):"")" alt="食物圖片" class="recipes_img" @((recipe.r.RecipeCoverImage == null) ? "hidden" : "")>
 						<!-- 料理圖片 -->
