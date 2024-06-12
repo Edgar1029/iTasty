@@ -16,7 +16,7 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor hca
 @{
     string userEmail = hca.HttpContext.Session.GetString("userEmail") ?? "Guest";
-    var uerId = hca.HttpContext.Session.GetInt32("userid");
+    var userId = hca.HttpContext.Session.GetInt32("userId");
 }
 
 
@@ -36,7 +36,7 @@
                     <form class="form_label_style col-6" asp-action="Create" method="post" enctype="multipart/form-data">
                         <h2>問題&建議</h2>
                         <div class="mb-3 inputbox " style="padding-top: 20px;">
-                        <input asp-for="UserId" class="form-control" type="hidden" value="@uerId">
+                        <input asp-for="UserId" class="form-control" type="hidden" value="@userId">
                             <label asp-for="QuestionType" class="form-label">請選擇問題類型</label>
                             <select asp-for="QuestionType" class="form-select" aria-label="Default select example" id="form_select">
                                 <option selected></option>

@@ -230,7 +230,7 @@
 					<p>
 						<a asp-action="Create" asp-controller="season">新增資料</a>
 					</p>
-					<form asp-action="Index" method="post">
+					<form asp-action="Index" asp-controller="season"  method="post">
 
 
 
@@ -254,8 +254,10 @@
 								</tr>
 							</thead>
 							<tbody>
+								@{int index=0;}
 								@foreach (SeasonalIngredient i in ViewBag.season)
 								{
+									
 									<tr>
 										<td>
 											@Html.DisplayFor(modelItem => i.MonthId)
@@ -265,16 +267,17 @@
 										</td>
 										<td>
 
-											@Html.Hidden("selectedIngredients_[" + i + "]", i.Id)
-											@Html.CheckBox("selectedIngredients[" + i + "]", i.IsActive, new { id = "checkbox_" + i.Id })
+											@Html.Hidden("selectedIngredients_[" + index + "]", i.Id)
+											@Html.CheckBox("selectedIngredients[" + index + "]", i.IsActive, new { id = "checkbox_" + i.Id })
 
 
 										</td>
 										<td>
-											<a asp-action="Details" asp-route-id="@i.Id">Details</a> |
-											<a asp-action="Delete" asp-route-id="@i.Id">Delete</a>
+											<a asp-action="Details" asp-controller="Season" asp-route-id="@i.Id">Details</a> |
+											<a asp-action="Delete" asp-controller="Season" asp-route-id="@i.Id">Delete</a>
 										</td>
 									</tr>
+									index++;
 								}
 							</tbody>
 						</table>

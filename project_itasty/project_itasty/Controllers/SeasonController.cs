@@ -72,7 +72,7 @@ namespace project_itasty.Controllers
          
             _context.SaveChanges();
            
-            return RedirectToAction("Index");
+            return Redirect("Background_control/Index");
         }
 
 
