@@ -62,7 +62,7 @@ namespace project_itasty.Controllers
 			#endregion
 
 			#region 將資料灌進UserList
-			var UserList = _context.UserInfos.ToList();
+			var UserList = _context.UserInfos.Where(r=>r.UserPermissions == 1 || r.UserPermissions ==3).OrderBy(r=>r.UserPermissions).ToList();
 
 			var UserTable = new List<Background_Control_UserTable>();
 
