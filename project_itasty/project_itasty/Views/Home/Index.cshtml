@@ -83,11 +83,11 @@
                                         @{
                                             if (Model.Ingredients[i].IngredientsImg != null)
                                             {
-                                                            <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Ingredients[i].IngredientsImg)" class="d-block w-100 " alt="..." style="height:570px; " />
+                                                                <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Ingredients[i].IngredientsImg)" class="d-block w-100 " alt="..." style="height:570px; " />
                                             }
                                             else
                                             {
-                                                            <img src="" class="">
+                                                                <img src="" class="">
 
                                             }
                                         }
@@ -354,11 +354,11 @@
                                 
                                     if (Model.Recipes[0].RecipeCoverImage != null)
                                     {
-                                                    <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[0].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
+                                                        <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[0].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
                                     }
                                     else
                                     {
-                                                    <img src="" class="">
+                                                        <img src="" class="">
 
                                     }
                                 }
@@ -377,11 +377,11 @@
                             @{
                                 if (Model.Recipes[1].RecipeCoverImage != null)
                                 {
-                                                <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[1].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
+                                                    <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[1].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
                                 }
                                 else
                                 {
-                                                <img src="" class="">
+                                                    <img src="" class="">
 
                                 }
                             }
@@ -400,11 +400,11 @@
                                 @{
                                     if (Model.Recipes[2].RecipeCoverImage != null)
                                     {
-                                                    <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[2].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
+                                                        <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[2].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
                                     }
                                     else
                                     {
-                                                    <img src="" class="">
+                                                        <img src="" class="">
 
                                     }
                                 }
@@ -429,11 +429,11 @@
                                 @{
                                     if (Model.Recipes[3].RecipeCoverImage != null)
                                     {
-                                                    <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[3].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
+                                                        <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[3].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
                                     }
                                     else
                                     {
-                                                    <img src="" class="">
+                                                        <img src="" class="">
 
                                     }
                                 }
@@ -452,11 +452,11 @@
                                 @{
                                     if (Model.Recipes[4].RecipeCoverImage != null)
                                     {
-                                                    <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[4].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
+                                                        <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[4].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
                                     }
                                     else
                                     {
-                                                    <img src="" class="">
+                                                        <img src="" class="">
 
                                     }
                                 }
@@ -475,11 +475,11 @@
                                 @{
                                     if (Model.Recipes[5].RecipeCoverImage != null)
                                     {
-                                                    <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[5].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
+                                                        <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[5].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
                                     }
                                     else
                                     {
-                                                    <img src="" class="">
+                                                        <img src="" class="">
 
                                     }
                                 }
@@ -516,7 +516,15 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script>
-$(document).ready(function () {
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor hca
+    @{
+        string userEmail = hca.HttpContext?.Session.GetString("userEmail") ?? "Guest";
+        int userId = hca.HttpContext?.Session.GetInt32("userId") ?? 0;
+    }
+        sessionStorage.setItem("userEmail", "@userEmail");
+        sessionStorage.setItem("userId", @userId);
+   
+        $(document).ready(function () {
     let x = 0;
     //下拉選單觸發事件
     window.onclick = function (e) {

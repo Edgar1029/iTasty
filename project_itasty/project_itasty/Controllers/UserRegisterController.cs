@@ -156,7 +156,9 @@ namespace project_itasty.Controllers
                 TempData["loginMessage"] = "登入失敗";
                  if (Userpassword == member.UserPassword)
                 {
-                    TempData["loginMessage"] = "登入成功";
+					HttpContext.Session.SetString("userEmail", UserEmail);
+					HttpContext.Session.SetInt32("userId", member.UserId);
+					TempData["loginMessage"] = "登入成功";
                     return Redirect("/Home/Index");
                 }
                 else 
@@ -164,7 +166,7 @@ namespace project_itasty.Controllers
                 { 
 
                 HttpContext.Session.SetString("userEmail", UserEmail);
-                HttpContext.Session.SetInt32("userid", member.UserId);
+                HttpContext.Session.SetInt32("userId", member.UserId);
                 TempData["loginMessage"] = "登入成功";
                 return Redirect("/Home/Index");
                 }

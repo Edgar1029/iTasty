@@ -31,7 +31,7 @@
 		<div class="header-first d-lg-flex d-sm-none" style="display:flex">
 			<div class="header-left row gx-0">
 				<div class="header-left-img" onclick="page_home()"></div>
-				<a href="~/Research/Index"><span id="all-receipe">所有食譜</span></a>
+				<a href="~/Research/Index"><span id="all-receipe">所有食譜 </span></a>
 				@{
 					if (userId != 0)
 					{
@@ -107,9 +107,9 @@
 				首頁
 			</div>
 			<ul>
-				<li><a href="">會員登入頁</a></li>
-				<li><a href="">會員註冊頁</a></li>
-				<li><a href="">客戶服務頁</a></li>
+				<li><a href="~/UserRegister/Create">會員登入頁</a></li>
+				<li><a href="~/UserRegister/Create">會員註冊頁</a></li>
+				<li><a href="~/HelpForms/Create">客戶服務頁</a></li>
 			</ul>
 		</div>
 		<div class="footer-link col-xl-3 col-4">
@@ -137,6 +137,7 @@
 		<div class="footer-footer">
 			© 2024 - 2024 ITASTY | Perfect Receipe Await. All Rights Reserved.
 		</div>
+		
 	</footer>
 	@await RenderSectionAsync("MyScripts", required: false)
 </body>
