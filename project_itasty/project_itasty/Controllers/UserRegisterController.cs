@@ -30,35 +30,45 @@ namespace project_itasty.Controllers
         // GET: UserRegister
         public async Task<IActionResult> Index()
         {
-            string userName = HttpContext.Session.GetString("userEmail") ?? "Guest";
-            var query=from o in _context.UserInfos where o.UserPermissions==1 select o;
-            var permission=query.ToList();
-            foreach(var i in permission)
+            
+            string userEmail = HttpContext.Session.GetString("userEmail") ?? "Guest";
+            if (userEmail != null)
             {
-                if (i.UserPermissions == 1&&i.UserEmail==userName&& userName!="Guest")
+               
+                var query = from o in _context.UserInfos where o.UserEmail == userEmail select o;
+                var permission = query.FirstOrDefault();
+
+                if (userEmail ==permission?.UserEmail&& permission.UserPermissions == 1)
                 {
+                   
                     return View(await _context.UserInfos.ToListAsync());
                 }
                 else
                 {
+                    
                     return Redirect("/Home/Index");
-                   
+
                 }
             }
+
             return Redirect("/Home/Index");
+
 
         }
 
         // GET: UserRegister/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            string userName = HttpContext.Session.GetString("userEmail") ?? "Guest";
-            var query = from o in _context.UserInfos where o.UserPermissions == 1 select o;
-            var permission = query.ToList();
-            foreach (var i in permission)
+            string userEmail = HttpContext.Session.GetString("userEmail") ?? "Guest";
+            if (userEmail != null)
             {
-                if (i.UserPermissions == 1 && i.UserEmail == userName && userName != "Guest")
+
+                var query = from o in _context.UserInfos where o.UserEmail == userEmail select o;
+                var permission = query.FirstOrDefault();
+
+                if (userEmail == permission?.UserEmail && permission.UserPermissions == 1)
                 {
+
                     if (id == null)
                     {
                         return NotFound();
@@ -75,11 +85,15 @@ namespace project_itasty.Controllers
                 }
                 else
                 {
+
                     return Redirect("/Home/Index");
 
                 }
             }
+
             return Redirect("/Home/Index");
+
+           
 
            
         }
@@ -187,7 +201,7 @@ namespace project_itasty.Controllers
 		public IActionResult Logout()
 		{
 			HttpContext.Session.Remove("userEmail");
-            HttpContext.Session.Remove("userid");
+            HttpContext.Session.Remove("userId");
             return Redirect("/Home/Index");
 		}
 
@@ -202,13 +216,16 @@ namespace project_itasty.Controllers
         // GET: UserRegister/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            string userName = HttpContext.Session.GetString("userEmail") ?? "Guest";
-            var query = from o in _context.UserInfos where o.UserPermissions == 1 select o;
-            var permission = query.ToList();
-            foreach (var i in permission)
+            string userEmail = HttpContext.Session.GetString("userEmail") ?? "Guest";
+            if (userEmail != null)
             {
-                if (i.UserPermissions == 1 && i.UserEmail == userName && userName != "Guest")
+
+                var query = from o in _context.UserInfos where o.UserEmail == userEmail select o;
+                var permission = query.FirstOrDefault();
+
+                if (userEmail == permission?.UserEmail && permission.UserPermissions == 1)
                 {
+
                     if (id == null)
                     {
                         return NotFound();
@@ -223,11 +240,14 @@ namespace project_itasty.Controllers
                 }
                 else
                 {
+
                     return Redirect("/Home/Index");
 
                 }
             }
+
             return Redirect("/Home/Index");
+           
 
 
             
@@ -240,43 +260,69 @@ namespace project_itasty.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("UserId,UserName,UserPhoto,UserEmail,UserPassword,UserBanner,UserIntro,UserPermissions,UserCreateTime")] UserInfo userInfo1)
         {
-            if (id != userInfo1.UserId)
+            string userEmail = HttpContext.Session.GetString("userEmail") ?? "Guest";
+            if (userEmail != null)
             {
-                return NotFound();
-            }
 
-            if (ModelState.IsValid)
-            {
-                try
+                var query = from o in _context.UserInfos where o.UserEmail == userEmail select o;
+                var permission = query.FirstOrDefault();
+
+                if (userEmail == permission?.UserEmail && permission.UserPermissions == 1)
                 {
-                    _context.Update(userInfo1);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UserInfo1Exists(userInfo1.UserId))
+                    if (id != userInfo1.UserId)
                     {
                         return NotFound();
                     }
-                    else
+
+                    if (ModelState.IsValid)
                     {
-                        throw;
+                        try
+                        {
+                            _context.Update(userInfo1);
+                            await _context.SaveChangesAsync();
+                        }
+                        catch (DbUpdateConcurrencyException)
+                        {
+                            if (!UserInfo1Exists(userInfo1.UserId))
+                            {
+                                return NotFound();
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
+                        return RedirectToAction(nameof(Index));
                     }
+                    return View(userInfo1);
                 }
-                return RedirectToAction(nameof(Index));
+                else
+                {
+
+                    return Redirect("/Home/Index");
+
+                }
             }
-            return View(userInfo1);
+
+            return Redirect("/Home/Index");
+
+
+           
+
+           
         }
 
         // GET: UserRegister/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            string userName = HttpContext.Session.GetString("userEmail") ?? "Guest";
-            var query = from o in _context.UserInfos where o.UserPermissions == 1 select o;
-            var permission = query.ToList();
-            foreach (var i in permission)
+            string userEmail = HttpContext.Session.GetString("userEmail") ?? "Guest";
+            if (userEmail != null)
             {
-                if (i.UserPermissions == 1 && i.UserEmail == userName && userName != "Guest")
+
+                var query = from o in _context.UserInfos where o.UserEmail == userEmail select o;
+                var permission = query.FirstOrDefault();
+
+                if (userEmail == permission?.UserEmail && permission.UserPermissions == 1)
                 {
                     if (id == null)
                     {
@@ -291,14 +337,20 @@ namespace project_itasty.Controllers
                     }
 
                     return View(userInfo1);
+
                 }
                 else
                 {
+
                     return Redirect("/Home/Index");
 
                 }
             }
+
             return Redirect("/Home/Index");
+
+
+            
 
           
         }

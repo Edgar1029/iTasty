@@ -26,12 +26,33 @@ namespace project_itasty.Controllers
         // GET: Season
         public async Task<IActionResult> Index()
         {
-           ViewBag.Month = month;
-            var query = from o in _context.SeasonalIngredients
-            where o.MonthId == 7 /*month*/
-                        select o;
+            string userEmail = HttpContext.Session.GetString("userEmail") ?? "Guest";
+            if (userEmail != null)
+            {
 
-            return View(await query.ToListAsync());
+                var query = from o in _context.UserInfos where o.UserEmail == userEmail select o;
+                var permission = query.FirstOrDefault();
+
+                if (userEmail == permission?.UserEmail && permission.UserPermissions == 1)
+                {
+
+                    ViewBag.Month = month;
+                    var query2 = from o in _context.SeasonalIngredients
+                                where o.MonthId == 7 /*month*/
+                                select o;
+
+                    return View(await query2.ToListAsync());
+                }
+                else
+                {
+
+                    return Redirect("/Home/Index");
+
+                }
+            }
+
+            return Redirect("/Home/Index");
+            
         }
 
         [HttpPost]
@@ -59,25 +80,68 @@ namespace project_itasty.Controllers
         // GET: Season/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            string userEmail = HttpContext.Session.GetString("userEmail") ?? "Guest";
+            if (userEmail != null)
             {
-                return NotFound();
+
+                var query = from o in _context.UserInfos where o.UserEmail == userEmail select o;
+                var permission = query.FirstOrDefault();
+
+                if (userEmail == permission?.UserEmail && permission.UserPermissions == 1)
+                {
+
+                    if (id == null)
+                    {
+                        return NotFound();
+                    }
+
+                    var seasonalIngredient = await _context.SeasonalIngredients
+                        .FirstOrDefaultAsync(m => m.Id == id);
+                    if (seasonalIngredient == null)
+                    {
+                        return NotFound();
+                    }
+
+                    return View(seasonalIngredient);
+                }
+                else
+                {
+
+                    return Redirect("/Home/Index");
+
+                }
             }
 
-            var seasonalIngredient = await _context.SeasonalIngredients
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (seasonalIngredient == null)
-            {
-                return NotFound();
-            }
+            return Redirect("/Home/Index");
 
-            return View(seasonalIngredient);
+            
         }
 
         // GET: Season/Create
         public IActionResult Create()
         {
-            return View();
+            string userEmail = HttpContext.Session.GetString("userEmail") ?? "Guest";
+            if (userEmail != null)
+            {
+
+                var query = from o in _context.UserInfos where o.UserEmail == userEmail select o;
+                var permission = query.FirstOrDefault();
+
+                if (userEmail == permission?.UserEmail && permission.UserPermissions == 1)
+                {
+
+                    return View();
+                }
+                else
+                {
+
+                    return Redirect("/Home/Index");
+
+                }
+            }
+
+            return Redirect("/Home/Index");
+            
         }
 
         // POST: Season/Create
@@ -117,19 +181,41 @@ namespace project_itasty.Controllers
         // GET: Season/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            string userEmail = HttpContext.Session.GetString("userEmail") ?? "Guest";
+            if (userEmail != null)
             {
-                return NotFound();
+
+                var query = from o in _context.UserInfos where o.UserEmail == userEmail select o;
+                var permission = query.FirstOrDefault();
+
+                if (userEmail == permission?.UserEmail && permission.UserPermissions == 1)
+                {
+                    if (id == null)
+                    {
+                        return NotFound();
+                    }
+
+                    var seasonalIngredient = await _context.SeasonalIngredients
+                        .FirstOrDefaultAsync(m => m.Id == id);
+                    if (seasonalIngredient == null)
+                    {
+                        return NotFound();
+                    }
+
+                    return View(seasonalIngredient);
+
+                }
+                else
+                {
+
+                    return Redirect("/Home/Index");
+
+                }
             }
 
-            var seasonalIngredient = await _context.SeasonalIngredients
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (seasonalIngredient == null)
-            {
-                return NotFound();
-            }
+            return Redirect("/Home/Index");
 
-            return View(seasonalIngredient);
+           
         }
 
         // POST: Season/Delete/5

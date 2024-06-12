@@ -4,8 +4,8 @@ $(document).ready(function () {
     var checklogin = sessionStorage.getItem("userId");
 
     $(".loginsignbtn").empty();
-    if (checklogin != null) {
-        $(".loginsignbtn").append(`<div class="sign" style="margin-right:20px;">LogOut</div>`)
+    if (checklogin != 0) {
+        $(".loginsignbtn").append(`<a href="/UserRegister/Logout" class="sign" style="margin-right:20px;">LogOut</a>`)
     } else {
         $(".loginsignbtn").append(`<a href="/UserRegister/Create" class="sign">Sign up</a>`)
     }

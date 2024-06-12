@@ -9,7 +9,7 @@
 }
 
 @{
-	ViewData["Title"] = @Model.UserName + " | iTasty";
+	// ViewData["Title"] = @Model.UserName + " | iTasty";
 	Layout = "~/Views/Shared/_itastyLayout.cshtml";
 }
 
@@ -221,17 +221,17 @@
 			<div class="area_analyze">
 				<div>
 					<label>分析項目：</label>
-					<label>粉絲數<input type="radio" name="radio_analyze_type" id="radio_analyze_fan" checked /></label>
-					<label>瀏覽數<input type="radio" name="radio_analyze_type" id="radio_analyze_view" /></label>
+					<label>粉絲數<input type="radio" name="radio_analyze_type" id="radio_analyze_fan" checked hidden /></label>
+					<label>瀏覽數<input type="radio" name="radio_analyze_type" id="radio_analyze_view" hidden /></label>
 				</div>
 				<div class="area_analyze_recipe">
 				</div>
 				<div>
 					<label>時間篩選：</label>
-					<label>年<input type="radio" name="radio_analyze_time" id="radio_analyze_year" checked /></label>
-					<label>季<input type="radio" name="radio_analyze_time" id="radio_analyze_season" /></label>
-					<label>月<input type="radio" name="radio_analyze_time" id="radio_analyze_month" /></label>
-					<label>週<input type="radio" name="radio_analyze_time" id="radio_analyze_week" /></label>
+					<label>年<input type="radio" name="radio_analyze_time" id="radio_analyze_year" checked hidden /></label>
+					<label>季<input type="radio" name="radio_analyze_time" id="radio_analyze_season" hidden /></label>
+					<label>月<input type="radio" name="radio_analyze_time" id="radio_analyze_month" hidden /></label>
+					<label>週<input type="radio" name="radio_analyze_time" id="radio_analyze_week" hidden /></label>
 				</div>
 				<div class="area_select_time">
 					<div class="form-switch d-inline">
@@ -245,8 +245,8 @@
 				</div>
 				<div>
 					<label>分析類型：</label>
-					<label>總數<input type="radio" name="radio_analyze_data" id="radio_analyze_sum" checked /></label>
-					<label>成長數<input type="radio" name="radio_analyze_data" id="radio_analyze_grow" /></label>
+					<label>總數<input type="radio" name="radio_analyze_data" id="radio_analyze_sum" checked hidden /></label>
+					<label>成長數<input type="radio" name="radio_analyze_data" id="radio_analyze_grow" hidden /></label>
 				</div>
 				<button id="btn_analyze">分析</button>
 				<hr />
