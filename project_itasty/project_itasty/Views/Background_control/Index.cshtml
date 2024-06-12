@@ -1,334 +1,388 @@
 ﻿@{
-    Layout = null;
+	Layout = null;
 }
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>後台初版</title>
-    <!-- Latest compiled and minified CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Latest compiled JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="/css/header_footer.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>後台初版</title>
+	<!-- Latest compiled and minified CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Latest compiled JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<link rel="stylesheet" href="/css/header_footer.css">
 </head>
 
 <body>
-    <!-- 下面是header---------------------------------------------------------------------------- -->
-    <header class="row gx-0">
-        <div class="header-left row gx-0">
-            <div class="header-left-img" style="background-image: url('./img/logo_text.png');">
-            </div>
-        </div>
-        <div class="header-middle row gx-0">
-            <!-- test-middle -->
-        </div>
-        <div class="header-right row gx-0">
-            <div class="shoppingcart">
-                <a href="./login.html" style="text-decoration:none; color: black;">登出</a>
-            </div>
-        </div>
-    </header>
+	<!-- 下面是header---------------------------------------------------------------------------- -->
+	<header class="row gx-0">
+		<div class="header-left row gx-0">
+			<div class="header-left-img" style="background-image: url('./img/logo_text.png');">
+			</div>
+		</div>
+		<div class="header-middle row gx-0">
+			<!-- test-middle -->
+		</div>
+		<div class="header-right row gx-0">
+			<div class="shoppingcart">
+				<a href="./login.html" style="text-decoration:none; color: black;">登出</a>
+			</div>
+		</div>
+	</header>
 
-    <div class="row mt-4 gx-0">
-        <div class="col-2 px-5">
-            <div class="list-group" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action active" id="list_home_list" data-toggle="list"
-                   href="#list_home" role="tab" aria-controls="home">主頁</a>
-                <a class="list-group-item list-group-item-action" id="list_user_list" data-toggle="list"
-                   href="#list_user" role="tab" aria-controls="user">用戶管理</a>
-                <a class="list-group-item list-group-item-action" id="list-recipes-list" data-toggle="list"
-                   href="#list-recipes" role="tab" aria-controls="recipes">食譜管理</a>
-                <a class="list-group-item list-group-item-action" id="list-comments-list" data-toggle="list"
-                   href="#list-comments" role="tab" aria-controls="comments">評論管理</a>
-                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
-                   href="#list-settings" role="tab" aria-controls="settings">內容管理</a>
-            </div>
-        </div>
-        <div class="col-10 px-5">
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="list_home" role="tabpanel" aria-labelledby="list_home_list">
-                    <!-- 圖表 -->
-                    <div class="row">
+	<div class="row mt-4 gx-0">
+		<div class="col-2 px-5">
+			<div class="list-group" id="list-tab" role="tablist">
+				<a class="list-group-item list-group-item-action active" id="list_home_list" data-toggle="list"
+				   href="#list_home" role="tab" aria-controls="home">主頁</a>
+				<a class="list-group-item list-group-item-action" id="list_user_list" data-toggle="list"
+				   href="#list_user" role="tab" aria-controls="user">用戶管理</a>
+				<a class="list-group-item list-group-item-action" id="list-recipes-list" data-toggle="list"
+				   href="#list-recipes" role="tab" aria-controls="recipes">食譜管理</a>
+				<a class="list-group-item list-group-item-action" id="list-comments-list" data-toggle="list"
+				   href="#list-comments" role="tab" aria-controls="comments">評論管理</a>
+				<a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
+				   href="#list-settings" role="tab" aria-controls="settings">內容管理</a>
+			</div>
+		</div>
+		<div class="col-10 px-5">
+			<div class="tab-content" id="nav-tabContent">
+				<div class="tab-pane fade show active" id="list_home" role="tabpanel" aria-labelledby="list_home_list">
+					<!-- 圖表 -->
+					<div class="row">
 
-                        <div class="col-6 ">
-                            <h3>近五天網站流量</h3>
-                            <canvas id="myChart"></canvas>
-                        </div>
+						<div class="col-6 ">
+							<h3>近五天網站流量</h3>
+							<canvas id="myChart"></canvas>
+						</div>
 
-                        <div class="col-6">
-                            <h3>近月會員增長數</h3>
-                            <canvas id="myline"></canvas>
-                        </div>
-                    </div>
-                    <!-- 圖表 -->
-                    <h3>熱門食譜排名</h3>
-                    <table class="table table-hover">
-                        <tr class="table-active">
-                            <th>名次</th>
-                            <th>食譜名稱</th>
-                            <th>作者</th>
-                            <th>瀏覽數</th>
-                            <th>留言數</th>
-                            <th>狀態</th>
-                        </tr>
-                        @for (int i = 0; i < 10; i++)
-                        {
-                            <tr>
-                                <td>@(i + 1)</td>
-                                <td>@Model.OrderRecipedTable[i].RecipedName</td>
-                                <td>@Model.OrderRecipedTable[i].Author</td>
-                                <td>@Model.OrderRecipedTable[i].RecipedView</td>
-                                <td>@Model.OrderRecipedTable[i].NumberOfComment</td>
-                                <td>@Model.OrderRecipedTable[i].RecipedStatus</td>
-                            </tr>
-                        }
+						<div class="col-6">
+							<h3>近月會員增長數</h3>
+							<canvas id="myline"></canvas>
+						</div>
+					</div>
+					<!-- 圖表 -->
+					<h3>熱門食譜排名</h3>
+					<table class="table table-hover">
+						<tr class="table-active">
+							<th>名次</th>
+							<th>食譜名稱</th>
+							<th>作者</th>
+							<th>瀏覽數</th>
+							<th>留言數</th>
+							<th>狀態</th>
+						</tr>
+						@for (int i = 0; i < 10; i++)
+						{
+							<tr>
+								<td>@(i + 1)</td>
+								<td>@Model.OrderRecipedTable[i].RecipedName</td>
+								<td>@Model.OrderRecipedTable[i].Author</td>
+								<td>@Model.OrderRecipedTable[i].RecipedView</td>
+								<td>@Model.OrderRecipedTable[i].NumberOfComment</td>
+								<td>@Model.OrderRecipedTable[i].RecipedStatus</td>
+							</tr>
+						}
 
-                    </table>
-                </div>
-                <div class="tab-pane fade" id="list_user" role="tabpanel" aria-labelledby="list_user_list">
+					</table>
+				</div>
+				<div class="tab-pane fade" id="list_user" role="tabpanel" aria-labelledby="list_user_list">
 
-                    <h3>用戶列表</h3>
-                    <table class="table table-hover" id="user">
-                        <tr class="table-active">
-                            <th>用戶id</th>
-                            <th>名稱</th>
-                            <th>Email</th>
-                            <th>帳號狀態</th>
-                        </tr>
-                        @foreach (var i in Model.UserTable)
-                        {
-                            <tr>
-                                <td>@i.UserId</td>
-                                <td>@i.UserName</td>
-                                <td>@i.Email</td>
-                                @if (@i.UserStatus == 1)
-                                {
-                                    <td>管理員</td>
-                                }
-                                else if (@i.UserStatus == 2)
-                                {
-                                    <td style="color:green;">正常</td>
-                                }
-                                else if (@i.UserStatus == 3)
-                                {
-                                    <td style="color:red;">停權</td>
-                                }
-                                else
-                                {
-                                    <td>錯誤</td>
-                                }
+					<h3>用戶列表</h3>
+					<table class="table table-hover" id="user">
+						<tr class="table-active">
+							<th>用戶id</th>
+							<th>名稱</th>
+							<th>Email</th>
+							<th>帳號狀態</th>
+						</tr>
+						@foreach (var i in Model.UserTable)
+						{
+							<tr>
+								<td>@i.UserId</td>
+								<td>@i.UserName</td>
+								<td>@i.Email</td>
+								@if (@i.UserStatus == 1)
+								{
+									<td>管理員</td>
+								}
+								else if (@i.UserStatus == 2)
+								{
+									<td style="color:green;">正常</td>
+								}
+								else if (@i.UserStatus == 3)
+								{
+									<td style="color:red;">停權</td>
+								}
+								else
+								{
+									<td>錯誤</td>
+								}
 
-                            </tr>
-                        }
-                    </table>
-                    <h3>檢舉審核</h3>
-                    <table class="table table-hover" id="user_review">
-                        <tr class="table-active">
-                            <th>用戶id</th>
-                            <th>名稱</th>
-                            <th>Email</th>
-                            <th>被檢舉原因</th>
-                            <th>審核狀態</th>
-                        </tr>
-                        <!-- 1.先到controller篩選待審核的對象 2.將結果顯示在畫面上 3.使用ajax修改資料庫的狀態 -->
+							</tr>
+						}
+					</table>
+					<h3>檢舉審核</h3>
+					<table class="table table-hover" id="user_review">
+						<tr class="table-active">
+							<th>用戶id</th>
+							<th>名稱</th>
+							<th>Email</th>
+							<th>被檢舉原因</th>
+							<th>審核狀態</th>
+						</tr>
+						<!-- 1.先到controller篩選待審核的對象 2.將結果顯示在畫面上 3.使用ajax修改資料庫的狀態 -->
+						@* 加入foreach *@
+						<tr>
+							<td>${e.reportId}</td>
+							<td>${e.reportedUserId}</td>
+							<td>${e.reportedUserEmail}</td>
+							<td>${e.reason}</td>
+							<td id="user_review_0">
+								<!-- modal的彈出按鈕 -->
+								<button class="btn btn-primary btn_modal" data-bs-toggle="modal" data-bs-target="#user${e.userId}"
+										id="censor">
+									待審核
+								</button>
+								<!-- modal的彈出按鈕 -->
+								<!-- modal的本體 -->
+								<div class="modal fade btn_modalBody" id="user${e.userId}" tabindex="-1" aria-labelledby="modal-title"
+									 aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<div class="modal-title">
+													審核欄
+												</div>
+											</div>
+											<div class="modal-body">
+												<p>被檢舉人: ${e.reportedUserId}</p>
+												<p>被檢舉原因: ${e.reason}</p>
+												<label for="">檢舉圖片:</label>
+												<img src="../新增資料夾/img/螢幕擷取畫面 2024-05-21 212334.png" alt="">
+												<p>檢舉人: ${e.reporterUserId}</p>
+												<p>遭檢舉頁:<a href="#">${e.reportedUserId}的食譜頁</a></p>
+											</div>
+											<div class="modal-footer">
+												<button class="btn btn-primary" data-bs-dismiss="modal">通過</button>
+												<button class="btn btn-primary" data-bs-dismiss="modal">駁回</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- modal的本體 -->
+							</td>
+						</tr>
+						@* 加入foreach *@
+					</table>
+				</div>
+				<div class="tab-pane fade" id="list-recipes" role="tabpanel" aria-labelledby="list-recipes-list">
+					<h3>食譜列表</h3>
+					<table class="table table-hover" id="recipes">
+						<tr class="table-active">
+							<th>食譜id</th>
+							<th>食譜名稱</th>
+							<th>作者</th>
+							<th>瀏覽數</th>
+							<th>留言數</th>
+							<th>狀態</th>
+						</tr>
+						@foreach (var i in Model.RecipedTable)
+						{
+							<tr>
+								<td>@i.RecipedId</td>
+								<td>@i.RecipedName</td>
+								<td>@i.Author</td>
+								<td>@i.RecipedView</td>
+								<td>@i.NumberOfComment</td>
+								<td>@i.RecipedStatus</td>
+							</tr>
+						}
+					</table>
+					<h3>食譜檢舉審核</h3>
+					<table class="table table-hover" id="recipes_reports">
+						<tr class="table-active">
+							<th>食譜id</th>
+							<th>食譜名稱</th>
+							<th>作者</th>
+							<th>被檢舉原因</th>
+							<th>狀態</th>
+						</tr>
+					</table>
+				</div>
+				<div class="tab-pane fade" id="list-comments" role="tabpanel" aria-labelledby="list-comments-list">
+					<h3>評論審核列表</h3>
+					<table class="table table-hover" id="comments">
+						<tr class="table-active">
+							<th>食譜id</th>
+							<th>食譜名稱</th>
+							<th>作者</th>
+							<th>遭檢舉留言</th>
+							<th>檢舉理由</th>
+							<th>審核狀態</th>
+						</tr>
 
-                        @* 加入foreach *@
-                        <tr>
-                            <td>${e.reportId}</td>
-                            <td>${e.reportedUserId}</td>
-                            <td>${e.reportedUserEmail}</td>
-                            <td>${e.reason}</td>
-                            <td id="user_review_0">
-                                <!-- modal的彈出按鈕 -->
-                                <button class="btn btn-primary btn_modal" data-bs-toggle="modal" data-bs-target="#user${e.userId}"
-                                        id="censor">
-                                    待審核
-                                </button>
-                                <!-- modal的彈出按鈕 -->
-                                <!-- modal的本體 -->
-                                <div class="modal fade btn_modalBody" id="user${e.userId}" tabindex="-1" aria-labelledby="modal-title"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <div class="modal-title">
-                                                    審核欄
-                                                </div>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>被檢舉人: ${e.reportedUserId}</p>
-                                                <p>被檢舉原因: ${e.reason}</p>
-                                                <label for="">檢舉圖片:</label>
-                                                <img src="../新增資料夾/img/螢幕擷取畫面 2024-05-21 212334.png" alt="">
-                                                <p>檢舉人: ${e.reporterUserId}</p>
-                                                <p>遭檢舉頁:<a href="#">${e.reportedUserId}的食譜頁</a></p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-primary" data-bs-dismiss="modal">通過</button>
-                                                <button class="btn btn-primary" data-bs-dismiss="modal">駁回</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- modal的本體 -->
-                            </td>
-                        </tr>
-                        @* 加入foreach *@
-                    </table>
-                </div>
-                <div class="tab-pane fade" id="list-recipes" role="tabpanel" aria-labelledby="list-recipes-list">
-                    <h3>食譜列表</h3>
-                    <table class="table table-hover" id="recipes">
-                        <tr class="table-active">
-                            <th>食譜id</th>
-                            <th>食譜名稱</th>
-                            <th>作者</th>
-                            <th>瀏覽數</th>
-                            <th>留言數</th>
-                            <th>狀態</th>
-                        </tr>
-                        @foreach (var i in Model.RecipedTable)
-                        {
-                            <tr>
-                                <td>@i.RecipedId</td>
-                                <td>@i.RecipedName</td>
-                                <td>@i.Author</td>
-                                <td>@i.RecipedView</td>
-                                <td>@i.NumberOfComment</td>
-                                <td>@i.RecipedStatus</td>
-                            </tr>
-                        }
-                    </table>
-                    <h3>食譜檢舉審核</h3>
-                    <table class="table table-hover" id="recipes_reports">
-                        <tr class="table-active">
-                            <th>食譜id</th>
-                            <th>食譜名稱</th>
-                            <th>作者</th>
-                            <th>被檢舉原因</th>
-                            <th>狀態</th>
-                        </tr>
-                    </table>
-                </div>
-                <div class="tab-pane fade" id="list-comments" role="tabpanel" aria-labelledby="list-comments-list">
-                    <h3>評論審核列表</h3>
-                    <table class="table table-hover" id="comments">
-                        <tr class="table-active">
-                            <th>食譜id</th>
-                            <th>食譜名稱</th>
-                            <th>作者</th>
-                            <th>遭檢舉留言</th>
-                            <th>檢舉理由</th>
-                            <th>審核狀態</th>
-                        </tr>
-
-                    </table>
-                </div>
-                <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
-                    內容管理頁
-                    <br>
-                    index 文章管理
-                </div>
-            </div>
-        </div>
-    </div>
+					</table>
+				</div>
+				<div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+					內容管理頁
+					<br>
 
 
+					<p>
+						<a asp-action="Create" asp-controller="season">新增資料</a>
+					</p>
+					<form asp-action="Index" method="post">
 
-    <footer>
-    </footer>
-    <script src="./js/insertData.js"></script>
-    <!-- <script src="./js/btnchange.js"></script> -->
-    <script>
-        //切換版面
-        $('#list-tab a').on('click', function (e) {
-            e.preventDefault()
-            //console.log(this)
-            $(this).tab('show')
-        })
-        //modal
-        $('#exampleModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget)
-            var recipient = button.data('whatever')
-            var modal = $(this)
-            modal.find('.modal-title').text('New message to ' + recipient)
-            modal.find('.modal-body input').val(recipient)
-        })
-        //長條圖
-        const ctx = $('#myChart');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: @Html.Raw(Json.Serialize(Model.ChartViewsData.Labels)),
-                datasets: [{
-                    label: '瀏覽數',
-                    data: @Html.Raw(Json.Serialize(Model.ChartViewsData.Data)),
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-        //長條圖
-        //折線圖
-        const ctz = $('#myline');
-        const stackedLine = new Chart(ctz, {
-            type: 'line',
-            data: {
-                labels: @Html.Raw(Json.Serialize(Model.ChartMembershipData.Labels)), // X 軸標籤
-                datasets: [{
-                    label: '會員增長數', // 數據集標籤
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // 填充顏色
-                    borderColor: 'rgba(75, 192, 192, 1)', // 邊框顏色
-                    data: @Html.Raw(Json.Serialize(Model.ChartMembershipData.Data)) // 數據點
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        stacked: true
-                    }
-                }
-            }
-        });
-        //折線圖
 
-            //審核欄
-            //更改審核按鈕
-            var temp;
-            $('.btn_modal').on('click', function () {
-                console.log(this.innerText)
-                temp = this
-            })
-            $(".btn_modalBody button").on("click", function () {
-                console.log(this.innerText)
-                if (this != null) {
-                    //$(temp).attr("disabled", true)
-                    $(temp).text(this.innerText)
-                    if (this.innerText == '通過') {
-                        $(temp).removeClass('btn-warning')
-                        $(temp).addClass('btn-success')
-                    } else {
-                        $(temp).removeClass('btn-success')
-                        $(temp).addClass('btn-warning')
-                    }
-                }
-            })
-            //審核欄
 
-    </script>
+						<table class="table">
+							<h2>當月食材- @ViewBag.month 月</h2>
+							<thead>
+								<tr>
+									<th>
+										月份
+									</th>
+									<th>
+										食材名稱
+									</th>
+
+									<th>
+										是否輪播
+									</th>
+									<th>
+										查看內容/刪除
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (SeasonalIngredient i in ViewBag.season)
+								{
+									<tr>
+										<td>
+											@Html.DisplayFor(modelItem => i.MonthId)
+										</td>
+										<td>
+											@Html.DisplayFor(modelItem => i.CommonName)
+										</td>
+										<td>
+
+											@Html.Hidden("selectedIngredients_[" + i + "]", i.Id)
+											@Html.CheckBox("selectedIngredients[" + i + "]", i.IsActive, new { id = "checkbox_" + i.Id })
+
+
+										</td>
+										<td>
+											<a asp-action="Details" asp-route-id="@i.Id">Details</a> |
+											<a asp-action="Delete" asp-route-id="@i.Id">Delete</a>
+										</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+						<input type="submit" value="Submit" class="btn btn-primary" />
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<footer>
+	</footer>
+	<script src="./js/insertData.js"></script>
+	<!-- <script src="./js/btnchange.js"></script> -->
+	<script>
+		//切換版面
+		$('#list-tab a').on('click', function (e) {
+			e.preventDefault()
+			//console.log(this)
+			$(this).tab('show')
+		})
+		//modal
+		$('#exampleModal').on('show.bs.modal', function (event) {
+			var button = $(event.relatedTarget)
+			var recipient = button.data('whatever')
+			var modal = $(this)
+			modal.find('.modal-title').text('New message to ' + recipient)
+			modal.find('.modal-body input').val(recipient)
+		})
+		//長條圖
+		const ctx = $('#myChart');
+		new Chart(ctx, {
+			type: 'bar',
+			data: {
+				labels: @Html.Raw(Json.Serialize(Model.ChartViewsData.Labels)),
+				datasets: [{
+					label: '瀏覽數',
+					data: @Html.Raw(Json.Serialize(Model.ChartViewsData.Data)),
+					borderWidth: 1
+				}]
+			},
+			options: {
+				scales: {
+					y: {
+						beginAtZero: true
+					}
+				}
+			}
+		});
+		//長條圖
+		//折線圖
+		const ctz = $('#myline');
+		const stackedLine = new Chart(ctz, {
+			type: 'line',
+			data: {
+				labels: @Html.Raw(Json.Serialize(Model.ChartMembershipData.Labels)), // X 軸標籤
+				datasets: [{
+					label: '會員增長數', // 數據集標籤
+					backgroundColor: 'rgba(75, 192, 192, 0.2)', // 填充顏色
+					borderColor: 'rgba(75, 192, 192, 1)', // 邊框顏色
+					data: @Html.Raw(Json.Serialize(Model.ChartMembershipData.Data)) // 數據點
+										}]
+			},
+			options: {
+				scales: {
+					y: {
+						stacked: true
+					}
+				}
+			}
+		});
+		//折線圖
+
+		//審核欄
+		//更改審核按鈕
+		var temp;
+		$('.btn_modal').on('click', function () {
+			console.log(this.innerText)
+			temp = this
+		})
+		$(".btn_modalBody button").on("click", function () {
+			console.log(this.innerText)
+			if (this != null) {
+				//$(temp).attr("disabled", true)
+				$(temp).text(this.innerText)
+				if (this.innerText == '通過') {
+					$(temp).removeClass('btn-warning')
+					$(temp).addClass('btn-success')
+				} else {
+					$(temp).removeClass('btn-success')
+					$(temp).addClass('btn-warning')
+				}
+			}
+		})
+		//審核欄
+
+	</script>
 
 </body>
 
