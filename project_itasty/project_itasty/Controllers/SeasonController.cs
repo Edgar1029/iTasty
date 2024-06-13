@@ -201,7 +201,7 @@ namespace project_itasty.Controllers
                     {
                         return NotFound();
                     }
-
+                   
                     return View(seasonalIngredient);
 
                 }
@@ -230,7 +230,8 @@ namespace project_itasty.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("index", "Background-control");
+            //return RedirectToAction(nameof(Index));
         }
 
         private bool SeasonalIngredientExists(int id)

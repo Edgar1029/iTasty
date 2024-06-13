@@ -30,29 +30,46 @@ namespace project_itasty.Controllers
 
         public IActionResult Index()
         {
-            var query =from o in _context.SeasonalIngredients where o.MonthId == 7& o.IsActive==true select o;
-            var query2 = from o in _context.RecipeTables orderby o.CreatedDate descending select o;
+            // 當季食材
+            var ingredients = from o in _context.SeasonalIngredients where o.MonthId == 7& o.IsActive==true select o;
+            // 最新食譜
+            var recipes = from o in _context.RecipeTables orderby o.CreatedDate descending select o;
+            // 當季食材和食材表格合併
+            var seasonIngredients = from r in _context.SeasonalIngredients
+						  join u in _context.IngredientsTables on r.CommonName equals u.IngredientsName
+						  select new
+						  {
+							  r,
+							  u
+						  };
+            var ingredientsList = ingredients.ToList(); //當季食材
+            List<RecipeTable> recipesList = recipes.ToList();//最新食譜
+            var seasontablesList= seasonIngredients.ToList();//season join IngredientsTables
 
-            var ingredients = query.ToList(); //當季食材
-            List<RecipeTable> recipes = query2.ToList();//最新食譜
+
 
 
             var seasonRecipeTable = new Dictionary<string, List<RecipeTable>>();
-            foreach (var ingredient in ingredients)
+
+            foreach (var ingredient in seasonIngredients)
             {
                 // 尋找包含該食材的所有食譜
-                var query3 = from o in _context.RecipeTables
-                             where o.ProteinUsed.Contains(ingredient.CommonName)
-                             select o;
+                var ingredientRecipes = _context.RecipeTables
+                                                .Where(o => o.RecipeId == ingredient.u.RecipeId)
+                                                .ToList();
 
-                var ingredientRecipes = query3.ToList();
-                seasonRecipeTable[ingredient.CommonName] = ingredientRecipes;
+                if (!seasonRecipeTable.ContainsKey(ingredient.r.CommonName))
+                {
+                    seasonRecipeTable[ingredient.r.CommonName] = new List<RecipeTable>();
+                }
+
+                seasonRecipeTable[ingredient.r.CommonName].AddRange(ingredientRecipes);
             }
             //給view的model
             MyViewModel viewModel = new MyViewModel
             {
-                Ingredients = ingredients,
-               Recipes = recipes,
+                Ingredients = ingredientsList,
+               Recipes = recipesList,
                SeasonRecipeTable = seasonRecipeTable
             };
 
