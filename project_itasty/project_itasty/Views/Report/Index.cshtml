@@ -1,0 +1,118 @@
+﻿@{
+    ViewData["Title"] = "iTasty | 檢舉頁";
+    Layout = "~/Views/Shared/_itastyLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        .myContainer {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            border: 1px solid black;
+            padding: 20px;
+            width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 5px;
+            padding: 5px;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: lightgray;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="myContainer">
+    <div class="container">
+        <h1>iTasty 檢舉回報</h1>
+            <form id="reportForm">
+
+                <input type="hidden" id="account" name="account" value="9" disabled>
+
+                <label for="myname">名稱:</label>
+                <input type="text" id="myname" value="Ivo" disabled>
+
+                <input type="hidden" id="recipedIdOrCommentId" name="recipedIdOrCommentId" value="0" disabled>
+                <input type="hidden" id="reportType" name="reportType" value="1" disabled>
+
+                <label for="notes">食譜/留言:</label>
+                <input type="text" id="notes" name="notes" disabled>
+
+                <label for="reason">檢舉理由:</label>
+                <textarea id="reason" name="reason"></textarea>
+
+                <button type="submit">提交</button>
+            </form>
+
+    </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('form').on('submit', function (event) {
+                event.preventDefault();
+
+                const data = {
+                    ReportedUserId: $('#account').val(), 
+                    RecipedIdOrCommentId: $('#recipedIdOrCommentId').val(), 
+                    ReportType: $('#reportType').val(),
+                    ReportReason: $('#reason').val() 
+                };
+
+                $.ajax({
+                    url: '/api/ReportApi',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function (response) {
+                        alert(response);
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Error: ' + xhr.responseText);
+                        console.log(xhr);
+                        console.log(status);
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
