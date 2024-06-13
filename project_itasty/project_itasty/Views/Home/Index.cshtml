@@ -337,163 +337,89 @@
 <!-- 熱門食譜 -->
 <!-- 最新食譜 --> 
 @if(Model.Recipes.Count!=0){
-<div class="container-center row news_container">
-    <div class="col-2"></div>
-    <div id="news_Carousel" class="carousel slide col-8" data-bs-ride="carousel" data-bs-interval="100000">
-      <h2>最新食譜</h2>
-       
-        <div class="carousel-inner">
-        
+    <div class="container-center row news_container">
+        <div class="col-2"></div>
+        <div id="news_Carousel" class="carousel slide col-8" data-bs-ride="carousel" data-bs-interval="100000">
+            <h2>最新食譜</h2>
+
+            <div class="carousel-inner">
+
                 <div class="carousel-item active">
                     <div class="row ">
                         <!-- 1 -->
-                        <div class="col-4">
-                        <div class="card shadow-sm">
-                          
-                                @{
-                                
-                                    if (Model.Recipes[0].RecipeCoverImage != null)
-                                    {
-                                                        <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[0].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
-                                    }
-                                    else
-                                    {
-                                                        <img src="" class="">
+                        @for (int i = 0; i < Model.Recipes.Count; i++)
+                        {
+                            <div class="col-4">
+                                <div class="card shadow-sm">
 
-                                    }
-                                }
-                                <title>@Model.Recipes[0].RecipeName</title>
-                                <rect width="100%" height="100%" fill="#55595c" />
-                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
-                           
+                                    @{
+                                       
+                                        if (Model.Recipes[i].RecipeCoverImage != null)
+                                        {
+                                            <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[i].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
+                                        }
+                                        else
+                                        {
+                                            <img src="" class="">
 
-                            <div class="card-body">
-                                <p class="card-text">@Model.Recipes[0].RecipeName</p>
+                                        }
+                                    }
+                                    <h2>@Model.Recipes[0].RecipeName</h2>
+                                    <rect width="100%" height="100%" fill="#55595c" />
+                                    <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
+
+
+                                    <div class="card-body">
+                                        <p class="card-text">@Model.Recipes[i].RecipeName</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                        <div class="col-4">
-                        <div class="card shadow-sm">
-                            @{
-                                if (Model.Recipes[1].RecipeCoverImage != null)
-                                {
-                                                    <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[1].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
-                                }
-                                else
-                                {
-                                                    <img src="" class="">
-
-                                }
+                            if (i > 3)
+                            {
+                                break;
                             }
-                            <title>@Model.Recipes[1].RecipeName</title>
-                            <rect width="100%" height="100%" fill="#55595c" />
-                            <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
-
-
-                            <div class="card-body">
-                                <p class="card-text">@Model.Recipes[1].RecipeName</p>
-                            </div>
-                        </div>
-                    </div>
-                        <div class="col-4">
-                            <div class="card shadow-sm">
-                                @{
-                                    if (Model.Recipes[2].RecipeCoverImage != null)
-                                    {
-                                                        <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[2].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
-                                    }
-                                    else
-                                    {
-                                                        <img src="" class="">
-
-                                    }
-                                }
-                                
-                                <rect width="100%" height="100%" fill="#55595c" />
-                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
-
-
-                                <div class="card-body">
-                                    <p class="card-text">@Model.Recipes[2].RecipeName</p>
-                        </div>
-                    </div>
-                        <!-- 1 -->
-                    </div>
+                        }
+                        
+                      
                     </div>
                 </div>
                 <div class="carousel-item">
                     <div class="row ">
                         <!-- 2 -->
-                        <div class="col-4">
-                            <div class="card shadow-sm">
-                                @{
-                                    if (Model.Recipes[3].RecipeCoverImage != null)
-                                    {
-                                                        <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[3].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
+                        @if (Model.Recipes.Count>3){
+                        @for (int i = 3; i < Model.Recipes.Count; i++)
+                        {
+                            <div class="col-4">
+                                <div class="card shadow-sm">
+
+                                    @{
+
+                                        if (Model.Recipes[i].RecipeCoverImage != null)
+                                        {
+                                            <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[i].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
+                                        }
+                                        else
+                                        {
+                                            <img src="" class="">
+
+                                        }
                                     }
-                                    else
-                                    {
-                                                        <img src="" class="">
-
-                                    }
-                                }
-
-                                <rect width="100%" height="100%" fill="#55595c" />
-                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
+                                    <h2>@Model.Recipes[0].RecipeName</h2>
+                                    <rect width="100%" height="100%" fill="#55595c" />
+                                    <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
 
 
-                                <div class="card-body">
-                                    <p class="card-text">@Model.Recipes[3].RecipeName</p>
+                                    <div class="card-body">
+                                        <p class="card-text">@Model.Recipes[i].RecipeName</p>
+                                    </div>
                                 </div>
                             </div>
-                    </div>
-                        <div class="col-4">
-                            <div class="card shadow-sm">
-                                @{
-                                    if (Model.Recipes[4].RecipeCoverImage != null)
-                                    {
-                                                        <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[4].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
-                                    }
-                                    else
-                                    {
-                                                        <img src="" class="">
-
-                                    }
-                                }
-
-                                <rect width="100%" height="100%" fill="#55595c" />
-                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
-
-
-                                <div class="card-body">
-                                    <p class="card-text">@Model.Recipes[4].RecipeName</p>
-                                </div>
-                            </div>
-                    </div>
-                        <div class="col-4">
-                            <div class="card shadow-sm">
-                                @{
-                                    if (Model.Recipes[5].RecipeCoverImage != null)
-                                    {
-                                                        <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[5].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
-                                    }
-                                    else
-                                    {
-                                                        <img src="" class="">
-
-                                    }
-                                }
-
-                                <rect width="100%" height="100%" fill="#55595c" />
-                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
-
-
-                                <div class="card-body">
-                                    <p class="card-text">@Model.Recipes[5].RecipeName</p>
-                                </div>
-                            </div>
-                    </div>
-                        <!-- 2 -->
+                            if (i > 3)
+                            {
+                                break;
+                            }
+                        }
+						}<!-- 2 -->
                     </div>
                 </div>
             </div>
