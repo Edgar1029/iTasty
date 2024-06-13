@@ -26,12 +26,15 @@ namespace project_itasty.Controllers
             public List<SeasonalIngredient> Ingredients { get; set; }
             public List<RecipeTable> Recipes { get; set; }
             public Dictionary<string, List<RecipeTable>> SeasonRecipeTable { get; set; }
+            public List<RecipeTable> RecipeViews { get; set; }
         }
 
         public IActionResult Index()
         {
             // 當季食材
             var ingredients = from o in _context.SeasonalIngredients where o.MonthId == 7& o.IsActive==true select o;
+            // 熱門食譜
+            var recipeViews= from o in _context.RecipeTables orderby o.Views descending select o;
             // 最新食譜
             var recipes = from o in _context.RecipeTables orderby o.CreatedDate descending select o;
             // 當季食材和食材表格合併
@@ -43,6 +46,7 @@ namespace project_itasty.Controllers
 							  u
 						  };
             var ingredientsList = ingredients.ToList(); //當季食材
+            List<RecipeTable> recipeViewList =recipeViews.ToList();// 熱門食譜
             List<RecipeTable> recipesList = recipes.ToList();//最新食譜
             var seasontablesList= seasonIngredients.ToList();//season join IngredientsTables
 
@@ -68,9 +72,10 @@ namespace project_itasty.Controllers
             //給view的model
             MyViewModel viewModel = new MyViewModel
             {
-                Ingredients = ingredientsList,
+               Ingredients = ingredientsList,
                Recipes = recipesList,
-               SeasonRecipeTable = seasonRecipeTable
+               RecipeViews = recipeViewList,
+                SeasonRecipeTable = seasonRecipeTable
             };
 
             return View(viewModel);

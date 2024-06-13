@@ -136,8 +136,8 @@
                 <h2>當季食材食譜</h2>
 
                             @{
-                    var ingredient = Model.Ingredients[i];
-                    var recipes = Model.SeasonRecipeTable.ContainsKey(ingredient.CommonName) ? Model.SeasonRecipeTable[ingredient.CommonName].ToList() : new List<RecipeTable>();
+                                var ingredient = Model.Ingredients[i];
+                                var recipes = Model.SeasonRecipeTable.ContainsKey(ingredient.CommonName) ? Model.SeasonRecipeTable[ingredient.CommonName].ToList() : new List<RecipeTable>();
                              }
 
                              <div class="carousel slide" data-bs-ride="carousel" id="ingredientCarousel_@i">
@@ -165,11 +165,11 @@
                                                  </div>
                                              </div>
                                          }
-                            <a class="carousel-control-prev" href="#ingredientCarousel_@i" role="button" data-bs-slide="prev" style="justify-content:flex-start;width:50px">
-                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                             <span class="visually-hidden">Previous</span>
+                                         <a class="carousel-control-prev" href="#ingredientCarousel_@i" role="button" data-bs-slide="prev" style="justify-content:flex-start;width:50px">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
                                          </a>
-                            <a class="carousel-control-next" href="#ingredientCarousel_@i" role="button" data-bs-slide="next" style="justify-content:flex-start;width:50px">
+                                         <a class="carousel-control-next" href="#ingredientCarousel_@i" role="button" data-bs-slide="next" style="justify-content:flex-start;width:50px">
                                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                              <span class="visually-hidden">Next</span>
                                          </a>
@@ -199,136 +199,65 @@
     @* 當季食材for迴圈 *@
  
 </div>
-
-
 <!-- 當季食材食譜區 -->
 <!-- 熱門食譜 -->
-<div class="container-center row Popular_container">
-    <div class="col-2"></div>
-    <div id="Popular_Carousel" class="carousel slide col-8" data-bs-ride="carousel" data-bs-interval="100000">
-        <h2>熱門食譜</h2>
-        
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="row ">
-                    <!-- 1 -->
-                    <div class="col-4">
-                        <div class="card shadow-sm">
-                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                                 preserveAspectRatio="xMidYMid slice" focusable="false">
-                                <title>Placeholder</title>
-                                <rect width="100%" height="100%" fill="#55595c" />
-                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
-                            </svg>
+@if (Model.RecipeViews.Count != 0)
+{
+    <div class="container-center row Popular_container">
+        <div class="col-2"></div>
+        <div id="Popular_Carousel" class="carousel slide col-8" data-bs-ride="carousel" data-bs-interval="100000">
+            <h2>熱門食譜</h2>
 
-                            <div class="card-body">
-                                <p class="card-text">test</p>
+            <div class="carousel-inner">
+                @if (Model.RecipeViews.Count > 0)
+                {
+                    for (int j = 0; j < Model.RecipeViews.Count; j += 3)
+                    {
+                        <div class="carousel-item @(j == 0 ? "active" : "")">
+                            <div class="row">
+                                @for (int k = 0; k < 3 && (j + k) < Model.RecipeViews.Count; k++)
+                                {
+                                    var recipe = Model.RecipeViews[j + k];
+                                    <div class="col-4">
+                                        <div class="card shadow-sm">
+                                            <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
+                                            <div class="card-body">
 
+                                                <p class="card-text">@recipe.RecipeName</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="carousel-item active">
+                        <div class="row">
+                            <div class="col-12">
+                                <p>沒有相關食譜</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <div class="card shadow-sm">
-                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                                 preserveAspectRatio="xMidYMid slice" focusable="false">
-                                <title>Placeholder</title>
-                                <rect width="100%" height="100%" fill="#55595c" />
-                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
-                            </svg>
-
-                            <div class="card-body">
-                                <p class="card-text">test</p>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="card shadow-sm">
-                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                                 preserveAspectRatio="xMidYMid slice" focusable="false">
-                                <title>Placeholder</title>
-                                <rect width="100%" height="100%" fill="#55595c" />
-                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
-                            </svg>
-
-                            <div class="card-body">
-                                <p class="card-text">test</p>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 1 -->
-                </div>
+                }
             </div>
-            <div class="carousel-item">
-                <div class="row ">
-                    <!-- 1 -->
-                    <div class="col-4">
-                        <div class="card shadow-sm">
-                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                                 preserveAspectRatio="xMidYMid slice" focusable="false">
-                                <title>Placeholder</title>
-                                <rect width="100%" height="100%" fill="#55595c" />
-                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
-                            </svg>
-
-                            <div class="card-body">
-                                <p class="card-text">test</p>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="card shadow-sm">
-                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                                 preserveAspectRatio="xMidYMid slice" focusable="false">
-                                <title>Placeholder</title>
-                                <rect width="100%" height="100%" fill="#55595c" />
-                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
-                            </svg>
-
-                            <div class="card-body">
-                                <p class="card-text">test</p>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="card shadow-sm">
-                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                                 preserveAspectRatio="xMidYMid slice" focusable="false">
-                                <title>Placeholder</title>
-                                <rect width="100%" height="100%" fill="#55595c" />
-                                <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
-                            </svg>
-
-                            <div class="card-body">
-                                <p class="card-text">test</p>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 1 -->
-                </div>
-            </div>
+            @if (Model.Recipes.Count > 3)
+            {
+                <button class="carousel-control-prev" type="button" data-bs-target="#Popular_Carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#Popular_Carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            }
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#Popular_Carousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#Popular_Carousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+        <div class="col-2"></div>
     </div>
-    <div class="col-2"></div>
-</div>
+}
 <!-- 熱門食譜 -->
 <!-- 最新食譜 --> 
 @if(Model.Recipes.Count!=0){
@@ -341,84 +270,39 @@
 
             <div class="carousel-inner">
 
-                <div class="carousel-item active">
-                    <div class="row ">
-                        <!-- 1 -->
-                        @for (int i = 0; i < Model.Recipes.Count; i++)
-                        {
-                            <div class="col-4">
-                                <div class="card shadow-sm">
+                @if (Model.Recipes.Count > 0)
+                {
+                    for (int j = 0; j < Model.Recipes.Count; j += 3)
+                    {
+                        <div class="carousel-item @(j == 0 ? "active" : "")">
+                            <div class="row">
+                                @for (int k = 0; k < 3 && (j + k) < Model.Recipes.Count; k++)
+                                {
+                                    var recipe = Model.Recipes[j + k];
+                                    <div class="col-4">
+                                        <div class="card shadow-sm">
+                                            <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
+                                            <div class="card-body">
 
-                                    @{
-                                       
-                                        if (Model.Recipes[i].RecipeCoverImage != null)
-                                        {
-                                            <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[i].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
-                                        }
-                                        else
-                                        {
-                                            <img src="" class="">
-
-                                        }
-                                    }
-                                   
-                                    <rect width="100%" height="100%" fill="#55595c" />
-                                    <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
-
-
-                                    <div class="card-body">
-                                        <p class="card-text">@Model.Recipes[i].RecipeName</p>
+                                                <p class="card-text">@recipe.RecipeName</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                }
                             </div>
-                            if (i > 3)
-                            {
-                                break;
-                            }
-                        }
-                        
-                      
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="row ">
-                        <!-- 2 -->
-                        @if (Model.Recipes.Count>3){
-                        @for (int i = 3; i < Model.Recipes.Count; i++)
-                        {
-                            <div class="col-4">
-                                <div class="card shadow-sm">
-
-                                    @{
-
-                                        if (Model.Recipes[i].RecipeCoverImage != null)
-                                        {
-                                            <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Recipes[i].RecipeCoverImage)" class="d-block w-100 " alt="..." width="100%" height="225" />
-                                        }
-                                        else
-                                        {
-                                            <img src="" class="">
-
-                                        }
-                                    }
-                                    <h2>@Model.Recipes[0].RecipeName</h2>
-                                    <rect width="100%" height="100%" fill="#55595c" />
-                                    <text x="50%" y="50%" fill="#eceeef" dy=".3em"></text>
-
-
-                                    <div class="card-body">
-                                        <p class="card-text">@Model.Recipes[i].RecipeName</p>
-                                    </div>
-                                </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="carousel-item active">
+                        <div class="row">
+                            <div class="col-12">
+                                <p>沒有相關食譜</p>
                             </div>
-                            if (i > 3)
-                            {
-                                break;
-                            }
-                        }
-						}<!-- 2 -->
+                        </div>
                     </div>
-                </div>
+                }
             </div>
             @if (Model.Recipes.Count > 3){ 
             <button class="carousel-control-prev" type="button" data-bs-target="#news_Carousel" data-bs-slide="prev" style="justify-content:flex-start;width:50px">

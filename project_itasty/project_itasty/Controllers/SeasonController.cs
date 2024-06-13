@@ -230,7 +230,8 @@ namespace project_itasty.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction("index", "Background-control");
+            return Redirect("/Background_control/Index");
+           
             //return RedirectToAction(nameof(Index));
         }
 
