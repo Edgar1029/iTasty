@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace project_itasty.Models;
 
 public partial class RecipeTable
 {
-    public int RecipeId { get; set; }
+	[Key]
+	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+	public int RecipeId { get; set; }
 
     public int UserId { get; set; }
 
@@ -43,7 +47,10 @@ public partial class RecipeTable
 
     public int? Calories { get; set; }
 
-    public virtual ICollection<CustomRecipeFolder> CustomRecipeFolders { get; set; } = new List<CustomRecipeFolder>();
+	[NotMapped]
+	public string? RecipeCoverBase64 { get; set; }
+
+	public virtual ICollection<CustomRecipeFolder> CustomRecipeFolders { get; set; } = new List<CustomRecipeFolder>();
 
     public virtual ICollection<EditedRecipe> EditedRecipes { get; set; } = new List<EditedRecipe>();
 

@@ -1,0 +1,15 @@
+﻿@model IEnumerable<project_itasty.Models.IngredientDetail>
+
+
+@foreach (var item in Model)
+{
+	<li>
+		<button type="button" class="ingredients_options_btn">
+			<p>@item.IngredientName</p>
+			<p>100克@(Math.Round((double)item.Kcalg * 100))卡 </p>
+			<p class="d_none">@item.Kcalg</p>
+			<p class="d_none">@item.IngredientId</p>
+		</button>
+	</li>
+	<hr>
+}

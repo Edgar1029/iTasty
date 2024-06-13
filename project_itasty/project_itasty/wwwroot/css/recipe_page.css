@@ -1,0 +1,417 @@
+.container_img_decorate {
+    margin-top: 30px;
+    background-color: #fff;
+    box-shadow: 0 0 20px black;
+    width: 33.33%;
+    padding: 0px;
+}
+
+.container_decorate {
+    margin-bottom: 30px;
+    background-color: #fff;
+    box-shadow: 0 0 20px black;
+    width: 33.33%;
+}
+
+.row_decorate_bottom {
+    border-bottom: 1px solid #CCC9A1;
+    padding-left: calc(var(--bs-gutter-x)* .5);
+    padding-right: calc(var(--bs-gutter-x)* .5);
+}
+
+.flex_container_center {
+    display: flex;
+    justify-content: center;
+}
+
+.flex_container_between {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex_container_column {
+    flex-direction: column;
+}
+
+.button_style {
+    background-color: #280004;
+    border: 1px solid;
+    color: white;
+    border-radius: 15px;
+}
+
+.icon_size {
+    width: auto;
+    height: 16px;
+}
+
+hr {
+    border-bottom: 1px dashed;
+    border-color: #CCC9A1;
+    margin: 0px;
+}
+
+/* 食譜圖片欄位 start */
+.recipe_img {
+    width: 100%;
+    height: 75%;
+}
+
+/* 食譜圖片欄位 end */
+
+/* 食譜名欄位 start */
+.recipe_name > h1 {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 36px;
+}
+
+.collect_btn_row > ul > li {
+    display: inline;
+    font-size: 12px;
+    color: #ABA4A4;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.collect_btn > button {
+    margin-right: 12px;
+    width: 75px;
+    height: 30px;
+}
+
+.collect_btn {
+    height: 40px;
+}
+
+.hashtag {
+    text-align: center;
+}
+
+.hashtag > p {
+    display: inline;
+    font-size: 15px;
+    margin-right: 10px;
+    padding: 3px 4px 3px 4px;
+    border-radius: 10px;
+    background-color: #ABA4A4;
+}
+
+/* 食譜名欄位 end */
+
+/* 食譜介紹欄位 start */
+.intro_author {
+    align-items: center;
+}
+
+.intro_author > p {
+    padding-left: 10px;
+    margin: 0;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.intro_author > img {
+    margin-top: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.recipe_intro {
+    height: 80px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.recipe_intro > p {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+/* 食譜介紹欄位 end */
+
+/* 食材欄位 start */
+h2 {
+    margin-left: 25px;
+    margin-top: 24px;
+    padding: 0;
+}
+
+.ingredients_top_row > button {
+    margin-right: 12px;
+    margin-top: 24px;
+    width: 100px;
+    height: 32px;
+    border-radius: 30px;
+}
+
+.ingredients_count {
+    padding: 25px;
+}
+
+.ingredients_count > li {
+    display: inline;
+    padding-right: 5px;
+}
+
+.ingredients_tag_first {
+    padding-left: 20px;
+}
+
+.ingredients_tag {
+    padding-top: 30px;
+    padding-left: 20px;
+}
+
+.ingredients_row {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 20px;
+}
+
+.ingredients_name {
+    margin-bottom: 0px;
+}
+
+.ingredients_num,
+.ingredients_unit {
+    display: inline-block;
+    margin-bottom: 0px;
+}
+
+/* 食材欄位 end */
+
+/* 步驟欄位 start */
+.steps_img {
+    width: 100%;
+    height: auto;
+}
+
+.recipe_steps_decorate {
+    /* border-bottom: 1px dashed;
+            border-color: #CCC9A1; */
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 13px;
+}
+
+.recipe_steps_decorate_text {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.steps_content {
+    padding-right: 40px;
+}
+
+/* 步驟欄位 end */
+
+/* 作者欄位 start */
+.author_img {
+    width: 80%;
+    height: auto;
+    margin-top: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.author_profile > a > h2 {
+    margin-top: 45px;
+}
+
+.author_profile > a {
+    text-decoration: none;
+    color: #000;
+}
+
+.author_profile > ul > li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.author_profile > p {
+    margin-top: 20px;
+    padding-left: 32px;
+    font-size: 20px;
+}
+
+.follow_button {
+    margin-top: 40px;
+    margin-bottom: 50px;
+    height: 30px;
+}
+
+/* 作者欄位 end */
+
+/* 留言板 start */
+.enter_message_row > ul > li {
+    display: inline;
+    font-size: 20px;
+    padding-right: 5px;
+}
+
+.enter_message_row > ul {
+    margin-top: 20px;
+}
+
+.enter_message_row > ul > li > img {
+    width: auto;
+    height: 22px;
+}
+
+.message_enter {
+    border-radius: 10px;
+}
+
+.message_button_row > button {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.message_button {
+    width: 100px;
+    height: 30px;
+}
+
+.enter_message > input {
+    height: 120px;
+    border-radius: 10px;
+}
+
+.user_photo_layout {
+    padding-left: 25px;
+    padding-right: 0px;
+}
+
+.user_photo {
+    height: 50px;
+    width: auto;
+}
+
+.chats_user_photo {
+    height: 50px;
+    width: auto;
+}
+
+.chats_time {
+    font-size: 12px;
+}
+
+.chats_time > p {
+    margin-bottom: 0px;
+}
+
+.chats_row {
+    margin-top: 30px;
+    padding-bottom: 30px;
+}
+
+.chats_time,
+.reply_btn {
+    display: inline-block;
+}
+
+.reply_btn {
+    margin-left: 5px;
+    color: black;
+    text-decoration: none;
+    font-size: 12px;
+    background-color: #fff;
+    border-style: none;
+}
+
+.reply_btn > img {
+    width: 13px;
+    height: auto;
+}
+
+.more_btn {
+    background-color: #fff;
+    border-style: none;
+}
+
+.chat_reply_anchor {
+    margin-top: 15px;
+}
+
+/* 留言編輯彈出視窗start */
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.popup .popuptext {
+    visibility: hidden;
+    width: 80px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 10px;
+    padding: 1px;
+    position: absolute;
+    z-index: 1;
+    top: 125%;
+    left: 50%;
+    margin-left: -40px;
+}
+
+.popup .popuptext::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #555 transparent;
+}
+
+.popup .show {
+    visibility: visible;
+}
+
+.message_edit {
+    padding: 5px;
+}
+
+.message_edit > button {
+    width: 100%;
+    border-style: none;
+    background-color: #fff;
+}
+
+.deleted_messages {
+    text-align: center;
+}
+
+/* 留言編輯彈出視窗end */
+
+.reply_content_none {
+    display: none;
+}
+
+.reply_enter {
+    border-radius: 10px;
+    width: 90%;
+}
+
+.edit_message {
+    border-radius: 5px;
+    border: solid 1px;
+}
+
+.reply_content_btn,
+.edit_content_btn {
+    margin-top: 6px;
+}
+
+.reply_content_btn > button,
+.edit_content_btn > button {
+    margin-left: 10px;
+}

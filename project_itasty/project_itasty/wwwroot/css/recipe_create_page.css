@@ -1,0 +1,326 @@
+.container_decorate {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background-color: #fff;
+    box-shadow: 0 0 20px black;
+    width: 33.33%;
+    padding: 0px;
+}
+
+.row_decorate_bottom {
+    border-bottom: 1px solid #CCC9A1;
+    padding-left: calc(var(--bs-gutter-x)* .5);
+    padding-right: calc(var(--bs-gutter-x)* .5);
+}
+
+.flex_container_center {
+    display: flex;
+    justify-content: center;
+}
+
+.flex_container_between {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex_container_column {
+    flex-direction: column;
+}
+
+.button_style {
+    background-color: #280004;
+    border: 1px solid;
+    color: white;
+    border-radius: 15px;
+}
+
+.icon_size {
+    width: auto;
+    height: 20px;
+}
+
+.d_none {
+    display: none;
+}
+
+.croppie_area {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+    background-color: white;
+    width: 650px;
+    height: 675px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.croppie_area>button {
+    margin-left: 20px;
+    width:60px;
+    height:30px;
+}
+
+.modal-background-only {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1040;
+    display: none;
+}
+    /* 食譜圖片欄位 start */
+    .recipe_img {
+    width: 100%;
+    height: 75%;
+}
+
+
+
+/* 食譜圖片欄位 end */
+
+/* 食譜名欄位 start */
+.recipe_name {
+    height: 90px;
+    width: 100%;
+}
+
+.recipe_name>input {
+    text-align: center;
+    width: 80%;
+    height: 40px;
+}
+
+/* 食譜名欄位 end */
+
+/* 食譜介紹欄位 start */
+.intro_author {
+    align-items: center;
+    margin-top: 20px;
+}
+
+.intro_author>p {
+    padding-left: 10px;
+    margin: 0;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.recipe_intro {
+    height: 80px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.recipe_intro_enter {
+    margin-top: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+/* 食譜介紹欄位 end */
+
+/* 食材欄位 start */
+h2 {
+    margin-left: 25px;
+    margin-top: 24px;
+    padding: 0;
+}
+
+.ingredients_count {
+    padding: 25px;
+}
+
+.cooking_time {
+    width: 80px;
+    text-align: center;
+}
+
+.peoples {
+    width: 50px;
+    text-align: center;
+}
+
+.ingredients_count>li {
+    display: inline;
+    padding-right: 5px;
+}
+
+.ingredients_count>a {
+    list-style-type: none;
+}
+
+
+.ingredients_row_select {
+    appearance: none;
+    width: 40px;
+    height: 30px;
+    text-align: center;
+    border: none;
+    background-color: #e0d9d9;
+}
+
+.ingredients_row_select:hover {
+    cursor: pointer;
+    box-shadow: 1px 1px 5px rgb(0, 0, 0, 0.5);
+}
+
+.ingredients_row_decorate {
+    border-bottom: 1px dashed;
+    border-color: #CCC9A1;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 13px;
+}
+
+.ingredients_content {
+    border-style: none;
+    background-color: #fff;
+    text-align: start;
+}
+
+.ingredients_row_decorate_last {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 13px;
+}
+
+.plus_minus_img {
+    width: 25px;
+    height: auto;
+}
+
+.plus_minus_btn {
+    border-style: none;
+    padding: 0px;
+    background-color: white;
+}
+
+.ingredients_row_decorate>a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+
+.ingredients_searchbar {
+    text-align: center;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.ingredients_options {
+    height: 150px;
+    overflow: auto;
+    margin-bottom: 20px;
+}
+
+.ingredients_options_btn {
+    border-style: none;
+    background-color: #fff;
+    text-align: start;
+    width: 100%;
+}
+
+.ingredients_options_btn_click {
+    border: solid 7px rgb(207, 209, 211);
+}
+
+.ingredients_options>li>button>p {
+    margin-bottom: 0px;
+}
+
+.card_style {
+    margin-top: 10px;
+}
+
+.ingredients_name {
+    margin-bottom: 0px;
+}
+
+.ingredients_num_unit > p
+{
+    display: inline-block;
+    margin-bottom: 0px;
+}
+
+.total_kcalg {
+    display: inline-block;
+    margin-bottom: 0px;
+}
+
+.ingredients_content_center {
+    display: flex;
+    align-items: center;
+}
+
+/* 食材欄位 end */
+
+/* 步驟欄位 start */
+.steps_img {
+    max-width: 100%;
+    height: auto;
+    filter: opacity(70%);
+}
+
+.recipe_steps_decorate {
+    border-bottom: 1px dashed;
+    border-color: #CCC9A1;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.recipe_steps_decorate_last {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.img_upload_btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.opacity-50 {
+    opacity: .5
+}
+
+.recipe_steps_enter {
+    width: 90%;
+    height: 78%;
+    padding-left: 10px;
+}
+
+/* 步驟欄位 end */
+
+.send_row {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+}
+
+.send_row>button {
+    margin-right: 10px;
+}
+
+.select_options_row {
+    margin-bottom: 30px;
+}
+
+.select_options {
+    display: inline-block;
+}
+
+.save_window {
+    height: 60px;
+}
+
+.save_window>button {
+    margin: 5px;
+    width: 70px;
+}

@@ -265,8 +265,8 @@ public partial class ITastyDbContext : DbContext
             entity.ToTable("recipeTable");
 
             entity.Property(e => e.RecipeId)
-                .ValueGeneratedNever()
-                .HasColumnName("recipeId");
+				.ValueGeneratedOnAdd()
+				.HasColumnName("recipeId");
             entity.Property(e => e.Calories).HasColumnName("calories");
             entity.Property(e => e.CookingTime).HasColumnName("cookingTime");
             entity.Property(e => e.CreatedDate)

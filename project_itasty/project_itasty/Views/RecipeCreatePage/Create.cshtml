@@ -1,0 +1,437 @@
+﻿@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_itastyLayout.cshtml";
+}
+<form action="/RecipeCreatePage/Create" method="post">
+	<div class="container container_decorate ingredients_page">
+		<div class=" position-relative img_cut_anchor">
+			<img id="recipe_img" class="recipe_img" src="~/img/455X325.jpg" alt="">
+			<input type="hidden" id="recipe_img_save" name="RecipeCoverBase64" value="0">
+			<button type="button" class="opacity-50 img_upload_btn position-absolute top-50 start-50 translate-middle">
+				<svg viewBox="0 0 24 24" aria-hidden="true"
+					 class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c"
+					 style="color: rgb(255, 255, 255);">
+					<g>
+						<path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z">
+						</path>
+					</g>
+				</svg>
+			</button>
+		</div>
+		<div class="container ">
+			<div class="recipe_name_row flex_container_center row_decorate_bottom ">
+				<div class="recipe_name d-flex justify-content-center align-items-center">
+					<input type="text" name="RecipeName" id="" placeholder="請填寫料理名稱">
+				</div>
+			</div>
+			<div class="intro_row row_decorate_bottom flex_container_center flex_container_column ">
+				<div class="intro_author flex_container_center">
+					<img src="~/img/user/user01.png" alt="">
+					<p>會員</p>
+				</div>
+				<div class="recipe_intro">
+					<textarea class="recipe_intro_enter " name="RecipeIntroduction" id="" placeholder="請填寫料理簡介(150字以內)"></textarea>
+				</div>
+			</div>
+			<div id="ingredients" class="ingredients row_decorate_bottom">
+				<div class="ingredients_top_row flex_container_between">
+					<h2>準備食材</h2>
+				</div>
+				<ul class="ingredients_count">
+					<li>
+						<img class="icon_size" src="~/img/recipe_icon/Clock.ico" alt="">
+						<input class="cooking_time " type="text" name="CookingTime" placeholder="料理時間">
+						<p class="total_kcalg">分鐘</p>
+					</li>
+					<li>
+						<img class="icon_size" src="~/img/recipe_icon/people.ico" alt="">
+						<input class="peoples " type="text" name="Servings" placeholder="人數">
+						人份
+					</li>
+					<li>
+						<img class="icon_size" src="~/img/recipe_icon/Fire.ico" alt="">
+						<p class="total_kcalg" id="total_kcalg" ></p>
+						<p class="total_kcalg" id="kcalg_description">卡</p>
+					</li>
+				</ul>
+				<div class="row ingredients_row_decorate ingredients_row">
+					<span class="d_none" data-row-num=""></span>
+					<h4 id="ingredients_title_1" class="col-9 ingredients_title">
+						<input type="text" name="ingredients_table[0].TitleName" placeholder="新增標題">
+					</h4>
+					<div class="col-2">
+					</div>
+					<div class="col-1 d-flex align-items-center justify-content-center">
+					</div>
+				</div>
+				<div id="ingredients_content_1" class="row ingredients_row_decorate ingredients_content_num ingredients_row">
+					<span class="d_none" data-row-num=""></span>
+					<div class="col-9 ingredients_content_center ingredients_content_anchor">
+						<button class="ingredients_content" type="button" data-bs-toggle="collapse"
+								data-bs-target="#card_1" aria-expanded="false" aria-controls="card_1" style="width: 100%;">
+							<div class="row ">
+								<div class="col-5 ingredients_name_row ">
+									<p class="align-middle ingredients_name">加入食材</p>
+								</div>
+								<div class="col-7 ingredients_num_unit d-flex align-items-center">
+									<p class="align-middle">數量</p>
+									<p class="align-middle">單位</p>
+								</div>
+							</div>
+						</button>
+					</div>
+					<div class="col-2 text-end d-flex align-items-center justify-content-end">
+						<select class="ingredients_row_select ingredients_row_change  " name="" id="">
+							<option value="食材">食材</option>
+							<option value="標題">標題</option>
+						</select>
+					</div>
+					<div class="col-1 d-flex align-items-center justify-content-center">
+						<button type="button" id="reduce_1" class="plus_minus_btn ingredients_reduce">
+							<img class="plus_minus_img"
+								 src="~/img/recipe_icon/Minus.ico" alt="">
+						</button>
+					</div>
+					<div class="collapse_anchor collapse" id="card_1">
+						<div class="card card-body card_style">
+							<div class="row">
+								<div class="col-5">
+									<input id="ingredients_searchbar_1" class="ingredients_searchbar ingredients_searchbar_anchor " type="text" placeholder="請輸入食材"
+										   list="ingredients_list">
+									<div class="row">
+										<div class="col-9" style="padding-right: 2.5px;">
+											<input id="ingredients_number"
+												   class="ingredients_searchbar ingredients_number " type="text"
+												   placeholder="請輸入數量" list="ingredients_list">
+										</div>
+										<div class="col-3" style="padding-left: 2.5px;">
+											<select class="ingredients_row_select ingredients_unit"
+													id="ingredients_unit">
+												<option selected hidden disabled value="">單位</option>
+												<option value="g">g</option>
+												<option value="kg">kg</option>
+												<option value="ml">ml</option>
+												<option value="L">L</option>
+												<option value="適量">適量</option>
+											</select>
+										</div>
+										<div class="col-12 d-flex align-items-center justify-content-center">
+											<button type="button" class="button_style submit_ingredients"
+													style="width: 50%;">
+												送出
+											</button>
+										</div>
+									</div>
+								</div>
+								<ul id="ingredients_name_1" class="ingredients_options col-7 ingredients_name">
+								</ul>
+								<hr>
+								<p class="illustrate d-flex align-items-center justify-content-center">
+									找不到食材嗎? 請輸入需要的食材
+								</p>
+								<div class="col-12 d-flex align-items-center justify-content-center customize_ingredients_row">
+									<div class="row">
+										<div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+											<input id="customize_ingredients" class="ingredients_searchbar " type="text"
+												   placeholder="請輸入食材">
+										</div>
+										<div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+											<input id="customize_kcalg" class="ingredients_searchbar  col-5" type="text"
+												   placeholder="每100克卡洛里(非必要)">
+										</div>
+										<div class="col-5" style="padding-left: 5px; padding-right: 5px;">
+											<div class="row">
+												<div class="col-9">
+													<input id="customize_ingredients_number"
+														   class="ingredients_searchbar " type="text" placeholder="請輸入數量"
+														   list="ingredients_list">
+												</div>
+												<div class="col-3" style="padding: 0px;">
+													<select class="ingredients_row_select "
+															id="customize_ingredients_unit">
+														<option selected hidden disabled value="">單位</option>
+														<option value="g">g</option>
+														<option value="kg">kg</option>
+														<option value="ml">ml</option>
+														<option value="L">L</option>
+														<option value="適量">適量</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+								<div class="col-12 d-flex align-items-center justify-content-center">
+									<button type="button" class="button_style submit_ingredients submit_customize_ingredients"
+											style="width: 25%;">
+										送出
+									</button>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="ingredients_content_2" class="row ingredients_row_decorate ingredients_content_num ingredients_row">
+					<span class="d_none" data-row-num=""></span>
+					<div class="col-9 ingredients_content_center ingredients_content_anchor">
+						<button class="ingredients_content " type="button" data-bs-toggle="collapse"
+								data-bs-target="#card_2" aria-expanded="false" aria-controls="card_2" style="width: 100%;">
+							<div class="row ">								
+								<div class="col-5 ingredients_name_row ">
+									<p class="align-middle ingredients_name">加入食材</p>
+								</div>
+								<div class="col-7 ingredients_num_unit d-flex align-items-center">
+									<p class="align-middle">數量</p>
+									<p class="align-middle">單位</p>
+								</div>
+							</div>
+						</button>
+					</div>
+					<div class="col-2 text-end d-flex align-items-center justify-content-end">
+						<select class="ingredients_row_select ingredients_row_change" name="" id="">
+							<option value="食材">食材</option>
+							<option value="標題">標題</option>
+						</select>
+					</div>
+					<div class="col-1 d-flex align-items-center justify-content-center">
+						<button type="button" id="reduce_2" class="plus_minus_btn ingredients_reduce">
+							<img class="plus_minus_img"
+								 src="~/img/recipe_icon/Minus.ico" alt="">
+						</button>
+					</div>
+					<div class="collapse_anchor collapse" id="card_2">
+						<div class="card card-body card_style">
+							<div class="row">
+								<div class="col-5">
+									<input id="ingredients_searchbar_2" class="ingredients_searchbar ingredients_searchbar_anchor " type="text" placeholder="請輸入食材"
+										   list="ingredients_list">
+									<div class="row">
+										<div class="col-9" style="padding-right: 2.5px;">
+											<input id="ingredients_number"
+												   class="ingredients_searchbar ingredients_number " type="text"
+												   placeholder="請輸入數量" list="ingredients_list">
+										</div>
+										<div class="col-3" style="padding-left: 2.5px;">
+											<select class="ingredients_row_select ingredients_unit"
+													id="ingredients_unit">
+												<option selected hidden disabled value="">單位</option>
+												<option value="g">g</option>
+												<option value="kg">kg</option>
+												<option value="ml">ml</option>
+												<option value="L">L</option>
+												<option value="適量">適量</option>
+											</select>
+										</div>
+										<div class="col-12 d-flex align-items-center justify-content-center">
+											<button type="button" class="button_style submit_ingredients"
+													style="width: 50%;">
+												送出
+											</button>
+										</div>
+									</div>
+								</div>
+								<ul id="ingredients_name_2" class="ingredients_options col-7 ingredients_name">
+									
+								</ul>
+								<hr>
+								<p class="illustrate d-flex align-items-center justify-content-center">
+									找不到食材嗎? 請輸入需要的食材
+								</p>
+								<div class="col-12 d-flex align-items-center justify-content-center customize_ingredients_row">
+									<div class="row">
+										<div class="col-3" style="padding-left: 5px; padding-right: 5px;">
+											<input id="customize_ingredients" class="ingredients_searchbar " type="text"
+												   placeholder="請輸入食材">
+										</div>
+										<div class="col-4" style="padding-left: 5px; padding-right: 5px;">
+											<input id="customize_kcalg" class="ingredients_searchbar  col-5" type="text"
+												   placeholder="每100克卡洛里(非必要)">
+										</div>
+										<div class="col-5" style="padding-left: 5px; padding-right: 5px;">
+											<div class="row">
+												<div class="col-9">
+													<input id="customize_ingredients_number"
+														   class="ingredients_searchbar " type="text" placeholder="請輸入數量"
+														   list="ingredients_list">
+												</div>
+												<div class="col-3" style="padding: 0px;">
+													<select class="ingredients_row_select "
+															id="customize_ingredients_unit">
+														<option selected hidden disabled value="">單位</option>
+														<option value="g">g</option>
+														<option value="kg">kg</option>
+														<option value="ml">ml</option>
+														<option value="L">L</option>
+														<option value="適量">適量</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+								<div class="col-12 d-flex align-items-center justify-content-center">
+									<button type="button" class="button_style submit_ingredients submit_customize_ingredients"
+											style="width: 25%;">
+										送出
+									</button>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="row ingredients_row_decorate_last">
+					<div class="col-4"></div>
+					<div class="col-7">
+					</div>
+					<div class="col-1 d-flex align-items-center justify-content-center">
+						<button type="button" id="add_ingredients" class="plus_minus_btn">
+							<img class="plus_minus_img"
+								 src="~/img/recipe_icon/Plus.ico" alt="">
+						</button>
+					</div>
+				</div>
+			</div>
+			<div id="recipe_steps" class="recipe_steps row_decorate_bottom">
+				<h2>步驟</h2>
+				<div id="step_row_1" class="row recipe_steps_decorate step_row_anchor ">
+					<div class="col-5 position-relative img_cut_anchor">
+						<img id="steps_img_1" class="steps_img" src="~/img/455X325.jpg" alt="">
+						<input type="hidden" class="steps_img_save" id="steps_img_1_save" name="step_table[0].StepBase64" value="0">
+						<button type="button" class="opacity-50 img_upload_btn position-absolute top-50 start-50 translate-middle">
+							<svg viewBox="0 0 24 24" aria-hidden="true"
+								 class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c"
+								 style="color: rgb(255, 255, 255);">
+								<g>
+									<path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z">
+									</path>
+								</g>
+							</svg>
+						</button>
+					</div>
+					<div class="col-7 ">
+						<h4></h4>
+						<textarea class="recipe_steps_enter " name="step_table[0].StepText" id="steps_text_1_save" placeholder="請輸入步驟(150字以內)"></textarea>
+					</div>
+					<div class="col-12 d-flex align-items-center justify-content-end">
+						<button type="button" id="reduce_step_1" class="plus_minus_btn reduce_step">
+							<img class="plus_minus_img"
+								 src="~/img/recipe_icon/Minus.ico" alt="">
+						</button>
+					</div>
+				</div>
+				<div class="row recipe_steps_decorate_last">
+					<div class="col-12 d-flex align-items-center justify-content-end">
+						<button type="button" id="add_step" class="plus_minus_btn">
+							<img class="plus_minus_img"
+								 src="~/img/recipe_icon/Plus.ico" alt="">
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="send_row">
+				<p>選擇快速搜尋標籤(非必要)</p>
+				<div class="row select_options_row">
+					<div class="col-12">
+						<div class="select_options">
+							<select name="ProteinUsed" id="">
+								<option selected hidden disabled value="">主食材種類</option>
+								<option value="豬肉">豬肉</option>
+								<option value="雞肉">雞肉</option>
+								<option value="牛肉">牛肉</option>
+								<option value="羊肉">羊肉</option>
+								<option value="海鮮">海鮮</option>
+								<option value="其他">其他</option>
+								<option value="無">無</option>
+							</select>
+						</div>
+						<div class="select_options">
+							<select name="MealType" id="">
+								<option selected hidden disabled value="">餐類</option>
+								<option value="早餐">早餐</option>
+								<option value="午/晚餐">午/晚餐</option>
+								<option value="點心">點心</option>
+								<option value="甜點">甜點</option>
+							</select>
+						</div>
+						<div class="select_options">
+							<select name="HealthyOptions" id="">
+								<option selected hidden disabled value="">膳食</option>
+								<option value="素食">素食</option>
+								<option value="健康餐">健康餐</option>
+								<option value="無">無</option>
+							</select>
+						</div>
+						<div class="select_options">
+							<select name="CuisineStyle" id="">
+								<option selected hidden disabled value="">菜式</option>
+								<option value="中式">中式</option>
+								<option value="西式">西式</option>
+								<option value="日式">日式</option>
+								<option value="韓式">韓式</option>
+								<option value="其他">其他</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<button type="button" id="save_recipe_btn" class="button_style" data-bs-toggle="modal"
+						data-bs-target="#public_or_private">
+					儲存食譜
+				</button>
+				<button type="button" id="cancel_recipe_btn" class="button_style">取消儲存</button>
+
+				<!-- 公開或私人視窗start -->
+				<div class="modal fade" id="public_or_private" data-bs-backdrop="static" data-bs-keyboard="false"
+					 tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="staticBackdropLabel">請問食譜要設為公開或私人?</h5>
+								<select name="PublicPrivate" id="public_private" style="margin-left: 10px;">
+									<option selected hidden disabled value="">請選擇</option>
+									<option value="public">公開</option>
+									<option value="private">私人</option>
+								</select>
+								<button type="button" class="btn-close clear_select" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+							</div>
+							<div class="save_window d-flex justify-content-center align-items-center">
+								<button type="submit" class="button_style" data-bs-dismiss="modal">送出</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 公開或私人視窗end -->
+				<!-- 圖片上傳start d_none -->
+				<div class="modal-background-only" id="modalBackground"></div>
+				<input type="file" id="recipe_cover" class="d_none" />
+				<div class="croppie_area d_none" id="img_upload">
+					<h3>調整圖片大小</h3>
+					<div class="img_area">
+						<div id="edit_image">
+						</div>
+					</div>
+					<button type="button" class="button_style" id="save_recipe_cover">完成</button>
+					<button type="button" class="button_style" id="cancel_recipe_cover">取消</button>
+				</div>
+				<!-- 圖片上傳end -->
+			</div>
+		</div>
+	</div>
+</form>
+
+
+@section MyHeadScripts {
+	<link rel="stylesheet" href="~/css/croppie.css">
+	<link rel="stylesheet" href="~/css/recipe_create_page.css">
+}
+
+@section MyScripts {
+	<script src="~/js/croppie.js"></script>
+	<script src="~/js/recipe_create_page.js"></script>
+}
+
