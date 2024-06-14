@@ -81,12 +81,17 @@ header {
     margin-left: 20px;
     margin-right: 10px;
     margin-top: 10px;
-    background-image: url("/img/logo_text.png");
-    background-repeat: no-repeat;
-    background-size: contain;
     align-items: center;
     cursor: pointer;
 }
+
+    .header-left-img > a {
+        width: inherit;
+        height:inherit;
+        background-image: url("/img/logo_text.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
 
 .header-middle {
     background-color: rgb(255, 255, 255);
@@ -289,10 +294,10 @@ header {
     color: #111111;
 }
 
-.right-title p:nth-child(3) a:hover,
-.right-title p:nth-child(5) a:hover {
-    color: rgb(232, 117, 67);
-}
+    .right-title p:nth-child(3) a:hover,
+    .right-title p:nth-child(5) a:hover {
+        color: rgb(232, 117, 67);
+    }
 
 .right-title {
     position: absolute;

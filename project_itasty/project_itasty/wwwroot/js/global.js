@@ -36,7 +36,3 @@ $(document).ready(function () {
         }
     })
 })
-
-function page_home() {
-    window.location.href = "/home";
-}

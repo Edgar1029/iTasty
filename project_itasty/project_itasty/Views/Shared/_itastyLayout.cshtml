@@ -30,7 +30,10 @@
 	<header class="row gx-0">
 		<div class="header-first d-lg-flex d-sm-none" style="display:flex">
 			<div class="header-left row gx-0">
-				<div class="header-left-img" onclick="page_home()"></div>
+				<div class="header-left-img">
+					<a href="~/" class="d-block"></a>
+
+				</div>
 				<a href="~/Research/Index"><span id="all-receipe">所有食譜 </span></a>
 				@{
 					if (userId != 0)
@@ -168,7 +171,7 @@
 		<div class="footer-footer">
 			© 2024 - 2024 ITASTY | Perfect Receipe Await. All Rights Reserved.
 		</div>
-		
+
 	</footer>
 	@await RenderSectionAsync("MyScripts", required: false)
 </body>
