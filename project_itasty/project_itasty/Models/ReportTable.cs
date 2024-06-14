@@ -16,4 +16,6 @@ public partial class ReportTable
     public string? ReportReason { get; set; }
 
     public bool? ReportStatus { get; set; }
+
+    public int? ReportUserId { get; set; }
 }
