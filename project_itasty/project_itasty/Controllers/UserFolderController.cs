@@ -98,7 +98,7 @@ namespace project_itasty.Controllers.Api
                 _context.SaveChanges();
             }
             var id = (from a in _context.IngredientsTables
-                      where a.RecipeId == recipeId
+                      where a.RecipeId == recipeId && a.TitleName == null
                       select a.Id).ToList();
             FavoritesCheck favoritecheck = new FavoritesCheck();
             foreach (var item in id)
@@ -136,7 +136,7 @@ namespace project_itasty.Controllers.Api
                                     where a.RecipeId == recipeId && a.UserId == userId
                                     select a.FavoriteRecipeId).FirstOrDefault();
             var id = (from a in _context.IngredientsTables
-                      where a.RecipeId == recipeId
+                      where a.RecipeId == recipeId && a.TitleName == null
                       select a.Id).ToList();
             FavoritesCheck favoritecheck = new FavoritesCheck();
             foreach (var item in id)
@@ -376,7 +376,7 @@ namespace project_itasty.Controllers.Api
                 return BadRequest("Invalid user ID or recipe ID.");
             }
             var ingredients = (from a in _context.IngredientsTables
-                               where a.RecipeId == ingredientDto.RecipeId
+                               where a.RecipeId == ingredientDto.RecipeId && a.TitleName == null
                                select a).ToList();
             var recipe = (from a in _context.RecipeTables
                           where a.RecipeId == ingredientDto.RecipeId
@@ -431,7 +431,7 @@ namespace project_itasty.Controllers.Api
                 }
             }
             var sameingredientdifrecipe = (from a in _context.IngredientsTables
-                                           where a.RecipeId == ingredientDto.RecipeId
+                                           where a.RecipeId == ingredientDto.RecipeId && a.TitleName == null
                                            select a.IngredientsName).ToList();
             foreach (var item in sameingredientdifrecipe)
             {

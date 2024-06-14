@@ -12,6 +12,7 @@
 }
 @model project_itasty.Controllers.HomeController.MyViewModel
 
+
 <!-- 搜尋區 -->
 <div class="container-center search_img position-relative">
     <div class=" px-0">
@@ -69,7 +70,7 @@
             </div>
 
             <div class="carousel-inner">
-				<h2>當季食材 </h2>
+				<h2>當季食材</h2>
                 @if (Model.Ingredients.Count > 1)
                 {
                     <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
@@ -153,26 +154,30 @@
                                                      {
                                                          var recipe = recipes[j + k];
                                                          <div class="col-4">
-                                                            <div class="card shadow-sm">
-                                                                 <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
-                                                                 <div class="card-body">
-                                                                     
-                                                                     <p class="card-text">@recipe.RecipeName</p>
-                                                                 </div>
-                                                             </div>
+                                                            
+                                                                <div class="card shadow-sm" onclick="sessionStorage.setItem('recipeId',@recipe.RecipeId)">
+                                                                     <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
+                                                                     <div class="card-body">
+                                                                         
+                                                                         <p class="card-text">@recipe.RecipeName</p>
+                                                                     </div>
+                                                                </div>
+                                                           
                                                          </div>
                                                      }
                                                  </div>
                                              </div>
                                          }
-                                         <a class="carousel-control-prev" href="#ingredientCarousel_@i" role="button" data-bs-slide="prev" style="justify-content:flex-start;width:50px">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Previous</span>
-                                         </a>
-                                         <a class="carousel-control-next" href="#ingredientCarousel_@i" role="button" data-bs-slide="next" style="justify-content:flex-start;width:50px">
-                                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                             <span class="visually-hidden">Next</span>
-                                         </a>
+                                        @if (recipes.Count>3){
+                                              <button class="carousel-control-prev" type="button" data-bs-target="#ingredientCarousel_@i" data-bs-slide="prev" style="justify-content:flex-start;width:50px">
+                                                 <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color:black ;border-radius: 10px;"></span>
+                                                 <span class="visually-hidden">Previous</span>
+                                             </button>
+                                             <button class="carousel-control-next" type="button" data-bs-target="#ingredientCarousel_@i" data-bs-slide="next" style="justify-content:flex-end;width:50px">
+                                                 <span class="carousel-control-next-icon" aria-hidden="true" style="background-color:black ;border-radius: 10px;"></span>
+                                                 <span class="visually-hidden">Next</span>
+                                             </button>
+                                         }
 
                                      }
                                      else
@@ -245,12 +250,12 @@
             </div>
             @if (Model.Recipes.Count > 3)
             {
-                <button class="carousel-control-prev" type="button" data-bs-target="#Popular_Carousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <button class="carousel-control-prev" type="button" data-bs-target="#Popular_Carousel" data-bs-slide="prev" style="justify-content:flex-start;width:50px">
+                    <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color:black ;border-radius: 10px;"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#Popular_Carousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <button class="carousel-control-next" type="button" data-bs-target="#Popular_Carousel" data-bs-slide="next" style="justify-content:flex-end;width:50px">
+                    <span class="carousel-control-next-icon" aria-hidden="true" style="background-color:black ;border-radius: 10px;"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
             }
@@ -306,11 +311,11 @@
             </div>
             @if (Model.Recipes.Count > 3){ 
             <button class="carousel-control-prev" type="button" data-bs-target="#news_Carousel" data-bs-slide="prev" style="justify-content:flex-start;width:50px">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color:black ;border-radius: 10px;"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#news_Carousel" data-bs-slide="next" style="justify-content:flex-start;width:50px">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <button class="carousel-control-next" type="button" data-bs-target="#news_Carousel" data-bs-slide="next" style="justify-content:flex-end;width:50px">
+                <span class="carousel-control-next-icon" aria-hidden="true" style="background-color:black ;border-radius: 10px;"></span>
                 <span class="visually-hidden">Next</span>
             </button>
 				}
@@ -321,6 +326,7 @@
 </div>
 }
 <!-- 最新食譜 -->
+
 <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script>
@@ -377,31 +383,19 @@
     }
 
 
-    // 輪播
-
-
-
-
-
-
     //搜尋
-       
-            // 當點擊 <li> 元素時觸發
-        $('#list li').click(function () {
-                // 獲取點擊的 <li> 元素的文本內容
-            var liText = "";
-            if ($(this).text() == "作者") {
-                var liText = "author";
-            } else if ($(this).text() == "食譜") {
-                var liText = "recipes";
-            }
-                // 將文本內容設置為 <input> 元素的值
-            $('#search_type').val(liText);
-         });
-        
-       
-
-   
+    // 當點擊 <li> 元素時觸發
+    $('#list li').click(function () {
+    // 獲取點擊的 <li> 元素的文本內容
+       var liText = "";
+       if ($(this).text() == "作者") {
+           var liText = "author";
+       } else if ($(this).text() == "食譜") {
+           var liText = "recipes";
+       }
+           // 將文本內容設置為 <input> 元素的值
+       $('#search_type').val(liText);
+    });  
 });
 </script>
 
