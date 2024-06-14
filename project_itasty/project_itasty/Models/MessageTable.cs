@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace project_itasty.Models;
 
@@ -21,7 +22,15 @@ public partial class MessageTable
 
     public string? ViolationStatus { get; set; }
 
-    public virtual RecipeTable Recipe { get; set; } = null!;
+	[NotMapped]
+	public DateTime ParentTime { get; set; }
+
+    [NotMapped]
+	public string ParentMessage { get; set; }
+
+    [NotMapped]
+	public int ParentUserId { get; set; }
+	public virtual RecipeTable Recipe { get; set; } = null!;
 
     public virtual UserInfo User { get; set; } = null!;
 }
