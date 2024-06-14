@@ -18,4 +18,8 @@ public partial class ReportTable
     public bool? ReportStatus { get; set; }
 
     public int? ReportUserId { get; set; }
+
+    public virtual UserInfo Report { get; set; } = null!;
+
+    public virtual UserInfo ReportedUser { get; set; } = null!;
 }
