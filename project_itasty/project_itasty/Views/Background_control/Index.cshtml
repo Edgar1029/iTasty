@@ -217,13 +217,57 @@
 					<table class="table table-hover" id="comments">
 						<tr class="table-active">
 							<th>食譜id</th>
-							<th>食譜名稱</th>
-							<th>作者</th>
+							<th>作者id</th>
 							<th>遭檢舉留言</th>
 							<th>檢舉理由</th>
 							<th>審核狀態</th>
 						</tr>
 
+						@foreach (var i in Model.CommentTable)
+						{
+							<tr>
+								<td>@i.RecipeId</td>
+								<td>@i.UserId</td>
+								<td>@i.MessageContent</td>
+								<td>@i.ReportReason</td>
+								<td id="user_review_0">
+									<!-- modal的彈出按鈕 -->
+									<button class="btn btn-primary btn_modal" data-bs-toggle="modal" data-bs-target="#comment@i.RecipeId" id="censor">
+										待審核
+									</button>
+									<!-- modal的彈出按鈕 -->
+									<!-- modal的本體 -->
+									<div class="modal fade btn_modalBody" id="comment@i.RecipeId" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<div class="modal-title">
+														審核欄
+													</div>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+													<p>被檢舉人: @i.UserId</p>
+													<p>被檢舉原因: @i.ReportReason</p>
+													<p>被檢舉留言: @i.MessageContent</p>
+
+													<label for="">檢舉圖片:</label>
+													<img src="../新增資料夾/img/螢幕擷取畫面 2024-05-21 212334.png" alt="">
+													<p>檢舉人: @i.UserId</p>
+													@* <p>遭檢舉頁:<a href="#">@i.UserId的食譜頁</a></p> *@
+												</div>
+												<div class="modal-footer">
+													<button class="btn btn-primary" data-bs-dismiss="modal">通過</button>
+													<button class="btn btn-primary" data-bs-dismiss="modal">駁回</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- modal的本體 -->
+								</td>
+							</tr>
+
+						}
 					</table>
 				</div>
 				<div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">

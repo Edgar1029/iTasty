@@ -34,7 +34,7 @@ namespace project_itasty.Controllers
 			var OrderrecipeList = _context.RecipeTables.OrderByDescending(r => r.Views).ToList();
 			var userList = _context.UserInfos.ToList();
 
-			var joinedList = from recipe in OrderrecipeList
+			var RU_joinedList = from recipe in OrderrecipeList
 							 join user in userList on recipe.UserId equals user.UserId
 							 select new
 							 {
@@ -47,7 +47,7 @@ namespace project_itasty.Controllers
 
 			var OrderRecipedTable = new List<Background_Control_OrderRecipedTable>();
 
-			foreach (var item in joinedList)
+			foreach (var item in RU_joinedList)
 			{
 				OrderRecipedTable.Add(new Background_Control_OrderRecipedTable
 				{
@@ -111,18 +111,34 @@ namespace project_itasty.Controllers
 			#endregion
 
 			#region 將資料灌進 Comment
-			var CommentList = _context.MessageTables.Where(r => r.ViolationStatus == "Violation Reported").ToList();
+			var CommentList = _context.ReportTables.Where(r => r.ReportType == 1 ).ToList();//要改where的內容&& r.ReportStatus == false
+			var MessageList = _context.MessageTables.ToList();
+
+			var RecipedTableList = _context.RecipeTables.ToList();
+
+			var CM_JoinedList = from comment in CommentList
+								join message in MessageList on comment.RecipedIdOrCommentId equals message.MessageId
+								join recipe in RecipedTableList on message.RecipeId equals recipe.RecipeId
+								select new
+								 {
+								 RecipeId = recipe.RecipeId,
+								 UserId = message.UserId,
+								 MessageContent = message.MessageContent,
+								 ReportReason = comment.ReportReason,
+								 ReportStatus = comment.ReportStatus
+								};
 
 			var CommentTable = new List<Background_Control_CommentTable>();
 
-			foreach (var item in CommentList)
+			foreach (var item in CM_JoinedList)
 			{
 				CommentTable.Add(new Background_Control_CommentTable
 				{
 					RecipeId = item.RecipeId,
 					UserId = item.UserId,
 					MessageContent = item.MessageContent,
-					ViolationStatus = item.ViolationStatus,
+					ReportReason = item.ReportReason,
+					ReportStatus = item.ReportStatus,
 				});
 			}
 			#endregion
@@ -134,6 +150,7 @@ namespace project_itasty.Controllers
 				OrderRecipedTable = OrderRecipedTable,
 				UserTable = UserTable,
 				RecipedTable = RecipedTable,
+				CommentTable= CommentTable,
 			};
 
 

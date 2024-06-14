@@ -49,7 +49,9 @@ namespace project_itasty.Models
 
 		public string? MessageContent { get; set; }
 
-		public string? ViolationStatus { get; set; }
+		public string? ReportReason { get; set; }
+
+		public bool? ReportStatus { get; set; }
 	}
 
 	public class Background_Control_RecipedTable

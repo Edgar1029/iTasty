@@ -43,11 +43,7 @@ public partial class RecipeTable
 
     public int? Calories { get; set; }
 
-    public virtual ICollection<CustomRecipeFolder> CustomRecipeFolders { get; set; } = new List<CustomRecipeFolder>();
-
     public virtual ICollection<EditedRecipe> EditedRecipes { get; set; } = new List<EditedRecipe>();
-
-    public virtual ICollection<FavoritesRecipe> FavoritesRecipes { get; set; } = new List<FavoritesRecipe>();
 
     public virtual ICollection<IngredientsTable> IngredientsTables { get; set; } = new List<IngredientsTable>();
 
@@ -56,8 +52,6 @@ public partial class RecipeTable
     public virtual ICollection<MessageTable> MessageTables { get; set; } = new List<MessageTable>();
 
     public virtual RecipeTable? ParentRecipe { get; set; }
-
-    public virtual ICollection<RecipeView> RecipeViews { get; set; } = new List<RecipeView>();
 
     public virtual ICollection<ShoppingRecipe> ShoppingRecipes { get; set; } = new List<ShoppingRecipe>();
 

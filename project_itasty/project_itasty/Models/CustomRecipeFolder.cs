@@ -13,7 +13,5 @@ public partial class CustomRecipeFolder
 
     public int? RecipeId { get; set; }
 
-    public virtual RecipeTable? Recipe { get; set; }
-
     public virtual UserInfo User { get; set; } = null!;
 }
