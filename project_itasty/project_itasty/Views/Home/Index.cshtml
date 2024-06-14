@@ -50,283 +50,284 @@
 
     </div>
 </div>
+@* 內容 *@
+<div class="gx-0" style="max-width:1536px;margin:auto;background:rgb(250, 250, 250);padding:60px">
+  
+    <!-- 當季食材內容區 -->
+    <div class="container-center row justify-content-center season_container">
 
+        <div class="col-12 gx-0">
 
-<!-- 當季食材內容區 -->
-<div class="container-center row justify-content-center season_container">
+            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
 
-    <div class="col-8">
-
-        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
-
-            <div class="carousel-indicators">
-                @if(Model.Ingredients.Count>1){
-                    @for (int i = 0; i < Model.Ingredients.Count; i++)
-                    {
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="@i" class=" @(i == 0 ? "active" : " ") "
-                                aria-current=" @(i == 0 ? "true" : " ")" aria-label="Slide @i" id="Slide_@i" onclick=" var j=0; while( j < @Model.Ingredients.Count){var element='Recipelist_'+j; if(j==@i){document.getElementById('Recipelist_@i').classList.remove('hidden');}else{document.getElementById(element).classList.add('hidden');}  j++;}"></button>
-                                          }
-                }
-            </div>
-
-            <div class="carousel-inner">
-				<h2>當季食材</h2>
-                @if (Model.Ingredients.Count > 1)
-                {
-                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
-                        <div class="carousel-inner">
-
-                            @for (int i = 0; i < Model.Ingredients.Count; i++)
-                            {
-                                <div class="carousel-item @(i == 0 ? "active" : " ") " id="season_imgId_@i">
-
-                                    <div class="carousel_img">
-                                        @{
-                                            if (Model.Ingredients[i].IngredientsImg != null)
-                                            {
-                                                                <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Ingredients[i].IngredientsImg)" class="d-block w-100 " alt="..." style="height:570px; " />
-                                            }
-                                            else
-                                            {
-                                                                <img src="" class="">
-
-                                            }
-                                        }
-                                        <div class="carousel-caption d-none d-md-block" >
-                                            <h5 style="font-size:28px" >@Model.Ingredients[i].CommonName</h5>
-                                        </div>
-                                    </div>
-                                </div> 
-                            }
-                        </div>
-                    </div>
-              }else{
-               
-                <div class="carousel-item">
-                    <div class="carousel_img">
-                        <img src="~/img/Basil.jpg" id="season_img1" class="d-block w-100" alt="..." style="height:570px;">
-                    </div>
-				</div>
-                    <div class="carousel-item">
-                        <div class="carousel_img">
-                            <img src="~/img/cabbage.png" id="season_img2" class="d-block w-100" alt="..." style="height:570px;">
-                        </div>
-                    </div>
-                }
-            </div>
-               
-         </div>
-
-    </div>
-    
-
-
-</div>
-<!-- 當季食材內容區 -->
-
-<!-- 當季食材食譜區 -->
-<div class="container-center row justify-content-center" id="Recipelist_con">
-    @* 當季食材for迴圈 *@
-   
-        @for (int i = 0; i < Model.Ingredients.Count; i++)
-        {
-        <div class="container row  justify-content-center @(i == 0 ? "" : "hidden")" id="Recipelist_@i">
-			
-
-                <div class="col-8 ">
-                <h2>當季食材食譜</h2>
-
-                            @{
-                                var ingredient = Model.Ingredients[i];
-                                var recipes = Model.SeasonRecipeTable.ContainsKey(ingredient.CommonName) ? Model.SeasonRecipeTable[ingredient.CommonName].ToList() : new List<RecipeTable>();
-                             }
-
-                             <div class="carousel slide" data-bs-ride="carousel" id="ingredientCarousel_@i">
-                                 <div class="carousel-inner">
-
-                                     @if (recipes.Count > 0)
-                                     {
-                                         for (int j = 0; j < recipes.Count; j += 3)
-                                         {
-                                             <div class="carousel-item @(j == 0 ? "active" : "")">
-                                                 <div class="row">
-                                                     @for (int k = 0; k < 3 && (j + k) < recipes.Count; k++)
-                                                     {
-                                                         var recipe = recipes[j + k];
-                                                         <div class="col-4">
-                                                            
-                                                                <div class="card shadow-sm" onclick="sessionStorage.setItem('recipeId',@recipe.RecipeId)">
-                                                                     <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
-                                                                     <div class="card-body">
-                                                                         
-                                                                         <p class="card-text">@recipe.RecipeName</p>
-                                                                     </div>
-                                                                </div>
-                                                           
-                                                         </div>
-                                                     }
-                                                 </div>
-                                             </div>
-                                         }
-                                        @if (recipes.Count>3){
-                                              <button class="carousel-control-prev" type="button" data-bs-target="#ingredientCarousel_@i" data-bs-slide="prev" style="justify-content:flex-start;width:50px">
-                                                 <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color:black ;border-radius: 10px;"></span>
-                                                 <span class="visually-hidden">Previous</span>
-                                             </button>
-                                             <button class="carousel-control-next" type="button" data-bs-target="#ingredientCarousel_@i" data-bs-slide="next" style="justify-content:flex-end;width:50px">
-                                                 <span class="carousel-control-next-icon" aria-hidden="true" style="background-color:black ;border-radius: 10px;"></span>
-                                                 <span class="visually-hidden">Next</span>
-                                             </button>
-                                         }
-
-                                     }
-                                     else
-                                     {
-                                         <div class="carousel-item active">
-                                             <div class="row">
-                                                 <div class="col-12">
-                                                     <p>沒有相關食譜</p>
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     }
-                                 </div>
-                                    
-                             </div>
-
+                <div class="carousel-indicators">
+                    @if(Model.Ingredients.Count>1){
+                    
+                        @for (int i = 0; i < Model.Ingredients.Count; i++)
+                        {
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="@i" class=" @(i == 0 ? "active" : " ") "
+                                    aria-current=" @(i == 0 ? "true" : " ")" aria-label="Slide @i" id="Slide_@i" onclick=" var j=0; while( j < @Model.Ingredients.Count){var element='Recipelist_'+j; if(j==@i){document.getElementById('Recipelist_@i').classList.remove('hidden');}else{document.getElementById(element).classList.add('hidden');}  j++;}"></button>
+                                              }
+                    }
                 </div>
-            </div>
-        
-    
-        }
-    
 
-    @* 當季食材for迴圈 *@
- 
-</div>
-<!-- 當季食材食譜區 -->
-<!-- 熱門食譜 -->
-@if (Model.RecipeViews.Count != 0)
-{
-    <div class="container-center row Popular_container">
-        <div class="col-2"></div>
-        <div id="Popular_Carousel" class="carousel slide col-8" data-bs-ride="carousel" data-bs-interval="100000">
-            <h2>熱門食譜</h2>
-
-            <div class="carousel-inner">
-                @if (Model.RecipeViews.Count > 0)
-                {
-                    for (int j = 0; j < Model.RecipeViews.Count; j += 3)
+                <div class="carousel-inner">
+				    <h2>當季食材</h2>
+                    @if (Model.Ingredients.Count > 1)
                     {
-                        <div class="carousel-item @(j == 0 ? "active" : "")">
-                            <div class="row">
-                                @for (int k = 0; k < 3 && (j + k) < Model.RecipeViews.Count; k++)
-                                {
-                                    var recipe = Model.RecipeViews[j + k];
-                                    <div class="col-4">
-                                        <div class="card shadow-sm">
-                                            <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
-                                            <div class="card-body">
+                        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+                            <div class="carousel-inner">
 
-                                                <p class="card-text">@recipe.RecipeName</p>
+                                @for (int i = 0; i < Model.Ingredients.Count; i++)
+                                {
+                                    <div class="carousel-item @(i == 0 ? "active" : " ") " id="season_imgId_@i">
+
+                                        <div class="carousel_img">
+                                            @{
+                                                if (Model.Ingredients[i].IngredientsImg != null)
+                                                {
+                                                                    <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Ingredients[i].IngredientsImg)" class="d-block w-100 " alt="..." style="height:570px; " />
+                                                }
+                                                else
+                                                {
+                                                                    <img src="" class="">
+
+                                                }
+                                            }
+                                            <div class="carousel-caption d-none d-md-block" >
+                                                <h5 style="font-size:28px" >@Model.Ingredients[i].CommonName</h5>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> 
                                 }
                             </div>
                         </div>
-                    }
-                }
-                else
-                {
-                    <div class="carousel-item active">
-                        <div class="row">
-                            <div class="col-12">
-                                <p>沒有相關食譜</p>
+                  }else{
+               
+                    <div class="carousel-item">
+                        <div class="carousel_img">
+                            <img src="~/img/Basil.jpg" id="season_img1" class="d-block w-100" alt="..." style="height:570px;">
+                        </div>
+				    </div>
+                        <div class="carousel-item">
+                            <div class="carousel_img">
+                                <img src="~/img/cabbage.png" id="season_img2" class="d-block w-100" alt="..." style="height:570px;">
                             </div>
                         </div>
+                    }
+                </div>
+               
+             </div>
+
+        </div>
+    
+    </div>
+    <!-- 當季食材內容區 -->
+
+    <!-- 當季食材食譜區 -->
+    <div class="container-center row justify-content-center" id="Recipelist_con">
+        @* 當季食材for迴圈 *@
+   
+            @for (int i = 0; i < Model.Ingredients.Count; i++)
+            {
+                <div class="container row col-12 gx-0  justify-content-center @(i == 0 ? "" : "hidden")" id="Recipelist_@i" >
+			
+
+                    <div class="col-12 gx-0 ">
+                    <h2>當季食材食譜</h2>
+
+                                @{
+                                    var ingredient = Model.Ingredients[i];
+                                    var recipes = Model.SeasonRecipeTable.ContainsKey(ingredient.CommonName) ? Model.SeasonRecipeTable[ingredient.CommonName].ToList() : new List<RecipeTable>();
+                                 }
+
+                                 <div class="carousel slide" data-bs-ride="carousel" id="ingredientCarousel_@i">
+                                     <div class="carousel-inner">
+
+                                         @if (recipes.Count > 0)
+                                         {
+                                             for (int j = 0; j < recipes.Count; j += 3)
+                                             {
+                                                 <div class="carousel-item @(j == 0 ? "active" : "")">
+                                                     <div class="row">
+                                                         @for (int k = 0; k < 3 && (j + k) < recipes.Count; k++)
+                                                         {
+                                                             var recipe = recipes[j + k];
+                                                             <div class="col-4">
+                                                            
+                                                                    <div class="card shadow-sm" onclick="sessionStorage.setItem('recipeId',@recipe.RecipeId)" style="border-radius:5px;">
+                                                                         <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
+                                                                         <div class="card-body">
+                                                                         
+                                                                             <p class="card-text" style="text-align:center;">@recipe.RecipeName</p>
+                                                                         </div>
+                                                                    </div>
+                                                           
+                                                             </div>
+                                                         }
+                                                     </div>
+                                                 </div>
+                                             }
+                                            @if (recipes.Count>3){
+                                                  <button class="carousel-control-prev" type="button" data-bs-target="#ingredientCarousel_@i" data-bs-slide="prev" style="justify-content:flex-start;width:50px">
+                                                     <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color:black ;border-radius: 10px;"></span>
+                                                     <span class="visually-hidden">Previous</span>
+                                                 </button>
+                                                 <button class="carousel-control-next" type="button" data-bs-target="#ingredientCarousel_@i" data-bs-slide="next" style="justify-content:flex-end;width:50px">
+                                                     <span class="carousel-control-next-icon" aria-hidden="true" style="background-color:black ;border-radius: 10px;"></span>
+                                                     <span class="visually-hidden">Next</span>
+                                                 </button>
+                                             }
+
+                                         }
+                                         else
+                                         {
+                                             <div class="carousel-item active">
+                                                 <div class="row">
+                                                     <div class="col-12">
+                                                         <p>沒有相關食譜</p>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         }
+                                     </div>
+                                    
+                                 </div>
+
                     </div>
+                </div>
+        
+    
+            }
+    
+
+        @* 當季食材for迴圈 *@
+ 
+    </div>
+    <!-- 當季食材食譜區 -->
+    <!-- 熱門食譜 -->
+    @if (Model.RecipeViews.Count != 0)
+    {
+        <div class="container-center row Popular_container">
+      
+            <div id="Popular_Carousel" class="carousel slide col-12 gx-0" data-bs-ride="carousel" data-bs-interval="100000">
+                <h2>熱門食譜</h2>
+
+                <div class="carousel-inner">
+                    @if (Model.RecipeViews.Count > 0)
+                    {
+                        for (int j = 0; j < Model.RecipeViews.Count; j += 3)
+                        {
+                            <div class="carousel-item @(j == 0 ? "active" : "")">
+                                <div class="row">
+                                    @for (int k = 0; k < 3 && (j + k) < Model.RecipeViews.Count; k++)
+                                    {
+                                        var recipe = Model.RecipeViews[j + k];
+                                        <div class="col-4">
+                                            <div class="card shadow-sm" style="border-radius:5px;">
+                                                <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
+                                                <div class="card-body">
+
+                                                    <p class="card-text" style="text-align:center;">@recipe.RecipeName</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="carousel-item active">
+                            <div class="row">
+                                <div class="col-12">
+                                    <p>沒有相關食譜</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                @if (Model.Recipes.Count > 3)
+                {
+                    <button class="carousel-control-prev" type="button" data-bs-target="#Popular_Carousel" data-bs-slide="prev" style="justify-content:flex-start;width:50px">
+                        <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color:black ;border-radius: 10px;"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#Popular_Carousel" data-bs-slide="next" style="justify-content:flex-end;width:50px">
+                        <span class="carousel-control-next-icon" aria-hidden="true" style="background-color:black ;border-radius: 10px;"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 }
             </div>
-            @if (Model.Recipes.Count > 3)
-            {
-                <button class="carousel-control-prev" type="button" data-bs-target="#Popular_Carousel" data-bs-slide="prev" style="justify-content:flex-start;width:50px">
+      
+        </div>
+    }
+    <!-- 熱門食譜 -->
+    <!-- 最新食譜 --> 
+    @if(Model.Recipes.Count!=0){
+
+	    <div class="container-center row news_container">
+		
+      
+            <div id="news_Carousel" class="carousel slide col-12 gx-0" data-bs-ride="carousel" data-bs-interval="100000">
+			    <h2>最新食譜</h2>
+
+                <div class="carousel-inner">
+
+                    @if (Model.Recipes.Count > 0)
+                    {
+                        for (int j = 0; j < Model.Recipes.Count; j += 3)
+                        {
+                            <div class="carousel-item @(j == 0 ? "active" : "")">
+                                <div class="row">
+                                    @for (int k = 0; k < 3 && (j + k) < Model.Recipes.Count; k++)
+                                    {
+                                        var recipe = Model.Recipes[j + k];
+                                        <div class="col-4">
+                                            <div class="card shadow-sm" style="border-radius:5px;">
+                                                <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
+                                                <div class="card-body">
+
+                                                        <p class="card-text" style="text-align:center;">@recipe.RecipeName</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="carousel-item active">
+                            <div class="row">
+                                <div class="col-12">
+                                    <p>沒有相關食譜</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                @if (Model.Recipes.Count > 3){ 
+                <button class="carousel-control-prev" type="button" data-bs-target="#news_Carousel" data-bs-slide="prev" style="justify-content:flex-start;width:50px">
                     <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color:black ;border-radius: 10px;"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#Popular_Carousel" data-bs-slide="next" style="justify-content:flex-end;width:50px">
+                <button class="carousel-control-next" type="button" data-bs-target="#news_Carousel" data-bs-slide="next" style="justify-content:flex-end;width:50px">
                     <span class="carousel-control-next-icon" aria-hidden="true" style="background-color:black ;border-radius: 10px;"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
-            }
-        </div>
-        <div class="col-2"></div>
-    </div>
-}
-<!-- 熱門食譜 -->
-<!-- 最新食譜 --> 
-@if(Model.Recipes.Count!=0){
-
-	<div class="container-center row news_container">
-		
-        <div class="col-2"></div>
-        <div id="news_Carousel" class="carousel slide col-8" data-bs-ride="carousel" data-bs-interval="100000">
-			<h2>最新食譜</h2>
-
-            <div class="carousel-inner">
-
-                @if (Model.Recipes.Count > 0)
-                {
-                    for (int j = 0; j < Model.Recipes.Count; j += 3)
-                    {
-                        <div class="carousel-item @(j == 0 ? "active" : "")">
-                            <div class="row">
-                                @for (int k = 0; k < 3 && (j + k) < Model.Recipes.Count; k++)
-                                {
-                                    var recipe = Model.Recipes[j + k];
-                                    <div class="col-4">
-                                        <div class="card shadow-sm">
-                                            <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
-                                            <div class="card-body">
-
-                                                <p class="card-text">@recipe.RecipeName</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    }
-                }
-                else
-                {
-                    <div class="carousel-item active">
-                        <div class="row">
-                            <div class="col-12">
-                                <p>沒有相關食譜</p>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-            @if (Model.Recipes.Count > 3){ 
-            <button class="carousel-control-prev" type="button" data-bs-target="#news_Carousel" data-bs-slide="prev" style="justify-content:flex-start;width:50px">
-                <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color:black ;border-radius: 10px;"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#news_Carousel" data-bs-slide="next" style="justify-content:flex-end;width:50px">
-                <span class="carousel-control-next-icon" aria-hidden="true" style="background-color:black ;border-radius: 10px;"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-				}
-     </div>
+				    }
+         </div>
 
 	
-    <div class="col-2"></div>
+   
+    </div>
+    }
+    <!-- 最新食譜 -->
 </div>
-}
-<!-- 最新食譜 -->
-
+@* 內容 *@
 <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script>

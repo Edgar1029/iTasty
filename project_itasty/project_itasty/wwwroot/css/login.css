@@ -179,7 +179,7 @@
 #login_container{
     margin-top: 250px;
     margin-bottom: 250px;
-
+    /*max-width:720px;*/
 }
 .login_btn {
     background-color: #a53f2b;
