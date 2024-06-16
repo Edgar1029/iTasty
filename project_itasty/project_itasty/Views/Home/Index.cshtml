@@ -82,21 +82,23 @@
                                 {
                                     <div class="carousel-item @(i == 0 ? "active" : " ") " id="season_imgId_@i">
 
-                                        <div class="carousel_img">
-                                            @{
-                                                if (Model.Ingredients[i].IngredientsImg != null)
-                                                {
-                                                                    <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Ingredients[i].IngredientsImg)" class="d-block w-100 " alt="..." style="height:570px; " />
-                                                }
-                                                else
-                                                {
-                                                                    <img src="" class="">
+                                        <div class="carousel_img" >
+                                            <a href="">
+                                                 @{
+                                                     if (Model.Ingredients[i].IngredientsImg != null)
+                                                     {
+                                                        <img src="data:image/jpg;base64, @Convert.ToBase64String(Model.Ingredients[i].IngredientsImg)" class="d-block w-100 " alt="..." style="height:570px; " />
+                                                     }
+                                                     else
+                                                     {
+                                                         <img src="" class="">
 
-                                                }
-                                            }
-                                            <div class="carousel-caption d-none d-md-block" >
-                                                <h5 style="font-size:28px" >@Model.Ingredients[i].CommonName</h5>
-                                            </div>
+                                                     }
+                                                 }
+                                                <div class="carousel-caption d-none d-md-block Ingredients_carousel_text">
+                                                     <p>@Model.Ingredients[i].CommonName</p>
+                                                 </div>
+                                            </a>
                                         </div>
                                     </div> 
                                 }

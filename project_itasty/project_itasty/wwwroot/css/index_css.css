@@ -142,3 +142,44 @@
  .card-img-top{
     border-radius:0;
  }
+ /* 輪播物件*/
+.carousel_img {
+    position: relative;
+   
+ 
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+
+    .carousel_img:hover .carousel_text {
+        bottom: 0;
+        opacity: 1;
+    }
+
+.carousel_text {
+    position: absolute;
+    left: 0;
+    bottom: -50px; /* 初始位置在容器底部之外 */
+    width: 100%; /* 文字宽度覆盖整个容器 */
+    font-size: 24px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7); /* 黑色背景，70% 不透明度 */
+    padding: 10px; /* 给文字添加一些内边距 */
+    text-align: center; /* 文字居中 */
+    opacity: 0;
+    transition: bottom 0.5s ease, opacity 0.5s ease;
+}
+.Ingredients_carousel_text {
+    position: absolute;
+    left: 0;
+    bottom: 0; /* 初始位置在容器底部之外 */
+    width: 100%; /* 文字宽度覆盖整个容器 */
+    font-size: 24px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7); /* 黑色背景，70% 不透明度 */
+    padding: 10px; /* 给文字添加一些内边距 */
+    text-align: center; /* 文字居中 */
+    opacity: 1;
+    transition: bottom 0.5s ease, opacity 0.5s ease;
+}
