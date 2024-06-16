@@ -59,52 +59,66 @@
 </head>
 <body>
     <div class="myContainer">
-    <div class="container">
-        <h1>iTasty 檢舉回報</h1>
+        <div class="container">
+            <h1>iTasty 檢舉回報</h1>
             <form id="reportForm">
+                <label for="account">帳號:</label>
+                <input type="text" id="account" name="account" value="@ViewBag.UserName" disabled>
 
-                <input type="hidden" id="account" name="account" value="9" disabled>
-
-                <label for="myname">名稱:</label>
-                <input type="text" id="myname" value="Ivo" disabled>
-
-                <input type="hidden" id="recipedIdOrCommentId" name="recipedIdOrCommentId" value="0" disabled>
-                <input type="hidden" id="reportType" name="reportType" value="1" disabled>
+                <input type="hidden" id="recipedIdOrCommentId" name="recipedIdOrCommentId" value="@ViewBag.ID">
+                <input type="hidden" id="reportType" name="reportType" value="@ViewBag.Type">
 
                 <label for="notes">食譜/留言:</label>
-                <input type="text" id="notes" name="notes" disabled>
+                <input type="text" id="notes" name="notes" value="@ViewBag.Notes" disabled>
 
                 <label for="reason">檢舉理由:</label>
-                <textarea id="reason" name="reason"></textarea>
+                <textarea id="reason" name="reason" rows="4" required></textarea>
 
                 <button type="submit">提交</button>
             </form>
-
+        </div>
     </div>
-    </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('form').on('submit', function (event) {
+            $('#reportForm').on('submit', function (event) {
                 event.preventDefault();
 
                 const data = {
-                    ReportedUserId: $('#account').val(), 
-                    RecipedIdOrCommentId: $('#recipedIdOrCommentId').val(), 
-                    ReportType: $('#reportType').val(),
-                    ReportReason: $('#reason').val() 
+                    ReportReason: $('#reason').val(),
+                    ReportedUserId: parseInt($('#recipedIdOrCommentId').val()),
+                    RecipedIdOrCommentId: parseInt($('#recipedIdOrCommentId').val()),
+                    ReportType: parseInt($('#reportType').val()),
+                    ReportStatus: false
                 };
 
                 $.ajax({
-                    url: '/api/ReportApi',
+                    url: '/api/ReportAPI',
                     method: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(data),
                     success: function (response) {
-                        alert(response);
+                        console.log(response);
+                        alert('檢舉已成功提交！');
                     },
                     error: function (xhr, status, error) {
-                        alert('Error: ' + xhr.responseText);
+                        let errorMessage = '錯誤: ' + xhr.responseText;
+                        if (xhr.status === 400) {
+                            try {
+                                let response = JSON.parse(xhr.responseText);
+                                if (response.errors && Array.isArray(response.errors)) {
+                                    errorMessage = '無效的輸入: ' + response.errors.join(', ');
+                                } else {
+                                    errorMessage = '無效的輸入: ' + JSON.stringify(response.errors);
+                                }
+                            } catch (e) {
+                                errorMessage = '無效的輸入，且解析錯誤信息失敗。';
+                            }
+                        } else if (xhr.status === 500) {
+                            errorMessage = '伺服器內部錯誤，請稍後再試。';
+                        }
+                        alert(errorMessage);
                         console.log(xhr);
                         console.log(status);
                         console.log(error);
@@ -113,6 +127,5 @@
             });
         });
     </script>
-
 </body>
 </html>

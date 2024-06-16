@@ -111,7 +111,7 @@ namespace project_itasty.Controllers
 			#endregion
 
 			#region 將資料灌進 Comment
-			var CommentList = _context.ReportTables.Where(r => r.ReportType == 1 ).ToList();//要改where的內容&& r.ReportStatus == false
+			var CommentList = _context.ReportTables.Where(r => r.ReportType == 1 && r.ReportStatus == false).ToList();//要改where的內容
 			var MessageList = _context.MessageTables.ToList();
 
 			var RecipedTableList = _context.RecipeTables.ToList();
@@ -121,6 +121,7 @@ namespace project_itasty.Controllers
 								join recipe in RecipedTableList on message.RecipeId equals recipe.RecipeId
 								select new
 								 {
+								 ReportId= comment.ReportId,
 								 RecipeId = recipe.RecipeId,
 								 UserId = message.UserId,
 								 MessageContent = message.MessageContent,
@@ -134,6 +135,7 @@ namespace project_itasty.Controllers
 			{
 				CommentTable.Add(new Background_Control_CommentTable
 				{
+					ReportId= item.ReportId,
 					RecipeId = item.RecipeId,
 					UserId = item.UserId,
 					MessageContent = item.MessageContent,
@@ -163,5 +165,44 @@ namespace project_itasty.Controllers
 			return View(model);
 
 		}
+
+		[HttpPost]
+		public async Task<IActionResult> ReviewComment(int reportId, bool isApproved)
+		{
+			try
+			{
+				// 查找對應的檢舉
+				var report = await _context.ReportTables.FirstOrDefaultAsync(r => r.ReportId == reportId);
+				if (report != null)
+				{
+					// 更新檢舉狀態
+					report.ReportStatus = true;
+
+					// 查找對應的留言
+					var message = await _context.MessageTables.FirstOrDefaultAsync(m => m.MessageId == report.RecipedIdOrCommentId);
+					if (message != null)
+					{
+						// 更新留言的violationStatus字段
+						message.ViolationStatus = isApproved ? "No violation" : "violation";
+					}
+
+					// 保存更改
+					_context.Update(report);
+					if (message != null)
+					{
+						_context.Update(message);
+					}
+					await _context.SaveChangesAsync();
+
+					return Json(new { success = true });
+				}
+				return Json(new { success = false, message = "找不到對應的檢舉" });
+			}
+			catch (Exception ex)
+			{
+				return Json(new { success = false, message = ex.Message });
+			}
+		}
+
 	}
 }

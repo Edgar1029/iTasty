@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using project_itasty.Models;
-using System.Composition;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace project_itasty.Controllers
 {
@@ -10,6 +11,7 @@ namespace project_itasty.Controllers
     public class ReportAPIController : ControllerBase
     {
         private readonly ITastyDbContext _context;
+
         public ReportAPIController(ITastyDbContext context)
         {
             _context = context;
@@ -22,23 +24,24 @@ namespace project_itasty.Controllers
             try
             {
                 _context.ReportTables.Add(report);
-                int rowsAffected = await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-                if (rowsAffected > 0)
+                var responseObj = new
                 {
-                    return Ok("Report submitted successfully.");
-                }
-                else
-                {
-                    return BadRequest("Failed to submit report.");
-                }
+                    report.ReportId,
+                    report.RecipedIdOrCommentId,
+                    report.ReportedUserId,
+                    report.ReportType,
+                    report.ReportReason,
+                    report.ReportStatus
+                };
+
+                return Ok(responseObj);
             }
             catch (Exception ex)
             {
-
-                return StatusCode(500, "Internal server error: " + ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "內部伺服器錯誤: " + ex.Message);
             }
         }
-
     }
 }

@@ -230,14 +230,14 @@
 								<td>@i.UserId</td>
 								<td>@i.MessageContent</td>
 								<td>@i.ReportReason</td>
-								<td id="user_review_0">
+								<td id="user_review_@i.ReportId">
 									<!-- modal的彈出按鈕 -->
-									<button class="btn btn-primary btn_modal" data-bs-toggle="modal" data-bs-target="#comment@i.RecipeId" id="censor">
+									<button class="btn btn-primary btn_modal" data-bs-toggle="modal" data-bs-target="#comment_@i.ReportId" id="censor">
 										待審核
 									</button>
 									<!-- modal的彈出按鈕 -->
 									<!-- modal的本體 -->
-									<div class="modal fade btn_modalBody" id="comment@i.RecipeId" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+									<div class="modal fade btn_modalBody" id="comment_@i.ReportId" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
 										<div class="modal-dialog">
 											<div class="modal-content">
 												<div class="modal-header">
@@ -254,8 +254,8 @@
 													@* <p>遭檢舉頁:<a href="#">@i.UserId的食譜頁</a></p> *@
 												</div>
 												<div class="modal-footer">
-													<button class="btn btn-primary" data-bs-dismiss="modal">通過</button>
-													<button class="btn btn-primary" data-bs-dismiss="modal">駁回</button>
+													<button class="btn btn-primary" data-bs-dismiss="modal" onclick="reviewComment(@i.ReportId, true)">通過</button>
+													<button class="btn btn-primary" data-bs-dismiss="modal" onclick="reviewComment(@i.ReportId, false)">駁回</button>
 												</div>
 											</div>
 										</div>
@@ -267,6 +267,7 @@
 						}
 					</table>
 				</div>
+				@* 內容管理頁 *@
 				<div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
 					<h3>內容管理頁</h3>
 					<p>
@@ -338,6 +339,56 @@
 	<script src="./js/insertData.js"></script>
 	<!-- <script src="./js/btnchange.js"></script> -->
 	<script>
+		//審核欄
+		//更改審核按鈕
+		var temp;
+		$('.btn_modal').on('click', function () {
+			console.log(this.innerText)
+			temp = this
+		})
+		$(".btn_modalBody button").on("click", function () {
+			console.log(this.innerText)
+			if (this != null) {
+				//$(temp).attr("disabled", true)
+				if (this.innerText != '') {
+					$(temp).text(this.innerText)
+				}
+				if (this.innerText == '通過') {
+					$(temp).removeClass('btn-warning')
+					$(temp).addClass('btn-success')
+				} else if (this.innerText == '駁回') {
+					$(temp).removeClass('btn-success')
+					$(temp).addClass('btn-warning')
+				}
+			}
+		})
+		//審核欄
+
+		function reviewComment(reportId, isApproved) {
+			$.ajax({
+				url: '@Url.Action("ReviewComment", "Background_control")',
+				type: 'POST',
+				data: {
+					reportId: reportId,
+					isApproved: isApproved  // 传递审核结果
+				},
+				success: function (response) {
+					// if (response.success) {
+					// 	// 更新審核狀態
+					// 	$('#user_review_' + reportId).text('已通過');
+					// } else {
+					// 	alert('操作失敗，請稍後再試。');
+					// }
+				},
+				error: function () {
+					alert('發生錯誤，請稍後再試。');
+				}
+			});
+		}
+
+
+
+
 		//切換版面
 		$('#list-tab a').on('click', function (e) {
 			e.preventDefault()
@@ -396,30 +447,7 @@
 		});
 		//折線圖
 
-		//審核欄
-		//更改審核按鈕
-		var temp;
-		$('.btn_modal').on('click', function () {
-			console.log(this.innerText)
-			temp = this
-		})
-		$(".btn_modalBody button").on("click", function () {
-			console.log(this.innerText)
-			if (this != null) {
-				//$(temp).attr("disabled", true)
-				if (this.innerText != '') {
-					$(temp).text(this.innerText)
-				}
-				if (this.innerText == '通過') {
-					$(temp).removeClass('btn-warning')
-					$(temp).addClass('btn-success')
-				} else if (this.innerText == '駁回') {
-					$(temp).removeClass('btn-success')
-					$(temp).addClass('btn-warning')
-				} 
-			}
-		})
-		//審核欄
+		
 
 	</script>
 

@@ -47,7 +47,7 @@
 					<select name="meat" id="meat">
 						<option value="all">所有選項</option>
 						<option value="早餐">早餐</option>
-						<option value="午晚餐">午晚餐</option>
+						<option value="午/晚餐">午晚餐</option>
 						<option value="甜品">甜品</option>
 						<option value="小食">小食</option>
 					</select>
@@ -154,18 +154,23 @@
 							<!-- 料理描述 -->
 							<!-- 料理標籤 -->
 							<!-- 料理標籤 -->
-							<span class="align-items-center ms-4">
-								#@recipe.r.ProteinUsed
-							</span>
-							<span>
-								#@recipe.r.MealType
-							</span>
-							<span>
-								#@recipe.r.CuisineStyle
-							</span>
-							<span>
-								#@recipe.r.HealthyOptions
-							</span>
+							@if (@recipe.r.ProteinUsed != null)
+							{
+								<span>#@recipe.r.ProteinUsed</span>
+							}
+							
+							@if (@recipe.r.MealType != null)
+							{
+								<span>#@recipe.r.MealType</span>
+							}
+							@if (@recipe.r.CuisineStyle != null)
+							{
+								<span>	#@recipe.r.CuisineStyle</span>
+							}
+							@if (@recipe.r.HealthyOptions != null)
+							 {
+								<span> #@recipe.r.HealthyOptions</span>
+							 }
 							<div class="recipes_views">
 								
 								<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"

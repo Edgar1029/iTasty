@@ -1,21 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace project_itasty.Models;
-
-public partial class ReportTable
+namespace project_itasty.Models
 {
-    public int ReportId { get; set; }
+    public partial class ReportTable
+    {
+        [Key]
+        public int ReportId { get; set; }
 
-    public int RecipedIdOrCommentId { get; set; }
+        [Required]
+        public int RecipedIdOrCommentId { get; set; }
 
-    public int ReportedUserId { get; set; }
+        [Required]
+        public int ReportedUserId { get; set; }
 
-    public int ReportType { get; set; }
+        [Required]
+        public int ReportType { get; set; }
 
-    public string? ReportReason { get; set; }
+        public string? ReportReason { get; set; }
 
-    public bool? ReportStatus { get; set; }
+        public bool? ReportStatus { get; set; }
 
-    public int? ReportUserId { get; set; }
+        public int? ReportUserId { get; set; }
+
+        [ForeignKey("ReportUserId")]
+        public virtual UserInfo? Report { get; set; }
+
+        [ForeignKey("ReportedUserId")]
+        public virtual UserInfo? ReportedUser { get; set; }
+    }
 }

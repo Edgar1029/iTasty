@@ -44,6 +44,7 @@ namespace project_itasty.Models
 
 	public class Background_Control_CommentTable
 	{
+		public int ReportId { get; set; }
 		public int RecipeId { get; set; }
 		public int UserId { get; set; }
 
