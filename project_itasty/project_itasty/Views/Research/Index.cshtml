@@ -6,6 +6,7 @@
 @section MyHeadScripts {
 	<link rel="stylesheet" href="/css/research_v2.css">
 }
+
 <body>
 	
 	<div class="container">
@@ -134,7 +135,9 @@
 				#region 渲染結果
 				foreach (var recipe in Model)
 				{
-					<div class="search_result m-4" src="/{UserId}">
+					<form asp-controller="RecipePage" asp-action="Index" method="post" target="_blank" class="formSubmit" style=" border: none;border-radius: none;background:none;box-shadow:none">
+					<input type="hidden" name="recipe_id" value="@recipe.r.RecipeId" />
+					<div class="search_result m-4" src="/{UserId}" asp-action="Index" asp-controller="RecipePage" method="post" target="_blank">
 						<!-- 料理圖片 -->
 						<img src="data:image/jpg;base64, @((recipe.r.RecipeCoverImage != null)?Convert.ToBase64String(recipe.r.RecipeCoverImage):"")" alt="食物圖片" class="recipes_img" @((recipe.r.RecipeCoverImage == null) ? "hidden" : "")>
 						<!-- 料理圖片 -->
@@ -185,7 +188,8 @@
 								<div>@recipe.r.Views</div>
 							</div>
 						</div>
-					</div>
+						</div>
+					</form>
 				}
 				#endregion
 			}
@@ -208,7 +212,9 @@
 		//流程:點選篩選欄 --> 從url擷取Value值 --> 將擷取到的Value值複製一份進input-hidden --> 點選search按鈕傳篩選欄的Value進Controller                        --> Controller進行篩選          -->返回結果  --> 點選排序 --> 將排序的要求以及input-hidden裡的資訊傳進Controller  --> Controller進行篩選以及排序  -->返回結果
 		//                                                                                 --> 點選排序 --> 將排序的要求以及input-hidden裡的資訊傳進Controller  --> Controller進行篩選以及排序  -->返回結果
 
-
+		$(".formSubmit").on('click', function () {
+			$(this).submit();
+		})
 
 		//加入Json資料
 		// var app = new Vue({
