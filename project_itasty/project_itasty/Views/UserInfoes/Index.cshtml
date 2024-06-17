@@ -5,7 +5,7 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor hca
 @{
 	string userEmail = hca.HttpContext?.Session.GetString("userEmail") ?? "Guest";
-	int userId = hca.HttpContext?.Session.GetInt32("userId") ?? 1;
+	int userId = hca.HttpContext?.Session.GetInt32("userId") ?? 0;
 }
 
 @{
@@ -154,7 +154,7 @@
 							<i class="fa-regular fa-eye"></i>
 							<div class="d-inline">@((int?)ViewData[$"recipe_view_{i.RecipeId}"])</div>
 							<i class="fa-solid fa-tag"></i>
-							<div class="d-inline">9999</div>
+							<div class="d-inline">@i.Favorites</div>
 						</div>
 						<input type="submit" id="goto_@i.RecipeId" name="recipe_id" value=@i.RecipeId class="d-none" />
 					</form>
@@ -271,7 +271,6 @@
 				<button id="btn_analyze">分析</button>
 				<hr />
 				<div class="area_analyze_chart">
-					<canvas id="myChart"></canvas>
 				</div>
 			</div>
 		}
