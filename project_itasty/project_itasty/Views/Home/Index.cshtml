@@ -67,7 +67,8 @@
                         {
                             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="@i" class=" @(i == 0 ? "active" : " ") "
                                     aria-current=" @(i == 0 ? "true" : " ")" aria-label="Slide @i" id="Slide_@i" onclick=" var j=0; while( j < @Model.Ingredients.Count){var element='Recipelist_'+j; if(j==@i){document.getElementById('Recipelist_@i').classList.remove('hidden');}else{document.getElementById(element).classList.add('hidden');}  j++;}"></button>
-                                              }
+                     
+                         }
                     }
                 </div>
 
@@ -83,7 +84,6 @@
                                     <div class="carousel-item @(i == 0 ? "active" : " ") " id="season_imgId_@i">
 
                                         <div class="carousel_img" >
-                                            <a href="">
                                                  @{
                                                      if (Model.Ingredients[i].IngredientsImg != null)
                                                      {
@@ -98,7 +98,6 @@
                                                 <div class="carousel-caption d-none d-md-block Ingredients_carousel_text">
                                                      <p>@Model.Ingredients[i].CommonName</p>
                                                  </div>
-                                            </a>
                                         </div>
                                     </div> 
                                 }
@@ -155,16 +154,20 @@
                                                          @for (int k = 0; k < 3 && (j + k) < recipes.Count; k++)
                                                          {
                                                              var recipe = recipes[j + k];
-                                                             <div class="col-4">
-                                                            
-                                                                    <div class="card shadow-sm" onclick="sessionStorage.setItem('recipeId',@recipe.RecipeId)" style="border-radius:5px;">
-                                                                         <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
-                                                                         <div class="card-body">
-                                                                         
-                                                                             <p class="card-text" style="text-align:center;">@recipe.RecipeName</p>
+                                                             <div class="col-4 " >
+                                                                    <form asp-action="Index" asp-controller="RecipePage"  method="post">
+                                                                       <input type="hidden" name="recipe_id" value=@recipe.RecipeId />
+                                                                       <input type="submit" id="hiddenSubmit" style="display:none;" />
+                                                                         <div class="card shadow-sm " onclick="sessionStorage.setItem('recipeId',@recipe.RecipeId); " style="border-radius:5px;">
+                                                                             <div class="carousel_img" onclick="  document.getElementById('hiddenSubmit').click();">
+                                                                                 <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
+                                                                                 <div class="card-body carousel_text">
+                                                                                 
+                                                                                     <p class="card-text" style="text-align:center;">@recipe.RecipeName</p>
+                                                                                 </div>
+                                                                             </div>
                                                                          </div>
-                                                                    </div>
-                                                           
+                                                                    </form>
                                                              </div>
                                                          }
                                                      </div>
@@ -227,11 +230,14 @@
                                         var recipe = Model.RecipeViews[j + k];
                                         <div class="col-4">
                                             <div class="card shadow-sm" style="border-radius:5px;">
-                                                <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
-                                                <div class="card-body">
+                                                <div class="carousel_img">
+                                                    <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
+                                                    <div class="card-body carousel_text">
 
-                                                    <p class="card-text" style="text-align:center;">@recipe.RecipeName</p>
+                                                        <p class="card-text" style="text-align:center;">@recipe.RecipeName</p>
+                                                    </div>
                                                 </div>
+                                                
                                             </div>
                                         </div>
                                     }
@@ -287,13 +293,16 @@
                                     {
                                         var recipe = Model.Recipes[j + k];
                                         <div class="col-4">
-                                            <div class="card shadow-sm" style="border-radius:5px;">
-                                                <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
-                                                <div class="card-body">
+                                            <div class="carousel_img">
+                                                <div class="card shadow-sm" style="border-radius:5px;">
+                                                    <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
+                                                    <div class="card-body  carousel_text">
 
                                                         <p class="card-text" style="text-align:center;">@recipe.RecipeName</p>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            
                                         </div>
                                     }
                                 </div>
