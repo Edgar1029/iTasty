@@ -6,6 +6,7 @@
     height: 230px;
     border: #ccc9a1 1px solid;
     border-top-style: none;
+    background: white;
 }
 
 .img_user_icon {
@@ -102,6 +103,7 @@
         height: 200px;
         border: #ccc9a1 1px solid;
         border-top-style: none;
+        background-color: white;
     }
 
         .area_article > form:hover,
@@ -167,6 +169,7 @@
     border: #ccc9a1 1px solid;
     border-top-style: none;
     margin-bottom: 62px;
+    background-color: white;
 }
 
     .area_fan > :nth-child(1) {
@@ -366,8 +369,12 @@
     }
 
 .area_analyze {
+    border: #ccc9a1 1px solid;
+    border-top-style: none;
+    margin-bottom: 62px;
     padding-left: 10px;
     padding-right: 10px;
+    background-color: white;
 }
 
     .area_analyze p {

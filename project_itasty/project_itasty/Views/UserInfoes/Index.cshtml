@@ -143,7 +143,7 @@
 			@{
 				foreach (var i in ViewBag.recipe)
 				{
-					<form asp-action="Index" asp-controller="RecipePage" method="post" class="position-relative px-0" onclick="document.getElementById('goto_@i.RecipeId').click()">
+					<form asp-action="Index" asp-controller="RecipePage" method="post" target="_blank" class="position-relative px-0" onclick="document.getElementById('goto_@i.RecipeId').click()">
 						<img src="data:image/jpg;base64, @((i.RecipeCoverImage != null)?Convert.ToBase64String(i.RecipeCoverImage):"")" @((i.RecipeCoverImage == null) ? "hidden" : "")>
 						<div>@i.RecipeName</div>
 						<div>
