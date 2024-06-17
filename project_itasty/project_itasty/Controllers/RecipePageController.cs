@@ -15,8 +15,9 @@ namespace project_itasty.Controllers
 		[HttpPost("recipe")]
 		public ActionResult Index()
 		{
-            int recipe_id = int.Parse(Request.Form["recipe_id"]);
 
+            int recipe_id = int.Parse(Request.Form["recipe_id"]);
+		
          
            
 			

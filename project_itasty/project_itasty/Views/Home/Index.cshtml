@@ -155,11 +155,11 @@
                                                          {
                                                              var recipe = recipes[j + k];
                                                              <div class="col-4 " >
-                                                                    <form asp-action="Index" asp-controller="RecipePage"  method="post">
+                                                                    <form  asp-action="Index" asp-controller="RecipePage"  method="post" target="_blank">
                                                                        <input type="hidden" name="recipe_id" value=@recipe.RecipeId />
-                                                                       <input type="submit" id="hiddenSubmit" style="display:none;" />
+                                                                       <input type="submit" id="hiddenSubmit_@recipe.RecipeId" style="display:none;" />
                                                                          <div class="card shadow-sm " onclick="sessionStorage.setItem('recipeId',@recipe.RecipeId); " style="border-radius:5px;">
-                                                                             <div class="carousel_img" onclick="  document.getElementById('hiddenSubmit').click();">
+                                                                             <div class="carousel_img" onclick="  document.getElementById('hiddenSubmit_@recipe.RecipeId').click();">
                                                                                  <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
                                                                                  <div class="card-body carousel_text">
                                                                                  
@@ -169,6 +169,7 @@
                                                                          </div>
                                                                     </form>
                                                              </div>
+                                                             
                                                          }
                                                      </div>
                                                  </div>
@@ -229,16 +230,20 @@
                                     {
                                         var recipe = Model.RecipeViews[j + k];
                                         <div class="col-4">
-                                            <div class="card shadow-sm" style="border-radius:5px;">
-                                                <div class="carousel_img">
-                                                    <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
-                                                    <div class="card-body carousel_text">
+                                            <form asp-action="Index" asp-controller="RecipePage" method="post" target="_blank">
+                                                <input type="hidden" name="recipe_id" value=@recipe.RecipeId />
+                                                <input type="submit" id="hiddenSubmit_@recipe.RecipeId" style="display:none;" />
+                                                <div class="card shadow-sm" style="border-radius:5px;">
+                                                    <div class="carousel_img" onclick="document.getElementById('hiddenSubmit_@recipe.RecipeId').click();">
+                                                        <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
+                                                        <div class="card-body carousel_text">
 
-                                                        <p class="card-text" style="text-align:center;">@recipe.RecipeName</p>
+                                                            <p class="card-text" style="text-align:center;">@recipe.RecipeName</p>
+                                                        </div>
                                                     </div>
+                                                    
                                                 </div>
-                                                
-                                            </div>
+                                            </form>
                                         </div>
                                     }
                                 </div>
@@ -291,17 +296,24 @@
                                 <div class="row">
                                     @for (int k = 0; k < 3 && (j + k) < Model.Recipes.Count; k++)
                                     {
+
                                         var recipe = Model.Recipes[j + k];
                                         <div class="col-4">
-                                            <div class="carousel_img">
-                                                <div class="card shadow-sm" style="border-radius:5px;">
-                                                    <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
-                                                    <div class="card-body  carousel_text">
+                                            <form asp-action="Index" asp-controller="RecipePage" method="post" target="_blank">
+                                                <input type="hidden" name="recipe_id" value=@recipe.RecipeId />
+                                                <input type="submit" id="hiddenSubmit_@recipe.RecipeId" style="display:none;" />
+                                                <div class="carousel_img" onclick=" document.getElementById('hiddenSubmit_@recipe.RecipeId').click();">
+                                                    <div class="card shadow-sm" style="border-radius:5px;">
+                                                        <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
+                                                        <div class="card-body  carousel_text">
 
-                                                        <p class="card-text" style="text-align:center;">@recipe.RecipeName</p>
+                                                            <p class="card-text" style="text-align:center;">@recipe.RecipeName</p>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                               
+                                            </form>
+                                            
                                             
                                         </div>
                                     }
