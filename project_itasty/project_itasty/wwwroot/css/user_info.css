@@ -87,19 +87,30 @@
     position: absolute;
     bottom: 10px;
     right: 10px;
+    text-decoration: none;
 }
+
+    .btn_new_recipe:hover {
+        color: #ffffff;
+    }
 
 .area_article {
     margin-bottom: 62px;
 }
 
-    .area_article > div {
+    .area_article > form {
         height: 200px;
         border: #ccc9a1 1px solid;
         border-top-style: none;
     }
 
-        .area_article > div img {
+        .area_article > form:hover,
+        .area_article > form:hover > div:nth-child(2) {
+            cursor: pointer;
+            color: #e87543;
+        }
+
+        .area_article > form img {
             position: absolute;
             top: 0px;
             left: 0px;
@@ -107,7 +118,7 @@
             height: 200px;
         }
 
-        .area_article > div > a:nth-child(2) {
+        .area_article > form > div:nth-child(2) {
             position: absolute;
             top: 45px;
             left: 270px;
@@ -116,12 +127,7 @@
             text-decoration: none;
         }
 
-            .area_article > div > a:nth-child(2):hover {
-                color: #e87543;
-                text-decoration: underline;
-            }
-
-        .area_article > div > div:nth-child(3) {
+        .area_article > form > div:nth-child(3) {
             position: absolute;
             top: 97px;
             left: 270px;
@@ -136,24 +142,24 @@
             white-space: normal;
         }
 
-        .area_article > div > div:nth-child(4) {
+        .area_article > form > div:nth-child(4) {
             position: absolute;
             top: 70px;
             left: 270px;
         }
 
-        .area_article > div > div:nth-child(5) {
+        .area_article > form > div:nth-child(5) {
             position: absolute;
             bottom: 10px;
             right: 10px;
         }
 
-            .area_article > div > div:nth-child(5) > div {
+            .area_article > form > div:nth-child(5) > div {
                 margin-right: 10px;
                 color: #aba4a4;
             }
 
-            .area_article > div > div:nth-child(5) > i {
+            .area_article > form > div:nth-child(5) > i {
                 color: #aba4a4;
             }
 
@@ -245,8 +251,17 @@
             white-space: normal;
         }
 
-.area_edit .btn_close,
-.area_select_recipe .btn_close {
+    .area_fan > :nth-child(3) {
+        /* height: 130px; */
+        border-top: #7c7777 1px dashed;
+        padding-top: 14px;
+    }
+
+        .area_fan > :nth-child(3) > nav {
+            margin-right: 20px;
+        }
+
+.area_edit .btn_close, .area_select_recipe .btn_close {
     width: 20px;
     height: 20px;
     margin-right: 10px;

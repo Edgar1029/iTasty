@@ -872,3 +872,39 @@ function set_alanyze_canvas(datasets, alanyze_x) {
         }
     });
 }
+
+function get_fan(num_page, user_id) {
+    $.ajax({
+        type: "get",
+        url: `/api/userapi/fan/${user_id}`,
+        data: {
+            "num_page": num_page
+        },
+        success: function (e) {
+            console.log(e);
+            $("#list_fan").html("");
+            for (var i of e.query) {
+                console.log(i);
+                $("#list_fan").html(
+                    $("#list_fan").html() + `
+                <div class="position-relative">
+					<img src="data:image/jpg;base64,${(i.userPhoto != undefined) ? i.userPhoto : ""}" class="rounded-circle">
+
+					<div><a href="~/user/${i.userEmail}">${i.userName}</a></div>
+
+					<div>
+						<div class="d-inline"> 食譜</div >
+                <div class="d-inline"> 粉絲數</div>
+					</div >
+                <div>${(i.userIntro != null) ? i.userIntro : ""}</div >
+				</div >
+                `);
+            }
+        },
+        error: function (xmlhttpreq, textstatus) {
+            console.log(xmlhttpreq);
+            console.log(textstatus);
+        }
+    });
+}
+
