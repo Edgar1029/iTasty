@@ -5,7 +5,7 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor hca
 @{
 	string userEmail = hca.HttpContext?.Session.GetString("userEmail") ?? "Guest";
-	int userId = hca.HttpContext?.Session.GetInt32("userId") ?? 1;
+	int userId = hca.HttpContext?.Session.GetInt32("userId") ?? 0;
 }
 
 @{
@@ -90,7 +90,7 @@
 			@{
 				if (Model.UserId == userId)
 				{
-					<button class="btn_new_recipe">寫食譜</button>
+					<a href="~/RecipeCreatePage/Create" class="btn_new_recipe">寫食譜</a>
 				}
 			}
 
@@ -140,13 +140,12 @@
 			<div class="d-inline">9999</div>
 			</div>
 			</div> *@
-
 			@{
 				foreach (var i in ViewBag.recipe)
 				{
-					<div class="position-relative px-0">
+					<form asp-action="Index" asp-controller="RecipePage" method="post" target="_blank" class="position-relative px-0" onclick="document.getElementById('goto_@i.RecipeId').click()">
 						<img src="data:image/jpg;base64, @((i.RecipeCoverImage != null)?Convert.ToBase64String(i.RecipeCoverImage):"")" @((i.RecipeCoverImage == null) ? "hidden" : "")>
-						<a href="">@i.RecipeName</a>
+						<div>@i.RecipeName</div>
 						<div>
 							@i.RecipeIntroduction
 						</div>
@@ -155,20 +154,21 @@
 							<i class="fa-regular fa-eye"></i>
 							<div class="d-inline">@((int?)ViewData[$"recipe_view_{i.RecipeId}"])</div>
 							<i class="fa-solid fa-tag"></i>
-							<div class="d-inline">9999</div>
+							<div class="d-inline">@i.Favorites</div>
 						</div>
-					</div>
+						<input type="submit" id="goto_@i.RecipeId" name="recipe_id" value=@i.RecipeId class="d-none" />
+					</form>
 				}
 			}
 		</div>
 		<!-- 粉絲 -->
-		<div class="area_fan row mx-0 px-0">
+		<div class="area_fan row mx-0 px-0" id="section_fan">
 			<!-- 標題 -->
 			<div class="position-relative px-0">
 				<div>@(Model.UserName)的粉絲</div>
 			</div>
 			<!-- 粉絲列表 -->
-			<div class="px-0">
+			<div class="px-0" id="list_fan">
 				<!-- 粉絲物件 -->
 				@{
 					foreach (var i in ViewBag.User)
@@ -189,14 +189,14 @@
 
 							<div>
 								<div class="d-inline">@((int?)ViewData[$"recipe_{i.u.UserId}"]) 食譜</div>
-								<div class="d-inline">@(((IQueryable<UserFollower>)ViewData[$"follower_{i.u.UserId}"]).Count()) 粉絲數</div>
+								<div class="d-inline">@(((List<UserFollower>)ViewData[$"follower_{i.u.UserId}"]).Count()) 粉絲數</div>
 							</div>
 							<div>@i.u.UserIntro</div>
 
 							@{
 								if (i.u.UserId != userId)
 								{
-									foreach (var l in (IQueryable<UserFollower>)ViewData[$"follower_{i.u.UserId}"])
+									foreach (var l in (List<UserFollower>)ViewData[$"follower_{i.u.UserId}"])
 									{
 										if (l.FollowerId == userId)
 										{
@@ -212,6 +212,26 @@
 					}
 				}
 			</div>
+
+			@* <div class="px-0">
+			<nav aria-label="Page navigation example">
+			<ul class="pagination justify-content-end">
+			<li class="page-item disabled">
+			<a class="page-link" href="#" aria-label="Previous">
+			<span aria-hidden="true">&laquo;</span>
+			</a>
+			</li>
+			<li class="page-item active" aria-current="page" onclick="get_fan(1, @Model.UserId)"><span class="page-link">1</span></li>
+			<li class="page-item"><a class="page-link" href="#section_fan" onclick="get_fan(2, @Model.UserId)">2</a></li>
+			<li class="page-item"><a class="page-link" href="#section_fan" onclick="get_fan(3, @Model.UserId)">3</a></li>
+			<li class="page-item">
+			<a class="page-link" href="#section_fan" aria-label="Next" onclick="get_fan(-1, @Model.UserId)">
+			<span aria-hidden="true">&raquo;</span>
+			</a>
+			</li>
+			</ul>
+			</nav>
+			</div> *@
 		</div>
 	</div>
 	<!-- 分析圖表 -->
@@ -251,7 +271,6 @@
 				<button id="btn_analyze">分析</button>
 				<hr />
 				<div class="area_analyze_chart">
-					<canvas id="myChart"></canvas>
 				</div>
 			</div>
 		}

@@ -12,11 +12,15 @@ namespace project_itasty.Controllers
 			_context = context;
 		}
 
-		[HttpGet]
+		[HttpPost("recipe")]
 		public ActionResult Index()
 		{
 
-			int recipe_id = 1;
+            int recipe_id = int.Parse(Request.Form["recipe_id"]);
+		
+         
+           
+			
 
 
 			var recipe = _context.RecipeTables
@@ -57,6 +61,7 @@ namespace project_itasty.Controllers
 		[HttpPost]
 		public ActionResult Index(MessageTable messages, RecipeDetailsView recipe_model)
 		{
+
 			int userid = 96;
 
 			var father_id = (from message in _context.MessageTables
@@ -67,8 +72,9 @@ namespace project_itasty.Controllers
 
 			messages.TopMessageid = father_id;
 			messages.UserId = userid;
-			messages.RecipeId = recipe_model.Recipe.RecipeId;
-			messages.CreateTime = DateTime.Now;
+            //messages.RecipeId = recipe_model.Recipe.RecipeId;
+            messages.RecipeId = 1;
+            messages.CreateTime = DateTime.Now;
 			messages.ChangeTime = DateTime.Now;
 
 			_context.MessageTables.Add(messages);

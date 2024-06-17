@@ -258,7 +258,7 @@ $(document).ready(async function () {
                                         <!-- ----------------------------------------------------------- -->
                                         <div class="hotreceipebookmark col-xl-2 gx-0" id="${recipe.recipeId}">
                                         <i class="show-list fa-solid fa-list-check"  style="color:#000000;position:absolute; top:235px; right:5px;"></i>
-                                            <div class="hotreceipe-img" style="background-image: url(../img/steak.png);"></div>
+                                            <div class="hotreceipe-img" style="background-image: url('data:image/png;base64,${recipe.recipeCoverImage}');"></div>
                                             <div class="hotreceipe-information row gx-0">
                                                 <ul class="hot-receipe-data row gx-0">
                                                     <li class="col-3 gx-0"><i class="fa-regular fa-eye"></i>${recipe.views}</li>
@@ -1239,7 +1239,7 @@ $(document).ready(async function () {
                     <div class="hotshopreceipebookmark addgreencool col-xl-2 gx-0" data-ingredient="${recipe.recipeId}" id="${recipe.recipeId}">
                     <i class="fa-regular fa-circle-check fa-7x" style="position:absolute; color:green; left:57px; top:59px;"></i>
                         <i class="show-list fa-solid fa-list-check"  style="color:#000000;position:absolute; top:235px; right:5px;"></i>
-                        <div class="hotreceipe-img" style="background-image: url(../img/steak.png);"></div>
+                        <div class="hotreceipe-img" style="background-image: url('data:image/png;base64,${recipe.recipeCoverImage}');"></div>
                         <div class="hotreceipe-information row gx-0">
                             <ul class="hot-receipe-data row gx-0">
                                 <li class="col-3 gx-0"><i class="fa-regular fa-eye"></i>${recipe.views}</li>
@@ -1260,7 +1260,7 @@ $(document).ready(async function () {
                     $(folderId).append(`
                     <div class="hotshopreceipebookmark addredcool col-xl-2 gx-0" data-ingredient="${recipe.recipeId}" id="${recipe.recipeId}">
                         <i class="show-list fa-solid fa-list-check"  style="color:#000000;position:absolute; top:235px; right:5px;"></i>
-                        <div class="hotreceipe-img" style="background-image: url(../img/steak.png);"></div>
+                        <div class="hotreceipe-img" style="background-image: url('data:image/png;base64,${recipe.recipeCoverImage}');"></div>
                         <div class="hotreceipe-information row gx-0">
                             <ul class="hot-receipe-data row gx-0">
                                 <li class="col-3 gx-0"><i class="fa-regular fa-eye"></i>${recipe.views}</li>

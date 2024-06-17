@@ -731,7 +731,8 @@ label{
     margin: auto;
     border-radius: 5px 5px 0px 0px;
     /*background-image: url("../img/steak.png");*/
-    background-size: contain;
+    background-size:cover;
+    position:center;
     background-repeat: no-repeat;
 }
 .hotreceipe-introduction{
