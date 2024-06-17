@@ -25,7 +25,7 @@ namespace project_itasty.Controllers
 
             //假裝傳入
             ID = 3;
-            Type = 0;
+            Type = 1;
 
          string userName = string.Empty;
          string notes = string.Empty;

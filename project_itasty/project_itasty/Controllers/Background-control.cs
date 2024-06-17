@@ -126,7 +126,8 @@ namespace project_itasty.Controllers
 								 UserId = message.UserId,
 								 MessageContent = message.MessageContent,
 								 ReportReason = comment.ReportReason,
-								 ReportStatus = comment.ReportStatus
+								 ReportStatus = comment.ReportStatus,
+								 ReportUserId= comment.ReportUserId,
 								};
 
 			var CommentTable = new List<Background_Control_CommentTable>();
@@ -141,6 +142,7 @@ namespace project_itasty.Controllers
 					MessageContent = item.MessageContent,
 					ReportReason = item.ReportReason,
 					ReportStatus = item.ReportStatus,
+					ReportUserId = item.ReportUserId,
 				});
 			}
 			#endregion
@@ -183,7 +185,7 @@ namespace project_itasty.Controllers
 					if (message != null)
 					{
 						// 更新留言的violationStatus字段
-						message.ViolationStatus = isApproved ? "No violation" : "violation";
+						message.ViolationStatus = isApproved ? "violation" : "No violation";
 					}
 
 					// 保存更改
@@ -203,6 +205,8 @@ namespace project_itasty.Controllers
 				return Json(new { success = false, message = ex.Message });
 			}
 		}
+
+
 
 	}
 }

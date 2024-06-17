@@ -247,10 +247,10 @@
 													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 												</div>
 												<div class="modal-body">
-													<p>被檢舉人: @i.UserId</p>
+													<p>被檢舉人ID: @i.UserId</p>
 													<p>被檢舉原因: @i.ReportReason</p>
 													<p>被檢舉留言: @i.MessageContent</p>
-													<p>檢舉人: @i.UserId</p>
+													<p>檢舉人ID: @i.ReportUserId</p>
 													@* <p>遭檢舉頁:<a href="#">@i.UserId的食譜頁</a></p> *@
 												</div>
 												<div class="modal-footer">
@@ -364,13 +364,14 @@
 		})
 		//審核欄
 
+		//更新MessageTable的狀態
 		function reviewComment(reportId, isApproved) {
 			$.ajax({
 				url: '@Url.Action("ReviewComment", "Background_control")',
 				type: 'POST',
 				data: {
 					reportId: reportId,
-					isApproved: isApproved  // 传递审核结果
+					isApproved: isApproved  // 傳遞審核結果
 				},
 				success: function (response) {
 					// if (response.success) {
@@ -385,6 +386,11 @@
 				}
 			});
 		}
+
+		//更新RecipeTabel的狀態
+
+
+		//更新UserInfo的狀態
 
 
 

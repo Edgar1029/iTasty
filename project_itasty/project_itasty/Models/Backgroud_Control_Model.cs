@@ -53,6 +53,8 @@ namespace project_itasty.Models
 		public string? ReportReason { get; set; }
 
 		public bool? ReportStatus { get; set; }
+
+		public int? ReportUserId { get; set; }
 	}
 
 	public class Background_Control_RecipedTable
