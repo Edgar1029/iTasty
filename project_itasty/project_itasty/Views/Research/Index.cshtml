@@ -18,7 +18,7 @@
 				<div class="myselect">
 					<img src="/img/research_img/clock.png" alt="烹飪時間">
 					<label for="time">烹飪時間</label>
-					<select name="time_option" id="time">
+					<select name="time_option" id="time" style="cursor:pointer;">
 						<option value="all">所有選項</option>
 						<option value="15min">少於15分鐘</option>
 						<option value="30min">少於30分鐘</option>
@@ -31,7 +31,7 @@
 				<div class="myselect">
 					<img src="/img/research_img/vegetable.png" alt="食材">
 					<label for="food">食材</label>
-					<select name="food" id="food">
+					<select name="food" id="food" style="cursor:pointer;">
 						<option value="all">所有選項</option>
 						<option value="雞肉">雞肉</option>
 						<option value="豬肉">豬肉</option>
@@ -45,7 +45,7 @@
 				<div class="myselect">
 					<img src="/img/research_img/cooking.png" alt="餐類">
 					<label for="meat">餐類</label>
-					<select name="meat" id="meat">
+					<select name="meat" id="meat" style="cursor:pointer;">
 						<option value="all">所有選項</option>
 						<option value="早餐">早餐</option>
 						<option value="午/晚餐">午晚餐</option>
@@ -58,7 +58,7 @@
 				<div class="myselect">
 					<img src="/img/research_img/eco-food.png" alt="膳食">
 					<label for="vegetable">膳食</label>
-					<select name="vegetable" id="vegetable">
+					<select name="vegetable" id="vegetable" style="cursor:pointer;">
 						<option value="all">所有選項</option>
 						<option value="健康餐">健康食譜</option>
 						<option value="素食">素食食譜</option>
@@ -69,7 +69,7 @@
 				<div class="myselect">
 					<img src="/img/research_img/food-tray.png" alt="菜式">
 					<label for="type">菜式</label>
-					<select name="type" id="type">
+					<select name="type" id="type" style="cursor:pointer;">
 						<option value="all">所有選項</option>
 						<option value="中式">中式食譜</option>
 						<option value="日式">日式食譜</option>
@@ -86,7 +86,7 @@
 				<!-- search_bar -->
 				<div class="mb-3 col-4 search_bar">
 					<div class="input-group">
-						<select name="search_type" id="search_type">
+						<select name="search_type" id="search_type" style="cursor:pointer;">
 							<option value="recipes">食譜</option>
 							<option value="author">作者</option>
 						</select>
@@ -142,7 +142,7 @@
 						<img src="data:image/jpg;base64, @((recipe.r.RecipeCoverImage != null)?Convert.ToBase64String(recipe.r.RecipeCoverImage):"")" alt="食物圖片" class="recipes_img" @((recipe.r.RecipeCoverImage == null) ? "hidden" : "")>
 						<!-- 料理圖片 -->
 						<div class="recipes_detail">
-							<p class="recipes_title">料理名稱:  @recipe.r.RecipeName</p>
+							<p class="recipes_title">@recipe.r.RecipeName</p>
 							<div class="recipes_author">
 								<img alt="" src="./img/user.svg" />
 								<div>作者: @recipe.u.UserName</div>
@@ -151,28 +151,28 @@
 							<p class="recipes_description">
 								@recipe.r.RecipeIntroduction
 							</p>
-							<span class="m-2">
-								烹調時間:@recipe.r.CookingTime 分鐘
+								<span style="margin-right:20px; color: rgb(100,100,100)">
+									烹調時間:@recipe.r.CookingTime 分鐘
 							</span>
 							<!-- 料理描述 -->
 							<!-- 料理標籤 -->
 							<!-- 料理標籤 -->
 							@if (@recipe.r.ProteinUsed != null)
 							{
-								<span>#@recipe.r.ProteinUsed</span>
+									<span class="mx-0" style="color: rgb(100,100,100);">#@recipe.r.ProteinUsed</span>
 							}
 							
 							@if (@recipe.r.MealType != null)
 							{
-								<span>#@recipe.r.MealType</span>
+									<span style="color: rgb(100,100,100);">#@recipe.r.MealType</span>
 							}
 							@if (@recipe.r.CuisineStyle != null)
 							{
-								<span>	#@recipe.r.CuisineStyle</span>
+									<span style="color: rgb(100,100,100);">	#@recipe.r.CuisineStyle</span>
 							}
 							@if (@recipe.r.HealthyOptions != null)
 							 {
-								<span> #@recipe.r.HealthyOptions</span>
+									<span style="color: rgb(100,100,100);"> #@recipe.r.HealthyOptions</span>
 							 }
 							<div class="recipes_views">
 								
