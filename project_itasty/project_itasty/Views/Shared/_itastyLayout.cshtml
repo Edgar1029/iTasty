@@ -174,5 +174,10 @@
 
 	</footer>
 	@await RenderSectionAsync("MyScripts", required: false)
+
+	<script>
+		sessionStorage.setItem("userEmail", "@userEmail");
+		sessionStorage.setItem("userId", @userId);
+	</script>
 </body>
 </html>
