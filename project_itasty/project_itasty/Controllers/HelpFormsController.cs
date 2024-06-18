@@ -94,7 +94,7 @@ namespace project_itasty.Controllers
             string userName = HttpContext.Session.GetString("userEmail") ?? "Guest";
             if (userName == "Guest")
             {
-                return Redirect("/Home/Index");
+                return Redirect("/UserRegister/Create");
             }
             ViewData["UserId"] = new SelectList(_context.UserInfos, "Id", "Id");
             return View();

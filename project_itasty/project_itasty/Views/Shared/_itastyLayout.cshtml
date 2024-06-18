@@ -56,10 +56,10 @@
 				<div class="spacebar">
 				</div>
 				<div class="shoppingcart">
-					會員
+					<a href="~/user/@(userEmail.Split('@')[0] )" style="color:black;text-decoration: none;">會員</a>
 				</div>
 				<div class="profile">
-					客戶
+					<a href="~/HelpForms/Create" style="color:black;text-decoration: none;">客服</a>
 				</div>
 			</div>
 		</div>
@@ -97,11 +97,12 @@
 					</p>
 					<p class="bababa"></p>
 					<p class="shoppingcart right-title-bar">
-						<a href="">會員</a>
+						<a href="~/user/@(userEmail.Split('@')[0])" style="color:black;text-decoration: none;">會員</a>
+						
 					</p>
 					<p class="bababa"></p>
 					<p class="profile right-title-bar">
-						<a href="">客戶</a>
+						<a href="~/HelpForms/Create" style="color:black;text-decoration: none;">客服</a>
 					</p>
 				</div>
 			</div>

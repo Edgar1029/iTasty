@@ -171,13 +171,16 @@ header {
     width: 40px;
     height: 60px;
     cursor: pointer;
+   
 }
+  
 
     .profile:hover {
         background: -webkit-gradient(linear, left top, right top, from(#ff8a00), to(#da1b60));
         background: linear-gradient(to right, #a53f2b, #280004);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+       
     }
 
 .header-second {
