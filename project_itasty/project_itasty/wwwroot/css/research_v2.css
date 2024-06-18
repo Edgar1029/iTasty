@@ -15,7 +15,13 @@ h6 {
     font-weight: normal;
 }
 
-
+.container {
+    min-height: 720px;
+    max-width: 1400px;
+    margin: auto;
+    padding: 40px;
+    /*background-color: #F5F5F5;*/
+}
 
     body .container form {
         border: 1px solid black;
@@ -94,32 +100,34 @@ h6 {
 
     body .container .search_result {
         display: flex;
-        border-radius: 20px;
+        border-radius: 4px;
         margin-top: 30px;
         position: relative;
         background-color: rgba(255, 255, 255);
-        box-shadow: 10px 5px 5px gray;
+        box-shadow: 2px 1px 1px gray;
         transition: box-shadow 0.5s, transform 0.5s;
     }
 
         body .container .search_result:hover {
-            box-shadow: 20px 10px 10px gray;
-            transform: scale(1.05);
+            box-shadow: 4px 4px 2px gray;
+            transform: scale(1.005);
         }
 
         body .container .search_result img.recipes_img {
-            border-radius: 20px;
+            /*border-radius: 20px;*/
             height: 25vh;
         }
 
         body .container .search_result .recipes_detail {
             margin-left: 30px;
             padding-right: 20px;
+            cursor:pointer;
         }
 
             body .container .search_result .recipes_detail .recipes_title {
-                font-size: 20px;
+                font-size: 1.5rem;
                 margin-top: 15px;
+                margin-bottom:15px;
             }
 
             body .container .search_result .recipes_detail .recipes_author {
@@ -127,8 +135,9 @@ h6 {
             }
 
             body .container .search_result .recipes_detail .recipes_description {
-                font-size: 15px;
+                font-size: 1rem;
                 margin-top: 15px;
+                margin-bottom: 40px;
             }
 
             body .container .search_result .recipes_detail .recipes_views {
@@ -137,4 +146,7 @@ h6 {
                 bottom: 10px;
                 right: 20px;
             }
+#filter_form {
+    background: linear-gradient(to right, #a53f2b, #280004);
+}
 /*# sourceMappingURL=research_v2.css.map */
