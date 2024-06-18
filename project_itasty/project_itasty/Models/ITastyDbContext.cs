@@ -68,9 +68,9 @@ public partial class ITastyDbContext : DbContext
                 .HasColumnName("customFolderName");
             entity.Property(e => e.RecipeId).HasColumnName("recipeId");
 
-            //entity.HasOne(d => d.Recipe).WithMany(p => p.CustomRecipeFolders)
-            //    .HasForeignKey(d => d.RecipeId)
-            //    .HasConstraintName("FK_customRecipeFolder_recipeTable");
+            entity.HasOne(d => d.Recipe).WithMany(p => p.CustomRecipeFolders)
+                .HasForeignKey(d => d.RecipeId)
+                .HasConstraintName("FK_customRecipeFolder_recipeTable");
 
             entity.HasOne(d => d.User).WithMany(p => p.CustomRecipeFolders)
                 .HasForeignKey(d => d.UserId)
@@ -132,10 +132,10 @@ public partial class ITastyDbContext : DbContext
             entity.Property(e => e.RecipeId).HasColumnName("recipeId");
             entity.Property(e => e.UserId).HasColumnName("userId");
 
-            //entity.HasOne(d => d.Recipe).WithMany(p => p.FavoritesRecipes)
-            //    .HasForeignKey(d => d.RecipeId)
-            //    .OnDelete(DeleteBehavior.ClientSetNull)
-            //    .HasConstraintName("FK_favoritesRecipe_recipeTable");
+            entity.HasOne(d => d.Recipe).WithMany(p => p.FavoritesRecipes)
+                .HasForeignKey(d => d.RecipeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_favoritesRecipe_recipeTable");
 
             entity.HasOne(d => d.User).WithMany(p => p.FavoritesRecipes)
                 .HasForeignKey(d => d.UserId)
@@ -226,7 +226,7 @@ public partial class ITastyDbContext : DbContext
 
         modelBuilder.Entity<MessageTable>(entity =>
         {
-            entity.HasKey(e => e.MessageId).HasName("PK__messageT__4808B993081C8F5B");
+            entity.HasKey(e => e.MessageId).HasName("PK__messageT__4808B99343F6736F");
 
             entity.ToTable("messageTable");
 
@@ -237,6 +237,9 @@ public partial class ITastyDbContext : DbContext
             entity.Property(e => e.CreateTime)
                 .HasColumnType("smalldatetime")
                 .HasColumnName("createTime");
+            entity.Property(e => e.ExistDelete)
+                .HasMaxLength(10)
+                .HasColumnName("existDelete");
             entity.Property(e => e.MessageContent)
                 .HasMaxLength(150)
                 .HasColumnName("messageContent");
@@ -255,7 +258,7 @@ public partial class ITastyDbContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.MessageTables)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__messageTa__userI__5E54FF49");
+                .HasConstraintName("FK__messageTa__userI__7AF13DF7");
         });
 
         modelBuilder.Entity<RecipeTable>(entity =>
@@ -322,10 +325,10 @@ public partial class ITastyDbContext : DbContext
             entity.Property(e => e.ViewDate).HasColumnName("viewDate");
             entity.Property(e => e.ViewNum).HasColumnName("viewNum");
 
-            //entity.HasOne(d => d.Recipe).WithMany(p => p.RecipeViews)
-            //    .HasForeignKey(d => d.RecipeId)
-            //    .OnDelete(DeleteBehavior.ClientSetNull)
-            //    .HasConstraintName("FK_recipeView_recipeTable");
+            entity.HasOne(d => d.Recipe).WithMany(p => p.RecipeViews)
+                .HasForeignKey(d => d.RecipeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_recipeView_recipeTable");
         });
 
         modelBuilder.Entity<ReportTable>(entity =>
@@ -336,15 +339,15 @@ public partial class ITastyDbContext : DbContext
 
             entity.Property(e => e.ReportId).ValueGeneratedOnAdd();
 
-            //entity.HasOne(d => d.Report).WithOne(p => p.ReportTableReport)
-            //    .HasForeignKey<ReportTable>(d => d.ReportId)
-            //    .OnDelete(DeleteBehavior.ClientSetNull)
-            //    .HasConstraintName("FK_ReportTable_userInfo1");
+            entity.HasOne(d => d.Report).WithOne(p => p.ReportTableReport)
+                .HasForeignKey<ReportTable>(d => d.ReportId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ReportTable_userInfo1");
 
-            //entity.HasOne(d => d.ReportedUser).WithMany(p => p.ReportTableReportedUsers)
-            //    .HasForeignKey(d => d.ReportedUserId)
-            //    .OnDelete(DeleteBehavior.ClientSetNull)
-            //    .HasConstraintName("FK_ReportTable_userInfo");
+            entity.HasOne(d => d.ReportedUser).WithMany(p => p.ReportTableReportedUsers)
+                .HasForeignKey(d => d.ReportedUserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ReportTable_userInfo");
         });
 
         modelBuilder.Entity<SeasonalIngredient>(entity =>
