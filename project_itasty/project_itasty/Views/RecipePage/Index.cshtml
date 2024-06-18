@@ -487,3 +487,13 @@
 	<script src="~/js/recipe_page.js"></script>
 }
 
+<script>
+	@inject Microsoft.AspNetCore.Http.IHttpContextAccessor hca
+	@{
+
+		int userId = hca.HttpContext?.Session.GetInt32("userId") ?? 0;
+	}
+
+		sessionStorage.setItem("userId", @userId);
+
+</script>

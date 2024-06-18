@@ -21,9 +21,10 @@ namespace project_itasty.Controllers
 
 			int recipe_id = int.Parse(Request.Form["recipe_id"]);
 
-			int userid = 33;
+			int userid = HttpContext.Session?.GetInt32("userId")??0;
+			
 
-			var recipe = _context.RecipeTables
+            var recipe = _context.RecipeTables
 						 .Where(r => r.RecipeId == recipe_id)
 						 .FirstOrDefault();
 
