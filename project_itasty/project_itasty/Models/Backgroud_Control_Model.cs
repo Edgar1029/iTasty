@@ -15,6 +15,10 @@ namespace project_itasty.Models
 
         public List<Background_Control_RecipedTable>? RecipedTable { get; set; }
 
+		public List<Background_Control_UserReport>? UserReport { get; set; }
+
+		public List<Background_Control_RecipeReport>? RecipeReport { get; set; }
+
 	}
 
     public class Background_Control_ChartData
@@ -67,4 +71,27 @@ namespace project_itasty.Models
 
 		public string? RecipedStatus { get;set; }
 	}
+
+	public class Background_Control_UserReport {
+		public int ReportId { get; set; }
+		public int? UserId { get; set; }
+		public string? UserName { get; set; }
+		public string? Email { get; set; }
+		public string? ReportReason { get; set; }
+		public bool? ReportStatus { get; set; }
+	
+	}
+	public class Background_Control_RecipeReport
+	{
+		public int ReportId { get; set; }
+		public int RecipeId { get; set; }
+		public string? RecipeName { get; set; }
+		public string? Author { get; set; }
+		public string? ReportReason { get; set; }
+		public bool? ReportStatus { get; set; }
+
+	}
+
+
+
 }

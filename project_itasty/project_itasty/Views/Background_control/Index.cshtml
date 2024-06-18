@@ -1,6 +1,8 @@
 ﻿@{
-	Layout = null;
+	ViewData["Title"] = "iTasty | 後台";
+	Layout = "~/Views/Shared/_itastyLayout.cshtml";
 }
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,23 +22,8 @@
 </head>
 
 <body>
-	<!-- 下面是header---------------------------------------------------------------------------- -->
-	<header class="row gx-0">
-		<div class="header-left row gx-0">
-			<div class="header-left-img" style="background-image: url('./img/logo_text.png');">
-			</div>
-		</div>
-		<div class="header-middle row gx-0">
-			<!-- test-middle -->
-		</div>
-		<div class="header-right row gx-0">
-			<div class="shoppingcart">
-				<a href="./login.html" style="text-decoration:none; color: black;">登出</a>
-			</div>
-		</div>
-	</header>
 
-	<div class="row mt-4 gx-0">
+	<div class="row mt-4 gx-0" style="min-height:1040px;">
 		<div class="col-2 px-5">
 			<div class="list-group" id="list-tab" role="tablist">
 				<a class="list-group-item list-group-item-action active" id="list_home_list" data-toggle="list"
@@ -142,11 +129,12 @@
 						</tr>
 						<!-- 1.先到controller篩選待審核的對象 2.將結果顯示在畫面上 3.使用ajax修改資料庫的狀態 -->
 						@* 加入foreach *@
+						@foreach (var i in Model.UserReport) { 
 						<tr>
-							<td>${e.reportId}</td>
-							<td>${e.reportedUserId}</td>
-							<td>${e.reportedUserEmail}</td>
-							<td>${e.reason}</td>
+							<td>@i.UserId</td>
+							<td>@i.UserName</td>
+							<td>@i.Email</td>
+							<td>@i.ReportReason</td>
 							<td>
 								<button class="btn btn-primary btn_modal" data-bs-toggle="modal" data-bs-target="#user_${e.userId}">
 									待審核
@@ -159,22 +147,23 @@
 												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 											</div>
 											<div class="modal-body">
-												<p>被檢舉人: ${e.reportedUserId}</p>
-												<p>被檢舉原因: ${e.reason}</p>
-												<label for="">檢舉圖片:</label>
-												<img src="${e.reportedImageUrl}" alt="Reported Image">
-												<p>檢舉人: ${e.reporterUserId}</p>
-												<p>遭檢舉頁: <a href="${e.reportedRecipeUrl}">${e.reportedUserId}的食譜頁</a></p>
+													<p>被檢舉人: @i.UserName</p>
+													<p>被檢舉原因: @i.ReportReason</p>
+												@* <label for="">檢舉圖片:</label>
+												<img src="${e.reportedImageUrl}" alt="Reported Image"> *@
+													<p>檢舉人: @i.UserName</p>
+												@* <p>遭檢舉頁: <a href="${e.reportedRecipeUrl}">${e.reportedUserId}的食譜頁</a></p> *@
 											</div>
 											<div class="modal-footer">
-												<button class="btn btn-primary btn-approve" data-report-id="${e.reportId}" data-bs-dismiss="modal">通過</button>
-												<button class="btn btn-primary btn-reject" data-report-id="${e.reportId}" data-bs-dismiss="modal">駁回</button>
+													<button class="btn btn-primary" data-bs-dismiss="modal" onclick="reviewUser(@i.ReportId, true)">通過</button>
+													<button class="btn btn-primary" data-bs-dismiss="modal" onclick="reviewUser(@i.ReportId, false)">駁回</button>
 											</div>
 										</div>
 									</div>
 								</div>
 							</td>
-						</tr>
+							</tr>
+						}
 						@* 加入foreach *@
 					</table>
 				</div>
@@ -210,6 +199,46 @@
 							<th>被檢舉原因</th>
 							<th>狀態</th>
 						</tr>
+						@foreach (var i in Model.RecipeReport)
+						{
+							<tr>
+								<td>@i.RecipeId</td>
+								<td>@i.RecipeName</td>
+								<td>@i.Author</td>
+								<td>@i.ReportReason</td>
+								<td>
+									<button class="btn btn-primary btn_modal" data-bs-toggle="modal" data-bs-target="#user_${e.userId}">
+										待審核
+									</button>
+									<div class="modal fade btn_modalBody" id="user_${e.userId}" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title">審核欄</h5>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+													<p>被檢舉人: @i.Author</p>
+													<p>被檢舉原因:@i.ReportReason</p>
+													@* <label for="">檢舉圖片:</label>
+													<img src="${e.reportedImageUrl}" alt="Reported Image"> *@
+													<p>檢舉人: ${e.reporterUserId}</p>
+													  
+													 <form asp-controller="RecipePage" asp-action="Index" method="post" target="_blank" class="formSubmit">
+														<input type="hidden" name="recipe_id" value="@i.RecipeId" />
+														<p>遭檢舉頁: @i.Author 的食譜頁</p>
+													</form>
+												</div>
+												<div class="modal-footer">
+													<button class="btn btn-primary" data-bs-dismiss="modal" onclick="reviewRecipe(@i.ReportId, true)">通過</button>
+													<button class="btn btn-primary" data-bs-dismiss="modal" onclick="reviewRecipe(@i.ReportId, false)">駁回</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</td>
+							</tr>
+						}
 					</table>
 				</div>
 				<div class="tab-pane fade" id="list-comments" role="tabpanel" aria-labelledby="list-comments-list">
@@ -331,14 +360,13 @@
 			</div>
 		</div>
 	</div>
-
-
-
-	<footer>
-	</footer>
 	<script src="./js/insertData.js"></script>
 	<!-- <script src="./js/btnchange.js"></script> -->
 	<script>
+		$(".formSubmit").on('click', function () {
+			$(this).submit();
+		})
+
 		//審核欄
 		//更改審核按鈕
 		var temp;
@@ -364,7 +392,7 @@
 		})
 		//審核欄
 
-		//更新MessageTable的狀態
+		//傳到backgroundController 更新MessageTable的狀態
 		function reviewComment(reportId, isApproved) {
 			$.ajax({
 				url: '@Url.Action("ReviewComment", "Background_control")',
@@ -388,10 +416,50 @@
 		}
 
 		//更新RecipeTabel的狀態
-
+		function reviewRecipe(reportId, isApproved) {
+			$.ajax({
+				url: '@Url.Action("ReviewRecipe", "Background_control")',
+				type: 'POST',
+				data: {
+					reportId: reportId,
+					isApproved: isApproved  // 傳遞審核結果
+				},
+				success: function (response) {
+					// if (response.success) {
+					// 	// 更新審核狀態
+					// 	$('#user_review_' + reportId).text('已通過');
+					// } else {
+					// 	alert('操作失敗，請稍後再試。');
+					// }
+				},
+				error: function () {
+					alert('發生錯誤，請稍後再試。');
+				}
+			});
+		}
 
 		//更新UserInfo的狀態
-
+		function reviewUser(reportId, isApproved) {
+			$.ajax({
+				url: '@Url.Action("ReviewUser", "Background_control")',
+				type: 'POST',
+				data: {
+					reportId: reportId,
+					isApproved: isApproved  // 傳遞審核結果
+				},
+				success: function (response) {
+					// if (response.success) {
+					// 	// 更新審核狀態
+					// 	$('#user_review_' + reportId).text('已通過');
+					// } else {
+					// 	alert('操作失敗，請稍後再試。');
+					// }
+				},
+				error: function () {
+					alert('發生錯誤，請稍後再試。');
+				}
+			});
+		}
 
 
 
