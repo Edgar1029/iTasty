@@ -138,25 +138,25 @@ namespace project_itasty.Controllers.Api
             var id = (from a in _context.IngredientsTables
                       where a.RecipeId == recipeId && a.TitleName == null
                       select a.Id).ToList();
-            FavoritesCheck favoritecheck = new FavoritesCheck();
-            foreach (var item in id)
-            {
-                favoritecheck = (from check in _context.FavoritesChecks
-                                 where check.FavoriteRecipeId == favoriteRecipeId && check.Id == item
-                                 select check).FirstOrDefault();
+            //FavoritesCheck favoritecheck = new FavoritesCheck();
+            //foreach (var item in id)
+            //{
+            //    favoritecheck = (from check in _context.FavoritesChecks
+            //                     where check.FavoriteRecipeId == favoriteRecipeId && check.Id == item
+            //                     select check).FirstOrDefault();
 
-                if (favoritecheck == null)
-                {
-                    var fav = new FavoritesCheck
-                    {
-                        FavoriteRecipeId = favoriteRecipeId,
-                        Id = item,
-                        Checkbox = false,
-                    };
-                    _context.FavoritesChecks.Add(fav);
-                    _context.SaveChanges();
-                }
-            }
+            //    if (favoritecheck == null)
+            //    {
+            //        var fav = new FavoritesCheck
+            //        {
+            //            FavoriteRecipeId = favoriteRecipeId,
+            //            Id = item,
+            //            Checkbox = false,
+            //        };
+            //        _context.FavoritesChecks.Add(fav);
+            //        _context.SaveChanges();
+            //    }
+            //}
             var allIngredients = (from ingredient in _context.IngredientsTables
                                   join check in _context.FavoritesChecks
                                   on ingredient.Id equals check.Id
