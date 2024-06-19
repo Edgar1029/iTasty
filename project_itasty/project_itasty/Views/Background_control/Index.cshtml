@@ -74,7 +74,13 @@
 								<td>@Model.OrderRecipedTable[i].Author</td>
 								<td>@Model.OrderRecipedTable[i].RecipedView</td>
 								<td>@Model.OrderRecipedTable[i].NumberOfComment</td>
-								<td>@Model.OrderRecipedTable[i].RecipedStatus</td>
+								@if (@Model.OrderRecipedTable[i].RecipedStatus == "No violation")
+								{
+									<td>正常</td>
+								}else{
+									<td>違規</td>
+								}
+								
 							</tr>
 						}
 
