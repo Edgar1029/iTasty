@@ -118,23 +118,6 @@ $("#recipe_anchor").on("click", ".more_btn", function () {
 // 留言編輯彈出視窗end
 
 
-// 刪除留言start
-
-$("#recipe_anchor").on("click", ".delete_chats", function () {
-    if (confirm("確定要刪除嗎?")) {
-
-        $(this).closest(".chats_num").find(".deleted_userimg_anchor").remove();
-        $(this).closest(".chats_num").find(".deleted_messages_anchor").replaceWith(`<div class="deleted_messages" style="margin-top:15px;">
-                <h5>留言已被刪除</h5> 
-                </div>`);
-
-        message_total = message_total - 1;
-        $("#message_num").empty();
-        $("#message_num").append(message_total);
-    }
-})
-
-// 刪除留言end
 
 // 回覆留言start
 
@@ -389,4 +372,39 @@ function reply_submit() {
     })
 
 }
+
+//刪除留言AJAX
+$("#chats_row").on("submit", ".message_delete", function (e) {
+    console.log("第一步")
+    e.preventDefault();
+    var form = $(this);
+    if (!confirmDelete(form)) {
+        return;
+    }
+    var formData = form.serialize();
+    $.ajax({
+        url: form.attr('action'),
+        type: form.attr('method'),
+        data: formData,
+        success: function (data) {
+            $("#chats_row").html(data);
+            chats_num();
+            $("#message_num").empty();
+            $("#message_num").append(message_total);
+        }
+    })
+})
+
+// 刪除留言確認function
+function confirm_delete(form) {
+    return confirm("確定要刪除嗎?")     
+}
+
+
+
+
+
+
+
+
 

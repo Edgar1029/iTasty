@@ -23,6 +23,7 @@ namespace project_itasty.Controllers
 
             try
             {
+                Console.WriteLine(report);
                 _context.ReportTables.Add(report);
                 await _context.SaveChangesAsync();
 
@@ -33,7 +34,8 @@ namespace project_itasty.Controllers
                     report.ReportedUserId,
                     report.ReportType,
                     report.ReportReason,
-                    report.ReportStatus
+                    report.ReportStatus,
+                    report.ReportUserId
                 };
 
                 return Ok(responseObj);

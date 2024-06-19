@@ -13,7 +13,7 @@ namespace project_itasty.Controllers
 		}
 
 
-         public IActionResult Index(int ID, int Type)
+         public IActionResult Index(int ID, int Type,int reportUserID)
          {
             //加入Type判斷，如果Type傳入 0 則使用 UserInfo 來判斷 ID ，Type傳入 1 則使用 MessageTable 來判斷 ID ，Type傳入 2 則使用 RecipeTable來判斷 ID 。
 
@@ -26,11 +26,19 @@ namespace project_itasty.Controllers
             //假裝傳入
             ID = 3;
             Type = 1;
+            reportUserID = 2;
 
          string userName = string.Empty;
          string notes = string.Empty;
+        string reportUserName = string.Empty;
 
-         switch (Type)
+         var UserInfo = _context.UserInfos.FirstOrDefault(u => u.UserId == reportUserID);
+         if (UserInfo != null)
+         {
+             reportUserName = UserInfo.UserName;
+         }
+
+            switch (Type)
          {
              case 0:
                  var userInfo = _context.UserInfos.FirstOrDefault(u => u.UserId == ID);
@@ -70,6 +78,8 @@ namespace project_itasty.Controllers
          ViewBag.Notes = notes;
          ViewBag.ID = ID;
          ViewBag.Type = Type;
+         ViewBag.reportUserName = reportUserName;
+         ViewBag.reportUserID = reportUserID;
 
          return View();
          }
