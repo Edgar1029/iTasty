@@ -18,6 +18,7 @@ namespace project_itasty.Controllers
         public IActionResult Index(string time_option, string food, string meat, string vegetable, string type, string search_type, string search, string selected_time, string selected_food, string selected_meat, string selected_vegetable, string selected_type, string selected_search_type, string selected_search, string order_by)
         {
             var recipes = from r in _context.RecipeTables
+                          where r.RecipeStatus == "No violation"
                           join u in _context.UserInfos on r.UserId equals u.UserId
                           select new {
                               r, u
