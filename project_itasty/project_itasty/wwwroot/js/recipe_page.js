@@ -352,6 +352,7 @@ function reply_submit() {
         //將當前所選form的ID取出來
         const formid = $(this).attr('id');
         console.log(formid);
+        $(`#chats_row`).off("submit", `#${formid}`);
         $(`#chats_row`).on("submit", `#${formid}`, function (e) {
             e.preventDefault();
             $.ajax({
