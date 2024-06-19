@@ -51,8 +51,6 @@ namespace project_itasty.Controllers
 
 			int? userid_int = HttpContext.Session.GetInt32("userId");
 
-			Console.WriteLine("recipe_id : " + recipe_id);
-			Console.WriteLine("userid : " + userid_int);
 
 
 			var recipe_model = GetRecipeDetailsView(recipe_id, userid_int);
@@ -107,79 +105,12 @@ namespace project_itasty.Controllers
 			_context.MessageTables.Add(new_message);
 			_context.SaveChanges();
 
-			
-
-			var recipe = _context.RecipeTables
-				 .Where(r => r.RecipeId == recipe_id)
-				 .FirstOrDefault();
-
-			var ingredient = _context.IngredientsTables
-							 .Where(i => i.RecipeId == recipe_id)
-							 .ToList();
-
-			var step = _context.StepTables
-					   .Where(s => s.RecipeId == recipe_id)
-					   .ToList();
-
-			var user = _context.UserInfos
-					   .Where(u => u.UserId == recipe.UserId)
-					   .FirstOrDefault();
-
-			var message = _context.MessageTables
-			  .Where(m => m.RecipeId == recipe_id)
-			  .ToList();
-
-			// 查詢與message關聯的users
-			var message_userid = message.Select(m => m.UserId).Distinct().ToList();
-
-			var users = _context.UserInfos
-				.Where(u => message_userid.Contains(u.UserId))
-				.ToList();
-
-			// 建立用戶字典
-			var user_dictionary = users.ToDictionary(u => u.UserId, u => u);
-
-			// 建立一個包含所有留言和對應用戶信息的模型列表
-			var message_with_user = message
-									.Select(m => new
-									{
-										Message = m,
-										User = user_dictionary.ContainsKey(m.UserId) ? user_dictionary[m.UserId] : null
-									})
-									.ToList();
 
 
-			//查詢與message並將父message和子message分組排好
-			var top_message = message_with_user
-							  .Where(t => t.Message.TopMessageid == null)
-							  .ToList();
 
-			var child_message = message_with_user
-							  .Where(t => t.Message.TopMessageid != null)
-							  .ToList();
-
-			var messages = top_message
-						   .SelectMany(all_message => new[] { all_message }
-						   .Concat(child_message.Where(child_message => child_message.Message.TopMessageid == all_message.Message.MessageId))).ToList();
-
-
-			var login_userid = _context.UserInfos
-					   .Where(u => u.UserId == userid_int)
-					   .FirstOrDefault();
-
-			var view_model = new RecipeDetailsView
-			{
-				Recipe = recipe,
-				IngredientsTables = ingredient,
-				StepTables = step,
-				User = user,
-				MessageTables = messages.Select(m => m.Message).ToList(),
-				Message_users = messages.Select(m => m.User).ToList(),
-				LoginUser = login_userid
-			};
+			var view_model = GetRecipeDetailsView(recipe_id, userid_int);
 
 			return PartialView("_message_craete", view_model);
-
 		}
 
 		[HttpPost]
@@ -199,74 +130,30 @@ namespace project_itasty.Controllers
 			int? userid_int = HttpContext.Session.GetInt32("userId");
 
 
-			var recipe = _context.RecipeTables
-						 .Where(r => r.RecipeId == recipe_id)
-						 .FirstOrDefault();
-
-			var ingredient = _context.IngredientsTables
-							 .Where(i => i.RecipeId == recipe_id)
-							 .ToList();
-
-			var step = _context.StepTables
-					   .Where(s => s.RecipeId == recipe_id)
-					   .ToList();
-
-			var user = _context.UserInfos
-					   .Where(u => u.UserId == recipe.UserId)
-					   .FirstOrDefault();
-
-			var message = _context.MessageTables
-			  .Where(m => m.RecipeId == recipe_id)
-			  .ToList();
-
-			// 查詢與message關聯的users
-			var message_userid = message.Select(m => m.UserId).Distinct().ToList();
-
-			var users = _context.UserInfos
-				.Where(u => message_userid.Contains(u.UserId))
-				.ToList();
-
-			// 建立用戶字典
-			var user_dictionary = users.ToDictionary(u => u.UserId, u => u);
-
-			// 建立一個包含所有留言和對應用戶信息的模型列表
-			var message_with_user = message
-									.Select(m => new
-									{
-										Message = m,
-										User = user_dictionary.ContainsKey(m.UserId) ? user_dictionary[m.UserId] : null
-									})
-									.ToList();
+			var view_model = GetRecipeDetailsView(recipe_id, userid_int);
 
 
-			//查詢與message並將父message和子message分組排好
-			var top_message = message_with_user
-							  .Where(t => t.Message.TopMessageid == null)
-							  .ToList();
+			return PartialView("_message_craete", view_model);
+		}
 
-			var child_message = message_with_user
-							  .Where(t => t.Message.TopMessageid != null)
-							  .ToList();
-
-			var messages = top_message
-						   .SelectMany(all_message => new[] { all_message }
-						   .Concat(child_message.Where(child_message => child_message.Message.TopMessageid == all_message.Message.MessageId))).ToList();
-
-
-			var login_userid = _context.UserInfos
-					   .Where(u => u.UserId == userid_int)
-					   .FirstOrDefault();
-
-			var view_model = new RecipeDetailsView
+		[HttpPost]
+		public IActionResult Edit_message(int message_id ,string message_content)
+		{
+			var message_edit = _context.MessageTables.Find(message_id);
+			if (message_edit != null)
 			{
-				Recipe = recipe,
-				IngredientsTables = ingredient,
-				StepTables = step,
-				User = user,
-				MessageTables = messages.Select(m => m.Message).ToList(),
-				Message_users = messages.Select(m => m.User).ToList(),
-				LoginUser = login_userid
-			};
+				message_edit.MessageContent = message_content;
+				_context.SaveChanges();
+			}
+
+
+			int? recipe_id = HttpContext.Session.GetInt32("RecipeId");
+
+			int? userid_int = HttpContext.Session.GetInt32("userId");
+
+
+			var view_model = GetRecipeDetailsView(recipe_id, userid_int);
+
 			return PartialView("_message_craete", view_model);
 		}
 

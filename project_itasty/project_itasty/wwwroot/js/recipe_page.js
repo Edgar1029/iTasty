@@ -204,24 +204,36 @@ $("#chats_row").on("click", ".edit_chats", function () {
         $(this).closest(".chats_num").find(".reply_btn").remove();
         $(this).closest(".chats_num").find(".message_content").replaceWith(`
                     <div class="row edit_row">
-                        <input class="col-12 edit_message" type="text" value="${orig_message}">
+                    	<form id="edit_message"  action="@Url.Action("Edit_message", "RecipePage")" method="post">
+                        <input class="edit_message_id" type="hidden" name="message_id" value="">
+                        <input class="col-12 edit_message" name="message_content" type="text" value="${orig_message}">
                         <div class="col-12 d-flex justify-content-end edit_content_btn">
                             <button class="button_style edit_cancel_btn">取消</button>
-                            <button class="button_style edit_enter_btn">送出留言</button>
+                            <button type="submit" class="button_style edit_enter_btn">送出留言</button>
                         </div>
+                        </form>
                     </div>`
         );
+        $(this).closest(".chats_num").find(".edit_message_id").val($(this).closest(".chats_num").find(".message_id").val());
+        console.log($(this).closest(".chats_num").find(".edit_message_id").val());
     } else if (chats_id_word == "chat_reply_") {
         $(this).closest(".chats_num").find(".chats_time").remove();
         $(this).closest(".chats_num").find(".message_content").replaceWith(`
                     <div class="row edit_row">
-                        <input class="col-12 edit_message" type="text" value="${orig_message}">
+                        <form id="edit_message"  action="@Url.Action("Edit_message", "RecipePage")" method="post">
+                        <input class="edit_message_id" type="hidden" name="message_id" value="">
+                        <input class="col-12 edit_message" name="message_content" type="text" value="${orig_message}">
                         <div class="col-12 d-flex justify-content-end edit_content_btn">
                             <button class="button_style edit_cancel_btn">取消</button>
-                            <button class="button_style edit_enter_btn">送出留言</button>
+                            <button type="submit" class="button_style edit_enter_btn">送出留言</button>
                         </div>
+                        </form>
                     </div>
                     `);
+        let message_id = $(this).closest(".chats_num").find(".message_id").val();
+        //$(this).closest(".chats_num").find(".edit_message_id").val();
+        console.log(message_id);
+
     }
 })
 
@@ -229,63 +241,63 @@ $("#chats_row").on("click", ".edit_chats", function () {
 
 // 編輯留言完成start
 
-$("#chats_row").on("click", ".edit_enter_btn", function () {
-    let message_content = $(this).closest(".chats_num").find(".message_content").text();
-    let chats_id_word = $(this).closest(".chats_num").attr("id").replace(/\d+/g, "");
+//$("#chats_row").on("click", ".edit_enter_btn", function () {
+//    let message_content = $(this).closest(".chats_num").find(".message_content").text();
+//    let chats_id_word = $(this).closest(".chats_num").attr("id").replace(/\d+/g, "");
 
-    if (chats_id_word == "chats_") {
-        let edit_message = $(this).closest(".chats_num").find(".edit_message").val();
-        $(this).closest(".chats_num").find(".edit_row").replaceWith(`
-                            <p class="text-break message_content" style="margin-bottom:0px ;">${edit_message}</p>
-                            <div class="chats_time">
-                                <p>一週前</p>
-                            </div>
-                            <button class="reply_btn " href="">
-                                <img src="~/img/recipe_icon/chat_reply.ico" alt="">
-                                回覆
-                            </button>
-                            `)
-    } else if (chats_id_word == "chat_reply_") {
-        let edit_message = $(this).closest(".chats_num").find(".edit_message").val();
-        $(this).closest(".chats_num").find(".edit_row").replaceWith(`
-                            <p class="text-break message_content" style="margin-bottom:0px ;">${edit_message}</p>
-                            <div class="chats_time">
-                                <p>一週前</p>
-                            </div>
-                            `)
-    }
-})
+//    if (chats_id_word == "chats_") {
+//        let edit_message = $(this).closest(".chats_num").find(".edit_message").val();
+//        $(this).closest(".chats_num").find(".edit_row").replaceWith(`
+//                            <p class="text-break message_content" style="margin-bottom:0px ;">${edit_message}</p>
+//                            <div class="chats_time">
+//                                <p>一週前</p>
+//                            </div>
+//                            <button class="reply_btn " href="">
+//                                <img src="~/img/recipe_icon/chat_reply.ico" alt="">
+//                                回覆
+//                            </button>
+//                            `)
+//    } else if (chats_id_word == "chat_reply_") {
+//        let edit_message = $(this).closest(".chats_num").find(".edit_message").val();
+//        $(this).closest(".chats_num").find(".edit_row").replaceWith(`
+//                            <p class="text-break message_content" style="margin-bottom:0px ;">${edit_message}</p>
+//                            <div class="chats_time">
+//                                <p>一週前</p>
+//                            </div>
+//                            `)
+//    }
+//})
 
 // 編輯留言完成end
 
 // 取消留言start
 
-$("#chats_row").on("click", ".edit_cancel_btn", function () {
+//$("#chats_row").on("click", ".edit_cancel_btn", function () {
 
-    let chats_id_word = $(this).closest(".chats_num").attr("id").replace(/\d+/g, "");
+//    let chats_id_word = $(this).closest(".chats_num").attr("id").replace(/\d+/g, "");
 
-    if (chats_id_word == "chats_") {
-        $(this).closest(".chats_num").find(".edit_row").replaceWith(`
-                            <p class="text-break message_content" style="margin-bottom:0px ;">${orig_message}</p>
-                            <div class="chats_time">
-                                <p>一週前</p>
-                            </div>
-                            <button class="reply_btn " href="">
-                                <img src="~/img/recipe_icon/chat_reply.ico" alt="">
-                                回覆
-                            </button>
-                            `)
-    } else if (chats_id_word == "chat_reply_") {
-        $(this).closest(".chats_num").find(".edit_row").replaceWith(`
-                            <p class="text-break message_content" style="margin-bottom:0px ;">${orig_message}</p>
-                            <div class="chats_time">
-                                <p>一週前</p>
-                            </div>
-                            `)
-    }
+//    if (chats_id_word == "chats_") {
+//        $(this).closest(".chats_num").find(".edit_row").replaceWith(`
+//                            <p class="text-break message_content" style="margin-bottom:0px ;">${orig_message}</p>
+//                            <div class="chats_time">
+//                                <p>一週前</p>
+//                            </div>
+//                            <button class="reply_btn " href="">
+//                                <img src="~/img/recipe_icon/chat_reply.ico" alt="">
+//                                回覆
+//                            </button>
+//                            `)
+//    } else if (chats_id_word == "chat_reply_") {
+//        $(this).closest(".chats_num").find(".edit_row").replaceWith(`
+//                            <p class="text-break message_content" style="margin-bottom:0px ;">${orig_message}</p>
+//                            <div class="chats_time">
+//                                <p>一週前</p>
+//                            </div>
+//                            `)
+//    }
 
 
-})
+//})
 
 // 取消留言end
 
