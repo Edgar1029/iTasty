@@ -64,7 +64,10 @@
 											<div class="col-12 message_edit">
 												<button class="edit_chats">編輯</button>
 												<hr>
-												<button class="delete_chats">刪除</button>
+												<form class="message_delete" action="@Url.Action("Delete_message", "RecipePage")" method="post" onsubmit="return confirm_delete(this);">
+													<input type="hidden" name="id" value="@Model.MessageTables[i].MessageId" />
+													<button class="delete_chats">刪除</button>
+												</form>
 												<hr>
 												<button class="report_chats" data-bs-toggle="modal"
 														data-bs-target="#report_chats">
@@ -101,7 +104,7 @@
 					chats_num += 1;
 
 				}
-				else
+				else if (Model.MessageTables[i].ExistDelete == "delete")
 				{
 					<div id="chats_@(chats_num)" class="chats row chats_anchor chats_num">
 						<div class="deleted_messages" style="margin-top:15px;">
@@ -109,68 +112,76 @@
 						</div>
 					</div>
 				}
-			}
-			else if (Model.MessageTables != null && Model.MessageTables[i].TopMessageid != null)
-			{
-				if (i < Model.Message_users.Count)
+				else
 				{
-					if (Model.MessageTables[i].ExistDelete == "exist")
-					{
-						<div id="chat_reply_@(chat_reply_num)" class="col-12 chat_reply_anchor chats_num">
-							<div class="row">
-								<div class="col-2"></div>
-								<div class="col-10">
-									<div class="row">
-										<div class="col-1 deleted_userimg_anchor" style="padding-left: 0px;">
-											<img class="chats_user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
-										</div>
-										<div class="col-11 deleted_messages_anchor" style="padding-left: 32px;">
-											<div class="row">
-												<div class="col-10">
-													<h5>@Model.Message_users[i].UserName</h5>
-													<p class="text-break message_content" style="margin-bottom:0px ;">@Model.MessageTables[i].MessageContent</p>
-													<div class="chats_time">
-														@{
-															DateTime now = DateTime.Now;
-															DateTime reply_message_time = Model.MessageTables[i].CreateTime;
-															TimeSpan reply_time_gap = now - reply_message_time;
 
-															if (reply_time_gap.TotalSeconds < 60)
-															{
-																<p>幾秒前</p>
-															}
-															else if (reply_time_gap.TotalMinutes < 60)
-															{
-																<p>@(Math.Floor(reply_time_gap.TotalMinutes) + "分鐘前")</p>
-															}
-															else if (reply_time_gap.TotalHours < 24)
-															{
-																<p>@(Math.Floor(reply_time_gap.TotalHours) + "小時前")</p>
-															}
-															else
-															{
-																<p>@(reply_message_time.ToString("yyyy-MM-dd"))</p>
-															}
+				}
 
+			}
+		}
+		else if (Model.MessageTables != null && Model.MessageTables[i].TopMessageid != null)
+		{
+			if (i < Model.Message_users.Count)
+			{
+				if (Model.MessageTables[i].ExistDelete == "exist")
+				{
+					<div id="chat_reply_@(chat_reply_num)" class="col-12 chat_reply_anchor chats_num">
+						<div class="row">
+							<div class="col-2"></div>
+							<div class="col-10">
+								<div class="row">
+									<div class="col-1 deleted_userimg_anchor" style="padding-left: 0px;">
+										<img class="chats_user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+									</div>
+									<div class="col-11 deleted_messages_anchor" style="padding-left: 32px;">
+										<div class="row">
+											<div class="col-10">
+												<h5>@Model.Message_users[i].UserName</h5>
+												<p class="text-break message_content" style="margin-bottom:0px ;">@Model.MessageTables[i].MessageContent</p>
+												<div class="chats_time">
+													@{
+														DateTime now = DateTime.Now;
+														DateTime reply_message_time = Model.MessageTables[i].CreateTime;
+														TimeSpan reply_time_gap = now - reply_message_time;
+
+														if (reply_time_gap.TotalSeconds < 60)
+														{
+															<p>幾秒前</p>
 														}
-													</div>
+														else if (reply_time_gap.TotalMinutes < 60)
+														{
+															<p>@(Math.Floor(reply_time_gap.TotalMinutes) + "分鐘前")</p>
+														}
+														else if (reply_time_gap.TotalHours < 24)
+														{
+															<p>@(Math.Floor(reply_time_gap.TotalHours) + "小時前")</p>
+														}
+														else
+														{
+															<p>@(reply_message_time.ToString("yyyy-MM-dd"))</p>
+														}
+
+													}
 												</div>
-												<div class="col-2 d-flex align-items-start justify-content-end">
-													<div class="popup more_btn">
-														<img class="icon_size" src="/img/recipe_icon/more.ico" alt="">
-														<span class="popuptext row" id="message_edit_Popup">
-															<div class="col-12 message_edit">
-																<button class="edit_chats">編輯</button>
-																<hr>
+											</div>
+											<div class="col-2 d-flex align-items-start justify-content-end">
+												<div class="popup more_btn">
+													<img class="icon_size" src="/img/recipe_icon/more.ico" alt="">
+													<span class="popuptext row" id="message_edit_Popup">
+														<div class="col-12 message_edit">
+															<button class="edit_chats">編輯</button>
+															<hr>
+															<form class="message_delete" action="@Url.Action("Delete_message", "RecipePage")" method="post" onsubmit="return confirm_delete(this);">
+																<input type="hidden" name="id" value="@Model.MessageTables[i].MessageId" />
 																<button class="delete_chats">刪除</button>
-																<hr>
-																<button class="report_chats" data-bs-toggle="modal"
-																		data-bs-target="#report_chats">
-																	檢舉
-																</button>
-															</div>
-														</span>
-													</div>
+															</form>
+															<hr>
+															<button class="report_chats" data-bs-toggle="modal"
+																	data-bs-target="#report_chats">
+																檢舉
+															</button>
+														</div>
+													</span>
 												</div>
 											</div>
 										</div>
@@ -178,20 +189,25 @@
 								</div>
 							</div>
 						</div>
-						chat_reply_num += 1;
+					</div>
+					chat_reply_num += 1;
 
-					}
-					else
-					{
-						<div id="chats_@(chats_num)" class="chats row chats_anchor chats_num">
-							<div class="deleted_messages" style="margin-top:15px;">
-								<h5>留言已被刪除</h5>
-							</div>
+				}
+				else if (Model.MessageTables[i].ExistDelete == "delete")
+				{
+					<div id="chats_@(chats_num)" class="chats row chats_anchor chats_num">
+						<div class="deleted_messages" style="margin-top:15px;">
+							<h5>留言已被刪除</h5>
 						</div>
-					}
+					</div>
+				}
+				else
+				{
+
 				}
 			}
 		}
+
 	}
 }
 

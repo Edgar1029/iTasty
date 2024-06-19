@@ -6,6 +6,7 @@
     font-style: normal;
     font-weight: bold;
 }
+
 body {
     clear: both;
     font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -14,48 +15,63 @@ body {
     padding: 0;
     background-color: rgb(245, 245, 245);
     background-image: url("../img/pexels-karolina-grabowska-4705933.jpg");
-    backdrop-filter: blur(5px);
+    /*backdrop-filter: blur(5px);*/
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     width: 100%;
     transition: all 0.3s;
-    font-weight:800;
 }
 /* 下面是header的css-------------------------------------------------------------------------------------------------- */
-header{
+header {
     width: 100%;
     margin: auto;
     height: 60px;
     line-height: 60px;
     display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
 }
-header::after{
-    content: "";
-    display: block;
-    clear: both;
-}
-.header-left{
+
+    header::after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+
+.header-left {
     background-color: rgb(255, 255, 255);
     text-align: center;
     width: 65%;
     align-items: left;
     /* display: flex; */
 }
-.header-left > span{
-    width: 84px;
-    height: 60px;
-    line-height: 60px;
-    margin-left: 12px;
-    font-size: 1rem;
-    cursor: pointer;
-    color:rgb(30, 30, 30);
-    font-weight: 600;
-}
-.header-left > span:hover{
-    color: rgb(232, 117, 67);
-}
-.header-left-img{
+
+    .header-left > span,
+    .header-left > a,
+    .header-left > a > span {
+        width: 84px;
+        height: 60px;
+        line-height: 60px;
+        margin-left: 12px;
+        font-size: 1rem;
+        cursor: pointer;
+        color: rgb(30, 30, 30);
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .header-left > span:hover,
+        .header-left > a:hover > span {
+            background: -webkit-gradient(linear, left top, right top, from(#ff8a00), to(#da1b60));
+            background: linear-gradient(to right, #a53f2b, #280004);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+.header-left-img {
     /* width: 100%;
     display: block;
     margin: auto;
@@ -68,56 +84,78 @@ header::after{
     margin-left: 20px;
     margin-right: 10px;
     margin-top: 10px;
-    background-image: url("../img/logo_text.png");
-    background-repeat: no-repeat;
-    background-size: contain;
     align-items: center;
+    cursor: pointer;
 }
-.header-middle{
-    background-color:rgb(255, 255, 255);
+
+    .header-left-img > a {
+        width: inherit;
+        height: inherit;
+        background-image: url("/img/logo_text.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+
+.header-middle {
+    background-color: rgb(255, 255, 255);
     text-align: center;
-    width:0%;
+    width: 0%;
 }
-.header-right{
+
+.header-right {
     /* padding-left: 30%; */
-    background-color:rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
     padding-right: 43px;
-    width:35%;
+    width: 35%;
     justify-content: flex-end;
 }
-.loginsignbtn{
+
+.loginsignbtn {
     display: flex;
     width: 130px;
 }
-.login{
-     width: 40px;
-     margin-right: 12px;
-     cursor: pointer;
-     color: #111111;
+
+.login {
+    width: 40px;
+    margin-right: 12px;
+    cursor: pointer;
+    color: #111111;
 }
-.login:hover{
-    color:rgb(232, 117, 67);
-}
-.sign{
+
+    .login:hover {
+        background: -webkit-gradient(linear, left top, right top, from(#ff8a00), to(#da1b60));
+        background: linear-gradient(to right, #a53f2b, #280004);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+.sign {
     width: 90px;
     height: 40px;
-    background-color: rgb(232, 117, 67);
+    background: linear-gradient(to right, #a53f2b, #280004);
     align-items: center;
-    text-align:center;
+    text-align: center;
     line-height: 40px;
     margin: auto;
     border-radius: 4px;
     color: aliceblue;
     cursor: pointer;
+    text-decoration: none;
 }
-.spacebar{
+
+    .sign:hover {
+        color: aliceblue;
+    }
+
+.spacebar {
     width: 1px;
     height: 32px;
-    margin-left:16px;
-    margin-right:16px;
+    margin-left: 16px;
+    margin-right: 16px;
     margin-top: 14px;
     background-color: rgb(200, 200, 200);
 }
+
 .shoppingcart {
     width: 40px;
     height: 60px;
@@ -126,8 +164,8 @@ header::after{
 }
 
     .shoppingcart:hover {
-        background: -webkit-gradient(linear,left top,right top,from(#ff8a00),to(#da1b60));
-        background: linear-gradient(to right, #a53f2b,#280004);
+        background: -webkit-gradient(linear, left top, right top, from(#ff8a00), to(#da1b60));
+        background: linear-gradient(to right, #a53f2b, #280004);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
@@ -138,73 +176,87 @@ header::after{
     cursor: pointer;
 }
 
+
     .profile:hover {
-        background: -webkit-gradient(linear,left top,right top,from(#ff8a00),to(#da1b60));
-        background: linear-gradient(to right, #a53f2b,#280004);
+        background: -webkit-gradient(linear, left top, right top, from(#ff8a00), to(#da1b60));
+        background: linear-gradient(to right, #a53f2b, #280004);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
 
-.header-second{
+.header-second {
     width: 100%;
-    height:60px;
+    height: 60px;
     background-color: #FFFFFF;
 }
-.nav-left{
+
+.nav-left {
     position: relative;
-    width:10%;
+    width: 10%;
     display: inline-block;
     cursor: pointer;
     margin: auto;
     padding-left: 2%;
     /* background-color: #a93635; */
 }
-.left-title{
-    position: absolute; 
+
+.left-title {
+    position: absolute;
     left: 0px;
     background-color: #FFFFFF;
     z-index: 999;
     display: none;
 }
-.bar1, .bar2, .bar3 {
+
+.bar1,
+.bar2,
+.bar3 {
     width: 35px;
     height: 5px;
     background-color: #333;
     margin: 6px 0;
     transition: 0.4s;
-  }
-  
-  .change .bar1 {
+}
+
+.change .bar1 {
     transform: translate(0, 11px) rotate(-45deg);
-  }
-  
-  .change .bar2 {opacity: 0;}
-  
-  .change .bar3 {
+}
+
+.change .bar2 {
+    opacity: 0;
+}
+
+.change .bar3 {
     transform: translate(0, -11px) rotate(45deg);
 }
-.left-title-bar{
+
+.left-title-bar {
     width: 140px;
     margin: 0px;
     text-align: center;
 }
-.bababa{
+
+.bababa {
     height: 1px;
     width: 120px;
     margin: auto;
     background-color: rgb(241, 241, 238);
 }
-.left-title a{
+
+.left-title a {
     text-decoration: none;
     color: #111111;
 }
-.left-title a:hover{
-    color: rgb(232, 117, 67);
+
+    .left-title a:hover {
+        color: rgb(232, 117, 67);
+    }
+
+.nav-middle {
+    width: 80%;
 }
-.nav-middle{
-    width:80%;
-}
-.nav-middle-img{
+
+.nav-middle-img {
     width: 170px;
     height: 90%;
     margin: auto;
@@ -214,20 +266,23 @@ header::after{
     background-size: contain;
     align-items: center;
 }
-.nav-right{
+
+.nav-right {
     position: relative;
-    width:10%;
+    width: 10%;
     display: inline-block;
     cursor: pointer;
 }
-.nav-profile-icon{
-    width:100%;
+
+.nav-profile-icon {
+    width: 100%;
     height: 30px;
     text-align: right;
     margin-top: 15px;
     padding-right: 15px;
 }
-.right-title-bar{
+
+.right-title-bar {
     width: 160px;
     height: 55px;
     line-height: 40px;
@@ -236,15 +291,20 @@ header::after{
     text-align: center;
     align-items: center;
 }
-.right-title a{
+
+.right-title p:nth-child(3) a,
+.right-title p:nth-child(5) a {
     text-decoration: none;
     color: #111111;
 }
-.right-title a:hover{
-    color: rgb(232, 117, 67);
-}
-.right-title{
-    position: absolute; 
+
+    .right-title p:nth-child(3) a:hover,
+    .right-title p:nth-child(5) a:hover {
+        color: rgb(232, 117, 67);
+    }
+
+.right-title {
+    position: absolute;
     right: 0px;
     top: 60px;
     background-color: #FFFFFF;

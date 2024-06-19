@@ -327,13 +327,15 @@
 							</div>
 							chats_num += 1;
 						}
-						else
+						else if (Model.MessageTables[i].ExistDelete == "delete")
 						{
 							<div id="chats_@(chats_num)" class="chats row chats_anchor chats_num">
 								<div class="deleted_messages" style="margin-top:15px;">
 									<h5>留言已被刪除</h5>
 								</div>
 							</div>
+						}else {
+							
 						}
 					}
 				}
@@ -411,13 +413,15 @@
 							chat_reply_num += 1;
 
 						}
-						else
+						else if (Model.MessageTables[i].ExistDelete == "delete")
 						{
 							<div id="chats_@(chats_num)" class="chats row chats_anchor chats_num">
 								<div class="deleted_messages" style="margin-top:15px;">
 									<h5>留言已被刪除</h5>
 								</div>
 							</div>
+						}else{
+
 						}
 					}
 				}

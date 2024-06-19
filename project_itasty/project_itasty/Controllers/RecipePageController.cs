@@ -99,12 +99,15 @@ namespace project_itasty.Controllers
 				UserId = (int)userid_int,
 				TopMessageid = message_create.FatherMessage,
 				MessageContent = message_create.MessageContent,
+				ExistDelete = "exist",
 				CreateTime = DateTime.Now,
 				ChangeTime = DateTime.Now
 			};
 
 			_context.MessageTables.Add(new_message);
 			_context.SaveChanges();
+
+			
 
 			var recipe = _context.RecipeTables
 				 .Where(r => r.RecipeId == recipe_id)
@@ -174,6 +177,7 @@ namespace project_itasty.Controllers
 				Message_users = messages.Select(m => m.User).ToList(),
 				LoginUser = login_userid
 			};
+
 			return PartialView("_message_craete", view_model);
 
 		}
