@@ -63,12 +63,13 @@
             <h1>iTasty 檢舉回報</h1>
             <form id="reportForm">
                 <label for="account">帳號:</label>
-                <input type="text" id="account" name="account" value="@ViewBag.UserName" disabled>
+                <input type="text" id="account" name="account" value="@ViewBag.reportUserName" disabled>
 
                 <input type="hidden" id="recipedIdOrCommentId" name="recipedIdOrCommentId" value="@ViewBag.ID">
                 <input type="hidden" id="reportType" name="reportType" value="@ViewBag.Type">
+                <input type="hidden" name="reportUserID" id="reportUserID" value="@ViewBag.reportUserID" />
 
-                <label for="notes">食譜/留言:</label>
+                <label for="notes">被檢舉的 食譜/留言:</label>
                 <input type="text" id="notes" name="notes" value="@ViewBag.Notes" disabled>
 
                 <label for="reason">檢舉理由:</label>
@@ -79,7 +80,7 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
         $(document).ready(function () {
             $('#reportForm').on('submit', function (event) {
@@ -90,7 +91,8 @@
                     ReportedUserId: parseInt($('#recipedIdOrCommentId').val()),
                     RecipedIdOrCommentId: parseInt($('#recipedIdOrCommentId').val()),
                     ReportType: parseInt($('#reportType').val()),
-                    ReportStatus: false
+                    ReportStatus: false,
+                    reportUserID: parseInt($('#reportUserID').val())
                 };
 
                 $.ajax({
