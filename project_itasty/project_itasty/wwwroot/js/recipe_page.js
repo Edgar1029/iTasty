@@ -378,27 +378,26 @@ $("#chats_row").on("submit", ".message_delete", function (e) {
     console.log("第一步")
     e.preventDefault();
     var form = $(this);
-    if (!confirmDelete(form)) {
-        return;
+    let confirm_delete ;
+    confirm_delete = confirm("確定要刪除嗎?");
+    console.log(confirm_delete);
+    if (confirm_delete == true) {
+        var formData = form.serialize();
+        $.ajax({
+            url: form.attr('action'),
+            type: form.attr('method'),
+            data: formData,
+            success: function (data) {
+                $("#chats_row").html(data);
+                chats_num();
+                $("#message_num").empty();
+                $("#message_num").append(message_total);
+            }
+        })
+
     }
-    var formData = form.serialize();
-    $.ajax({
-        url: form.attr('action'),
-        type: form.attr('method'),
-        data: formData,
-        success: function (data) {
-            $("#chats_row").html(data);
-            chats_num();
-            $("#message_num").empty();
-            $("#message_num").append(message_total);
-        }
-    })
 })
 
-// 刪除留言確認function
-function confirm_delete(form) {
-    return confirm("確定要刪除嗎?")     
-}
 
 
 
