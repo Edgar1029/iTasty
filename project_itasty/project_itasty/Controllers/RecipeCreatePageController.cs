@@ -37,10 +37,11 @@ namespace project_itasty.Controllers
 		[HttpPost]
 		public IActionResult Create(RecipeTable recipe_table, List<IngredientsTable> ingredients_table, List<StepTable> step_table)
 		{
+			int? userid_int = HttpContext.Session.GetInt32("userId");
 
 			#region recipe_table上傳
 
-			recipe_table.UserId = 69;			
+			recipe_table.UserId = (int)userid_int;			
 			recipe_table.Views = 0;
 			recipe_table.Favorites = 0;
 			recipe_table.CreatedDate = DateTime.Now;
@@ -65,7 +66,7 @@ namespace project_itasty.Controllers
 			for (int i = 0; i < ingredients_table.Count; i++)
 			{
 				ingredients_table[i].RecipeId = newRecipeId;
-				ingredients_table[i].UserId = 69;
+				ingredients_table[i].UserId = (int)userid_int;
 			}
 
 			for (int i = 0; i < step_table.Count; i++)
