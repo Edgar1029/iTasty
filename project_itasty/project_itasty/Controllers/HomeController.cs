@@ -34,9 +34,9 @@ namespace project_itasty.Controllers
             // 當季食材
             var ingredients = from o in _context.SeasonalIngredients where o.MonthId == 7& o.IsActive==true select o;
             // 熱門食譜
-            var recipeViews= from o in _context.RecipeTables orderby o.Views descending select o;
+            var recipeViews= from o in _context.RecipeTables  where o.RecipeStatus== "No violation" orderby o.Views descending select o;
             // 最新食譜
-            var recipes = from o in _context.RecipeTables orderby o.CreatedDate descending select o;
+            var recipes = from o in _context.RecipeTables where o.RecipeStatus == "No violation"   orderby o.CreatedDate descending select o;
             // 當季食材和食材表格合併
             var seasonIngredients = from r in _context.SeasonalIngredients
 						  join u in _context.IngredientsTables on r.CommonName equals u.IngredientsName
@@ -59,7 +59,7 @@ namespace project_itasty.Controllers
             {
                 // 尋找包含該食材的所有食譜
                 var ingredientRecipes = _context.RecipeTables
-                                                .Where(o => o.RecipeId == ingredient.u.RecipeId)
+                                                .Where(o => o.RecipeId == ingredient.u.RecipeId&& o.RecipeStatus== "No violation")
                                                 .ToList();
 
                 if (!seasonRecipeTable.ContainsKey(ingredient.r.CommonName))
