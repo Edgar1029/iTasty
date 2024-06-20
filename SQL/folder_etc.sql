@@ -180,16 +180,16 @@ CREATE TABLE [dbo].[ReportTable](
 ----------------------------------------------------------------------------
 INSERT INTO userInfo (userName, userEmail, userPassword, userPhoto, userBanner, userIntro, userPermissions, userCreateTime)
 VALUES
-('Alice', 'alice@example.com', 'password1', NULL, NULL, 'Hello, I am Alice!', 2, GETDATE()),
-('Bob', 'bob@example.com', 'password2', NULL, NULL, 'Hello, I am Bob!', 2, GETDATE()),
-('Carol', 'carol@example.com', 'password3', NULL, NULL, 'Hello, I am Carol!', 2, GETDATE()),
-('Dave', 'dave@example.com', 'password4', NULL, NULL, 'Hello, I am Dave!', 1, GETDATE()),
-('Eve', 'eve@example.com', 'password5', NULL, NULL, 'Hello, I am Eve!', 2, GETDATE()),
-('Frank', 'frank@example.com', 'password6', NULL, NULL, 'Hello, I am Frank!', 2, GETDATE()),
-('Grace', 'grace@example.com', 'password7', NULL, NULL, 'Hello, I am Grace!', 2, GETDATE()),
-('Heidi', 'heidi@example.com', 'password8', NULL, NULL, 'Hello, I am Heidi!', 3, GETDATE()),
-('Ivan', 'ivan@example.com', 'password9', NULL, NULL, 'Hello, I am Ivan!', 2, GETDATE()),
-('Judy', 'judy@example.com', 'password10', NULL, NULL, 'Hello, I am Judy!', 2, GETDATE());
+('Alice', 'alice@example.com', 'P@ssw0rd', NULL, NULL, 'Hello, I am Alice!', 2, GETDATE()),
+('Bob', 'bob@example.com', 'P@ssw0rd', NULL, NULL, 'Hello, I am Bob!', 2, GETDATE()),
+('Carol', 'carol@example.com', 'P@ssw0rd', NULL, NULL, 'Hello, I am Carol!', 2, GETDATE()),
+('Dave', 'dave@example.com', 'P@ssw0rd', NULL, NULL, 'Hello, I am Dave!', 1, GETDATE()),
+('Eve', 'eve@example.com', 'P@ssw0rd', NULL, NULL, 'Hello, I am Eve!', 2, GETDATE()),
+('Frank', 'frank@example.com', 'P@ssw0rd', NULL, NULL, 'Hello, I am Frank!', 2, GETDATE()),
+('Grace', 'grace@example.com', 'P@ssw0rd', NULL, NULL, 'Hello, I am Grace!', 2, GETDATE()),
+('Heidi', 'heidi@example.com', 'P@ssw0rd', NULL, NULL, 'Hello, I am Heidi!', 3, GETDATE()),
+('Ivan', 'ivan@example.com', 'P@ssw0rd', NULL, NULL, 'Hello, I am Ivan!', 2, GETDATE()),
+('Judy', 'judy@example.com', 'P@ssw0rd', NULL, NULL, 'Hello, I am Judy!', 2, GETDATE());
 ------------------------------------------------------------------------
 INSERT INTO userFollower (userId, followerId, followDate, unfollowDate)
 VALUES
