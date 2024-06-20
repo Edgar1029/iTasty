@@ -90,6 +90,8 @@ namespace project_itasty.Models
 		public string? ReportReason { get; set; }
 		public bool? ReportStatus { get; set; }
 
+		public int? Reporter { get; set; }
+
 	}
 
 

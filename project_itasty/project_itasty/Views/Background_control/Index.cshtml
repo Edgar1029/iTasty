@@ -237,7 +237,7 @@
 													<p>被檢舉原因:@i.ReportReason</p>
 													@* <label for="">檢舉圖片:</label>
 													<img src="${e.reportedImageUrl}" alt="Reported Image"> *@
-													<p>檢舉人: ${e.reporterUserId}</p>
+													<p>檢舉人: @i.Reporter</p>
 													  
 													 <form asp-controller="RecipePage" asp-action="Index" method="post" target="_blank" class="formSubmit">
 														<input type="hidden" name="recipe_id" value="@i.RecipeId" />

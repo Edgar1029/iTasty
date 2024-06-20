@@ -171,7 +171,8 @@ namespace project_itasty.Controllers
 									Author = user.UserName,
 									ReportReason = RecipedReport.ReportReason,
 									ReportStatus = RecipedReport.ReportStatus,
-								};
+									Reporter = RecipedReport.ReportUserId,
+											};
 
 
 
@@ -187,6 +188,7 @@ namespace project_itasty.Controllers
 					Author = item.Author,
 					ReportReason = item.ReportReason,
 					ReportStatus = item.ReportStatus,
+					Reporter = item.Reporter,
 				});
 			}
 
