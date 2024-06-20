@@ -12,6 +12,8 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pag
 using project_itasty.Models;
 using System.Security.Cryptography;
 using BCrypt.Net;
+using System.Net.Mail;
+using System.Net;
 
 
 
@@ -120,30 +122,128 @@ namespace project_itasty.Controllers
         // POST: UserRegister/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("UserId,UserName,UserPhoto,UserEmail,UserPassword,UserBanner,UserIntro,UserPermissions")] UserInfo userInfo1,string UserPassword)
+        //{
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        string hashedPassword =  BCrypt.Net.BCrypt.HashPassword(UserPassword);
+        //        userInfo1.UserPassword = hashedPassword;
+
+
+
+
+        //        _context.UserInfos.Add(userInfo1);
+        //        await _context.SaveChangesAsync();
+        //        TempData["createMessage"] = "註冊成功";
+        //        return View("Create"); //不會到這裡
+
+        //    }
+
+        //    return View();
+        //}
+
+        //TEST
+        private static string generatedCode;
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,UserName,UserPhoto,UserEmail,UserPassword,UserBanner,UserIntro,UserPermissions")] UserInfo userInfo1,string UserPassword)
+        public async Task<IActionResult> Create([Bind("UserId,UserName,UserPhoto,UserEmail,UserPassword,UserBanner,UserIntro,UserPermissions")] UserInfo userInfo1, string UserPassword,string UserEmail,string UserName)
         {
-           
+
             if (ModelState.IsValid)
             {
-                string hashedPassword =  BCrypt.Net.BCrypt.HashPassword(UserPassword);
-                userInfo1.UserPassword = hashedPassword;
-                
-                
-                
-                
-                _context.UserInfos.Add(userInfo1);
-                await _context.SaveChangesAsync();
-                TempData["createMessage"] = "註冊成功";
-                return View("Create"); //不會到這裡
-               
+
+
+
+                // 生成驗證碼
+                Random random = new Random();
+                generatedCode = random.Next(100000, 999999).ToString();
+
+                // 發送電子郵件
+                SendVerificationEmail(UserEmail, generatedCode);
+
+                // 暫時保存用戶信息
+                TempData["Email"] = UserEmail;
+                TempData["Password"] = UserPassword;
+                TempData["UserName"] = UserName;
+                return Json(new { success = true });
+
+
+
             }
 
+            return Json(new { success = false, error = "Invalid registration details" });
+        }
+        [HttpGet]
+        public ActionResult VerifyEmail()
+        {
             return View();
         }
 
+        [HttpPost]
+        public async Task<ActionResult> VerifyEmail(string code ,UserInfo userInfo)
+        {
+            if (code == generatedCode)
+            {
+                // 驗證碼正確，完成註冊流程
+                string email = TempData["Email"].ToString();
+                string password = TempData["Password"].ToString();
+                string UserName = TempData["UserName"].ToString();
+                // 創建用戶（例如，保存到數據庫）
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+                userInfo.UserPassword = hashedPassword;
+                userInfo.UserEmail = email;
+                userInfo.UserName = UserName;
+                userInfo.UserPermissions = 2;
+                _context.UserInfos.Add(userInfo);
+                await _context.SaveChangesAsync();
+
+
+                HttpContext.Session.SetString("userEmail", userInfo.UserEmail);
+                HttpContext.Session.SetInt32("userId", userInfo.UserId);
+                TempData["createMessage"] = "註冊成功";
+                return Json(new { success = true });
+            }
+            ModelState.AddModelError("", "Invalid verification code");
+            return Json(new { success = false, error = "Invalid verification code" });
+        }
+
+        private void SendVerificationEmail(string email, string code)
+        {
+            var fromAddress = new MailAddress("s960869@gmail.com", "Itasty");
+            var toAddress = new MailAddress(email);
+            const string fromPassword = "nqcv qzzs bebk zdxs";
+            const string subject = "Email Verification Code";
+            string body = $"Your verification code is {code}";
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+
+            using (var message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = body
+            })
+            {
+                smtp.Send(message);
+            }
+        }
+
         //TEST
+
+
+
 
         [HttpPost]
 
