@@ -103,7 +103,7 @@
 }
 
 .area_article {
-    margin-bottom: 62px;
+    margin-bottom: 200px;
 }
 
     .area_article > form {
@@ -172,30 +172,34 @@
                 color: #aba4a4;
             }
 
-.area_fan {
+.area_fan, .area_follow {
     border: #ccc9a1 1px solid;
     border-top-style: none;
-    margin-bottom: 62px;
+    margin-bottom: 200px;
     background-color: white;
 }
 
-    .area_fan > :nth-child(1) {
+    .area_fan > :nth-child(1),
+    .area_follow > :nth-child(1) {
         height: 50px;
     }
 
-        .area_fan > :nth-child(1) > div {
+        .area_fan > :nth-child(1) > div,
+        .area_follow > :nth-child(1) > div {
             position: absolute;
             top: 20px;
             left: 20px;
             font-size: 16px;
         }
 
-    .area_fan > :nth-child(2) > div {
+    .area_fan > :nth-child(2) > div,
+    .area_follow > :nth-child(2) > div {
         /* height: 130px; */
         border-top: #7c7777 1px dashed;
     }
 
-        .area_fan > :nth-child(2) > div > img {
+        .area_fan > :nth-child(2) > div > img,
+        .area_follow > :nth-child(2) > div > img {
             position: absolute;
             top: 14px;
             left: 20px;
@@ -203,38 +207,44 @@
             height: 45px;
         }
 
-        .area_fan > :nth-child(2) > div > :nth-child(2) {
+        .area_fan > :nth-child(2) > div > :nth-child(2),
+        .area_follow > :nth-child(2) > div > :nth-child(2) {
             position: absolute;
             top: 15px;
             left: 75px;
             font-size: 16px;
         }
 
-            .area_fan > :nth-child(2) > div > :nth-child(2) a {
+            .area_fan > :nth-child(2) > div > :nth-child(2) a,
+            .area_follow > :nth-child(2) > div > :nth-child(2) a {
                 font-size: 16px;
                 color: #212529;
                 text-decoration: none;
             }
 
-                .area_fan > :nth-child(2) > div > :nth-child(2) a:hover {
+                .area_fan > :nth-child(2) > div > :nth-child(2) a:hover,
+                .area_follow > :nth-child(2) > div > :nth-child(2) a:hover {
                     font-size: 16px;
                     color: #e87543;
                     text-decoration: underline;
                 }
 
-        .area_fan > :nth-child(2) > div > :nth-child(3) {
+        .area_fan > :nth-child(2) > div > :nth-child(3),
+        .area_follow > :nth-child(2) > div > :nth-child(3) {
             position: absolute;
             top: 44px;
             left: 75px;
         }
 
-            .area_fan > :nth-child(2) > div > :nth-child(3) > div {
+            .area_fan > :nth-child(2) > div > :nth-child(3) > div,
+            .area_follow > :nth-child(2) > div > :nth-child(3) > div {
                 color: #7c7777;
                 font-size: 12;
                 margin-right: 20px;
             }
 
-        .area_fan > :nth-child(2) > div > :nth-child(5) {
+        .area_fan > :nth-child(2) > div > :nth-child(5),
+        .area_follow > :nth-child(2) > div > :nth-child(5) {
             position: absolute;
             top: 30px;
             right: 20px;
@@ -245,7 +255,8 @@
             padding-right: 10px;
         }
 
-        .area_fan > :nth-child(2) > div > :nth-child(4) {
+        .area_fan > :nth-child(2) > div > :nth-child(4),
+        .area_follow > :nth-child(2) > div > :nth-child(4) {
             position: relative;
             font-size: 16px;
             margin-left: 75px;
@@ -261,13 +272,15 @@
             white-space: normal;
         }
 
-    .area_fan > :nth-child(3) {
+    .area_fan > :nth-child(3),
+    .area_follow > :nth-child(3) {
         /* height: 130px; */
         border-top: #7c7777 1px dashed;
         padding-top: 14px;
     }
 
-        .area_fan > :nth-child(3) > nav {
+        .area_fan > :nth-child(3) > nav,
+        .area_follow > :nth-child(3) > nav {
             margin-right: 20px;
         }
 
@@ -378,7 +391,7 @@
 .area_analyze {
     border: #ccc9a1 1px solid;
     border-top-style: none;
-    margin-bottom: 62px;
+    margin-bottom: 200px;
     padding-left: 10px;
     padding-right: 10px;
     background-color: white;

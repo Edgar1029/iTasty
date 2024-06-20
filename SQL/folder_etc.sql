@@ -191,18 +191,25 @@ VALUES
 ('Ivan', 'ivan@example.com', 'P@ssw0rd', NULL, NULL, 'Hello, I am Ivan!', 2, GETDATE()),
 ('Judy', 'judy@example.com', 'P@ssw0rd', NULL, NULL, 'Hello, I am Judy!', 2, GETDATE());
 ------------------------------------------------------------------------
-INSERT INTO userFollower (userId, followerId, followDate, unfollowDate)
-VALUES
-(1, 2, GETDATE(), NULL),
-(1, 3, GETDATE(), NULL),
-(2, 3, GETDATE(), NULL),
-(2, 4, GETDATE(), NULL),
-(3, 4, GETDATE(), NULL),
-(3, 5, GETDATE(), NULL),
-(4, 5, GETDATE(), NULL),
-(4, 6, GETDATE(), NULL),
-(5, 6, GETDATE(), NULL),
-(5, 7, GETDATE(), NULL);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,1,'2024-01-01 12:00:19',null);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,3,'2024-01-01 12:00:20',null);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,4,'2024-01-01 12:00:21',null);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,5,'2024-01-01 12:00:22',null);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,6,'2024-01-01 12:00:23',null);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,7,'2024-01-01 12:00:24',null);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,8,'2024-01-01 12:00:25',null);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,9,'2024-01-01 12:00:26',null);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,10,'2024-01-01 12:00:27',null);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,11,'2024-01-01 12:00:28',null);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,12,'2024-01-01 12:00:29',null);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,13,'2024-01-01 12:00:30',null);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,14,'2024-01-01 12:00:31',null);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,15,'2024-01-01 12:00:32',null);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,16,'2024-01-01 12:00:33',null);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,17,'2024-01-01 12:00:34',null);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,18,'2024-01-01 12:00:35',null);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,19,'2024-01-01 12:00:36',null);
+INSERT INTO userFollower (userID,followerID,followDate,unfollowDate) values (2,20,'2024-01-01 12:00:37',null);
 ------------------------------------------------------------------------
 INSERT INTO recipeTable (recipeId, userId, recipeName, recipeCoverImage, recipeIntroduction, views, favorites, parentRecipeId, createdDate, lastModifiedDate, recipeStatus, publicPrivate, proteinUsed, mealType, cuisineStyle, healthyOptions, cookingTime, servings, calories)
 VALUES

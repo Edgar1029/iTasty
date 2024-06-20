@@ -128,6 +128,9 @@ $(document).ready(function () {
     $("#radio_fan").on('change', function () {
         radio_change();
     });
+    $("#radio_follow").on('change', function () {
+        radio_change();
+    });
     $("#radio_analysis").on('change', function () {
         radio_change();
     });
@@ -592,6 +595,7 @@ async function get_img_blob(src) {
 function radio_change() {
     $("#radio_article").prop('checked') ? $(".area_article").show() : $(".area_article").hide();
     $("#radio_fan").prop('checked') ? $(".area_fan").show() : $(".area_fan").hide();
+    $("#radio_follow").prop('checked') ? $(".area_follow").show() : $(".area_follow").hide();
     $("#radio_analysis").prop('checked') ? $(".area_analyze").show() : $(".area_analyze").hide();
 
 }

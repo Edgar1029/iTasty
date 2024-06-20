@@ -105,6 +105,8 @@
 				@{
 					if (Model.UserId == userId)
 					{
+						<input type="radio" name="radio_user_info" id="radio_follow" class="d-none">
+						<label for="radio_follow">追蹤</label>
 						<input type="radio" name="radio_user_info" id="radio_analysis" class="d-none">
 						<label for="radio_analysis">分析</label>
 					}
@@ -183,7 +185,7 @@
 								}
 								else
 								{
-									<img src="~/img/img_user_info.png" class=" rounded-circle">
+									<img src="~/img/img_user_icon.png" class=" rounded-circle">
 								}
 							}
 
@@ -235,6 +237,59 @@
 			</nav>
 			</div> *@
 		</div>
+		<!-- 追蹤列表 -->
+		<div class="area_follow row mx-0 px-0">
+			<!-- 標題 -->
+			<div class="position-relative px-0">
+				<div>@(Model.UserName)的追蹤</div>
+			</div>
+			<!-- 追蹤列表 -->
+			<div class="px-0" id="list_follow">
+				<!-- 追蹤物件 -->
+				@{
+					foreach (var i in ViewBag.follow)
+					{
+						<div class="position-relative">
+							@{
+								if (i.u.UserPhoto != null)
+								{
+									<img src="data:image/jpg;base64, @Convert.ToBase64String(i.u.UserPhoto)" class="rounded-circle">
+								}
+								else
+								{
+									<img src="~/img/img_user_icon.png" class=" rounded-circle">
+								}
+							}
+
+							<div><a href="~/user/@((i.u.UserEmail).Split('@')[0])">@i.u.UserName</a></div>
+
+							<div>
+								<div class="d-inline">@((int?)ViewData[$"follow_recipe_{i.u.UserId}"]) 食譜</div>
+								<div class="d-inline">@(((List<UserFollower>)ViewData[$"follow_{i.u.UserId}"]).Count()) 粉絲數</div>
+							</div>
+							<div>@i.u.UserIntro</div>
+
+							@{
+								if (i.u.UserId != userId)
+								{
+									foreach (var l in (List<UserFollower>)ViewData[$"follow_{i.u.UserId}"])
+									{
+										if (l.FollowerId == userId)
+										{
+											<button onclick="user_follow(@i.u.UserId, @userId, this)">取消追蹤</button>
+											goto loopout;
+										}
+									}
+									<button onclick="user_follow(@i.u.UserId, @userId, this)">追蹤</button>
+								loopout:;
+								}
+							}
+						</div>
+					}
+				}
+			</div>
+		</div>
+
 	</div>
 	<!-- 分析圖表 -->
 	@{

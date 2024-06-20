@@ -121,13 +121,13 @@ namespace project_itasty.Controllers
 			var userIds = query.Select(item => item.u.UserId).ToList();
 
 			// 查询所有关注者数量
-			var followLists = _context.UserFollowers
+			var fanLists = _context.UserFollowers
 				.Where(c => userIds.Contains(c.UserId) && c.UnfollowDate == null)
 				.GroupBy(c => c.UserId)
 				.ToDictionary(g => g.Key, g => g.ToList());
 
 			// 查询所有食谱数量
-			var recipeCounts = _context.RecipeTables
+			var fanrecipeCounts = _context.RecipeTables
 				.Where(c => userIds.Contains(c.UserId))
 				.GroupBy(c => c.UserId)
 				.Select(g => new { UserId = g.Key, Count = g.Count() })
@@ -136,7 +136,7 @@ namespace project_itasty.Controllers
 			foreach (var item in query)
 			{
 				// 从缓存中获取关注者数量
-				if (followLists.TryGetValue(item.u.UserId, out var followList))
+				if (fanLists.TryGetValue(item.u.UserId, out var followList))
 				{
 					ViewData[$"follower_{item.u.UserId}"] = followList;
 				}
@@ -146,13 +146,70 @@ namespace project_itasty.Controllers
 				}
 
 				// 从缓存中获取食谱数量
-				if (recipeCounts.TryGetValue(item.u.UserId, out var recipeCount))
+				if (fanrecipeCounts.TryGetValue(item.u.UserId, out var recipeCount))
 				{
 					ViewData[$"recipe_{item.u.UserId}"] = recipeCount;
 				}
 				else
 				{
 					ViewData[$"recipe_{item.u.UserId}"] = 0;
+				}
+			}
+
+			//取得追蹤資料
+			// 将 UserFollowers 转换为 Dictionary
+			var followDict = _context.UserFollowers
+				.Where(o => o.FollowerId == user_info.UserId && o.UnfollowDate == null)
+				.OrderByDescending(o => o.FollowDate)
+				.ToDictionary(o => o.UserId);
+
+			// 生成查询结果
+			var query_follow = followDict
+				.Select(kvp => new
+				{
+					o = kvp.Value,
+					u = userInfosDict.TryGetValue(kvp.Key, out var userInfo) ? userInfo : null
+				})
+				.Where(result => result.u != null);
+
+			ViewBag.follow = query_follow;
+
+			// 预先查询所有需要的数据
+			var userIds_follow = query_follow.Select(item => item.u.UserId).ToList();
+
+			// 查询所有关注者数量
+			var followLists = _context.UserFollowers
+				.Where(c => userIds.Contains(c.UserId) && c.UnfollowDate == null)
+				.GroupBy(c => c.UserId)
+				.ToDictionary(g => g.Key, g => g.ToList());
+
+			// 查询所有食谱数量
+			var followrecipeCounts = _context.RecipeTables
+				.Where(c => userIds.Contains(c.UserId))
+				.GroupBy(c => c.UserId)
+				.Select(g => new { UserId = g.Key, Count = g.Count() })
+				.ToDictionary(x => x.UserId, x => x.Count);
+
+			foreach (var item in query_follow)
+			{
+				// 从缓存中获取关注者数量
+				if (followLists.TryGetValue(item.u.UserId, out var followList))
+				{
+					ViewData[$"follow_{item.u.UserId}"] = followList;
+				}
+				else
+				{
+					ViewData[$"follow_{item.u.UserId}"] = new List<UserFollower>();
+				}
+
+				// 从缓存中获取食谱数量
+				if (followrecipeCounts.TryGetValue(item.u.UserId, out var recipeCount))
+				{
+					ViewData[$"follow_recipe_{item.u.UserId}"] = recipeCount;
+				}
+				else
+				{
+					ViewData[$"follow_recipe_{item.u.UserId}"] = 0;
 				}
 			}
 
