@@ -139,9 +139,12 @@ namespace project_itasty.Controllers
 		[HttpPost]
 		public IActionResult Edit_message(int message_id ,string message_content)
 		{
+			Console.WriteLine("message_id : " + message_id);
+			Console.WriteLine("message_content : " + message_content);
 			var message_edit = _context.MessageTables.Find(message_id);
 			if (message_edit != null)
 			{
+				message_edit.ChangeTime = DateTime.Now;
 				message_edit.MessageContent = message_content;
 				_context.SaveChanges();
 			}

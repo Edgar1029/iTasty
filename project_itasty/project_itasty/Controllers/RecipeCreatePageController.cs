@@ -44,12 +44,13 @@ namespace project_itasty.Controllers
 			recipe_table.UserId = (int)userid_int;			
 			recipe_table.Views = 0;
 			recipe_table.Favorites = 0;
+			recipe_table.RecipeStatus = "recipeStatus";
 			recipe_table.CreatedDate = DateTime.Now;
 			recipe_table.LastModifiedDate = DateTime.Now;
 
 			if (!string.IsNullOrEmpty(recipe_table.RecipeCoverBase64))
 			{
-				if (is_base64(recipe_table.RecipeCoverBase64))
+				if (Is_base64(recipe_table.RecipeCoverBase64))
 				{
 					recipe_table.RecipeCoverImage = Convert.FromBase64String(recipe_table.RecipeCoverBase64);
 				}
@@ -102,7 +103,7 @@ namespace project_itasty.Controllers
 			{
 				if (!string.IsNullOrEmpty(step.StepBase64))
 				{
-					if (is_base64(step.StepBase64))
+					if (Is_base64(step.StepBase64))
 					{
 
 						step.StepImg = Convert.FromBase64String(step.StepBase64);
@@ -120,13 +121,51 @@ namespace project_itasty.Controllers
 
 		}
 
+
+		[HttpGet]
+		public IActionResult Edit_recipe(int recipeId)
+		{
+			int? userid_int = HttpContext.Session.GetInt32("userId");
+
+			recipeId = 3;
+			var recipe_table = _context.RecipeTables.Find(recipeId);
+							   
+							   
+
+			var ingredients_table = _context.IngredientsTables
+									.Where(i => i.RecipeId == recipeId)
+									.ToList();
+
+			var step_table = _context.StepTables
+							 .Where(s => s.RecipeId == recipeId)
+							 .ToList();
+
+			var user = _context.UserInfos.Find(recipe_table.UserId);
+
+			var edit_recipe = new RecipeDetailsView
+			{
+				User = user,
+				Recipe = recipe_table,
+				IngredientsTables = ingredients_table,
+				StepTables = step_table
+			};
+			return View(edit_recipe);
+		}
+
+		[HttpPost]
+		public IActionResult Edit_recipe(RecipeTable recipe_table, List<IngredientsTable> ingredients_table, List<StepTable> step_table)
+		{
+			return RedirectToAction("/RecipePage/Index", new { recipe_id  = 3});
+		}
+
+
 		//base64格式判斷
-		public static bool is_base64(string? base64)
+		public static bool Is_base64(string? base64)
 		{
 			return (base64.Length % 4 == 0) && Regex.IsMatch(base64, @"^[a-zA-Z0-9\+/]*={0,2}$", RegexOptions.None);
 		}
 
-
-
 	}
 }
+
+

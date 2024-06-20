@@ -61,7 +61,10 @@
 
 			</div>
 			<div class="col-3  collect_btn d-flex align-items-center justify-content-end">
-				<button class="button_style" style="width:100px">編輯食譜</button>
+				<form action="/RecipeCreatePage/Edit_recipe" method="get">
+					<input type="hidden" name="recipeId" value="@Model.Recipe.RecipeId" />
+					<button class="button_style" style="width:100px">編輯食譜</button>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -479,7 +482,7 @@
 																		<button class="edit_chats">編輯</button>
 																		<hr>
 																		<form class="message_delete" action="@Url.Action("Delete_message", "RecipePage")" method="post" onsubmit="return confirm_delete(this);">
-																			<input type="hidden" name="id" value="@Model.MessageTables[i].MessageId" />
+																			<input type="hidden" class="message_id" name="id" value="@Model.MessageTables[i].MessageId" />
 																			<button type="submit" class="delete_chats">刪除</button>
 																		</form>
 																	</div>

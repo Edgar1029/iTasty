@@ -199,13 +199,16 @@ var orig_message = "";
 $("#chats_row").on("click", ".edit_chats", function () {
     orig_message = $(this).closest(".chats_num").find(".message_content").text();
     let chats_id_word = $(this).closest(".chats_num").attr("id").replace(/\d+/g, "");
+    let message_id = $(this).closest(".chats_num").find(".message_id").val();
+    console.log(message_id);
+
     if (chats_id_word == "chats_") {
         $(this).closest(".chats_num").find(".chats_time").remove();
         $(this).closest(".chats_num").find(".reply_btn").remove();
         $(this).closest(".chats_num").find(".message_content").replaceWith(`
                     <div class="row edit_row">
-                    	<form id="edit_message"  action="@Url.Action("Edit_message", "RecipePage")" method="post">
-                        <input class="edit_message_id" type="hidden" name="message_id" value="">
+                        <form id="edit_message"  action="/RecipePage/Edit_message" method="post">
+                        <input class="edit_message_id" type="hidden" name="message_id" value="${message_id}">
                         <input class="col-12 edit_message" name="message_content" type="text" value="${orig_message}">
                         <div class="col-12 d-flex justify-content-end edit_content_btn">
                             <button class="button_style edit_cancel_btn">取消</button>
@@ -215,13 +218,17 @@ $("#chats_row").on("click", ".edit_chats", function () {
                     </div>`
         );
         $(this).closest(".chats_num").find(".edit_message_id").val($(this).closest(".chats_num").find(".message_id").val());
-        console.log($(this).closest(".chats_num").find(".edit_message_id").val());
-    } else if (chats_id_word == "chat_reply_") {
+        //    console.log($(this).closest(".chats_num").find(".edit_message_id").val());
+    }
+    else if (chats_id_word == "chat_reply_") {
+        let message_id = $(this).closest(".chats_num").find(".message_id").val();
+        console.log(message_id);
+
         $(this).closest(".chats_num").find(".chats_time").remove();
         $(this).closest(".chats_num").find(".message_content").replaceWith(`
                     <div class="row edit_row">
-                        <form id="edit_message"  action="@Url.Action("Edit_message", "RecipePage")" method="post">
-                        <input class="edit_message_id" type="hidden" name="message_id" value="">
+                        <form id="edit_message"  action="/RecipePage/Edit_message" method="post">
+                        <input class="edit_message_id" type="hidden" name="message_id" value="${message_id}">
                         <input class="col-12 edit_message" name="message_content" type="text" value="${orig_message}">
                         <div class="col-12 d-flex justify-content-end edit_content_btn">
                             <button class="button_style edit_cancel_btn">取消</button>
@@ -230,9 +237,6 @@ $("#chats_row").on("click", ".edit_chats", function () {
                         </form>
                     </div>
                     `);
-        let message_id = $(this).closest(".chats_num").find(".message_id").val();
-        //$(this).closest(".chats_num").find(".edit_message_id").val();
-        console.log(message_id);
 
     }
 })
@@ -391,7 +395,7 @@ $("#chats_row").on("submit", ".message_delete", function (e) {
     console.log("第一步")
     e.preventDefault();
     var form = $(this);
-    let confirm_delete ;
+    let confirm_delete;
     confirm_delete = confirm("確定要刪除嗎?");
     console.log(confirm_delete);
     if (confirm_delete == true) {
@@ -411,6 +415,23 @@ $("#chats_row").on("submit", ".message_delete", function (e) {
     }
 })
 
+//編輯留言AJAX
+$("#chats_row").on("submit", "#edit_message", function (e) {
+    console.log("編輯");
+    e.preventDefault();
+    var form = $(this);
+    var formData = form.serialize();
+    console.log(formData);
+    $.ajax({
+        url: form.attr('action'),
+        type: form.attr('method'),
+        data: formData,
+        success: function (data) {
+            $("#chats_row").html(data);
+        }
+    })
+
+})
 
 
 
