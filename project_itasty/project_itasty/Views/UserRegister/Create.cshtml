@@ -53,25 +53,29 @@
 
 
                     <input type="submit" value="註冊" class="btn btn-primary login_btn " onclick="register_btn_click ()" />
-                        
+                    <p style="display:inline-block" onclick="$('#Register_UserName').val('yeeru');$('#Register_Email').val('yeeru@gmail.com');$('#Register_Password').val('P@ssw0rd');">yeeru帳號</p>
                 </form>
                 </div>
                 <div class="form_container form_login">
                 <form id="form_login" method="post" asp-action="Login">
-                    <h1 onclick="$('#Login_Email').val('admin@gmail.com');$('#Login_Password').val('admin');">
+                    <h1 >
                         登入 
                     </h1>
-                  
-
-
-
-                 
                     <input asp-for="UserEmail" name="UserEmail" type="email" placeholder="請輸入信箱" id="Login_Email" required>
                     <input asp-for="UserPassword" name="Userpassword" type="password" placeholder="請輸入密碼" id="Login_Password" required>
                         <!-- <a href="#">忘記密碼</a> -->
                         <!-- 這裡依情況而定 -->
 					<input id="login_btn" type="submit" value="登入">
+                    <div style="">
+                        <p style="display:inline-block" onclick="$('#Login_Email').val('admin@gmail.com');$('#Login_Password').val('admin');">管理員帳號</p>
+                        <p style="display:inline-block">   </p>
+                        <p style="display:inline-block" onclick="$('#Login_Email').val('alice@example.com');$('#Login_Password').val('P@ssw0rd');">Alice帳號</p>
+                        <p style="display:inline-block">   </p>
+                        <p style="display:inline-block" onclick="$('#Login_Email').val('yeeru@gmail.com');$('#Login_Password').val('P@ssw0rd');">yeeru帳號</p>
+                    </div>
+                   
                     </form>
+               
                 </div>
                 <div class="toggle_container">
                     <div class="toggle">

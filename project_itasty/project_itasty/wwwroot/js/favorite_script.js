@@ -7,17 +7,17 @@
 //客製化資料夾每個的詳細資訊:每個資料夾客製化的id
 //每個食譜的詳細資訊:食譜圖片、食譜名字、食譜按讚數、食譜瀏覽數、食譜創建日期
 $(document).ready(async function () {
-
-    var userNum = 3;
+    var userNum = sessionStorage.getItem("userId");
+    //var userNum = 3;
     var checklogin = 0;
     var customFolderName = [];
-    $(".loginsignbtn").empty();
-    if(checklogin==0){
-        $(".loginsignbtn").append(`<div class="sign" style="margin-right:20px;">LogOut</div>`)
-    }else{
-        $(".loginsignbtn").append(`<div class="login">Login</div>
-                                    <div class="sign">Sign up</div>`)
-    }
+    //$(".loginsignbtn").empty();
+    //if(checklogin==0){
+    //    $(".loginsignbtn").append(`<div class="sign" style="margin-right:20px;">LogOut</div>`)
+    //}else{
+    //    $(".loginsignbtn").append(`<div class="login">Login</div>
+    //                                <div class="sign">Sign up</div>`)
+    //}
     // 新增一個客製化資料夾------------------------------------------------------------------------------------------
     var idcount = 0;
     var selectedRadioId;

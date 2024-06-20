@@ -167,16 +167,16 @@ namespace project_itasty.Controllers
             }
             else
             {
-                TempData["loginMessage"] = "登入失敗";
-                 if (Userpassword == member.UserPassword)
+               
+                if (Userpassword == member.UserPassword)
                 {
 					HttpContext.Session.SetString("userEmail", UserEmail);
 					HttpContext.Session.SetInt32("userId", member.UserId);
 					TempData["loginMessage"] = "登入成功";
                     return Redirect("/Home/Index");
                 }
-                else 
-                if(BCrypt.Net.BCrypt.Verify(Userpassword, member.UserPassword)) 
+
+                else if(BCrypt.Net.BCrypt.Verify(Userpassword, member.UserPassword)) 
                 { 
 
                 HttpContext.Session.SetString("userEmail", UserEmail);
