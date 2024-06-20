@@ -127,7 +127,6 @@ namespace project_itasty.Controllers
 		{
 			int? userid_int = HttpContext.Session.GetInt32("userId");
 
-			recipeId = 3;
 			var recipe_table = _context.RecipeTables.Find(recipeId);
 							   
 							   

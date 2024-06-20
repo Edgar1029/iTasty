@@ -202,7 +202,8 @@ public partial class ITastyDbContext : DbContext
             entity.Property(e => e.IngredientsUnit)
                 .HasMaxLength(50)
                 .HasColumnName("ingredientsUnit");
-            entity.Property(e => e.RecipeId).HasColumnName("recipeId");
+			entity.Property(e => e.Kcalg).HasColumnName("kcalg");
+			entity.Property(e => e.RecipeId).HasColumnName("recipeId");
             entity.Property(e => e.TitleId).HasColumnName("titleId");
             entity.Property(e => e.TitleName)
                 .HasMaxLength(20)

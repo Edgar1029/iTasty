@@ -78,11 +78,19 @@
 									data-bs-target="#card_1" aria-expanded="false" aria-controls="card_1" style="width: 100%;">
 								<div class="row ">
 									<div class="col-5 ingredients_name_row ">
-										<p class="align-middle ingredients_name">@ingredients.</p>
-										<p class="align-middle ingredients_name">100克365卡 </p>
+										<p class="align-middle ingredients_name">@ingredients.IngredientsName</p>
+										<p class="align-middle ingredients_name">100克@(ingredients.Kcalg * 100)卡 </p>
 										<p class=" kcalg d_none">365.0</p>
-										<input type="hidden" class="IngredientsName" name="IngredientsName" value="大麥仁">
-										<input type="hidden" class="IngredientsId" name="IngredientsId" value="A0100101    ">
+										<input type="hidden" class="IngredientsName" name="IngredientsName" value="@ingredients.Kcalg">
+										<input type="hidden" class="IngredientsName" name="IngredientsName" value="@ingredients.IngredientsName">
+										@if(ingredients.IngredientsId != null)
+										{
+											<input type="hidden" class="IngredientsId" name="IngredientsId" value="@ingredients.IngredientsId">
+										}
+										else
+										{
+											<input type="hidden" class="IngredientsId" name="IngredientsId" value="">
+										}
 									</div>
 									<div class="col-7 ingredients_num_unit d-flex align-items-center">
 										<p class="align-middle">100</p>
