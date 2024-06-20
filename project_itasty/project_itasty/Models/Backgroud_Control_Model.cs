@@ -79,7 +79,10 @@ namespace project_itasty.Models
 		public string? Email { get; set; }
 		public string? ReportReason { get; set; }
 		public bool? ReportStatus { get; set; }
-	
+
+		public string? ReportUser {  get; set; }
+
+
 	}
 	public class Background_Control_RecipeReport
 	{
@@ -90,7 +93,7 @@ namespace project_itasty.Models
 		public string? ReportReason { get; set; }
 		public bool? ReportStatus { get; set; }
 
-		public int? Reporter { get; set; }
+		public string? Reporter { get; set; }
 
 	}
 
