@@ -99,6 +99,26 @@
 
   </div>
 
+<!-- 模態窗口 -->
+<div id="verifyEmailModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">驗證信箱</h5>
+            </div>
+            <div class="modal-body">
+                <form id="verifyEmailForm">
+                    <div class="form-group">
+                        <label for="code">驗證碼:</label>
+                        <input type="text" placeholder="在此輸入在信箱獲取的驗證碼進行驗證" class="form-control" id="code" name="code" required />
+                    </div>
+                    </br>
+                    <button type="submit" class="btn btn-primary">送出</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
@@ -147,26 +167,27 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
    <script>
     $(document).ready(function () {
-        // 當用戶提交註冊表單時，顯示alert
+        // 當用戶提交註冊表單時，顯示模態窗口
         $("#form_register").submit(function (event) {
             event.preventDefault(); // 防止表單默認提交行為
             $.post($(this).attr("action"), $(this).serialize(), function (data) {
                 if (data.success) {
-                    // 顯示alert並要求輸入驗證碼
-                    var code = prompt("已傳送驗證碼至信箱，請至信箱取得驗證碼在此輸入:");
-                    if (code) {
-                        $.post("@Url.Action("VerifyEmail", "UserRegister")", { code: code }, function (data) {
-                            if (data.success) {
-                                // 驗證成功，重定向到成功頁面
-                                window.location.href = "@Url.Action("Index", "Home")";
-                            } else {
-                                // 顯示錯誤信息
-                                alert(data.error);
-                            }
-                        });
-                    } else {
-                        alert("需要驗證碼驗證");
-                    }
+                    // 顯示模態窗口
+                    $("#verifyEmailModal").modal('show');
+                } else {
+                    // 顯示錯誤信息
+                    alert(data.error);
+                }
+            });
+        });
+
+        // 當用戶提交驗證碼時，發送AJAX請求進行驗證
+        $("#verifyEmailForm").submit(function (event) {
+            event.preventDefault(); // 防止表單默認提交行為
+            $.post("@Url.Action("VerifyEmail", "UserRegister")", { code: $("#code").val() }, function (data) {
+                if (data.success) {
+                    // 驗證成功，重定向到成功頁面
+                    window.location.href = "@Url.Action("Index", "Home")";
                 } else {
                     // 顯示錯誤信息
                     alert(data.error);
