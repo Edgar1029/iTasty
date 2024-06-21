@@ -160,7 +160,17 @@
                                                                        <input type="submit" id="hiddenSubmit_@recipe.RecipeId" style="display:none;" />
                                                                          <div class="card shadow-sm " onclick="sessionStorage.setItem('recipeId',@recipe.RecipeId); " style="border-radius:5px;">
                                                                              <div class="carousel_img" onclick="  document.getElementById('hiddenSubmit_@recipe.RecipeId').click();">
-                                                                                 <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
+                                                                                @{
+                                                                                    if (recipe.RecipeCoverImage != null)
+                                                                                    {
+                                                                                       <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <img src=" " class="card-img-top" alt="...">
+                                                                                    }
+                                                                                }
+                                                                                
                                                                                  <div class="card-body carousel_text">
                                                                                  
                                                                                      <p class="card-text" style="text-align:center;">@recipe.RecipeName</p>
@@ -235,7 +245,17 @@
                                                 <input type="submit" id="hiddenSubmit_@recipe.RecipeId" style="display:none;" />
                                                 <div class="card shadow-sm" style="border-radius:5px;">
                                                     <div class="carousel_img" onclick="document.getElementById('hiddenSubmit_@recipe.RecipeId').click();">
-                                                        <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
+                                                        @{
+                                                            if (recipe.RecipeCoverImage!=null)
+                                                            {
+                                                                <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src=" " class="card-img-top" alt="...">
+                                                            }
+                                                        }
+                                                        
                                                         <div class="card-body carousel_text">
 
                                                             <p class="card-text" style="text-align:center;">@recipe.RecipeName</p>
@@ -304,7 +324,17 @@
                                                 <input type="submit" id="hiddenSubmit_@recipe.RecipeId" style="display:none;" />
                                                 <div class="carousel_img" onclick=" document.getElementById('hiddenSubmit_@recipe.RecipeId').click();">
                                                     <div class="card shadow-sm" style="border-radius:5px;">
-                                                        <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
+                                                        @{
+                                                            if (recipe.RecipeCoverImage != null)
+                                                            {
+                                                                <img src="data:image/jpg;base64,@Convert.ToBase64String(recipe.RecipeCoverImage)" class="card-img-top" alt="...">
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src=" " class="card-img-top" alt="...">
+                                                            }
+                                                        }
+                                                       
                                                         <div class="card-body  carousel_text">
 
                                                             <p class="card-text" style="text-align:center;">@recipe.RecipeName</p>
