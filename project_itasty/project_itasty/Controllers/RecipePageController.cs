@@ -18,7 +18,6 @@ namespace project_itasty.Controllers
 		public ActionResult Index()
 		{
 
-
 			int recipe_id = int.Parse(Request.Form["recipe_id"]);
 
 			HttpContext.Session.SetInt32("RecipeId", recipe_id);
@@ -34,7 +33,7 @@ namespace project_itasty.Controllers
 			{
 				return RedirectToAction("author_page", "RecipePage");
 			}
-			else if (userid_int.HasValue )
+			else if (userid_int.HasValue)
 			{
 				return RedirectToAction("user_page", "RecipePage");
 			}
@@ -43,6 +42,26 @@ namespace project_itasty.Controllers
 				return RedirectToAction("guest_page", "RecipePage");
 			}
 		}
+
+		[HttpGet("recipe/index/{recipe_id?}")]
+		public ActionResult Recipe_return(int? recipe_id)
+		{
+			Console.WriteLine("有進來");
+			if (recipe_id.HasValue)
+			{
+				HttpContext.Session.SetInt32("RecipeId", (int)recipe_id);
+
+				int? userid_int = HttpContext.Session.GetInt32("userId");
+
+				return RedirectToAction("author_page", "RecipePage");
+			}
+			else
+			{
+				return Redirect("Home/Index");
+			}
+
+		}
+
 
 		public IActionResult user_page(RecipeDetailsView recipe_details)
 		{
@@ -137,7 +156,7 @@ namespace project_itasty.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Edit_message(int message_id ,string message_content)
+		public IActionResult Edit_message(int message_id, string message_content)
 		{
 			Console.WriteLine("message_id : " + message_id);
 			Console.WriteLine("message_content : " + message_content);

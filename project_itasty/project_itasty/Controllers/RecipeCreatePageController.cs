@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Build.ObjectModelRemoting;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using project_itasty.Models;
-using System.Drawing;
 using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace project_itasty.Controllers
 {
@@ -20,9 +17,13 @@ namespace project_itasty.Controllers
 			return View();
 		}
 
+		[HttpGet]
 		public IActionResult Create()
 		{
-			return View();
+			int? userid_int = HttpContext.Session.GetInt32("userId");
+			var user = _context.UserInfos.Find(userid_int);
+
+			return View(user);
 		}
 		[HttpGet]
 		public IActionResult Create_select(string ingredient_select)
@@ -41,7 +42,7 @@ namespace project_itasty.Controllers
 
 			#region recipe_table上傳
 
-			recipe_table.UserId = (int)userid_int;			
+			recipe_table.UserId = (int)userid_int;
 			recipe_table.Views = 0;
 			recipe_table.Favorites = 0;
 			recipe_table.RecipeStatus = "recipeStatus";
@@ -61,7 +62,7 @@ namespace project_itasty.Controllers
 
 			#endregion
 
-			#region 將RecipeId和UserId放入recipe_table和step_table
+			#region 將RecipeId和UserId放入ingredients_table和step_table
 
 			int newRecipeId = recipe_table.RecipeId;
 			for (int i = 0; i < ingredients_table.Count; i++)
@@ -116,8 +117,8 @@ namespace project_itasty.Controllers
 			_context.SaveChanges();
 
 			#endregion
-			
-			return Redirect("/RecipePage/Index");
+
+			return RedirectToAction("Index", "RecipePage", new { recipe_id = recipe_table.RecipeId });
 
 		}
 
@@ -128,15 +129,36 @@ namespace project_itasty.Controllers
 			int? userid_int = HttpContext.Session.GetInt32("userId");
 
 			var recipe_table = _context.RecipeTables.Find(recipeId);
-							   
-							   
+
+
 
 			var ingredients_table = _context.IngredientsTables
 									.Where(i => i.RecipeId == recipeId)
+									.Select(i => new IngredientsForEdit
+									{
+										IngredientsTableId = i.Id,
+										IngredientUserId = i.UserId,
+										IngredientRecipeId = i.RecipeId,
+										TitleName = i.TitleName,
+										TitleId = i.TitleId,
+										IngredientsId = i.IngredientsId,
+										IngredientsName = i.IngredientsName,
+										IngredientsNumber = i.IngredientsNumber,
+										IngredientsUnit = i.IngredientsUnit,
+										IngredientKcalg = i.Kcalg
+									})
 									.ToList();
 
 			var step_table = _context.StepTables
 							 .Where(s => s.RecipeId == recipeId)
+							 .Select(s => new StepForEdit
+							 {
+								 StepId = s.Id,
+								 StepRecipeId = s.RecipeId,
+								 StepText = s.StepText,
+								 StepImg = s.StepImg,
+								 StepBase64 = s.StepBase64,
+							 })
 							 .ToList();
 
 			var user = _context.UserInfos.Find(recipe_table.UserId);
@@ -145,16 +167,146 @@ namespace project_itasty.Controllers
 			{
 				User = user,
 				Recipe = recipe_table,
-				IngredientsTables = ingredients_table,
-				StepTables = step_table
+				IngredientsEdit = ingredients_table,
+				StepEdit = step_table,
 			};
 			return View(edit_recipe);
 		}
 
 		[HttpPost]
-		public IActionResult Edit_recipe(RecipeTable recipe_table, List<IngredientsTable> ingredients_table, List<StepTable> step_table)
+		public async Task<IActionResult> Edit_recipe(RecipeTable recipe_table, List<IngredientsForEdit> ingredients_table, List<StepForEdit> step_table)
 		{
-			return RedirectToAction("/RecipePage/Index", new { recipe_id  = 3});
+			int? userid_int = HttpContext.Session.GetInt32("userId");
+
+
+			var old_recipe = _context.RecipeTables.Find(recipe_table.RecipeId);
+			var step = _context.StepTables.Find(recipe_table.RecipeId);
+
+			if (!string.IsNullOrEmpty(recipe_table.RecipeCoverBase64))
+			{
+				if (Is_base64(recipe_table.RecipeCoverBase64))
+				{
+					recipe_table.RecipeCoverImage = Convert.FromBase64String(recipe_table.RecipeCoverBase64);
+				}
+			}
+
+
+			if (recipe_table.RecipeName != old_recipe.RecipeName || recipe_table.RecipeCoverImage != old_recipe.RecipeCoverImage || recipe_table.RecipeIntroduction != old_recipe.RecipeIntroduction
+				|| recipe_table.PublicPrivate != old_recipe.PublicPrivate || recipe_table.ProteinUsed != old_recipe.ProteinUsed || recipe_table.MealType != old_recipe.MealType 
+				|| recipe_table.CuisineStyle != old_recipe.CuisineStyle || recipe_table.HealthyOptions != old_recipe.HealthyOptions || recipe_table.CookingTime != old_recipe.CookingTime 
+				|| recipe_table.Servings != old_recipe.Servings || recipe_table.Calories != old_recipe.Calories)
+			{
+				old_recipe.RecipeName = recipe_table.RecipeName;
+				old_recipe.RecipeCoverImage = recipe_table.RecipeCoverImage;
+				old_recipe.RecipeIntroduction = recipe_table.RecipeIntroduction;
+				old_recipe.PublicPrivate = recipe_table.PublicPrivate;
+				old_recipe.ProteinUsed = recipe_table.ProteinUsed;
+				old_recipe.MealType = recipe_table.MealType;
+				old_recipe.CuisineStyle = recipe_table.CuisineStyle;
+				old_recipe.HealthyOptions = recipe_table.HealthyOptions;
+				old_recipe.CookingTime = recipe_table.CookingTime;
+				old_recipe.Servings = recipe_table.Servings;
+				old_recipe.Calories = recipe_table.Calories;
+				old_recipe.LastModifiedDate = DateTime.Now;
+			}
+
+			_context.Entry(old_recipe).State = EntityState.Modified;
+
+
+			foreach (var ing in ingredients_table)
+			{
+
+				Console.WriteLine("=================================================================");
+				Console.WriteLine("超級新資料的Id : " + ing.IngredientsTableId);
+				Console.WriteLine("=================================================================");
+
+				var ingredients = await _context.IngredientsTables.FindAsync(ing.IngredientsTableId);
+				if (ingredients != null)
+				{
+
+					Console.WriteLine("=================================================================");
+					Console.WriteLine("新資料的Id : " + ing.IngredientsTableId);
+					Console.WriteLine("舊資料的Id : " + ingredients.Id);
+					Console.WriteLine("舊資料的RecipeId : " + ingredients.RecipeId);
+					Console.WriteLine("=================================================================");
+
+					if (ingredients.TitleName != ing.TitleName || ingredients.IngredientsId != ing.IngredientsId || ingredients.IngredientsName != ing.IngredientsName
+						 || ingredients.IngredientsNumber != ing.IngredientsNumber || ingredients.IngredientsUnit != ing.IngredientsUnit || ingredients.Kcalg != ing.IngredientKcalg)
+					{
+						ingredients.Id = ing.IngredientsTableId;
+						ingredients.RecipeId = ing.IngredientRecipeId;
+						ingredients.UserId = ing.IngredientUserId;
+						ingredients.TitleName = ing.TitleName;
+						ingredients.TitleId = ing.TitleId;
+						ingredients.IngredientsId = ing.IngredientsId;
+						ingredients.IngredientsName = ing.IngredientsName;
+						ingredients.IngredientsNumber = ing.IngredientsNumber;
+						ingredients.IngredientsUnit = ing.IngredientsUnit;
+						ingredients.Kcalg = ing.IngredientKcalg;
+						_context.Entry(ingredients).State = EntityState.Modified;
+					}
+				}
+				else
+				{
+					Console.WriteLine("=================================================================");
+					Console.WriteLine("新資料的RecipeId : " + ing.IngredientRecipeId);
+					Console.WriteLine("=================================================================");
+					var new_Ingredient = new IngredientsTable
+					{
+						UserId = ing.IngredientUserId,
+						RecipeId = ing.IngredientRecipeId,
+						TitleName = ing.TitleName,
+						TitleId = ing.TitleId,
+						IngredientsId = ing.IngredientsId,
+						IngredientsName = ing.IngredientsName,
+						IngredientsNumber = ing.IngredientsNumber,
+						IngredientsUnit = ing.IngredientsUnit,
+						Kcalg = ing.IngredientKcalg
+					};
+					_context.IngredientsTables.Add(new_Ingredient);
+				}
+
+			}
+
+
+			foreach (var steps in step_table)
+			{
+				var old_steps = await _context.StepTables.FindAsync(steps.StepId);
+				if (!string.IsNullOrEmpty(steps.StepBase64))
+				{
+					if (Is_base64(steps.StepBase64))
+					{
+
+						steps.StepImg = Convert.FromBase64String(steps.StepBase64);
+
+					}
+				}
+
+				if (old_steps != null)
+				{
+					if(old_steps.StepText != steps.StepText || old_steps.StepImg != steps.StepImg)
+					{
+						old_steps.StepText = steps.StepText;
+						old_steps.StepImg = steps.StepImg;
+						_context.Entry(old_steps).State = EntityState.Modified;
+					}
+				}
+				else
+				{
+					var new_step = new StepTable
+					{
+						RecipeId = steps.StepRecipeId,
+						StepText = steps.StepText,
+						StepImg = steps.StepImg,
+					};
+					_context.StepTables.Add(new_step);
+				}
+
+			}
+
+			await _context.SaveChangesAsync();
+
+			return RedirectToAction("Index", "RecipePage", new { recipe_id = recipe_table.RecipeId });
 		}
 
 

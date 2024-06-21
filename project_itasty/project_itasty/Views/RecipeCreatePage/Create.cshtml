@@ -1,4 +1,5 @@
-﻿@{
+﻿@model project_itasty.Models.UserInfo
+@{
 	ViewData["Title"] = "Index";
 	Layout = "~/Views/Shared/_itastyLayout.cshtml";
 }
@@ -26,8 +27,13 @@
 			</div>
 			<div class="intro_row row_decorate_bottom flex_container_center flex_container_column ">
 				<div class="intro_author flex_container_center">
-					<img src="~/img/user/user01.png" alt="">
-					<p>會員</p>
+					@if (Model.UserPhoto == null)
+					{
+						<img src="/img/img_user_icon.png" alt="">
+					}else{
+						<img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.UserPhoto)" alt="">
+					}
+					<p>@Model.UserName</p>
 				</div>
 				<div class="recipe_intro">
 					<textarea class="recipe_intro_enter " name="RecipeIntroduction" id="" placeholder="請填寫料理簡介(150字以內)"></textarea>

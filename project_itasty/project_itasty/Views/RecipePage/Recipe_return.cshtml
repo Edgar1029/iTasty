@@ -1,0 +1,490 @@
+﻿@model project_itasty.Models.RecipeDetailsView
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_itastyLayout.cshtml";
+}
+
+
+<div class="container container_img_decorate" style="margin-top:80px;">
+	<img class="recipe_img " src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Recipe.RecipeCoverImage)" alt="">
+</div>
+<div id="recipe_anchor" class="container container_decorate">
+	<div class="recipe_name_row flex_container_center flex_container_column row_decorate_bottom ">
+		<div class="recipe_name">
+			<h1>@Model.Recipe.RecipeName </h1>
+		</div>
+		<div class="collect_btn_row row align-items-center">
+			<ul class="col-3 " style="margin-bottom: 0;">
+				<li>
+					<img class="icon_size" src="~/img/recipe_icon/Eye.ico" alt="觀看數" title="觀看數">
+					@Model.Recipe.Views
+				</li>
+				<li>
+					<img class="icon_size" src="~/img/recipe_icon/Tag.ico" alt="收藏數" title="收藏數">
+					@Model.Recipe.Favorites
+				</li>
+			</ul>
+			<div class="col-6 hashtag">
+				@if (Model.Recipe.ProteinUsed == "無" || Model.Recipe.ProteinUsed == null)
+				{
+
+				}
+				else
+				{
+					<p>#@Model.Recipe.ProteinUsed</p>
+				}
+				@if (Model.Recipe.MealType == null)
+				{
+
+				}
+				else
+				{
+					<p>#@Model.Recipe.MealType</p>
+				}
+				@if (Model.Recipe.CuisineStyle == null)
+				{
+
+				}
+				else
+				{
+					<p>#@Model.Recipe.CuisineStyle</p>
+				}
+				@if (Model.Recipe.HealthyOptions == "無" || Model.Recipe.HealthyOptions == null)
+				{
+
+				}
+				else
+				{
+					<p>#@Model.Recipe.HealthyOptions</p>
+				}
+
+
+			</div>
+			<div class="col-3  collect_btn d-flex align-items-center justify-content-end">
+				<button class="button_style">收藏</button>
+			</div>
+		</div>
+	</div>
+	<div class="intro_row row_decorate_bottom flex_container_center flex_container_column ">
+		<div class="intro_author flex_container_center">
+			<img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.User.UserPhoto)" alt="">
+			<p>@Model.User.UserName</p>
+		</div>
+		<div class="recipe_intro">
+			<p class="text-break">@Model.Recipe.RecipeIntroduction</p>
+		</div>
+	</div>
+	<div class="ingredients row_decorate_bottom">
+		<div class="ingredients_top_row flex_container_between">
+			<h2>準備食材</h2>
+			<button class="button_style">產生清單</button>
+		</div>
+		<ul class="ingredients_count">
+			<li>
+				<img class="icon_size" src="~/img/recipe_icon/Clock.ico" alt="">
+				@(Model.Recipe.CookingTime + "分鐘")
+			</li>
+			<li>
+				<img class="icon_size" src="~/img/recipe_icon/people.ico" alt="">
+				@(Model.Recipe.Servings + "人份")
+			</li>
+			<li>
+				<img class="icon_size" src="~/img/recipe_icon/Fire.ico" alt="">
+				@(Model.Recipe.Calories + "卡")
+			</li>
+		</ul>
+
+		@for (int i = 0; i < Model.IngredientsTables.Count; i++)
+		{
+			if (i < 1)
+			{
+				<h4 class="ingredients_tag_first">@Model.IngredientsTables[i].TitleName</h4>
+			}
+			else if (Model.IngredientsTables[i].TitleName != null && i > 1)
+			{
+				<h4 class="ingredients_tag">@Model.IngredientsTables[i].TitleName</h4>
+			}
+			else
+			{
+				<div class="row ingredients_row">
+					<div class="col-4">
+						<p class="ingredients_name">@Model.IngredientsTables[i].IngredientsName</p>
+					</div>
+					<div class="col-8 d-flex align-items-center ">
+						<p class="ingredients_num">@Model.IngredientsTables[i].IngredientsNumber</p>
+						<p class="ingredients_unit">@Model.IngredientsTables[i].IngredientsUnit</p>
+					</div>
+				</div>
+			}
+			if (i < Model.IngredientsTables.Count - 1)
+			{
+				<hr>
+			}
+
+
+		}
+	</div>
+	<div class="recipe_steps row_decorate_bottom">
+		<h2>步驟</h2>
+		@for (int i = 0; i < Model.StepTables.Count; i++)
+		{
+
+			if (Model.StepTables[i].StepImg == null)
+			{
+				<div class="row recipe_steps_decorate_text">
+					<div class="col-12 ">
+						<h4>@(i + 1)</h4>
+						<p class="text-break">@Model.StepTables[i].StepText</p>
+					</div>
+				</div>
+			}
+			else
+			{
+				<div class="row recipe_steps_decorate">
+					<div class="col-5">
+						<img class="steps_img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.StepTables[i].StepImg)" alt="">
+					</div>
+					<div class="col-7 steps_content">
+						<h4>@(i + 1)</h4>
+						<p class="text-break">@Model.StepTables[i].StepText</p>
+					</div>
+				</div>
+			}
+			if (i < Model.StepTables.Count - 1)
+			{
+				<hr>
+			}
+		}
+
+	</div>
+	<div class="author_row row_decorate_bottom">
+		<div class="author row">
+			<div class="col-3 ">
+				<img class="author_img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.User.UserPhoto)" alt="">
+			</div>
+			<div class="author_profile col-7">
+				<a href="">
+					<h2>@Model.User.UserName</h2>
+				</a>
+				<ul>
+					<li>123 食譜</li>
+					<li>456 粉絲人數</li>
+				</ul>
+				@if (Model.User.UserIntro == null)
+				{
+					<p class="text-break">這個人很懶，沒留下什麼。</p>
+				}
+				else
+				{
+					<p class="text-break">@Model.User.UserIntro</p>
+				}
+
+
+			</div>
+			<div class="col-2 d-flex align-items-start justify-content-end" style="margin-top:45px ;">
+				<div class="popup more_btn">
+					<img class="icon_size" src="~/img/recipe_icon/more.ico" alt="">
+					<span class="popuptext row " id="message_edit_Popup" style="width: 100px;margin-left: -50px; ">
+						<div class="col-12 message_edit">
+							<button class="report_chats" data-bs-toggle="modal"
+									data-bs-target="#report_recipe">
+								檢舉食譜
+							</button>
+						</div>
+					</span>
+				</div>
+			</div>
+			<div class="col-2"></div>
+			<button class="col-8 button_style follow_button">我要追蹤</button>
+			<div class="col-2"></div>
+		</div>
+	</div>
+	<div class="enter_message_row row_decorate_bottom ">
+		<ul>
+			<li>
+				<img src="~/img/recipe_icon/Chats.ico" alt="">
+			</li>
+			<li>留言</li>
+			<li id="message_num"></li>
+		</ul>
+		<form id="message_submit" action="@Url.Action("Create_message", "RecipePage")" method="post">
+			<div class="enter_message row">
+				<div class="col-2 user_photo_layout">
+					<img class="user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.LoginUser.UserPhoto)" alt="">
+				</div>
+				<textarea class="message_enter col-9 " name="MessageContent" id="message_enter" placeholder="留言給作者"></textarea>
+				<div class="col-1"></div>
+			</div>
+			<div class="message_button_row row ">
+				<div class="col-9 "></div>
+				<button type="submit" id="message_button" class="button_style col-3 message_button">送出留言</button>
+			</div>
+		</form>
+	</div>
+	<div id="chats_row" class="chats_row">
+		@{
+			int chats_num = 1;
+			int chat_reply_num = 1;
+			for (int i = 0; i < Model.MessageTables.Count; i++)
+			{
+				if (Model.MessageTables != null && Model.MessageTables[i].TopMessageid == null)
+				{
+					if (i < Model.Message_users.Count)
+					{
+
+						if (i > 1)
+						{
+							<hr>
+						}
+						<div id="chats_@(chats_num)" class="chats row chats_anchor chats_num">
+							<div class="col-2 d-flex justify-content-center deleted_userimg_anchor" style="margin-top:15px;">
+								<img class="chats_user_photo " src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+							</div>
+							<div class="col-10 deleted_messages_anchor" style="margin-top:15px; padding-left: 0px;">
+								<div class="row">
+									<div class="col-11">
+										<h5>@Model.Message_users[i].UserName</h5>
+										<p class="text-break message_content" style="margin-bottom:0px ;">@Model.MessageTables[i].MessageContent</p>
+										<div class="chats_time">
+											@{
+												DateTime now = DateTime.Now;
+												DateTime message_time = Model.MessageTables[i].CreateTime;
+												TimeSpan time_gap = now - message_time;
+
+												if (time_gap.TotalSeconds < 60)
+												{
+													<p>幾秒前</p>
+												}
+												else if (time_gap.TotalMinutes < 60)
+												{
+													<p>@(Math.Floor(time_gap.TotalMinutes) + "分鐘前")</p>
+												}
+												else if (time_gap.TotalHours < 24)
+												{
+													<p>@(Math.Floor(time_gap.TotalHours) + "小時前")</p>
+												}
+												else
+												{
+													<p>@(message_time.ToString("yyyy-MM-dd"))</p>
+												}
+
+											}
+
+
+
+										</div>
+
+										<button class="reply_btn " href="">
+											<img src="./img/recipe_icon/chat_reply.ico" alt="">
+											回覆
+										</button>
+									</div>
+									<div class="col-1 d-flex align-items-start justify-content-end">
+										<div class="popup more_btn">
+											<img class="icon_size" src="./img/recipe_icon/more.ico" alt="">
+											<span class="popuptext row" id="message_edit_Popup">
+												<div class="col-12 message_edit">
+													<button class="edit_chats">編輯</button>
+													<hr>
+													<button class="delete_chats">刪除</button>
+													<hr>
+													<button class="report_chats" data-bs-toggle="modal"
+															data-bs-target="#report_chats">
+														檢舉
+													</button>
+												</div>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- 留言回覆視窗start -->
+							<form id="message_reply_submit_@chats_num" class="reply_submit" action="@Url.Action("Create_message", "RecipePage")" method="post">
+								<input type="hidden" name="FatherMessage" value="@Model.MessageTables[i].MessageId">
+								<div class="col-12 reply_content reply_content_none">
+									<div class="row">
+										<div class="col-2"></div>
+										<div class="col-10">
+											<div class="row reply_row">
+												<textarea class="col-12 reply_enter " name="MessageContent" id="" placeholder="輸入留言"></textarea>
+												<div class="col-11 d-flex justify-content-end reply_content_btn">
+													<button class="button_style reply_cancel_btn">取消</button>
+													<button type="submit" class="button_style reply_enter_btn">送出留言</button>
+												</div>
+												<div class="col-1">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+							<!-- 留言回覆視窗end -->
+						</div>
+						chats_num += 1;
+					}
+				}
+				else if (Model.MessageTables != null && Model.MessageTables[i].TopMessageid != null)
+				{
+					if (i < Model.Message_users.Count)
+					{
+						<div id="chat_reply_@(chat_reply_num)" class="col-12 chat_reply_anchor chats_num">
+							<div class="row">
+								<div class="col-2"></div>
+								<div class="col-10">
+									<div class="row">
+										<div class="col-1 deleted_userimg_anchor" style="padding-left: 0px;">
+											<img class="chats_user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+										</div>
+										<div class="col-11 deleted_messages_anchor" style="padding-left: 32px;">
+											<div class="row">
+												<div class="col-10">
+													<h5>@Model.Message_users[i].UserName</h5>
+													<p class="text-break message_content" style="margin-bottom:0px ;">@Model.MessageTables[i].MessageContent</p>
+													<div class="chats_time">
+														@{
+															DateTime now = DateTime.Now;
+															DateTime reply_message_time = Model.MessageTables[i].CreateTime;
+															TimeSpan reply_time_gap = now - reply_message_time;
+
+															if (reply_time_gap.TotalSeconds < 60)
+															{
+																<p>幾秒前</p>
+															}
+															else if (reply_time_gap.TotalMinutes < 60)
+															{
+																<p>@(Math.Floor(reply_time_gap.TotalMinutes) + "分鐘前")</p>
+															}
+															else if (reply_time_gap.TotalHours < 24)
+															{
+																<p>@(Math.Floor(reply_time_gap.TotalHours) + "小時前")</p>
+															}
+															else
+															{
+																<p>@(reply_message_time.ToString("yyyy-MM-dd"))</p>
+															}
+
+														}
+													</div>
+												</div>
+												<div class="col-2 d-flex align-items-start justify-content-end">
+													<div class="popup more_btn">
+														<img class="icon_size" src="./img/recipe_icon/more.ico" alt="">
+														<span class="popuptext row" id="message_edit_Popup">
+															<div class="col-12 message_edit">
+																<button class="edit_chats">編輯</button>
+																<hr>
+																<button class="delete_chats">刪除</button>
+																<hr>
+																<button class="report_chats" data-bs-toggle="modal"
+																		data-bs-target="#report_chats">
+																	檢舉
+																</button>
+															</div>
+														</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						chat_reply_num += 1;
+					}
+				}
+			}
+
+
+		}
+	</div>
+	<!-- 檢舉留言視窗start -->
+	<div class="modal" id="report_chats" data-bs-backdrop="static">
+		<div class="modal-dialog modal-dialog-centered modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5>檢舉留言</h5>
+					<button type="button" class="btn-close report_select_reset" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row d-flex justify-content-center">
+						<select class="message_report_other col-12" name="" id="" style="width: 70%;">
+							<option selected hidden disabled value="">-請選擇檢舉原因-</option>
+							<option value="洗板">洗板</option>
+							<option value="謾罵">謾罵</option>
+							<option value="限制級">限制級</option>
+							<option value="其他原因">其他原因</option>
+						</select>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="button_style report_select_reset"
+							data-bs-dismiss="modal">
+						取消
+					</button>
+					<button type="button" class="button_style report_select_reset" data-bs-dismiss="modal"
+							data-bs-toggle="modal" data-bs-target="#report_completed">
+						送出
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 檢舉留言視窗end -->
+	<!-- 檢舉食譜視窗start -->
+	<div class="modal" id="report_recipe" data-bs-backdrop="static">
+		<div class="modal-dialog modal-dialog-centered modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5>檢舉食譜</h5>
+					<button type="button" class="btn-close report_select_reset" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row d-flex justify-content-center">
+						<select class="recipe_report_other col-12 " name="" id="" style="width: 70%;">
+							<option selected hidden disabled value="">-請選擇檢舉原因-</option>
+							<option value="抄襲">抄襲</option>
+							<option value="其他原因">其他原因</option>
+						</select>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="button_style report_select_reset"
+							data-bs-dismiss="modal">
+						取消
+					</button>
+					<button type="button" class="button_style report_select_reset" data-bs-dismiss="modal"
+							data-bs-toggle="modal" data-bs-target="#report_completed">
+						送出
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 檢舉食譜視窗end -->
+	<!-- 檢舉完成視窗start -->
+	<div class="modal" id="report_completed" data-bs-backdrop="static">
+		<div class="modal-dialog modal-dialog-centered modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5>檢舉已完成</h5>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="button_style" data-bs-dismiss="modal">確定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 檢舉完成視窗end -->
+</div>
+
+
+
+@section MyHeadScripts {
+	<link rel="stylesheet" href="~/css/recipe_page.css">
+}
+
+@section MyScripts {
+	<script src="~/js/recipe_page.js"></script>
+}
+
+

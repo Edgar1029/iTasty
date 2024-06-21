@@ -8,7 +8,8 @@
 	<div class="container container_decorate ingredients_page">
 		<div class=" position-relative img_cut_anchor">
 			<img id="recipe_img" class="recipe_img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Recipe.RecipeCoverImage)" alt="">
-			<input type="hidden" id="recipe_img_save" name="RecipeCoverBase64" value="0">
+			<input type="hidden" id="recipe_img_save" name="RecipeCoverBase64" value="@Model.Recipe.RecipeCoverImage">
+			<input type="hidden" name="RecipeId" value="@Model.Recipe.RecipeId">
 			<button type="button" class="opacity-50 img_upload_btn position-absolute top-50 start-50 translate-middle">
 				<svg viewBox="0 0 24 24" aria-hidden="true"
 					 class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c"
@@ -30,6 +31,7 @@
 				<div class="intro_author flex_container_center">
 					<img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.User.UserPhoto)" alt="">
 					<p>@Model.User.UserName</p>
+					<input type="hidden" name="UserId" value="@Model.Recipe.UserId">
 				</div>
 				<div class="recipe_intro">
 					<textarea class="recipe_intro_enter " name="RecipeIntroduction" id="" placeholder="@Model.Recipe.RecipeIntroduction"></textarea>
@@ -59,65 +61,104 @@
 				<div class="row ingredients_row_decorate ingredients_row">
 					<span class="d_none" data-row-num=""></span>
 					<h4 id="ingredients_title_1" class="col-9 ingredients_title">
-						<input type="text" name="ingredients_table[0].TitleName" placeholder="@Model.IngredientsTables[0].TitleName">
+						<input type="text" name="ingredients_table[0].TitleName" placeholder="@Model.IngredientsEdit[0].TitleName">
+						<input type="hidden" name="IngredientsTableId" value="@Model.IngredientsEdit[0].IngredientsTableId">
+						<input type="hidden" name="IngredientUserId" value="@Model.IngredientsEdit[0].IngredientUserId">
+						<input type="hidden" name="IngredientRecipeId" value="@Model.Recipe.RecipeId">
 					</h4>
 					<div class="col-2">
 					</div>
 					<div class="col-1 d-flex align-items-center justify-content-center">
 					</div>
 				</div>
-				@{
-					int ingredients_num = 1;
-				}
-				@foreach (var ingredients in Model.IngredientsTables)
+				@for (int i = 1; i < Model.IngredientsEdit.Count; i++)
 				{
-					<div id="ingredients_content_@ingredients_num" class="row ingredients_row_decorate ingredients_content_num ingredients_row">
+					<div id="ingredients_content_@i" class="row ingredients_row_decorate ingredients_content_num ingredients_row">
+						<input type="hidden" name="IngredientsTableId" value="@Model.IngredientsEdit[i].IngredientsTableId">
+						<input type="hidden" name="IngredientUserId" value="@Model.IngredientsEdit[i].IngredientUserId">
+						<input type="hidden" name="IngredientRecipeId" value="@Model.Recipe.RecipeId">
 						<span class="d_none" data-row-num=""></span>
 						<div class="col-9 ingredients_content_center ingredients_content_anchor">
-							<button class="ingredients_content" type="button" data-bs-toggle="collapse"
-									data-bs-target="#card_1" aria-expanded="false" aria-controls="card_1" style="width: 100%;">
-								<div class="row ">
-									<div class="col-5 ingredients_name_row ">
-										<p class="align-middle ingredients_name">@ingredients.IngredientsName</p>
-										<p class="align-middle ingredients_name">100克@(ingredients.Kcalg * 100)卡 </p>
-										<p class=" kcalg d_none">365.0</p>
-										<input type="hidden" class="IngredientsName" name="IngredientsName" value="@ingredients.Kcalg">
-										<input type="hidden" class="IngredientsName" name="IngredientsName" value="@ingredients.IngredientsName">
-										@if(ingredients.IngredientsId != null)
-										{
-											<input type="hidden" class="IngredientsId" name="IngredientsId" value="@ingredients.IngredientsId">
-										}
-										else
-										{
-											<input type="hidden" class="IngredientsId" name="IngredientsId" value="">
-										}
+							@if (Model.IngredientsEdit[i].TitleName != null)
+							{
+								int title_num = 2;
+								<h4 id="ingredients_title_@title_num" class="col-9 ingredients_title" style="margin-bottom: 0px;">
+									<input class="TitleName" type="text" name="TitleName" placeholder="@Model.IngredientsEdit[i].TitleName">
+								</h4>
+								title_num += 1;
+							}
+							else
+							{
+								<button class="ingredients_content" type="button" data-bs-toggle="collapse"
+										data-bs-target="#card_1" aria-expanded="false" aria-controls="card_1" style="width: 100%;">
+									<input type="hidden" name="TitleId" value="@Model.IngredientsEdit[i].TitleId">
+									<div class="row ">
+										<div class="col-5 ingredients_name_row ">
+											@if (Model.IngredientsEdit[i].IngredientKcalg == null)
+											{
+												<p class="align-middle ingredients_name">@Model.IngredientsEdit[i].IngredientsName</p>
+												<input type="hidden" name="IngredientsName" value="@Model.IngredientsEdit[i].IngredientsName">
+												<p class="kcalg d_none">不顯示</p>
+											}
+											else
+											{
+												<p class="align-middle ingredients_name">@Model.IngredientsEdit[i].IngredientsName</p>
+												<p class="align-middle ingredients_name">100克@(Model.IngredientsEdit[i].IngredientKcalg * 100)卡 </p>
+												<input type="hidden" class="IngredientsName" name="IngredientsName" value="@Model.IngredientsEdit[i].IngredientsName">
+												<input type="hidden" class="Kcalg" name="IngredientKcalg" value="@Model.IngredientsEdit[i].IngredientKcalg">
+												<input type="hidden" class="IngredientsId" name="IngredientsId" value="@Model.IngredientsEdit[i].IngredientsId">
+												if (Model.IngredientsEdit[i].IngredientsUnit == "適量")
+												{
+													<p class="kcalg d_none">0</p>
+												}
+												else
+												{
+													<p class="kcalg d_none">@(Model.IngredientsEdit[i].IngredientKcalg * Model.IngredientsEdit[i].IngredientsNumber)</p>
+												}
+
+											}
+										</div>
+										<div class="col-7 ingredients_num_unit d-flex align-items-center">
+											@if (Model.IngredientsEdit[i].IngredientsUnit == "適量")
+											{
+												<p class="align-middle">@Model.IngredientsEdit[i].IngredientsUnit</p>
+												<input type="hidden" class="IngredientsUnit" name="IngredientsUnit" value="@Model.IngredientsEdit[i].IngredientsUnit">
+											}
+											else
+											{
+												<p class="align-middle">@Model.IngredientsEdit[i].IngredientsNumber</p>
+												<p class="align-middle">@Model.IngredientsEdit[i].IngredientsUnit</p>
+												<input type="hidden" class="IngredientsNumber" name="IngredientsNumber" value="@Model.IngredientsEdit[i].IngredientsNumber">
+												<input type="hidden" class="IngredientsUnit" name="IngredientsUnit" value="@Model.IngredientsEdit[i].IngredientsUnit">
+											}
+										</div>
 									</div>
-									<div class="col-7 ingredients_num_unit d-flex align-items-center">
-										<p class="align-middle">100</p>
-										<p class="align-middle">g</p>
-										<input type="hidden" class="IngredientsNumber" name="IngredientsNumber" value="100">
-										<input type="hidden" class="IngredientsUnit" name="IngredientsUnit" value="g">
-									</div>
-								</div>
-							</button>
+								</button>
+							}
 						</div>
 						<div class="col-2 text-end d-flex align-items-center justify-content-end">
 							<select class="ingredients_row_select ingredients_row_change  " name="" id="">
-								<option value="食材">食材</option>
-								<option value="標題">標題</option>
+								@if (Model.IngredientsEdit[i].TitleName != null)
+								{
+									<option value="食材">食材</option>
+									<option value="標題" selected>標題</option>
+								}else{
+									<option value="食材">食材</option>
+									<option value="標題">標題</option>
+								}
 							</select>
 						</div>
 						<div class="col-1 d-flex align-items-center justify-content-center">
-							<button type="button" id="reduce_1" class="plus_minus_btn ingredients_reduce">
+							<button type="button" id="reduce_@i" class="plus_minus_btn ingredients_reduce">
 								<img class="plus_minus_img"
 									 src="~/img/recipe_icon/Minus.ico" alt="">
 							</button>
 						</div>
-						<div class="collapse_anchor collapse" id="card_1">
+						<div class="collapse_anchor collapse" id="card_@i">
 							<div class="card card-body card_style">
 								<div class="row">
 									<div class="col-5">
-										<input id="ingredients_searchbar_1" class="ingredients_searchbar ingredients_searchbar_anchor " type="text" placeholder="請輸入食材"
+										<input id="ingredients_searchbar_@i" class="ingredients_searchbar ingredients_searchbar_anchor " type="text" placeholder="請輸入食材"
 											   list="ingredients_list">
 										<div class="row">
 											<div class="col-9" style="padding-right: 2.5px;">
@@ -144,7 +185,7 @@
 											</div>
 										</div>
 									</div>
-									<ul id="ingredients_name_1" class="ingredients_options col-7 ingredients_name">
+									<ul id="ingredients_name_@i" class="ingredients_options col-7 ingredients_name">
 									</ul>
 									<hr>
 									<p class="illustrate d-flex align-items-center justify-content-center">
@@ -197,116 +238,6 @@
 
 				}
 
-				<div id="ingredients_content_2" class="row ingredients_row_decorate ingredients_content_num ingredients_row">
-					<span class="d_none" data-row-num=""></span>
-					<div class="col-9 ingredients_content_center ingredients_content_anchor">
-						<button class="ingredients_content " type="button" data-bs-toggle="collapse"
-								data-bs-target="#card_2" aria-expanded="false" aria-controls="card_2" style="width: 100%;">
-							<div class="row ">
-								<div class="col-5 ingredients_name_row ">
-									<p class="align-middle ingredients_name">加入食材</p>
-								</div>
-								<div class="col-7 ingredients_num_unit d-flex align-items-center">
-									<p class="align-middle">數量</p>
-									<p class="align-middle">單位</p>
-								</div>
-							</div>
-						</button>
-					</div>
-					<div class="col-2 text-end d-flex align-items-center justify-content-end">
-						<select class="ingredients_row_select ingredients_row_change" name="" id="">
-							<option value="食材">食材</option>
-							<option value="標題">標題</option>
-						</select>
-					</div>
-					<div class="col-1 d-flex align-items-center justify-content-center">
-						<button type="button" id="reduce_2" class="plus_minus_btn ingredients_reduce">
-							<img class="plus_minus_img"
-								 src="~/img/recipe_icon/Minus.ico" alt="">
-						</button>
-					</div>
-					<div class="collapse_anchor collapse" id="card_2">
-						<div class="card card-body card_style">
-							<div class="row">
-								<div class="col-5">
-									<input id="ingredients_searchbar_2" class="ingredients_searchbar ingredients_searchbar_anchor " type="text" placeholder="請輸入食材"
-										   list="ingredients_list">
-									<div class="row">
-										<div class="col-9" style="padding-right: 2.5px;">
-											<input id="ingredients_number"
-												   class="ingredients_searchbar ingredients_number " type="text"
-												   placeholder="請輸入數量" list="ingredients_list">
-										</div>
-										<div class="col-3" style="padding-left: 2.5px;">
-											<select class="ingredients_row_select ingredients_unit"
-													id="ingredients_unit">
-												<option selected hidden disabled value="">單位</option>
-												<option value="g">g</option>
-												<option value="kg">kg</option>
-												<option value="ml">ml</option>
-												<option value="L">L</option>
-												<option value="適量">適量</option>
-											</select>
-										</div>
-										<div class="col-12 d-flex align-items-center justify-content-center">
-											<button type="button" class="button_style submit_ingredients"
-													style="width: 50%;">
-												送出
-											</button>
-										</div>
-									</div>
-								</div>
-								<ul id="ingredients_name_2" class="ingredients_options col-7 ingredients_name">
-								</ul>
-								<hr>
-								<p class="illustrate d-flex align-items-center justify-content-center">
-									找不到食材嗎? 請輸入需要的食材
-								</p>
-								<div class="col-12 d-flex align-items-center justify-content-center customize_ingredients_row">
-									<div class="row">
-										<div class="col-3" style="padding-left: 5px; padding-right: 5px;">
-											<input id="customize_ingredients" class="ingredients_searchbar " type="text"
-												   placeholder="請輸入食材">
-										</div>
-										<div class="col-4" style="padding-left: 5px; padding-right: 5px;">
-											<input id="customize_kcalg" class="ingredients_searchbar  col-5" type="text"
-												   placeholder="每100克卡洛里(非必要)">
-										</div>
-										<div class="col-5" style="padding-left: 5px; padding-right: 5px;">
-											<div class="row">
-												<div class="col-9">
-													<input id="customize_ingredients_number"
-														   class="ingredients_searchbar " type="text" placeholder="請輸入數量"
-														   list="ingredients_list">
-												</div>
-												<div class="col-3" style="padding: 0px;">
-													<select class="ingredients_row_select "
-															id="customize_ingredients_unit">
-														<option selected hidden disabled value="">單位</option>
-														<option value="g">g</option>
-														<option value="kg">kg</option>
-														<option value="ml">ml</option>
-														<option value="L">L</option>
-														<option value="適量">適量</option>
-													</select>
-												</div>
-											</div>
-										</div>
-									</div>
-
-								</div>
-								<div class="col-12 d-flex align-items-center justify-content-center">
-									<button type="button" class="button_style submit_ingredients submit_customize_ingredients"
-											style="width: 25%;">
-										送出
-									</button>
-								</div>
-
-							</div>
-						</div>
-					</div>
-
-				</div>
 				<div class="row ingredients_row_decorate_last">
 					<div class="col-4"></div>
 					<div class="col-7">
@@ -321,32 +252,46 @@
 			</div>
 			<div id="recipe_steps" class="recipe_steps row_decorate_bottom">
 				<h2>步驟</h2>
-				<div id="step_row_1" class="row recipe_steps_decorate step_row_anchor ">
-					<div class="col-5 position-relative img_cut_anchor">
-						<img id="steps_img_1" class="steps_img" src="~/img/455X325.jpg" alt="">
-						<input type="hidden" class="steps_img_save" id="steps_img_1_save" name="step_table[0].StepBase64" value="0">
-						<button type="button" class="opacity-50 img_upload_btn position-absolute top-50 start-50 translate-middle">
-							<svg viewBox="0 0 24 24" aria-hidden="true"
-								 class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c"
-								 style="color: rgb(255, 255, 255);">
-								<g>
-									<path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z">
-									</path>
-								</g>
-							</svg>
-						</button>
+				@for (int s = 0; s < Model.StepEdit.Count; s++)
+				{
+					<div id="step_row_@(s+1)" class="row recipe_steps_decorate step_row_anchor ">
+						<input type="hidden" name="StepId" value="@Model.StepEdit[s].StepId">
+						<input type="hidden" name="StepRecipeId" value="@Model.Recipe.RecipeId">
+						<div class="col-5 position-relative img_cut_anchor">
+							@if (Model.StepEdit[s].StepImg != null)
+							{
+								<img id="steps_img_@(s+1)" class="steps_img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.StepEdit[s].StepImg)" alt="">
+								<input type="hidden" class="steps_img_save" id="steps_img_@(s)_save" name="StepBase64" value="@Convert.ToBase64String(Model.StepEdit[s].StepImg)">
+							}
+							else
+							{
+								<img id="steps_img_@(s+1)" class="steps_img" src="~/img/455X325.jpg" alt="">
+								<input type="hidden" class="steps_img_save" id="steps_img_@(s)_save" name="StepBase64" value="0">
+							}
+							<button type="button" class="opacity-50 img_upload_btn position-absolute top-50 start-50 translate-middle">
+								<svg viewBox="0 0 24 24" aria-hidden="true"
+									 class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c"
+									 style="color: rgb(255, 255, 255);">
+									<g>
+										<path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z">
+										</path>
+									</g>
+								</svg>
+							</button>
+						</div>
+						<div class="col-7 ">
+							<h4></h4>
+							<textarea class="recipe_steps_enter " name="StepText" id="steps_text_@(s)_save" placeholder="@Model.StepEdit[s].StepText"></textarea>
+						</div>
+						<div class="col-12 d-flex align-items-center justify-content-end">
+							<button type="button" id="reduce_step_@(s)" class="plus_minus_btn reduce_step">
+								<img class="plus_minus_img"
+									 src="~/img/recipe_icon/Minus.ico" alt="">
+							</button>
+						</div>
 					</div>
-					<div class="col-7 ">
-						<h4></h4>
-						<textarea class="recipe_steps_enter " name="step_table[0].StepText" id="steps_text_1_save" placeholder="請輸入步驟(150字以內)"></textarea>
-					</div>
-					<div class="col-12 d-flex align-items-center justify-content-end">
-						<button type="button" id="reduce_step_1" class="plus_minus_btn reduce_step">
-							<img class="plus_minus_img"
-								 src="~/img/recipe_icon/Minus.ico" alt="">
-						</button>
-					</div>
-				</div>
+
+				}
 				<div class="row recipe_steps_decorate_last">
 					<div class="col-12 d-flex align-items-center justify-content-end">
 						<button type="button" id="add_step" class="plus_minus_btn">
@@ -363,40 +308,202 @@
 						<div class="select_options">
 							<select name="ProteinUsed" id="">
 								<option selected hidden disabled value="">主食材種類</option>
-								<option value="豬肉">豬肉</option>
-								<option value="雞肉">雞肉</option>
-								<option value="牛肉">牛肉</option>
-								<option value="羊肉">羊肉</option>
-								<option value="海鮮">海鮮</option>
-								<option value="其他">其他</option>
-								<option value="無">無</option>
+								@if (Model.Recipe.ProteinUsed == "豬肉")
+								{
+									<option value="豬肉" selected>豬肉</option>
+									<option value="雞肉">雞肉</option>
+									<option value="牛肉">牛肉</option>
+									<option value="羊肉">羊肉</option>
+									<option value="海鮮">海鮮</option>
+									<option value="其他">其他</option>
+									<option value="無">無</option>
+								}
+								else if (Model.Recipe.ProteinUsed == "雞肉")
+								{
+									<option value="豬肉">豬肉</option>
+									<option value="雞肉" selected>雞肉</option>
+									<option value="牛肉">牛肉</option>
+									<option value="羊肉">羊肉</option>
+									<option value="海鮮">海鮮</option>
+									<option value="其他">其他</option>
+									<option value="無">無</option>
+								}
+								else if (Model.Recipe.ProteinUsed == "牛肉")
+								{
+									<option value="豬肉">豬肉</option>
+									<option value="雞肉">雞肉</option>
+									<option value="牛肉" selected>牛肉</option>
+									<option value="羊肉">羊肉</option>
+									<option value="海鮮">海鮮</option>
+									<option value="其他">其他</option>
+									<option value="無">無</option>
+								}
+								else if (Model.Recipe.ProteinUsed == "羊肉")
+								{
+									<option value="豬肉">豬肉</option>
+									<option value="雞肉">雞肉</option>
+									<option value="牛肉">牛肉</option>
+									<option value="羊肉" selected>羊肉</option>
+									<option value="海鮮">海鮮</option>
+									<option value="其他">其他</option>
+									<option value="無">無</option>
+								}
+								else if (Model.Recipe.ProteinUsed == "海鮮")
+								{
+									<option value="豬肉">豬肉</option>
+									<option value="雞肉">雞肉</option>
+									<option value="牛肉">牛肉</option>
+									<option value="羊肉">羊肉</option>
+									<option value="海鮮" selected>海鮮</option>
+									<option value="其他">其他</option>
+									<option value="無">無</option>
+								}
+								else if (Model.Recipe.ProteinUsed == "其他")
+								{
+									<option value="豬肉">豬肉</option>
+									<option value="雞肉">雞肉</option>
+									<option value="牛肉">牛肉</option>
+									<option value="羊肉">羊肉</option>
+									<option value="海鮮">海鮮</option>
+									<option value="其他" selected>其他</option>
+									<option value="無">無</option>
+								}
+								else if (Model.Recipe.ProteinUsed == "無")
+								{
+									<option value="豬肉">豬肉</option>
+									<option value="雞肉">雞肉</option>
+									<option value="牛肉">牛肉</option>
+									<option value="羊肉">羊肉</option>
+									<option value="海鮮">海鮮</option>
+									<option value="其他">其他</option>
+									<option value="無" selected>無</option>
+								}else
+								{
+									<option value="豬肉">豬肉</option>
+									<option value="雞肉">雞肉</option>
+									<option value="牛肉">牛肉</option>
+									<option value="羊肉">羊肉</option>
+									<option value="海鮮">海鮮</option>
+									<option value="其他">其他</option>
+									<option value="無">無</option>
+								}
 							</select>
 						</div>
 						<div class="select_options">
 							<select name="MealType" id="">
 								<option selected hidden disabled value="">餐類</option>
-								<option value="早餐">早餐</option>
-								<option value="午/晚餐">午/晚餐</option>
-								<option value="點心">點心</option>
-								<option value="甜點">甜點</option>
+								@if (Model.Recipe.MealType == "早餐")
+								{
+									<option value="早餐" selected>早餐</option>
+									<option value="午/晚餐">午/晚餐</option>
+									<option value="點心">點心</option>
+									<option value="甜點">甜點</option>
+								}
+								else if (Model.Recipe.MealType == "午/晚餐")
+								{
+									<option value="早餐">早餐</option>
+									<option value="午/晚餐" selected>午/晚餐</option>
+									<option value="點心">點心</option>
+									<option value="甜點">甜點</option>
+								}
+								else if (Model.Recipe.MealType == "點心")
+								{
+									<option value="早餐">早餐</option>
+									<option value="午/晚餐">午/晚餐</option>
+									<option value="點心" selected>點心</option>
+									<option value="甜點">甜點</option>
+								}
+								else if (Model.Recipe.MealType == "甜點")
+								{
+									<option value="早餐">早餐</option>
+									<option value="午/晚餐">午/晚餐</option>
+									<option value="點心">點心</option>
+									<option value="甜點" selected>甜點</option>
+								}else{
+									<option value="早餐">早餐</option>
+									<option value="午/晚餐">午/晚餐</option>
+									<option value="點心">點心</option>
+									<option value="甜點">甜點</option>
+								}
+
 							</select>
 						</div>
 						<div class="select_options">
 							<select name="HealthyOptions" id="">
 								<option selected hidden disabled value="">膳食</option>
-								<option value="素食">素食</option>
-								<option value="健康餐">健康餐</option>
-								<option value="無">無</option>
+								@if (Model.Recipe.HealthyOptions == "素食")
+								{
+									<option value="素食" selected>素食</option>
+									<option value="健康餐">健康餐</option>
+									<option value="無">無</option>
+								}
+								else if (Model.Recipe.HealthyOptions == "健康餐")
+								{
+									<option value="素食">素食</option>
+									<option value="健康餐" selected>健康餐</option>
+									<option value="無">無</option>
+								}
+								else if (Model.Recipe.HealthyOptions == "無")
+								{
+									<option value="素食">素食</option>
+									<option value="健康餐">健康餐</option>
+									<option value="無" selected>無</option>
+								}else{
+									<option value="素食">素食</option>
+									<option value="健康餐">健康餐</option>
+									<option value="無">無</option>
+								}
 							</select>
 						</div>
 						<div class="select_options">
-							<select name="CuisineStyle" id="">
-								<option selected hidden disabled value="">菜式</option>
-								<option value="中式">中式</option>
-								<option value="西式">西式</option>
-								<option value="日式">日式</option>
-								<option value="韓式">韓式</option>
-								<option value="其他">其他</option>
+							<select name="CuisineStyle" id="">								
+									<option selected hidden disabled value="">菜式</option>
+								@if (Model.Recipe.CuisineStyle == "中式")
+								{
+									<option value="中式" selected>中式</option>
+									<option value="西式">西式</option>
+									<option value="日式">日式</option>
+									<option value="韓式">韓式</option>
+									<option value="其他">其他</option>
+								}
+								else if (Model.Recipe.CuisineStyle == "西式")
+								{
+									<option value="中式">中式</option>
+									<option value="西式" selected>西式</option>
+									<option value="日式">日式</option>
+									<option value="韓式">韓式</option>
+									<option value="其他">其他</option>
+								}
+									else if (Model.Recipe.CuisineStyle == "日式")
+								{
+									<option value="中式">中式</option>
+									<option value="西式">西式</option>
+									<option value="日式" selected>日式</option>
+									<option value="韓式">韓式</option>
+									<option value="其他">其他</option>
+								}
+									else if (Model.Recipe.CuisineStyle == "韓式")
+								{
+									<option value="中式">中式</option>
+									<option value="西式">西式</option>
+									<option value="日式">日式</option>
+									<option value="韓式" selected>韓式</option>
+									<option value="其他">其他</option>
+								}
+									else if (Model.Recipe.CuisineStyle == "其他")
+								{
+									<option value="中式">中式</option>
+									<option value="西式">西式</option>
+									<option value="日式">日式</option>
+									<option value="韓式">韓式</option>
+									<option value="其他" selected>其他</option>
+								}else{
+										<option value="中式">中式</option>
+										<option value="西式">西式</option>
+										<option value="日式">日式</option>
+										<option value="韓式">韓式</option>
+										<option value="其他">其他</option>
+								}
 							</select>
 						</div>
 					</div>

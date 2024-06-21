@@ -24,9 +24,10 @@ $(".step_row_anchor").each(function () {
     step_content_num.push(id);
 })
 step_content_last_num = Math.max.apply(null, step_content_num) + 1;
-//步驟列最後一列的ID號碼end        
+//步驟列最後一列的ID號碼end
 
-$("#step_row_1 h4").append(step_content_last_num - 1); //步驟編號初始化
+add_stap_num();//步驟編號初始化
+//$("#step_row_1 h4").append(step_content_last_num - 1); 
 add_ingredients_num();//食材欄編號初始化
 // #ingredients事件代理start
 $("#ingredients").on("click", ".ingredients_content_num", function () {
@@ -82,7 +83,9 @@ $("#ingredients").on("click", ".ingredients_content_num", function () {
                          <p class="align-middle ingredients_name">${ingredients[1]}</p>
                          <p class=" kcalg d_none">${ingredients_kcalg}</p>
                          <input type="hidden" class="IngredientsName" name="IngredientsName" value="${ingredients[0]}">
-                         <input type="hidden" class="IngredientsId" name="IngredientsId" value="${ingredients[3]}">`;
+                         <input type="hidden" class="IngredientsId" name="IngredientsId" value="${ingredients[3]}">
+                         <input type="hidden"  name="Kcalg" value="${ingredients[2]}">
+                         `;
         }
 
         if (ingredients_unit == "適量") {
@@ -148,13 +151,17 @@ $("#ingredients").on("click", ".ingredients_content_num", function () {
         if (customize_ingredients != "" && customize_kcalg == "") {
             add_p3 = `<p class="align-middle ingredients_name">${customize_ingredients}</p>
                       <p class=" kcalg d_none">${customize_ingredients_kcalg}</p>
-                      <input type="hidden" class="IngredientsName" name="IngredientsName" value="${customize_ingredients}">`;
+                      <input type="hidden" class="IngredientsName" name="IngredientsName" value="${customize_ingredients}">
+                      
+                      `;
         }
         else if (customize_ingredients != "" && customize_kcalg != "") {
             add_p3 = `<p class="align-middle ingredients_name">${customize_ingredients}</p>
                       <p class="ingredients_name">100克 ${customize_kcalg}卡</p>
                       <p class="kcalg d_none">${customize_ingredients_kcalg}</p>
-                      <input type="hidden" class="IngredientsName" name="IngredientsName" value="${customize_ingredients}">`;
+                      <input type="hidden" class="IngredientsName" name="IngredientsName" value="${customize_ingredients}">
+                      <input type="hidden"  name="Kcalg" value="${customize_kcalg / 100}">
+                      `;
         }
 
         if (customize_ingredients_unit == "適量") {
@@ -382,7 +389,9 @@ $("#add_step").on("click", function () {
                     `);
 
     step_content_last_num = step_content_last_num + 1;
+    
     add_stap_num();
+    
 })
 
 // 增加步驟列end 

@@ -4,7 +4,9 @@
     {
         public RecipeTable? Recipe { get; set; }
         public List<IngredientsTable>? IngredientsTables { get; set; }
-        public List<StepTable>? StepTables { get; set; }
+        public List<IngredientsForEdit>? IngredientsEdit { get; set; }
+		public List<StepTable>? StepTables { get; set; }
+        public List<StepForEdit>? StepEdit { get; set; }
 		public UserInfo? User { get; set; }
 		public List<MessageTable>? MessageTables { get; set; }
 
