@@ -266,119 +266,144 @@ namespace project_itasty.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			// 圖表數據
-			var chartData1 = new Background_Control_ChartData
-			{
-				Labels = await _context.RecipeTables.Select(r => r.RecipeName).ToListAsync(),
-				Data = await _context.RecipeTables.Select(r => r.Views).ToListAsync()
-			};
+            string userEmail = HttpContext.Session.GetString("userEmail") ?? "Guest";
+            int userPermissionsl = HttpContext.Session.GetInt32("userPermissions") ?? 2;
+            if (userEmail != null)
+            {
 
-			var chartData2 = new Background_Control_ChartData
-			{
-				Labels = new List<string> { "January", "February", "March", "April", "May", "June" },
-				Data = new List<int> { 12, 19, 3, 5, 2, 3 }
-			};
+                var query = from o in _context.UserInfos where o.UserEmail == userEmail select o;
+                var permission = query.FirstOrDefault();
 
-			// 排序的菜譜列表
-			var orderedRecipes = await _context.RecipeTables
-				.OrderByDescending(r => r.Views)
-				.Select(r => new Background_Control_OrderRecipedTable
-				{
-					RecipedName = r.RecipeName,
-					Author = r.User.UserName,
-					RecipedView = r.Views,
-					NumberOfComment = r.Favorites,
-					RecipedStatus = r.RecipeStatus
-				}).ToListAsync();
+                if (userEmail == permission?.UserEmail && permission.UserPermissions == 1)
+                {
 
-			// 用戶列表
-			var users = await _context.UserInfos
-				.Where(u => u.UserPermissions == 1 || u.UserPermissions == 3)
-				.OrderBy(u => u.UserPermissions)
-				.Select(u => new Background_Control_UserTable
-				{
-					UserId = u.UserId,
-					UserName = u.UserName,
-					Email = u.UserEmail,
-					UserStatus = u.UserPermissions
-				}).ToListAsync();
+                    // 圖表數據
+                    var chartData1 = new Background_Control_ChartData
+                    {
+                        Labels = await _context.RecipeTables.Select(r => r.RecipeName).ToListAsync(),
+                        Data = await _context.RecipeTables.Select(r => r.Views).ToListAsync()
+                    };
 
-			// 所有菜譜
-			var recipes = await _context.RecipeTables
-				.Select(r => new Background_Control_RecipedTable
-				{
-					RecipedId = r.RecipeId,
-					RecipedName = r.RecipeName,
-					Author = r.User.UserName,
-					RecipedView = r.Views,
-					NumberOfComment = r.Favorites,
-					RecipedStatus = r.RecipeStatus
-				}).ToListAsync();
+                    var chartData2 = new Background_Control_ChartData
+                    {
+                        Labels = new List<string> { "January", "February", "March", "April", "May", "June" },
+                        Data = new List<int> { 12, 19, 3, 5, 2, 3 }
+                    };
 
-			// 評論檢舉
-			var comments = await (from comment in _context.ReportTables
-								  where comment.ReportType == 1 && comment.ReportStatus == false
-								  join message in _context.MessageTables on comment.RecipedIdOrCommentId equals message.MessageId
-								  select new Background_Control_CommentTable
-								  {
-									  ReportId = comment.ReportId,
-									  RecipeId = message.Recipe.RecipeId,
-									  UserId = message.UserId,
-									  MessageContent = message.MessageContent,
-									  ReportReason = comment.ReportReason,
-									  ReportStatus = comment.ReportStatus,
-									  ReportUserId = comment.ReportUserId
-								  }).ToListAsync();
+                    // 排序的菜譜列表
+                    var orderedRecipes = await _context.RecipeTables
+                        .OrderByDescending(r => r.Views)
+                        .Select(r => new Background_Control_OrderRecipedTable
+                        {
+                            RecipedName = r.RecipeName,
+                            Author = r.User.UserName,
+                            RecipedView = r.Views,
+                            NumberOfComment = r.Favorites,
+                            RecipedStatus = r.RecipeStatus
+                        }).ToListAsync();
 
-			// 菜譜檢舉
-			var recipeReports = await (from report in _context.ReportTables
-									   where report.ReportType == 2 && report.ReportStatus == false
-									   join recipe in _context.RecipeTables on report.RecipedIdOrCommentId equals recipe.RecipeId
-									   join user in _context.UserInfos on report.ReportUserId equals user.UserId
-									   select new Background_Control_RecipeReport
-									   {
-										   ReportId = report.ReportId,
-										   RecipeId = recipe.RecipeId,
-										   RecipeName = recipe.RecipeName,
-										   Author = report.ReportedUser.UserName,
-										   ReportReason = report.ReportReason,
-										   ReportStatus = report.ReportStatus,
-										   Reporter = user.UserName
-									   }).ToListAsync();
+                    // 用戶列表
+                    var users = await _context.UserInfos
+                        .Where(u => u.UserPermissions == 1 || u.UserPermissions == 3)
+                        .OrderBy(u => u.UserPermissions)
+                        .Select(u => new Background_Control_UserTable
+                        {
+                            UserId = u.UserId,
+                            UserName = u.UserName,
+                            Email = u.UserEmail,
+                            UserStatus = u.UserPermissions
+                        }).ToListAsync();
 
-			// 用戶檢舉
-			var userReports = await (from report in _context.ReportTables
-									 where report.ReportType == 0 && report.ReportStatus == false
-									 join user in _context.UserInfos on report.ReportUserId equals user.UserId
-									 select new Background_Control_UserReport
-									 {
-										 ReportId = report.ReportId,
-										 UserId = report.ReportedUserId,
-										 UserName = report.ReportedUser.UserName,
-										 Email = report.ReportedUser.UserEmail,
-										 ReportReason = report.ReportReason,
-										 ReportStatus = report.ReportStatus,
-										 ReportUser = user.UserName,
-									 }).ToListAsync();
+                    // 所有菜譜
+                    var recipes = await _context.RecipeTables
+                        .Select(r => new Background_Control_RecipedTable
+                        {
+                            RecipedId = r.RecipeId,
+                            RecipedName = r.RecipeName,
+                            Author = r.User.UserName,
+                            RecipedView = r.Views,
+                            NumberOfComment = r.Favorites,
+                            RecipedStatus = r.RecipeStatus
+                        }).ToListAsync();
 
-			var model = new Backgroud_Control_Model
-			{
-				ChartViewsData = chartData1,
-				ChartMembershipData = chartData2,
-				OrderRecipedTable = orderedRecipes,
-				UserTable = users,
-				RecipedTable = recipes,
-				CommentTable = comments,
-				RecipeReport = recipeReports,
-				UserReport = userReports,
-			};
+                    // 評論檢舉
+                    var comments = await (from comment in _context.ReportTables
+                                          where comment.ReportType == 1 && comment.ReportStatus == false
+                                          join message in _context.MessageTables on comment.RecipedIdOrCommentId equals message.MessageId
+                                          select new Background_Control_CommentTable
+                                          {
+                                              ReportId = comment.ReportId,
+                                              RecipeId = message.Recipe.RecipeId,
+                                              UserId = message.UserId,
+                                              MessageContent = message.MessageContent,
+                                              ReportReason = comment.ReportReason,
+                                              ReportStatus = comment.ReportStatus,
+                                              ReportUserId = comment.ReportUserId
+                                          }).ToListAsync();
 
-			ViewBag.Month = DateTime.Now.Month;
-			ViewBag.Season = await _context.SeasonalIngredients
-				.Where(o => o.MonthId == 7)
-				.ToListAsync();
+                    // 菜譜檢舉
+                    var recipeReports = await (from report in _context.ReportTables
+                                               where report.ReportType == 2 && report.ReportStatus == false
+                                               join recipe in _context.RecipeTables on report.RecipedIdOrCommentId equals recipe.RecipeId
+                                               join user in _context.UserInfos on report.ReportUserId equals user.UserId
+                                               select new Background_Control_RecipeReport
+                                               {
+                                                   ReportId = report.ReportId,
+                                                   RecipeId = recipe.RecipeId,
+                                                   RecipeName = recipe.RecipeName,
+                                                   Author = report.ReportedUser.UserName,
+                                                   ReportReason = report.ReportReason,
+                                                   ReportStatus = report.ReportStatus,
+                                                   Reporter = user.UserName
+                                               }).ToListAsync();
 
-			return View(model);
+                    // 用戶檢舉
+                    var userReports = await (from report in _context.ReportTables
+                                             where report.ReportType == 0 && report.ReportStatus == false
+                                             join user in _context.UserInfos on report.ReportUserId equals user.UserId
+                                             select new Background_Control_UserReport
+                                             {
+                                                 ReportId = report.ReportId,
+                                                 UserId = report.ReportedUserId,
+                                                 UserName = report.ReportedUser.UserName,
+                                                 Email = report.ReportedUser.UserEmail,
+                                                 ReportReason = report.ReportReason,
+                                                 ReportStatus = report.ReportStatus,
+                                                 ReportUser = user.UserName,
+                                             }).ToListAsync();
+
+                    var model = new Backgroud_Control_Model
+                    {
+                        ChartViewsData = chartData1,
+                        ChartMembershipData = chartData2,
+                        OrderRecipedTable = orderedRecipes,
+                        UserTable = users,
+                        RecipedTable = recipes,
+                        CommentTable = comments,
+                        RecipeReport = recipeReports,
+                        UserReport = userReports,
+                    };
+
+                    ViewBag.Month = DateTime.Now.Month;
+                    ViewBag.Season = await _context.SeasonalIngredients
+                        .Where(o => o.MonthId == 7)
+                        .ToListAsync();
+
+                    return View(model);
+
+
+                }
+                else
+                {
+
+                    return Redirect("/Home/Index");
+
+                }
+            }
+
+            return Redirect("/Home/Index");
+
+          
 		}
 
 

@@ -278,12 +278,20 @@ namespace project_itasty.Controllers
                
                 if (Userpassword == member.UserPassword)
                 {
+                    
 					HttpContext.Session.SetString("userEmail", UserEmail);
 					HttpContext.Session.SetInt32("userId", member.UserId);
 					TempData["loginMessage"] = "登入成功";
                     return Redirect("/Home/Index");
                 }
-
+                else if (Userpassword == member.UserPassword|| BCrypt.Net.BCrypt.Verify(Userpassword, member.UserPassword) && member.UserPermissions == 1)
+                {
+                    HttpContext.Session.SetString("userEmail", UserEmail);
+                    HttpContext.Session.SetInt32("userId", member.UserId);
+                    HttpContext.Session.SetInt32("userPermissions", member.UserPermissions);
+                    TempData["loginMessage"] = "管理員登入成功";
+                    return Redirect("/Background_control/Index");
+                }
                 else if(BCrypt.Net.BCrypt.Verify(Userpassword, member.UserPassword)) 
                 { 
 

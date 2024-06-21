@@ -119,7 +119,10 @@
         } else if (message == "登入失敗") {
 
             window.location.href = "@Url.Content("~/UserRegister/Create")";
-        } else if (message == "註冊成功") {
+        } else if (message == "管理員登入成功") {
+            window.location.href = "@Url.Content("~/Background_control/Index")";
+
+        }else if (message == "註冊成功") {
             window.location.href = "@Url.Content("~/UserRegister/Create")";
 
         }
