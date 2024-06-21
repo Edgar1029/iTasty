@@ -45,7 +45,7 @@ namespace project_itasty.Controllers
 			recipe_table.UserId = (int)userid_int;
 			recipe_table.Views = 0;
 			recipe_table.Favorites = 0;
-			recipe_table.RecipeStatus = "recipeStatus";
+			recipe_table.RecipeStatus = "No violation";
 			recipe_table.CreatedDate = DateTime.Now;
 			recipe_table.LastModifiedDate = DateTime.Now;
 
@@ -118,7 +118,7 @@ namespace project_itasty.Controllers
 
 			#endregion
 
-			return RedirectToAction("Index", "RecipePage", new { recipe_id = recipe_table.RecipeId });
+			return RedirectToAction("Recipe_return", "RecipePage", new { recipe_id = recipe_table.RecipeId });
 
 		}
 
@@ -179,21 +179,22 @@ namespace project_itasty.Controllers
 			int? userid_int = HttpContext.Session.GetInt32("userId");
 
 
-			var old_recipe = _context.RecipeTables.Find(recipe_table.RecipeId);
-			var step = _context.StepTables.Find(recipe_table.RecipeId);
+			var old_recipe = await _context.RecipeTables.FindAsync(recipe_table.RecipeId);
 
-			if (!string.IsNullOrEmpty(recipe_table.RecipeCoverBase64))
+			if (old_recipe == null)
 			{
-				if (Is_base64(recipe_table.RecipeCoverBase64))
-				{
-					recipe_table.RecipeCoverImage = Convert.FromBase64String(recipe_table.RecipeCoverBase64);
-				}
+				return NotFound();
+			}
+
+			if (!string.IsNullOrEmpty(recipe_table.RecipeCoverBase64) && Is_base64(recipe_table.RecipeCoverBase64))
+			{
+				recipe_table.RecipeCoverImage = Convert.FromBase64String(recipe_table.RecipeCoverBase64);
 			}
 
 
 			if (recipe_table.RecipeName != old_recipe.RecipeName || recipe_table.RecipeCoverImage != old_recipe.RecipeCoverImage || recipe_table.RecipeIntroduction != old_recipe.RecipeIntroduction
-				|| recipe_table.PublicPrivate != old_recipe.PublicPrivate || recipe_table.ProteinUsed != old_recipe.ProteinUsed || recipe_table.MealType != old_recipe.MealType 
-				|| recipe_table.CuisineStyle != old_recipe.CuisineStyle || recipe_table.HealthyOptions != old_recipe.HealthyOptions || recipe_table.CookingTime != old_recipe.CookingTime 
+				|| recipe_table.PublicPrivate != old_recipe.PublicPrivate || recipe_table.ProteinUsed != old_recipe.ProteinUsed || recipe_table.MealType != old_recipe.MealType
+				|| recipe_table.CuisineStyle != old_recipe.CuisineStyle || recipe_table.HealthyOptions != old_recipe.HealthyOptions || recipe_table.CookingTime != old_recipe.CookingTime
 				|| recipe_table.Servings != old_recipe.Servings || recipe_table.Calories != old_recipe.Calories)
 			{
 				old_recipe.RecipeName = recipe_table.RecipeName;
@@ -208,105 +209,184 @@ namespace project_itasty.Controllers
 				old_recipe.Servings = recipe_table.Servings;
 				old_recipe.Calories = recipe_table.Calories;
 				old_recipe.LastModifiedDate = DateTime.Now;
+				_context.RecipeTables.Update(old_recipe);
+			}
+			await _context.SaveChangesAsync();
+
+			Console.WriteLine("=================================================================");
+			Console.WriteLine("ingredients_table的數量 : " + ingredients_table.Count);
+			Console.WriteLine("=================================================================");
+			// 現有的資料ID集合
+			var existingIngredientIds = _context.IngredientsTables
+												.Where(x => x.RecipeId == recipe_table.RecipeId)
+												.Select(x => x.Id)
+												.ToList();
+
+			var newIngredientIds = ingredients_table.Select(x => x.IngredientsTableId).ToList();
+
+			// 刪除不存在於新資料中的現有資料
+			var ingredientsToDelete = existingIngredientIds.Except(newIngredientIds).ToList();
+			foreach (var id in ingredientsToDelete)
+			{
+				var ingredient = await _context.IngredientsTables.FindAsync(id);
+				if (ingredient != null)
+				{
+					_context.IngredientsTables.Remove(ingredient);
+				}
 			}
 
-			_context.Entry(old_recipe).State = EntityState.Modified;
+			await _context.SaveChangesAsync();
 
 
+			int? new_title_id = null;
 			foreach (var ing in ingredients_table)
 			{
+				Console.WriteLine("=================================================================");
+				Console.WriteLine("IngredientsTableId的數量 : " + ing.IngredientsTableId);
+				Console.WriteLine("IngredientUserId的數量 : " + ing.IngredientUserId);
+				Console.WriteLine("IngredientRecipeId的數量 : " + ing.IngredientRecipeId);
+				Console.WriteLine("TitleName的數量 : " + ing.TitleName);
+				Console.WriteLine("TitleId的數量 : " + ing.TitleId);
+				Console.WriteLine("IngredientsId的數量 : " + ing.IngredientsId);
+				Console.WriteLine("IngredientsName的數量 : " + ing.IngredientsName);
+				Console.WriteLine("IngredientsNumber的數量 : " + ing.IngredientsNumber);
+				Console.WriteLine("IngredientsUnit的數量 : " + ing.IngredientsUnit);
+				Console.WriteLine("IngredientKcalg的數量 : " + ing.IngredientKcalg);
+				Console.WriteLine("=================================================================");
 
-				Console.WriteLine("=================================================================");
-				Console.WriteLine("超級新資料的Id : " + ing.IngredientsTableId);
-				Console.WriteLine("=================================================================");
 
 				var ingredients = await _context.IngredientsTables.FindAsync(ing.IngredientsTableId);
 				if (ingredients != null)
 				{
 
-					Console.WriteLine("=================================================================");
-					Console.WriteLine("新資料的Id : " + ing.IngredientsTableId);
-					Console.WriteLine("舊資料的Id : " + ingredients.Id);
-					Console.WriteLine("舊資料的RecipeId : " + ingredients.RecipeId);
-					Console.WriteLine("=================================================================");
-
-					if (ingredients.TitleName != ing.TitleName || ingredients.IngredientsId != ing.IngredientsId || ingredients.IngredientsName != ing.IngredientsName
-						 || ingredients.IngredientsNumber != ing.IngredientsNumber || ingredients.IngredientsUnit != ing.IngredientsUnit || ingredients.Kcalg != ing.IngredientKcalg)
+					if (ing.TitleName != null)
 					{
-						ingredients.Id = ing.IngredientsTableId;
-						ingredients.RecipeId = ing.IngredientRecipeId;
-						ingredients.UserId = ing.IngredientUserId;
-						ingredients.TitleName = ing.TitleName;
-						ingredients.TitleId = ing.TitleId;
-						ingredients.IngredientsId = ing.IngredientsId;
-						ingredients.IngredientsName = ing.IngredientsName;
-						ingredients.IngredientsNumber = ing.IngredientsNumber;
-						ingredients.IngredientsUnit = ing.IngredientsUnit;
-						ingredients.Kcalg = ing.IngredientKcalg;
-						_context.Entry(ingredients).State = EntityState.Modified;
+						if (ingredients.TitleName != ing.TitleName)
+						{
+							ingredients.Id = ing.IngredientsTableId;
+							ingredients.RecipeId = ing.IngredientRecipeId;
+							ingredients.UserId = ing.IngredientUserId;
+							ingredients.TitleName = ing.TitleName;
+							new_title_id = ing.IngredientsTableId;
+							_context.IngredientsTables.Update(ingredients);
+							await _context.SaveChangesAsync();
+						}
+						else
+						{
+							new_title_id = ing.IngredientsTableId;
+						}
+					}
+					else
+					{
+						if (ingredients.IngredientsId != ing.IngredientsId || ingredients.IngredientsName != ing.IngredientsName
+							|| ingredients.IngredientsNumber != ing.IngredientsNumber || ingredients.IngredientsUnit != ing.IngredientsUnit || ingredients.Kcalg != ing.IngredientKcalg)
+						{
+							ingredients.Id = ing.IngredientsTableId;
+							ingredients.RecipeId = ing.IngredientRecipeId;
+							ingredients.UserId = ing.IngredientUserId;
+							ingredients.TitleName = null;
+							ingredients.TitleId = new_title_id;
+							ingredients.IngredientsId = ing.IngredientsId;
+							ingredients.IngredientsName = ing.IngredientsName;
+							ingredients.IngredientsNumber = ing.IngredientsNumber;
+							ingredients.IngredientsUnit = ing.IngredientsUnit;
+							ingredients.Kcalg = ing.IngredientKcalg;
+							_context.IngredientsTables.Update(ingredients);
+							await _context.SaveChangesAsync();
+						}
+
 					}
 				}
 				else
 				{
-					Console.WriteLine("=================================================================");
-					Console.WriteLine("新資料的RecipeId : " + ing.IngredientRecipeId);
-					Console.WriteLine("=================================================================");
+
+
 					var new_Ingredient = new IngredientsTable
 					{
-						UserId = ing.IngredientUserId,
-						RecipeId = ing.IngredientRecipeId,
+						UserId = (int)userid_int,
+						RecipeId = recipe_table.RecipeId,
 						TitleName = ing.TitleName,
-						TitleId = ing.TitleId,
+						TitleId = new_title_id,
 						IngredientsId = ing.IngredientsId,
 						IngredientsName = ing.IngredientsName,
 						IngredientsNumber = ing.IngredientsNumber,
 						IngredientsUnit = ing.IngredientsUnit,
 						Kcalg = ing.IngredientKcalg
 					};
-					_context.IngredientsTables.Add(new_Ingredient);
+
+					if (ing.TitleName != null)
+					{
+						_context.IngredientsTables.Add(new_Ingredient);
+						await _context.SaveChangesAsync();
+						new_title_id = ing.IngredientsTableId;
+					}
+					else
+					{
+						_context.IngredientsTables.Add(new_Ingredient);
+						await _context.SaveChangesAsync();
+					}
 				}
 
 			}
 
 
+			// 處理步驟資料
+			var existingStepIds = _context.StepTables
+										   .Where(x => x.RecipeId == recipe_table.RecipeId)
+										   .Select(x => x.Id)
+										   .ToList();
+
+			var newStepIds = step_table.Select(x => x.StepId).ToList();
+
+			// 刪除不存在於新資料中的現有步驟
+			var stepsToDelete = existingStepIds.Except(newStepIds).ToList();
+			foreach (var id in stepsToDelete)
+			{
+				var step = await _context.StepTables.FindAsync(id);
+				if (step != null)
+				{
+					_context.StepTables.Remove(step);
+				}
+			}
+
+			await _context.SaveChangesAsync();
+
+
 			foreach (var steps in step_table)
 			{
 				var old_steps = await _context.StepTables.FindAsync(steps.StepId);
-				if (!string.IsNullOrEmpty(steps.StepBase64))
+				if (!string.IsNullOrEmpty(steps.StepBase64) && Is_base64(steps.StepBase64))
 				{
-					if (Is_base64(steps.StepBase64))
-					{
-
-						steps.StepImg = Convert.FromBase64String(steps.StepBase64);
-
-					}
+					steps.StepImg = Convert.FromBase64String(steps.StepBase64);
 				}
 
 				if (old_steps != null)
 				{
-					if(old_steps.StepText != steps.StepText || old_steps.StepImg != steps.StepImg)
+					if (old_steps.StepText != steps.StepText || old_steps.StepImg != steps.StepImg)
 					{
 						old_steps.StepText = steps.StepText;
 						old_steps.StepImg = steps.StepImg;
-						_context.Entry(old_steps).State = EntityState.Modified;
+						_context.StepTables.Update(old_steps);
+						await _context.SaveChangesAsync();
 					}
 				}
 				else
 				{
 					var new_step = new StepTable
 					{
-						RecipeId = steps.StepRecipeId,
+						RecipeId = recipe_table.RecipeId,
 						StepText = steps.StepText,
 						StepImg = steps.StepImg,
 					};
 					_context.StepTables.Add(new_step);
+					await _context.SaveChangesAsync();
 				}
 
 			}
 
-			await _context.SaveChangesAsync();
 
-			return RedirectToAction("Index", "RecipePage", new { recipe_id = recipe_table.RecipeId });
+
+			return RedirectToAction("Recipe_return", "RecipePage", new { recipe_id = recipe_table.RecipeId });
 		}
 
 

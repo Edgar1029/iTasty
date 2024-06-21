@@ -84,7 +84,7 @@ $("#ingredients").on("click", ".ingredients_content_num", function () {
                          <p class=" kcalg d_none">${ingredients_kcalg}</p>
                          <input type="hidden" class="IngredientsName" name="IngredientsName" value="${ingredients[0]}">
                          <input type="hidden" class="IngredientsId" name="IngredientsId" value="${ingredients[3]}">
-                         <input type="hidden"  name="Kcalg" value="${ingredients[2]}">
+                         <input type="hidden" class="Kcalg" name="IngredientKcalg" value="${ingredients[2]}">
                          `;
         }
 
@@ -160,7 +160,7 @@ $("#ingredients").on("click", ".ingredients_content_num", function () {
                       <p class="ingredients_name">100克 ${customize_kcalg}卡</p>
                       <p class="kcalg d_none">${customize_ingredients_kcalg}</p>
                       <input type="hidden" class="IngredientsName" name="IngredientsName" value="${customize_ingredients}">
-                      <input type="hidden"  name="Kcalg" value="${customize_kcalg / 100}">
+                      <input type="hidden" class="Kcalg" name="IngredientKcalg" value="${customize_kcalg / 100}">
                       `;
         }
 
@@ -193,16 +193,16 @@ $("#ingredients").on("click", ".ingredients_content_num", function () {
     // 食材標題切換start
     $(`#ingredients_content_${row_num} .ingredients_row_change`).on("change", function () {
         if ($(`#ingredients_content_${row_num} .ingredients_row_change`).val() == "標題") {
-            $(`#ingredients_content_${row_num} .ingredients_content_anchor button`).detach();
-            $(`#ingredients_content_${row_num} .ingredients_content_anchor h4`).detach();
+            $(`#ingredients_content_${row_num} .ingredients_content_anchor button`).remove();
+            $(`#ingredients_content_${row_num} .ingredients_content_anchor h4`).remove();
             $(`#ingredients_content_${row_num} .ingredients_content_anchor`).append(`<h4 id="ingredients_title_${ingredients_title_last_num}" class="col-9 ingredients_title" style="margin-bottom: 0px;">
                     <input class="TitleName" type="text" name="TitleName" placeholder="新增標題">
                     </h4>`);
             ingredients_title_last_num += 1;
         }
         if ($(`#ingredients_content_${row_num} .ingredients_row_change`).val() == "食材") {
-            $(`#ingredients_content_${row_num} .ingredients_content_anchor h4`).detach();
-            $(`#ingredients_content_${row_num} .ingredients_content_anchor button`).detach();
+            $(`#ingredients_content_${row_num} .ingredients_content_anchor h4`).remove();
+            $(`#ingredients_content_${row_num} .ingredients_content_anchor button`).remove();
             $(`#ingredients_content_${row_num} .ingredients_content_anchor`).append(`<button class="ingredients_content" type="button" data-bs-toggle="collapse"
                             data-bs-target="#card_${row_num}" aria-expanded="false" aria-controls="card_${row_num}"
                             style="width: 100%;">
@@ -667,6 +667,16 @@ function add_ingredients_name() {
         $(this).find(".IngredientsNumber").attr("name", `ingredients_table[${num}].IngredientsNumber`);
         $(this).find(".IngredientsUnit").removeAttr("name");
         $(this).find(".IngredientsUnit").attr("name", `ingredients_table[${num}].IngredientsUnit`);
+        $(this).find(".IngredientsTableId").removeAttr("name");
+        $(this).find(".IngredientsTableId").attr("name", `ingredients_table[${num}].IngredientsTableId`);
+        $(this).find(".IngredientUserId").removeAttr("name");
+        $(this).find(".IngredientUserId").attr("name", `ingredients_table[${num}].IngredientUserId`);
+        $(this).find(".IngredientRecipeId").removeAttr("name");
+        $(this).find(".IngredientRecipeId").attr("name", `ingredients_table[${num}].IngredientRecipeId`);
+        $(this).find(".TitleId").removeAttr("name");
+        $(this).find(".TitleId").attr("name", `ingredients_table[${num}].TitleId`);
+        $(this).find(".Kcalg").removeAttr("name");
+        $(this).find(".Kcalg").attr("name", `ingredients_table[${num}].IngredientKcalg`);
     })
 }
 

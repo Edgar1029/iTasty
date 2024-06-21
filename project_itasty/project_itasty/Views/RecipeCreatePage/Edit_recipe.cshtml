@@ -8,7 +8,7 @@
 	<div class="container container_decorate ingredients_page">
 		<div class=" position-relative img_cut_anchor">
 			<img id="recipe_img" class="recipe_img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Recipe.RecipeCoverImage)" alt="">
-			<input type="hidden" id="recipe_img_save" name="RecipeCoverBase64" value="@Model.Recipe.RecipeCoverImage">
+			<input type="hidden" id="recipe_img_save" name="RecipeCoverBase64" value="@Convert.ToBase64String(Model.Recipe.RecipeCoverImage)">
 			<input type="hidden" name="RecipeId" value="@Model.Recipe.RecipeId">
 			<button type="button" class="opacity-50 img_upload_btn position-absolute top-50 start-50 translate-middle">
 				<svg viewBox="0 0 24 24" aria-hidden="true"
@@ -24,7 +24,7 @@
 		<div class="container ">
 			<div class="recipe_name_row flex_container_center row_decorate_bottom ">
 				<div class="recipe_name d-flex justify-content-center align-items-center">
-					<input type="text" name="RecipeName" id="" placeholder="@Model.Recipe.RecipeName">
+					<input type="text" name="RecipeName" id="" placeholder="" value="@Model.Recipe.RecipeName">
 				</div>
 			</div>
 			<div class="intro_row row_decorate_bottom flex_container_center flex_container_column ">
@@ -34,7 +34,7 @@
 					<input type="hidden" name="UserId" value="@Model.Recipe.UserId">
 				</div>
 				<div class="recipe_intro">
-					<textarea class="recipe_intro_enter " name="RecipeIntroduction" id="" placeholder="@Model.Recipe.RecipeIntroduction"></textarea>
+					<textarea class="recipe_intro_enter " name="RecipeIntroduction" id="" placeholder="" value="">@Model.Recipe.RecipeIntroduction</textarea>
 				</div>
 			</div>
 			<div id="ingredients" class="ingredients row_decorate_bottom">
@@ -44,12 +44,12 @@
 				<ul class="ingredients_count">
 					<li>
 						<img class="icon_size" src="~/img/recipe_icon/Clock.ico" alt="">
-						<input class="cooking_time " type="text" name="CookingTime" placeholder="@Model.Recipe.CookingTime">
+						<input class="cooking_time " type="text" name="CookingTime" placeholder="" value="@Model.Recipe.CookingTime">
 						<p class="total_kcalg">分鐘</p>
 					</li>
 					<li>
 						<img class="icon_size" src="~/img/recipe_icon/people.ico" alt="">
-						<input class="peoples " type="text" name="Servings" placeholder="@Model.Recipe.Servings">
+						<input class="peoples " type="text" name="Servings" placeholder="" value="@Model.Recipe.Servings">
 						人份
 					</li>
 					<li>
@@ -61,10 +61,10 @@
 				<div class="row ingredients_row_decorate ingredients_row">
 					<span class="d_none" data-row-num=""></span>
 					<h4 id="ingredients_title_1" class="col-9 ingredients_title">
-						<input type="text" name="ingredients_table[0].TitleName" placeholder="@Model.IngredientsEdit[0].TitleName">
-						<input type="hidden" name="IngredientsTableId" value="@Model.IngredientsEdit[0].IngredientsTableId">
-						<input type="hidden" name="IngredientUserId" value="@Model.IngredientsEdit[0].IngredientUserId">
-						<input type="hidden" name="IngredientRecipeId" value="@Model.Recipe.RecipeId">
+						<input type="text" name="ingredients_table[0].TitleName" placeholder="" value="@Model.IngredientsEdit[0].TitleName">
+						<input type="hidden" name="ingredients_table[0].IngredientsTableId" value="@Model.IngredientsEdit[0].IngredientsTableId">
+						<input type="hidden" name="ingredients_table[0].IngredientUserId" value="@Model.IngredientsEdit[0].IngredientUserId">
+						<input type="hidden" name="ingredients_table[0].IngredientRecipeId" value="@Model.Recipe.RecipeId">
 					</h4>
 					<div class="col-2">
 					</div>
@@ -74,24 +74,24 @@
 				@for (int i = 1; i < Model.IngredientsEdit.Count; i++)
 				{
 					<div id="ingredients_content_@i" class="row ingredients_row_decorate ingredients_content_num ingredients_row">
-						<input type="hidden" name="IngredientsTableId" value="@Model.IngredientsEdit[i].IngredientsTableId">
-						<input type="hidden" name="IngredientUserId" value="@Model.IngredientsEdit[i].IngredientUserId">
-						<input type="hidden" name="IngredientRecipeId" value="@Model.Recipe.RecipeId">
+						<input type="hidden" class="IngredientsTableId" name="IngredientsTableId" value="@Model.IngredientsEdit[i].IngredientsTableId">
+						<input type="hidden" class="IngredientUserId" name="IngredientUserId" value="@Model.IngredientsEdit[i].IngredientUserId">
+						<input type="hidden" class="IngredientRecipeId" name="IngredientRecipeId" value="@Model.Recipe.RecipeId">
 						<span class="d_none" data-row-num=""></span>
 						<div class="col-9 ingredients_content_center ingredients_content_anchor">
 							@if (Model.IngredientsEdit[i].TitleName != null)
 							{
 								int title_num = 2;
 								<h4 id="ingredients_title_@title_num" class="col-9 ingredients_title" style="margin-bottom: 0px;">
-									<input class="TitleName" type="text" name="TitleName" placeholder="@Model.IngredientsEdit[i].TitleName">
+									<input class="TitleName" type="text" name="TitleName" placeholder="" value="@Model.IngredientsEdit[i].TitleName">
 								</h4>
 								title_num += 1;
 							}
 							else
 							{
 								<button class="ingredients_content" type="button" data-bs-toggle="collapse"
-										data-bs-target="#card_1" aria-expanded="false" aria-controls="card_1" style="width: 100%;">
-									<input type="hidden" name="TitleId" value="@Model.IngredientsEdit[i].TitleId">
+										data-bs-target="#card_@i" aria-expanded="false" aria-controls="card_@i" style="width: 100%;">
+									<input type="hidden" class="TitleId" name="TitleId" value="@Model.IngredientsEdit[i].TitleId">
 									<div class="row ">
 										<div class="col-5 ingredients_name_row ">
 											@if (Model.IngredientsEdit[i].IngredientKcalg == null)
@@ -261,12 +261,12 @@
 							@if (Model.StepEdit[s].StepImg != null)
 							{
 								<img id="steps_img_@(s+1)" class="steps_img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.StepEdit[s].StepImg)" alt="">
-								<input type="hidden" class="steps_img_save" id="steps_img_@(s)_save" name="StepBase64" value="@Convert.ToBase64String(Model.StepEdit[s].StepImg)">
+								<input type="hidden" class="steps_img_save" id="steps_img_@(s+1)_save" name="StepBase64" value="@Convert.ToBase64String(Model.StepEdit[s].StepImg)">
 							}
 							else
 							{
 								<img id="steps_img_@(s+1)" class="steps_img" src="~/img/455X325.jpg" alt="">
-								<input type="hidden" class="steps_img_save" id="steps_img_@(s)_save" name="StepBase64" value="0">
+								<input type="hidden" class="steps_img_save" id="steps_img_@(s+1)_save" name="StepBase64" value="0">
 							}
 							<button type="button" class="opacity-50 img_upload_btn position-absolute top-50 start-50 translate-middle">
 								<svg viewBox="0 0 24 24" aria-hidden="true"
@@ -281,10 +281,10 @@
 						</div>
 						<div class="col-7 ">
 							<h4></h4>
-							<textarea class="recipe_steps_enter " name="StepText" id="steps_text_@(s)_save" placeholder="@Model.StepEdit[s].StepText"></textarea>
+							<textarea class="recipe_steps_enter " name="StepText" id="steps_text_@(s+1)_save" placeholder="" value="">@Model.StepEdit[s].StepText</textarea>
 						</div>
 						<div class="col-12 d-flex align-items-center justify-content-end">
-							<button type="button" id="reduce_step_@(s)" class="plus_minus_btn reduce_step">
+							<button type="button" id="reduce_step_@(s+1)" class="plus_minus_btn reduce_step">
 								<img class="plus_minus_img"
 									 src="~/img/recipe_icon/Minus.ico" alt="">
 							</button>
