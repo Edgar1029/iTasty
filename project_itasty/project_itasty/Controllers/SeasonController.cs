@@ -36,7 +36,8 @@ namespace project_itasty.Controllers
                 if (userEmail == permission?.UserEmail && permission.UserPermissions == 1)
                 {
 
-                    ViewBag.Month = month;
+                    //ViewBag.Month = month;
+                    ViewBag.Month = 7;
                     var query2 = from o in _context.SeasonalIngredients
                                 where o.MonthId == 7 /*month*/
                                 select o;

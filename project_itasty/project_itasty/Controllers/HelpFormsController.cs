@@ -133,8 +133,20 @@ namespace project_itasty.Controllers
                 TempData["message"] = "表單傳送完成";
                 return View("Create");
                 //return RedirectToAction("Index","Home");
-                   
-                
+
+
+            }
+            else
+            {
+
+                helpForm.UserId = UserId;
+                helpForm.QuestionType = QuestionType;
+                helpForm.QuestionImage = null;
+                helpForm.QuestionContent = QuestionContent;
+                _context.HelpForms.Add(helpForm);
+                await _context.SaveChangesAsync();
+                TempData["message"] = "表單傳送完成";
+                return View("Create");
             }
             ViewData["UserId"] = new SelectList(_context.UserInfos, "Id", "Id", helpForm.UserId);
             return Content("error");
