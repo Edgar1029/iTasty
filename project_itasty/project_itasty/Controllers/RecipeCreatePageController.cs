@@ -213,9 +213,6 @@ namespace project_itasty.Controllers
 			}
 			await _context.SaveChangesAsync();
 
-			Console.WriteLine("=================================================================");
-			Console.WriteLine("ingredients_table的數量 : " + ingredients_table.Count);
-			Console.WriteLine("=================================================================");
 			// 現有的資料ID集合
 			var existingIngredientIds = _context.IngredientsTables
 												.Where(x => x.RecipeId == recipe_table.RecipeId)
@@ -241,19 +238,6 @@ namespace project_itasty.Controllers
 			int? new_title_id = null;
 			foreach (var ing in ingredients_table)
 			{
-				Console.WriteLine("=================================================================");
-				Console.WriteLine("IngredientsTableId的數量 : " + ing.IngredientsTableId);
-				Console.WriteLine("IngredientUserId的數量 : " + ing.IngredientUserId);
-				Console.WriteLine("IngredientRecipeId的數量 : " + ing.IngredientRecipeId);
-				Console.WriteLine("TitleName的數量 : " + ing.TitleName);
-				Console.WriteLine("TitleId的數量 : " + ing.TitleId);
-				Console.WriteLine("IngredientsId的數量 : " + ing.IngredientsId);
-				Console.WriteLine("IngredientsName的數量 : " + ing.IngredientsName);
-				Console.WriteLine("IngredientsNumber的數量 : " + ing.IngredientsNumber);
-				Console.WriteLine("IngredientsUnit的數量 : " + ing.IngredientsUnit);
-				Console.WriteLine("IngredientKcalg的數量 : " + ing.IngredientKcalg);
-				Console.WriteLine("=================================================================");
-
 
 				var ingredients = await _context.IngredientsTables.FindAsync(ing.IngredientsTableId);
 				if (ingredients != null)
@@ -263,6 +247,12 @@ namespace project_itasty.Controllers
 					{
 						if (ingredients.TitleName != ing.TitleName)
 						{
+							ingredients.TitleId = null;
+							ingredients.IngredientsId = null;
+							ingredients.IngredientsName = null;
+							ingredients.IngredientsNumber = null;
+							ingredients.IngredientsUnit = null;
+							ingredients.Kcalg = null;
 							ingredients.Id = ing.IngredientsTableId;
 							ingredients.RecipeId = ing.IngredientRecipeId;
 							ingredients.UserId = ing.IngredientUserId;
@@ -278,7 +268,7 @@ namespace project_itasty.Controllers
 					}
 					else
 					{
-						if (ingredients.IngredientsId != ing.IngredientsId || ingredients.IngredientsName != ing.IngredientsName
+						if (ingredients.TitleId != new_title_id || ingredients.IngredientsId != ing.IngredientsId || ingredients.IngredientsName != ing.IngredientsName
 							|| ingredients.IngredientsNumber != ing.IngredientsNumber || ingredients.IngredientsUnit != ing.IngredientsUnit || ingredients.Kcalg != ing.IngredientKcalg)
 						{
 							ingredients.Id = ing.IngredientsTableId;
@@ -316,12 +306,14 @@ namespace project_itasty.Controllers
 
 					if (ing.TitleName != null)
 					{
+						new_Ingredient.TitleId = null;
 						_context.IngredientsTables.Add(new_Ingredient);
 						await _context.SaveChangesAsync();
-						new_title_id = ing.IngredientsTableId;
+						new_title_id = new_Ingredient.Id;
 					}
 					else
 					{
+						new_Ingredient.TitleId = new_title_id;
 						_context.IngredientsTables.Add(new_Ingredient);
 						await _context.SaveChangesAsync();
 					}
