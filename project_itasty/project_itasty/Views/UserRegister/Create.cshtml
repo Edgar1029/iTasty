@@ -150,7 +150,7 @@
             $.post($(this).attr("action"), $(this).serialize(), function (data) {
                 if (data.success) {
                     // 顯示alert並要求輸入驗證碼
-                    var code = prompt("Verification code sent to your email. Please enter it here:");
+                    var code = prompt("已傳送驗證碼至信箱，請至信箱取得驗證碼在此輸入:");
                     if (code) {
                         $.post("@Url.Action("VerifyEmail", "UserRegister")", { code: code }, function (data) {
                             if (data.success) {
@@ -162,7 +162,7 @@
                             }
                         });
                     } else {
-                        alert("Verification code is required.");
+                        alert("需要驗證碼驗證");
                     }
                 } else {
                     // 顯示錯誤信息

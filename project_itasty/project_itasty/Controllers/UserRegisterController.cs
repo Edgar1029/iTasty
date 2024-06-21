@@ -14,6 +14,7 @@ using System.Security.Cryptography;
 using BCrypt.Net;
 using System.Net.Mail;
 using System.Net;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 
 
@@ -158,25 +159,32 @@ namespace project_itasty.Controllers
             {
 
 
-
+                var emailbol = from o in _context.UserInfos where o.UserEmail == UserEmail select o;
+                var emailbool = emailbol.FirstOrDefault();
                 // 生成驗證碼
                 Random random = new Random();
                 generatedCode = random.Next(100000, 999999).ToString();
+                if (emailbool!=null)
+                {
+                    return Json(new { success = false, error = "此信箱已註冊" });
+                }
+                   
+                    // 發送電子郵件
+                    SendVerificationEmail(UserEmail, generatedCode);
 
-                // 發送電子郵件
-                SendVerificationEmail(UserEmail, generatedCode);
-
-                // 暫時保存用戶信息
-                TempData["Email"] = UserEmail;
-                TempData["Password"] = UserPassword;
-                TempData["UserName"] = UserName;
-                return Json(new { success = true });
+                    // 暫時保存用戶信息
+                    TempData["Email"] = UserEmail;
+                    TempData["Password"] = UserPassword;
+                    TempData["UserName"] = UserName;
+                    return Json(new { success = true });
+                
+               
 
 
 
             }
 
-            return Json(new { success = false, error = "Invalid registration details" });
+            return Json(new { success = false, error = "請輸入正確資料" });
         }
         [HttpGet]
         public ActionResult VerifyEmail()
@@ -208,8 +216,8 @@ namespace project_itasty.Controllers
                 TempData["createMessage"] = "註冊成功";
                 return Json(new { success = true });
             }
-            ModelState.AddModelError("", "Invalid verification code");
-            return Json(new { success = false, error = "Invalid verification code" });
+            ModelState.AddModelError("", "無效驗證碼");
+            return Json(new { success = false, error = "無效驗證碼" });
         }
 
         private void SendVerificationEmail(string email, string code)
