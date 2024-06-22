@@ -433,6 +433,22 @@ $("#chats_row").on("submit", "#edit_message", function (e) {
 
 })
 
+//追蹤作者AJAX
+$("#author_row").on("submit", "#follow_submit", function (e) {
+    e.preventDefault();
+    var form = $(this);
+    $.ajax({
+        url: form.attr('action'),
+        type: form.attr('method'),
+        data: form.serialize(),
+        success: function (data) {
+            $("#follow_row").html(data);
+        }
+    })
+
+})
+
+
 
 
 

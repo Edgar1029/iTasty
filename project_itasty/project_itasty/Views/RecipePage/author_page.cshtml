@@ -61,10 +61,6 @@
 
 			</div>
 			<div class="col-3  collect_btn d-flex align-items-center justify-content-end">
-				<form action="/RecipeCreatePage/Edit_recipe" method="get">
-					<input type="hidden" name="recipeId" value="@Model.Recipe.RecipeId" />
-					<button class="button_style" style="width:100px">編輯食譜</button>
-				</form>
 			</div>
 		</div>
 	</div>
@@ -78,8 +74,16 @@
 		</div>
 	</div>
 	<div class="ingredients row_decorate_bottom">
-		<div class="ingredients_top_row flex_container_between">
-			<h2>準備食材</h2>
+		<div class="row">
+			<div class="ingredients_top_row flex_container_between col-9">
+				<h2>準備食材</h2>
+			</div>
+			<div class="col-3  collect_btn d-flex align-items-center justify-content-end" style="margin-top:24px">
+				<form action="/RecipeCreatePage/Edit_recipe" method="get">
+					<input type="hidden" name="recipeId" value="@Model.Recipe.RecipeId" />
+					<button class="button_style" style="width:100px">編輯食譜</button>
+				</form>
+			</div>
 		</div>
 		<ul class="ingredients_count">
 			<li>

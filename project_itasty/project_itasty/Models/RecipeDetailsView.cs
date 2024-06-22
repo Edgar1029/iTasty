@@ -18,5 +18,10 @@
 
 		public UserInfo? LoginUser { get; set; }
 
+		public UserFollower? UserFollowers { get; set; }
+
+		public int? AuthorId { get; set; }
+
+
 	}
 }

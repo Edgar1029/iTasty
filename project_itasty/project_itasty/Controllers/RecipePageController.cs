@@ -196,7 +196,7 @@ namespace project_itasty.Controllers
 					   .Where(s => s.RecipeId == recipe_id)
 					   .ToList();
 
-			var user = _context.UserInfos
+			var author = _context.UserInfos
 					   .Where(u => u.UserId == recipe.UserId)
 					   .FirstOrDefault();
 
@@ -243,19 +243,98 @@ namespace project_itasty.Controllers
 					   .Where(u => u.UserId == userid)
 					   .FirstOrDefault();
 
+			//查詢使用者訂閱狀態
+			var follow_staut = _context.UserFollowers
+				   .Where(f => f.UserId == author.UserId && f.FollowerId == userid)
+				   .ToList();
 
+			UserFollower?  user_follower = new UserFollower();
+
+			if (follow_staut.Any())
+			{
+				user_follower = follow_staut.Last();
+			}
 
 			return new RecipeDetailsView
 			{
 				Recipe = recipe,
 				IngredientsTables = ingredient,
 				StepTables = step,
-				User = user,
+				User = author,
 				MessageTables = messages.Select(m => m.Message).ToList(),
 				Message_users = messages.Select(m => m.User).ToList(),
-				LoginUser = login_userid
+				LoginUser = login_userid,
+				UserFollowers = user_follower
 			};
 
+		}
+
+		[HttpPost]
+		public IActionResult Follow_author (int author_id)
+		{
+			int? userid_int = HttpContext.Session.GetInt32("userId");
+			if(userid_int == null)
+			{
+				return Redirect("Home/Index");
+			}
+			var follow_staut = _context.UserFollowers
+							   .Where(f => f.UserId == author_id && f.FollowerId == userid_int)
+							   .OrderByDescending(f => f.FollowDate)
+							   .FirstOrDefault();
+
+
+			if (follow_staut == null)
+				{
+					var new_follower = new UserFollower
+					{						
+						UserId = author_id,
+						FollowerId = (int)userid_int,
+						FollowDate = DateOnly.FromDateTime(DateTime.Now),
+						UnfollowDate = null
+					};
+					_context.UserFollowers.Add(new_follower);
+					_context.SaveChanges();
+
+				}
+			else
+			{
+				if (follow_staut.UnfollowDate == null) 
+				{
+
+
+					follow_staut.UnfollowDate = DateOnly.FromDateTime(DateTime.Now);
+					_context.UserFollowers.Update(follow_staut);
+					_context.SaveChanges();
+				}
+				else
+				{
+					var new_follower = new UserFollower
+					{
+						UserId = author_id,
+						FollowerId = (int)userid_int,
+						FollowDate = DateOnly.FromDateTime(DateTime.Now),
+						UnfollowDate = null
+					};
+					_context.UserFollowers.Add(new_follower);
+					_context.SaveChanges();
+
+				}
+
+			}
+
+			var new_follow_staut = _context.UserFollowers
+								   .Where(f => f.UserId == author_id && f.FollowerId == userid_int)
+							       .OrderByDescending(f => f.FollowDate)
+							       .FirstOrDefault();
+
+			var to_partial = new RecipeDetailsView 
+			{
+				UserFollowers = new_follow_staut,
+				AuthorId = author_id
+			};
+
+
+			return PartialView("_follow_staut", to_partial);
 		}
 
 	}
