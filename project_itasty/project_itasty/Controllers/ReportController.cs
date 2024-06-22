@@ -20,13 +20,11 @@ namespace project_itasty.Controllers
             //連接iTastyDB 將傳入的資料寫入ReportTable，其中ID 對接 ReportTable 裡的 RecipedIdOrCommentId ， Type 對接 ReportTable 裡的ReportType
 
             //我還需要將 UserID 轉換成 UserName 植入 Report頁面 => 需要使用 LinQ ， 將 id 都 join 起來
-            //要幫你找人嗎?_?   蛤?不用我只是怕等等忘記自己要做啥
-            //1603 想到了嗎凱哥哥 睡惹
 
             //假裝傳入
-            ID = 3;
-            Type = 1;
-            reportUserID = 2;
+            //ID = 3;
+            //Type = 1;
+            //reportUserID = 2;
 
          string userName = string.Empty;
          string notes = string.Empty;

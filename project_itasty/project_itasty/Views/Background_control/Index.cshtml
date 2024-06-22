@@ -24,7 +24,7 @@
 <body>
 	<br></br>
 	<div class="row mt-4 gx-0" style="min-height:1040px;">
-		<div class="col-2 px-5">
+		<div class="col-2 px-5" >
 			<div class="list-group" id="list-tab" role="tablist">
 				<a class="list-group-item list-group-item-action active" id="list_home_list" data-toggle="list"
 				   href="#list_home" role="tab" aria-controls="home">主頁</a>
@@ -34,6 +34,8 @@
 				   href="#list-recipes" role="tab" aria-controls="recipes">食譜管理</a>
 				<a class="list-group-item list-group-item-action" id="list-comments-list" data-toggle="list"
 				   href="#list-comments" role="tab" aria-controls="comments">評論管理</a>
+				<a class="list-group-item list-group-item-action" id="list-issue-list" data-toggle="list"
+				   href="#list-issue" role="tab" aria-controls="comments">問題表單</a>
 				<a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
 				   href="#list-settings" role="tab" aria-controls="settings">內容管理</a>
 			</div>
@@ -194,7 +196,7 @@
 								<td>@i.Author</td>
 								<td>@i.RecipedView</td>
 								<td>@i.NumberOfComment</td>
-								@if (@i.RecipedStatus == "No violation")
+								@if (@i.RecipedStatus != "violation" || @i.RecipedStatus == "")
 								{
 									<td>正常</td>
 								}
@@ -313,6 +315,65 @@
 
 						}
 					</table>
+				</div>
+				@* 問題表單頁 *@
+				<div class="tab-pane fade" id="list-issue" role="tabpanel" aria-labelledby="list-issue-list">
+					<h3>問題表單</h3>
+					<table class="table table-hover" id="comments">
+						<tr class="table-active">
+							<th>表單id</th>
+							<th>使用者id</th>
+							<th>問題類型</th>
+							<th>詳細內容</th>
+						</tr>
+						@foreach (var i in Model.IssueReport)
+						{
+							<tr>
+								<td>@i.FormId</td>
+								<td>@i.UserId</td>
+								<td>@i.QuestionType</td> 
+								<td id="user_Form_@i.FormId">
+									<!-- modal的彈出按鈕 -->
+									<button class="btn btn-primary btn_modal" data-bs-toggle="modal" data-bs-target="#Form_@i.FormId" id="censor">
+										查看詳情
+									</button>
+									<!-- modal的彈出按鈕 -->
+									<!-- modal的本體 -->
+									<div class="modal fade btn_modalBody" id="Form_@i.FormId" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<div class="modal-title">
+														查看詳情
+													</div>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+													<p>使用者ID: @i.UserId</p>
+													<p>問題類型: @i.QuestionType</p> 
+													<p>問題詳情: @i.QuestionContent</p>
+
+													@if (i.QuestionImage != null)
+													{
+														<p>問題圖片:</p>
+														<img src="data:image/jpg;base64, @((i.QuestionImage != null)?Convert.ToBase64String(i.QuestionImage):"")" alt="食物圖片" class="recipes_img" @((i.QuestionImage == null) ? "hidden" : "")>
+													}else
+													{
+														<p>問題圖片:無</p>
+													}
+
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- modal的本體 -->
+								</td>
+							</tr>
+
+						}
+
+					</table>
+
 				</div>
 				@* 內容管理頁 *@
 				<div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">

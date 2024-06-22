@@ -372,6 +372,17 @@ namespace project_itasty.Controllers
                                                  ReportUser = user.UserName,
                                              }).ToListAsync();
 
+                    //問題表單
+                    var issueReports = await (from r in _context.HelpForms
+                                              select new Background_Control_IssueReport
+											  { 
+                                                  FormId = r.FormId,
+                                                  UserId=r.UserId,
+                                                  QuestionContent = r.QuestionContent,
+												  QuestionType = r.QuestionType,
+                                                  QuestionImage = r.QuestionImage,    
+                                              }).ToListAsync();
+
                     var model = new Backgroud_Control_Model
                     {
                         ChartViewsData = chartData1,
@@ -382,6 +393,7 @@ namespace project_itasty.Controllers
                         CommentTable = comments,
                         RecipeReport = recipeReports,
                         UserReport = userReports,
+                        IssueReport = issueReports,
                     };
 
                     ViewBag.Month = DateTime.Now.Month;

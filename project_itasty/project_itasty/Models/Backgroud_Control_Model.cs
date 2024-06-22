@@ -19,6 +19,8 @@ namespace project_itasty.Models
 
 		public List<Background_Control_RecipeReport>? RecipeReport { get; set; }
 
+		public List<Background_Control_IssueReport>? IssueReport { get; set; }
+
 	}
 
     public class Background_Control_ChartData
@@ -94,6 +96,15 @@ namespace project_itasty.Models
 		public bool? ReportStatus { get; set; }
 
 		public string? Reporter { get; set; }
+
+	}
+	public class Background_Control_IssueReport
+	{
+		public int FormId { get; set; }
+		public int UserId { get; set; }
+		public string? QuestionType { get; set; }
+		public string? QuestionContent { get; set; }
+		public byte[]? QuestionImage { get; set; }
 
 	}
 
