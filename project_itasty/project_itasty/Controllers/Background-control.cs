@@ -286,8 +286,8 @@ namespace project_itasty.Controllers
 
                     var chartData2 = new Background_Control_ChartData
                     {
-                        Labels = new List<string> { "January", "February", "March", "April", "May", "June" },
-                        Data = new List<int> { 12, 19, 3, 5, 2, 3 }
+                        Labels = new List<string> { "一月", "二月", "三月", "四月", "五月", "六月" },
+                        Data = new List<int> { 125, 198, 35, 509, 256, 378 }
                     };
 
                     // 排序的菜譜列表
