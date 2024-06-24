@@ -220,11 +220,11 @@ h2 {
     object-fit: cover;
 }
 
-.author_profile > form > a > h2 {
+.author_profile  > a > h2 {
     margin-top: 45px;
 }
 
-.author_profile> form > a {
+.author_profile > a {
     text-decoration: none;
     color: #000;
 }
@@ -244,13 +244,15 @@ h2 {
     margin-top: 40px;
     margin-bottom: 50px;
     height: 30px;
+    width: 100%
 }
 
 .unfollow_button {
-    background-color:darkred;
+    background-color: darkred;
     margin-top: 40px;
     margin-bottom: 50px;
     height: 30px;
+    width: 100%
 }
 
 

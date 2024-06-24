@@ -434,18 +434,30 @@ $("#chats_row").on("submit", "#edit_message", function (e) {
 })
 
 //追蹤作者AJAX
-$("#author_row").on("submit", "#follow_submit", function (e) {
-    e.preventDefault();
-    var form = $(this);
-    $.ajax({
-        url: form.attr('action'),
-        type: form.attr('method'),
-        data: form.serialize(),
-        success: function (data) {
-            $("#follow_row").html(data);
-        }
-    })
+$(function () {
+    $("#author_row").on("click", "#follow_btn", function (e) {
 
+        var author = $("#author_id").val();
+        var follower = $("#follower_id").val();
+
+        console.log(author);
+        console.log(follower);
+        $.ajax({
+            url: '/api/UserApi', ///UpdateFollower
+            type: 'POST',
+            data: { user_id: author, follower_id: follower },
+            success: function (data) {
+                if (data == null) {
+                    $("#follow_btn").text("取消追蹤").removeClass("follow_button").addClass("unfollow_button");
+                } else {
+                    $("#follow_btn").text("我要追蹤").removeClass("unfollow_button").addClass("follow_button");
+                }
+               /* $("#follow_row").html(data);*/
+            }
+
+        })
+
+    })
 })
 
 
