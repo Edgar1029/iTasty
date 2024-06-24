@@ -166,332 +166,362 @@
 	</div>
 	<div class="author_row row_decorate_bottom">
 		<div class="author row">
-			<div class="col-3 ">
-				<img class="author_img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.User.UserPhoto)" alt="">
-			</div>
-			<div class="author_profile col-7">
-				<a href="~/user/@(AuthorEmail.Split('@')[0])">
-					<h2>@Model.User.UserName</h2>
-				</a>
-				<ul>
-					<li>123 食譜</li>
-					<li>456 粉絲人數</li>
-				</ul>
-				@if (Model.User.UserIntro == null)
-				{
-					<p class="text-break">這個人很懶，沒留下什麼。</p>
-				}
-				else
-				{
-					<p class="text-break">@Model.User.UserIntro</p>
-				}
-
-
-			</div>
-			<div class="col-2 d-flex align-items-start justify-content-end" style="margin-top:45px ;">
-				<div class="popup more_btn">
-					<img class="icon_size" src="~/img/recipe_icon/more.ico" alt="">
-					<span class="popuptext row " id="message_edit_Popup" style="width: 100px;margin-left: -50px; ">
-						<div class="col-12 message_edit">
-							<button class="report_chats" data-bs-toggle="modal"
-									data-bs-target="#report_recipe">
-								檢舉食譜
-							</button>
-						</div>
-					</span>
+			@if (Model.Recipe.ParentRecipeId == null)
+			{
+				<div class="col-3 ">
+					<img class="author_img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.User.UserPhoto)" alt="">
 				</div>
-			</div>
-			<div class="col-2"></div>
-			<div class="col-2"></div>
+				<div class="author_profile col-7">
+					<a href="~/user/@(AuthorEmail.Split('@')[0])">
+						<h2>@Model.User.UserName</h2>
+					</a>
+					<ul>
+						<li>@Model.RecipeNum 食譜</li>
+						<li>@Model.FollowerNum 粉絲人數</li>
+					</ul>
+					@if (Model.User.UserIntro == null)
+					{
+						<p class="text-break">這個人很懶，沒留下什麼。</p>
+					}
+					else
+					{
+						<p class="text-break">@Model.User.UserIntro</p>
+					}
+
+
+				</div>
+				<div class="col-2 d-flex align-items-start justify-content-end" style="margin-top:45px ;">
+					<div class="popup more_btn">
+						<img class="icon_size" src="~/img/recipe_icon/more.ico" alt="">
+						<span class="popuptext row " id="message_edit_Popup" style="width: 100px;margin-left: -50px; ">
+							<div class="col-12 message_edit">
+								<button class="report_chats" data-bs-toggle="modal"
+										data-bs-target="#report_recipe">
+									檢舉食譜
+								</button>
+							</div>
+						</span>
+					</div>
+				</div>
+				<div class="col-2"></div>
+				<div class="col-2"></div>
+			}else{
+				<div class="col-3 ">
+					<img class="author_img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ParentUser.UserPhoto)" alt="">
+				</div>
+				<div class="author_profile col-7">
+					<a href="~/user/@(AuthorEmail.Split('@')[0])">
+						<h2>@Model.ParentUser.UserName</h2>
+					</a>
+					<ul>
+						<li>@Model.RecipeNum 食譜</li>
+						<li>@Model.FollowerNum 粉絲人數</li>
+					</ul>
+					@if (Model.ParentUser.UserIntro == null)
+					{
+						<p class="text-break">這個人很懶，沒留下什麼。</p>
+					}
+					else
+					{
+						<p class="text-break">@Model.ParentUser.UserIntro</p>
+					}
+
+
+				</div>
+
+			}
 		</div>
 	</div>
-	<div class="enter_message_row row_decorate_bottom ">
-		<ul>
-			<li>
-				<img src="~/img/recipe_icon/Chats.ico" alt="">
-			</li>
-			<li>留言</li>
-			<li id="message_num"></li>
-		</ul>
-		<form id="message_submit" action="@Url.Action("Create_message", "RecipePage")" method="post">
-			<div class="enter_message row">
-				<div class="col-2 user_photo_layout">
-					<img class="user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.LoginUser.UserPhoto)" alt="">
+	@if (Model.Recipe.ParentRecipeId == null)
+	{
+		<div class="enter_message_row row_decorate_bottom ">
+			<ul>
+				<li>
+					<img src="~/img/recipe_icon/Chats.ico" alt="">
+				</li>
+				<li>留言</li>
+				<li id="message_num"></li>
+			</ul>
+			<form id="message_submit" action="@Url.Action("Create_message", "RecipePage")" method="post">
+				<div class="enter_message row">
+					<div class="col-2 user_photo_layout">
+						<img class="user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.LoginUser.UserPhoto)" alt="">
+					</div>
+					<textarea class="message_enter col-9 " name="MessageContent" id="message_enter" placeholder="留言給作者"></textarea>
+					<div class="col-1"></div>
 				</div>
-				<textarea class="message_enter col-9 " name="MessageContent" id="message_enter" placeholder="留言給作者"></textarea>
-				<div class="col-1"></div>
-			</div>
-			<div class="message_button_row row ">
-				<div class="col-9 "></div>
-				<button type="submit" id="message_button" class="button_style col-3 message_button">送出留言</button>
-			</div>
-		</form>
-	</div>
-	<div id="chats_row" class="chats_row">
-		@{
-			int chats_num = 1;
-			int chat_reply_num = 1;
-			for (int i = 0; i < Model.MessageTables.Count; i++)
-			{
-				if (Model.MessageTables != null && Model.MessageTables[i].TopMessageid == null)
+				<div class="message_button_row row ">
+					<div class="col-9 "></div>
+					<button type="submit" id="message_button" class="button_style col-3 message_button">送出留言</button>
+				</div>
+			</form>
+		</div>
+		<div id="chats_row" class="chats_row">
+			@{
+				int chats_num = 1;
+				int chat_reply_num = 1;
+				for (int i = 0; i < Model.MessageTables.Count; i++)
 				{
-					if (i < Model.Message_users.Count)
+					if (Model.MessageTables != null && Model.MessageTables[i].TopMessageid == null)
 					{
+						if (i < Model.Message_users.Count)
+						{
 
-						if (i > 1)
-						{
-							<hr>
-						}
-						if (Model.MessageTables[i].ExistDelete == "exist")
-						{
-							if (Model.MessageTables[i].UserId == Model.LoginUser.UserId)
+							if (i > 1)
 							{
-								<div id="chats_@(chats_num)" class="chats row chats_anchor chats_num">
-									<div class="col-2 d-flex justify-content-center deleted_userimg_anchor" style="margin-top:15px;">
-										<img class="chats_user_photo " src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
-									</div>
-									<div class="col-10 deleted_messages_anchor" style="margin-top:15px; padding-left: 0px;">
-										<div class="row">
-											<div class="col-11">
-												<h5>@Model.Message_users[i].UserName</h5>
-												<p class="text-break message_content" style="margin-bottom:0px ;">@Model.MessageTables[i].MessageContent</p>
-												<div class="chats_time">
-													@{
-														DateTime now = DateTime.Now;
-														DateTime message_time = Model.MessageTables[i].CreateTime;
-														TimeSpan time_gap = now - message_time;
-
-														if (time_gap.TotalSeconds < 60)
-														{
-															<p>幾秒前</p>
-														}
-														else if (time_gap.TotalMinutes < 60)
-														{
-															<p>@(Math.Floor(time_gap.TotalMinutes) + "分鐘前")</p>
-														}
-														else if (time_gap.TotalHours < 24)
-														{
-															<p>@(Math.Floor(time_gap.TotalHours) + "小時前")</p>
-														}
-														else
-														{
-															<p>@(message_time.ToString("yyyy-MM-dd"))</p>
-														}
-
-													}
-
-
-
-												</div>
-
-												<button class="reply_btn " href="">
-													<img src="/img/recipe_icon/chat_reply.ico" alt="">
-													回覆
-												</button>
-											</div>
-											<div class="col-1 d-flex align-items-start justify-content-end">
-												<div class="popup more_btn">
-													<img class="icon_size" src="/img/recipe_icon/more.ico" alt="">
-													<span class="popuptext row" id="message_edit_Popup">
-														<div class="col-12 message_edit">
-															<button class="edit_chats">編輯</button>
-															<hr>
-															<form class="message_delete" action="@Url.Action("Delete_message", "RecipePage")" method="post" onsubmit="return confirm_delete(this);">
-																<input type="hidden" class="message_id" name="id" value="@Model.MessageTables[i].MessageId" />
-																<button type="submit" class="delete_chats">刪除</button>
-															</form>
-														</div>
-													</span>
-												</div>
-											</div>
+								<hr>
+							}
+							if (Model.MessageTables[i].ExistDelete == "exist")
+							{
+								if (Model.MessageTables[i].UserId == Model.LoginUser.UserId)
+								{
+									<div id="chats_@(chats_num)" class="chats row chats_anchor chats_num">
+										<div class="col-2 d-flex justify-content-center deleted_userimg_anchor" style="margin-top:15px;">
+											<img class="chats_user_photo " src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
 										</div>
-									</div>
-									<!-- 留言回覆視窗start -->
-									<form id="message_reply_submit_@chats_num" class="reply_submit" action="@Url.Action("Create_message", "RecipePage")" method="post">
-										<input type="hidden" name="FatherMessage" value="@Model.MessageTables[i].MessageId">
-										<div class="col-12 reply_content reply_content_none">
+										<div class="col-10 deleted_messages_anchor" style="margin-top:15px; padding-left: 0px;">
 											<div class="row">
-												<div class="col-2"></div>
-												<div class="col-10">
-													<div class="row reply_row">
-														<textarea class="col-12 reply_enter " name="MessageContent" id="" placeholder="輸入留言"></textarea>
-														<div class="col-11 d-flex justify-content-end reply_content_btn">
-															<button class="button_style reply_cancel_btn">取消</button>
-															<button type="submit" class="button_style reply_enter_btn">送出留言</button>
-														</div>
-														<div class="col-1">
-														</div>
+												<div class="col-11">
+													<h5>@Model.Message_users[i].UserName</h5>
+													<p class="text-break message_content" style="margin-bottom:0px ;">@Model.MessageTables[i].MessageContent</p>
+													<div class="chats_time">
+														@{
+															DateTime now = DateTime.Now;
+															DateTime message_time = Model.MessageTables[i].CreateTime;
+															TimeSpan time_gap = now - message_time;
+
+															if (time_gap.TotalSeconds < 60)
+															{
+																<p>幾秒前</p>
+															}
+															else if (time_gap.TotalMinutes < 60)
+															{
+																<p>@(Math.Floor(time_gap.TotalMinutes) + "分鐘前")</p>
+															}
+															else if (time_gap.TotalHours < 24)
+															{
+																<p>@(Math.Floor(time_gap.TotalHours) + "小時前")</p>
+															}
+															else
+															{
+																<p>@(message_time.ToString("yyyy-MM-dd"))</p>
+															}
+
+														}
+
+
+
+													</div>
+
+													<button class="reply_btn " href="">
+														<img src="/img/recipe_icon/chat_reply.ico" alt="">
+														回覆
+													</button>
+												</div>
+												<div class="col-1 d-flex align-items-start justify-content-end">
+													<div class="popup more_btn">
+														<img class="icon_size" src="/img/recipe_icon/more.ico" alt="">
+														<span class="popuptext row" id="message_edit_Popup">
+															<div class="col-12 message_edit">
+																<button class="edit_chats">編輯</button>
+																<hr>
+																<form class="message_delete" action="@Url.Action("Delete_message", "RecipePage")" method="post" onsubmit="return confirm_delete(this);">
+																	<input type="hidden" class="message_id" name="id" value="@Model.MessageTables[i].MessageId" />
+																	<button type="submit" class="delete_chats">刪除</button>
+																</form>
+															</div>
+														</span>
 													</div>
 												</div>
 											</div>
 										</div>
-									</form>
-									<!-- 留言回覆視窗end -->
-								</div>
-								chats_num += 1;
+										<!-- 留言回覆視窗start -->
+										<form id="message_reply_submit_@chats_num" class="reply_submit" action="@Url.Action("Create_message", "RecipePage")" method="post">
+											<input type="hidden" name="FatherMessage" value="@Model.MessageTables[i].MessageId">
+											<div class="col-12 reply_content reply_content_none">
+												<div class="row">
+													<div class="col-2"></div>
+													<div class="col-10">
+														<div class="row reply_row">
+															<textarea class="col-12 reply_enter " name="MessageContent" id="" placeholder="輸入留言"></textarea>
+															<div class="col-11 d-flex justify-content-end reply_content_btn">
+																<button class="button_style reply_cancel_btn">取消</button>
+																<button type="submit" class="button_style reply_enter_btn">送出留言</button>
+															</div>
+															<div class="col-1">
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- 留言回覆視窗end -->
+									</div>
+									chats_num += 1;
 
+								}
+								else
+								{
+									<div id="chats_@(chats_num)" class="chats row chats_anchor chats_num">
+										<div class="col-2 d-flex justify-content-center deleted_userimg_anchor" style="margin-top:15px;">
+											<img class="chats_user_photo " src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+										</div>
+										<div class="col-10 deleted_messages_anchor" style="margin-top:15px; padding-left: 0px;">
+											<div class="row">
+												<div class="col-11">
+													<h5>@Model.Message_users[i].UserName</h5>
+													<p class="text-break message_content" style="margin-bottom:0px ;">@Model.MessageTables[i].MessageContent</p>
+													<div class="chats_time">
+														@{
+															DateTime now = DateTime.Now;
+															DateTime message_time = Model.MessageTables[i].CreateTime;
+															TimeSpan time_gap = now - message_time;
+
+															if (time_gap.TotalSeconds < 60)
+															{
+																<p>幾秒前</p>
+															}
+															else if (time_gap.TotalMinutes < 60)
+															{
+																<p>@(Math.Floor(time_gap.TotalMinutes) + "分鐘前")</p>
+															}
+															else if (time_gap.TotalHours < 24)
+															{
+																<p>@(Math.Floor(time_gap.TotalHours) + "小時前")</p>
+															}
+															else
+															{
+																<p>@(message_time.ToString("yyyy-MM-dd"))</p>
+															}
+
+														}
+
+
+
+													</div>
+
+													<button class="reply_btn " href="">
+														<img src="/img/recipe_icon/chat_reply.ico" alt="">
+														回覆
+													</button>
+												</div>
+												<div class="col-1 d-flex align-items-start justify-content-end">
+													<div class="popup more_btn">
+														<img class="icon_size" src="/img/recipe_icon/more.ico" alt="">
+														<span class="popuptext row" id="message_edit_Popup">
+															<div class="col-12 message_edit">
+																<button class="report_chats" data-bs-toggle="modal"
+																		data-bs-target="#report_chats">
+																	檢舉
+																</button>
+															</div>
+														</span>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- 留言回覆視窗start -->
+										<form id="message_reply_submit_@chats_num" class="reply_submit" action="@Url.Action("Create_message", "RecipePage")" method="post">
+											<input type="hidden" name="FatherMessage" value="@Model.MessageTables[i].MessageId">
+											<div class="col-12 reply_content reply_content_none">
+												<div class="row">
+													<div class="col-2"></div>
+													<div class="col-10">
+														<div class="row reply_row">
+															<textarea class="col-12 reply_enter " name="MessageContent" id="" placeholder="輸入留言"></textarea>
+															<div class="col-11 d-flex justify-content-end reply_content_btn">
+																<button class="button_style reply_cancel_btn">取消</button>
+																<button type="submit" class="button_style reply_enter_btn">送出留言</button>
+															</div>
+															<div class="col-1">
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</form>
+										<!-- 留言回覆視窗end -->
+									</div>
+									chats_num += 1;
+								}
+
+							}
+							else if (Model.MessageTables[i].ExistDelete == "delete")
+							{
+								<div id="chats_@(chats_num)" class="chats row chats_anchor chats_num">
+									<div class="deleted_messages" style="margin-top:15px;">
+										<h5>留言已被刪除</h5>
+									</div>
+								</div>
 							}
 							else
 							{
-								<div id="chats_@(chats_num)" class="chats row chats_anchor chats_num">
-									<div class="col-2 d-flex justify-content-center deleted_userimg_anchor" style="margin-top:15px;">
-										<img class="chats_user_photo " src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
-									</div>
-									<div class="col-10 deleted_messages_anchor" style="margin-top:15px; padding-left: 0px;">
-										<div class="row">
-											<div class="col-11">
-												<h5>@Model.Message_users[i].UserName</h5>
-												<p class="text-break message_content" style="margin-bottom:0px ;">@Model.MessageTables[i].MessageContent</p>
-												<div class="chats_time">
-													@{
-														DateTime now = DateTime.Now;
-														DateTime message_time = Model.MessageTables[i].CreateTime;
-														TimeSpan time_gap = now - message_time;
 
-														if (time_gap.TotalSeconds < 60)
-														{
-															<p>幾秒前</p>
-														}
-														else if (time_gap.TotalMinutes < 60)
-														{
-															<p>@(Math.Floor(time_gap.TotalMinutes) + "分鐘前")</p>
-														}
-														else if (time_gap.TotalHours < 24)
-														{
-															<p>@(Math.Floor(time_gap.TotalHours) + "小時前")</p>
-														}
-														else
-														{
-															<p>@(message_time.ToString("yyyy-MM-dd"))</p>
-														}
-
-													}
-
-
-
-												</div>
-
-												<button class="reply_btn " href="">
-													<img src="/img/recipe_icon/chat_reply.ico" alt="">
-													回覆
-												</button>
-											</div>
-											<div class="col-1 d-flex align-items-start justify-content-end">
-												<div class="popup more_btn">
-													<img class="icon_size" src="/img/recipe_icon/more.ico" alt="">
-													<span class="popuptext row" id="message_edit_Popup">
-														<div class="col-12 message_edit">
-															<button class="report_chats" data-bs-toggle="modal"
-																	data-bs-target="#report_chats">
-																檢舉
-															</button>
-														</div>
-													</span>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- 留言回覆視窗start -->
-									<form id="message_reply_submit_@chats_num" class="reply_submit" action="@Url.Action("Create_message", "RecipePage")" method="post">
-										<input type="hidden" name="FatherMessage" value="@Model.MessageTables[i].MessageId">
-										<div class="col-12 reply_content reply_content_none">
-											<div class="row">
-												<div class="col-2"></div>
-												<div class="col-10">
-													<div class="row reply_row">
-														<textarea class="col-12 reply_enter " name="MessageContent" id="" placeholder="輸入留言"></textarea>
-														<div class="col-11 d-flex justify-content-end reply_content_btn">
-															<button class="button_style reply_cancel_btn">取消</button>
-															<button type="submit" class="button_style reply_enter_btn">送出留言</button>
-														</div>
-														<div class="col-1">
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</form>
-									<!-- 留言回覆視窗end -->
-								</div>
-								chats_num += 1;
 							}
 
 						}
-						else if (Model.MessageTables[i].ExistDelete == "delete")
-						{
-							<div id="chats_@(chats_num)" class="chats row chats_anchor chats_num">
-								<div class="deleted_messages" style="margin-top:15px;">
-									<h5>留言已被刪除</h5>
-								</div>
-							</div>
-						}
-						else
-						{
-
-						}
-
 					}
-				}
-				else if (Model.MessageTables != null && Model.MessageTables[i].TopMessageid != null)
-				{
-					if (i < Model.Message_users.Count)
+					else if (Model.MessageTables != null && Model.MessageTables[i].TopMessageid != null)
 					{
-						if (Model.MessageTables[i].ExistDelete == "exist")
+						if (i < Model.Message_users.Count)
 						{
-							if (Model.MessageTables[i].UserId == Model.LoginUser.UserId)
+							if (Model.MessageTables[i].ExistDelete == "exist")
 							{
-								<div id="chat_reply_@chat_reply_num" class="col-12 chat_reply_anchor chats_num">
-									<div class="row">
-										<div class="col-2"></div>
-										<div class="col-10">
-											<div class="row">
-												<div class="col-1 deleted_userimg_anchor" style="padding-left: 0px;">
-													<img class="chats_user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
-												</div>
-												<div class="col-11 deleted_messages_anchor" style="padding-left: 32px;">
-													<div class="row">
-														<div class="col-10">
-															<h5>@Model.Message_users[i].UserName</h5>
-															<p class="text-break message_content" style="margin-bottom:0px ;">@Model.MessageTables[i].MessageContent</p>
-															<div class="chats_time">
-																@{
-																	DateTime now = DateTime.Now;
-																	DateTime reply_message_time = Model.MessageTables[i].CreateTime;
-																	TimeSpan reply_time_gap = now - reply_message_time;
+								if (Model.MessageTables[i].UserId == Model.LoginUser.UserId)
+								{
+									<div id="chat_reply_@chat_reply_num" class="col-12 chat_reply_anchor chats_num">
+										<div class="row">
+											<div class="col-2"></div>
+											<div class="col-10">
+												<div class="row">
+													<div class="col-1 deleted_userimg_anchor" style="padding-left: 0px;">
+														<img class="chats_user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+													</div>
+													<div class="col-11 deleted_messages_anchor" style="padding-left: 32px;">
+														<div class="row">
+															<div class="col-10">
+																<h5>@Model.Message_users[i].UserName</h5>
+																<p class="text-break message_content" style="margin-bottom:0px ;">@Model.MessageTables[i].MessageContent</p>
+																<div class="chats_time">
+																	@{
+																		DateTime now = DateTime.Now;
+																		DateTime reply_message_time = Model.MessageTables[i].CreateTime;
+																		TimeSpan reply_time_gap = now - reply_message_time;
 
-																	if (reply_time_gap.TotalSeconds < 60)
-																	{
-																		<p>幾秒前</p>
-																	}
-																	else if (reply_time_gap.TotalMinutes < 60)
-																	{
-																		<p>@(Math.Floor(reply_time_gap.TotalMinutes) + "分鐘前")</p>
-																	}
-																	else if (reply_time_gap.TotalHours < 24)
-																	{
-																		<p>@(Math.Floor(reply_time_gap.TotalHours) + "小時前")</p>
-																	}
-																	else
-																	{
-																		<p>@(reply_message_time.ToString("yyyy-MM-dd"))</p>
-																	}
+																		if (reply_time_gap.TotalSeconds < 60)
+																		{
+																			<p>幾秒前</p>
+																		}
+																		else if (reply_time_gap.TotalMinutes < 60)
+																		{
+																			<p>@(Math.Floor(reply_time_gap.TotalMinutes) + "分鐘前")</p>
+																		}
+																		else if (reply_time_gap.TotalHours < 24)
+																		{
+																			<p>@(Math.Floor(reply_time_gap.TotalHours) + "小時前")</p>
+																		}
+																		else
+																		{
+																			<p>@(reply_message_time.ToString("yyyy-MM-dd"))</p>
+																		}
 
-																}
+																	}
+																</div>
 															</div>
-														</div>
-														<div class="col-2 d-flex align-items-start justify-content-end">
-															<div class="popup more_btn">
-																<img class="icon_size" src="/img/recipe_icon/more.ico" alt="">
-																<span class="popuptext row" id="message_edit_Popup">
-																	<div class="col-12 message_edit">
-																		<button class="edit_chats">編輯</button>
-																		<hr>
-																		<form class="message_delete" action="@Url.Action("Delete_message", "RecipePage")" method="post" onsubmit="return confirm_delete(this);">
-																			<input type="hidden" class="message_id" name="id" value="@Model.MessageTables[i].MessageId" />
-																			<button type="submit" class="delete_chats">刪除</button>
-																		</form>
-																	</div>
-																</span>
+															<div class="col-2 d-flex align-items-start justify-content-end">
+																<div class="popup more_btn">
+																	<img class="icon_size" src="/img/recipe_icon/more.ico" alt="">
+																	<span class="popuptext row" id="message_edit_Popup">
+																		<div class="col-12 message_edit">
+																			<button class="edit_chats">編輯</button>
+																			<hr>
+																			<form class="message_delete" action="@Url.Action("Delete_message", "RecipePage")" method="post" onsubmit="return confirm_delete(this);">
+																				<input type="hidden" class="message_id" name="id" value="@Model.MessageTables[i].MessageId" />
+																				<button type="submit" class="delete_chats">刪除</button>
+																			</form>
+																		</div>
+																	</span>
+																</div>
 															</div>
 														</div>
 													</div>
@@ -499,96 +529,98 @@
 											</div>
 										</div>
 									</div>
+									chat_reply_num += 1;
+
+
+								}
+								else
+								{
+									<div id="chat_reply_@chat_reply_num" class="col-12 chat_reply_anchor chats_num">
+										<div class="row">
+											<div class="col-2"></div>
+											<div class="col-10">
+												<div class="row">
+													<div class="col-1 deleted_userimg_anchor" style="padding-left: 0px;">
+														<img class="chats_user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+													</div>
+													<div class="col-11 deleted_messages_anchor" style="padding-left: 32px;">
+														<div class="row">
+															<div class="col-10">
+																<h5>@Model.Message_users[i].UserName</h5>
+																<p class="text-break message_content" style="margin-bottom:0px ;">@Model.MessageTables[i].MessageContent</p>
+																<div class="chats_time">
+																	@{
+																		DateTime now = DateTime.Now;
+																		DateTime reply_message_time = Model.MessageTables[i].CreateTime;
+																		TimeSpan reply_time_gap = now - reply_message_time;
+
+																		if (reply_time_gap.TotalSeconds < 60)
+																		{
+																			<p>幾秒前</p>
+																		}
+																		else if (reply_time_gap.TotalMinutes < 60)
+																		{
+																			<p>@(Math.Floor(reply_time_gap.TotalMinutes) + "分鐘前")</p>
+																		}
+																		else if (reply_time_gap.TotalHours < 24)
+																		{
+																			<p>@(Math.Floor(reply_time_gap.TotalHours) + "小時前")</p>
+																		}
+																		else
+																		{
+																			<p>@(reply_message_time.ToString("yyyy-MM-dd"))</p>
+																		}
+
+																	}
+																</div>
+															</div>
+															<div class="col-2 d-flex align-items-start justify-content-end">
+																<div class="popup more_btn">
+																	<img class="icon_size" src="/img/recipe_icon/more.ico" alt="">
+																	<span class="popuptext row" id="message_edit_Popup">
+																		<div class="col-12 message_edit">
+																			<button class="report_chats" data-bs-toggle="modal"
+																					data-bs-target="#report_chats">
+																				檢舉
+																			</button>
+																		</div>
+																	</span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									chat_reply_num += 1;
+								}
+
+
+							}
+							else if (Model.MessageTables[i].ExistDelete == "delete")
+							{
+								<div id="chats_@(chats_num)" class="chats row chats_anchor chats_num">
+									<div class="deleted_messages" style="margin-top:15px;">
+										<h5>留言已被刪除</h5>
+									</div>
 								</div>
-								chat_reply_num += 1;
-
-
 							}
 							else
 							{
-								<div id="chat_reply_@chat_reply_num" class="col-12 chat_reply_anchor chats_num">
-									<div class="row">
-										<div class="col-2"></div>
-										<div class="col-10">
-											<div class="row">
-												<div class="col-1 deleted_userimg_anchor" style="padding-left: 0px;">
-													<img class="chats_user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
-												</div>
-												<div class="col-11 deleted_messages_anchor" style="padding-left: 32px;">
-													<div class="row">
-														<div class="col-10">
-															<h5>@Model.Message_users[i].UserName</h5>
-															<p class="text-break message_content" style="margin-bottom:0px ;">@Model.MessageTables[i].MessageContent</p>
-															<div class="chats_time">
-																@{
-																	DateTime now = DateTime.Now;
-																	DateTime reply_message_time = Model.MessageTables[i].CreateTime;
-																	TimeSpan reply_time_gap = now - reply_message_time;
 
-																	if (reply_time_gap.TotalSeconds < 60)
-																	{
-																		<p>幾秒前</p>
-																	}
-																	else if (reply_time_gap.TotalMinutes < 60)
-																	{
-																		<p>@(Math.Floor(reply_time_gap.TotalMinutes) + "分鐘前")</p>
-																	}
-																	else if (reply_time_gap.TotalHours < 24)
-																	{
-																		<p>@(Math.Floor(reply_time_gap.TotalHours) + "小時前")</p>
-																	}
-																	else
-																	{
-																		<p>@(reply_message_time.ToString("yyyy-MM-dd"))</p>
-																	}
-
-																}
-															</div>
-														</div>
-														<div class="col-2 d-flex align-items-start justify-content-end">
-															<div class="popup more_btn">
-																<img class="icon_size" src="/img/recipe_icon/more.ico" alt="">
-																<span class="popuptext row" id="message_edit_Popup">
-																	<div class="col-12 message_edit">
-																		<button class="report_chats" data-bs-toggle="modal"
-																				data-bs-target="#report_chats">
-																			檢舉
-																		</button>
-																	</div>
-																</span>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								chat_reply_num += 1;
 							}
 
-
 						}
-						else if (Model.MessageTables[i].ExistDelete == "delete")
-						{
-							<div id="chats_@(chats_num)" class="chats row chats_anchor chats_num">
-								<div class="deleted_messages" style="margin-top:15px;">
-									<h5>留言已被刪除</h5>
-								</div>
-							</div>
-						}
-						else
-						{
-
-						}
-
 					}
 				}
+
+
 			}
+		</div>
 
+	}
 
-		}
-	</div>
 	<!-- 檢舉留言視窗start -->
 	<div class="modal" id="report_chats" data-bs-backdrop="static">
 		<div class="modal-dialog modal-dialog-centered modal-sm">

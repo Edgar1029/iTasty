@@ -85,7 +85,7 @@
 				<h2>準備食材</h2>
 			</div>
 			<div class="col-3  collect_btn d-flex align-items-center justify-content-end" style="margin-top:24px">
-				<form action="/RecipeCreatePage/Edit_recipe" method="get">
+				<form action="/RecipeCreatePage/Create_personal_recipe" method="get">
 					<input type="hidden" name="recipeId" value="@Model.Recipe.RecipeId" />
 					<button class="button_style" style="width:100px">編輯食譜</button>
 				</form>
@@ -179,8 +179,8 @@
 						<h2>@Model.User.UserName</h2>
 					</a>
 				<ul>
-					<li>123 食譜</li>
-					<li>456 粉絲人數</li>
+					<li>@Model.RecipeNum 食譜</li>
+					<li>@Model.FollowerNum 粉絲人數</li>
 				</ul>
 				@if (Model.User.UserIntro == null)
 				{

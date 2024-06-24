@@ -381,6 +381,156 @@ namespace project_itasty.Controllers
 			return RedirectToAction("Recipe_return", "RecipePage", new { recipe_id = recipe_table.RecipeId });
 		}
 
+		[HttpGet]
+		public IActionResult Create_personal_recipe(int recipeId)
+		{
+			int? userid_int = HttpContext.Session.GetInt32("userId");
+
+			var recipe_table = _context.RecipeTables.Find(recipeId);
+
+			var ingredients_table = _context.IngredientsTables
+									.Where(i => i.RecipeId == recipeId)
+									.Select(i => new IngredientsForEdit
+									{
+										IngredientsTableId = i.Id,
+										IngredientUserId = i.UserId,
+										IngredientRecipeId = i.RecipeId,
+										TitleName = i.TitleName,
+										TitleId = i.TitleId,
+										IngredientsId = i.IngredientsId,
+										IngredientsName = i.IngredientsName,
+										IngredientsNumber = i.IngredientsNumber,
+										IngredientsUnit = i.IngredientsUnit,
+										IngredientKcalg = i.Kcalg
+									})
+									.ToList();
+
+			var step_table = _context.StepTables
+							 .Where(s => s.RecipeId == recipeId)
+							 .Select(s => new StepForEdit
+							 {
+								 StepId = s.Id,
+								 StepRecipeId = s.RecipeId,
+								 StepText = s.StepText,
+								 StepImg = s.StepImg,
+								 StepBase64 = s.StepBase64,
+							 })
+							 .ToList();
+
+			var user = _context.UserInfos.Find(recipe_table.UserId);
+
+			var edit_recipe = new RecipeDetailsView
+			{
+				User = user,
+				Recipe = recipe_table,
+				IngredientsEdit = ingredients_table,
+				StepEdit = step_table,
+			};
+			return View(edit_recipe);
+		}
+
+
+		[HttpPost]
+		public IActionResult Create_personal_recipe(RecipeTable recipe_table, List<IngredientsForEdit> ingredients_table, List<StepForEdit> step_table)
+		{
+			int? userid_int = HttpContext.Session.GetInt32("userId");
+
+
+			var old_recipe = _context.RecipeTables.Find(recipe_table.RecipeId);
+
+			if (old_recipe == null)
+			{
+				return NotFound();
+			}
+
+			if (!string.IsNullOrEmpty(recipe_table.RecipeCoverBase64) && Is_base64(recipe_table.RecipeCoverBase64))
+			{
+				recipe_table.RecipeCoverImage = Convert.FromBase64String(recipe_table.RecipeCoverBase64);
+			}
+			old_recipe.RecipeId = 0;
+			old_recipe.UserId = (int)userid_int;
+			old_recipe.RecipeName = recipe_table.RecipeName;
+			old_recipe.RecipeCoverImage = recipe_table.RecipeCoverImage;
+			old_recipe.RecipeIntroduction = recipe_table.RecipeIntroduction;
+			old_recipe.Views = 0;
+			old_recipe.Favorites = 0;
+			old_recipe.ParentRecipeId = recipe_table.RecipeId;
+			old_recipe.CreatedDate = DateTime.Now;
+			old_recipe.LastModifiedDate = DateTime.Now;
+			old_recipe.RecipeStatus = "No violation";
+			old_recipe.PublicPrivate = recipe_table.PublicPrivate;
+			old_recipe.ProteinUsed = recipe_table.ProteinUsed;
+			old_recipe.MealType = recipe_table.MealType;
+			old_recipe.CuisineStyle = recipe_table.CuisineStyle;
+			old_recipe.HealthyOptions = recipe_table.HealthyOptions;
+			old_recipe.CookingTime = recipe_table.CookingTime;
+			old_recipe.Servings = recipe_table.Servings;
+			old_recipe.Calories = recipe_table.Calories;
+			_context.RecipeTables.Add(old_recipe);
+			_context.SaveChanges();
+
+			int new_recipe_id = old_recipe.RecipeId;
+			int? new_title_id = null;
+			foreach (var ing in ingredients_table)
+			{
+
+				var new_Ingredient = new IngredientsTable
+				{
+					UserId = (int)userid_int,
+					RecipeId = new_recipe_id,
+					TitleName = ing.TitleName,
+					TitleId = new_title_id,
+					IngredientsId = ing.IngredientsId,
+					IngredientsName = ing.IngredientsName,
+					IngredientsNumber = ing.IngredientsNumber,
+					IngredientsUnit = ing.IngredientsUnit,
+					Kcalg = ing.IngredientKcalg
+				};
+
+				if (ing.TitleName != null)
+				{
+					new_Ingredient.TitleId = null;
+					_context.IngredientsTables.Add(new_Ingredient);
+					_context.SaveChanges();
+					new_title_id = new_Ingredient.Id;
+				}
+				else
+				{
+					new_Ingredient.TitleId = new_title_id;
+					_context.IngredientsTables.Add(new_Ingredient);
+					_context.SaveChanges();
+				}
+			}
+
+
+
+
+			// 處理步驟資料
+
+
+
+			foreach (var steps in step_table)
+			{
+				if (!string.IsNullOrEmpty(steps.StepBase64) && Is_base64(steps.StepBase64))
+				{
+					steps.StepImg = Convert.FromBase64String(steps.StepBase64);
+				}
+
+				var new_step = new StepTable
+				{
+					RecipeId = new_recipe_id,
+					StepText = steps.StepText,
+					StepImg = steps.StepImg,
+				};
+				_context.StepTables.Add(new_step);
+				_context.SaveChanges();
+
+			}
+
+			
+
+			return RedirectToAction("Recipe_return", "RecipePage", new { recipe_id = new_recipe_id });
+		}
 
 		//base64格式判斷
 		public static bool Is_base64(string? base64)

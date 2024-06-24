@@ -37,9 +37,7 @@ public partial class UserInfo
 
     public virtual ICollection<RecipeTable> RecipeTables { get; set; } = new List<RecipeTable>();
 
-    public virtual ReportTable? ReportTableReport { get; set; }
-
-    public virtual ICollection<ReportTable> ReportTableReportedUsers { get; set; } = new List<ReportTable>();
+    public virtual ICollection<ReportTable> ReportTables { get; set; } = new List<ReportTable>();
 
     public virtual ICollection<ShoppingRecipe> ShoppingRecipes { get; set; } = new List<ShoppingRecipe>();
 

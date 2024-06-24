@@ -4,7 +4,7 @@
 	ViewData["Title"] = "Index";
 	Layout = "~/Views/Shared/_itastyLayout.cshtml";
 }
-<form action="/RecipeCreatePage/Edit_recipe" method="post">
+<form action="/RecipeCreatePage/Create_personal_recipe" method="post">
 	<div class="container container_decorate ingredients_page">
 		<div class=" position-relative img_cut_anchor">
 			<img id="recipe_img" class="recipe_img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Recipe.RecipeCoverImage)" alt="">
@@ -142,9 +142,7 @@
 								{
 									<option value="食材">食材</option>
 									<option value="標題" selected>標題</option>
-								}
-								else
-								{
+								}else{
 									<option value="食材">食材</option>
 									<option value="標題">標題</option>
 								}
@@ -379,8 +377,7 @@
 									<option value="海鮮">海鮮</option>
 									<option value="其他">其他</option>
 									<option value="無" selected>無</option>
-								}
-								else
+								}else
 								{
 									<option value="豬肉">豬肉</option>
 									<option value="雞肉">雞肉</option>
@@ -422,9 +419,7 @@
 									<option value="午/晚餐">午/晚餐</option>
 									<option value="點心">點心</option>
 									<option value="甜點" selected>甜點</option>
-								}
-								else
-								{
+								}else{
 									<option value="早餐">早餐</option>
 									<option value="午/晚餐">午/晚餐</option>
 									<option value="點心">點心</option>
@@ -453,9 +448,7 @@
 									<option value="素食">素食</option>
 									<option value="健康餐">健康餐</option>
 									<option value="無" selected>無</option>
-								}
-								else
-								{
+								}else{
 									<option value="素食">素食</option>
 									<option value="健康餐">健康餐</option>
 									<option value="無">無</option>
@@ -463,8 +456,8 @@
 							</select>
 						</div>
 						<div class="select_options">
-							<select name="CuisineStyle" id="">
-								<option selected hidden disabled value="">菜式</option>
+							<select name="CuisineStyle" id="">								
+									<option selected hidden disabled value="">菜式</option>
 								@if (Model.Recipe.CuisineStyle == "中式")
 								{
 									<option value="中式" selected>中式</option>
@@ -481,7 +474,7 @@
 									<option value="韓式">韓式</option>
 									<option value="其他">其他</option>
 								}
-								else if (Model.Recipe.CuisineStyle == "日式")
+									else if (Model.Recipe.CuisineStyle == "日式")
 								{
 									<option value="中式">中式</option>
 									<option value="西式">西式</option>
@@ -489,7 +482,7 @@
 									<option value="韓式">韓式</option>
 									<option value="其他">其他</option>
 								}
-								else if (Model.Recipe.CuisineStyle == "韓式")
+									else if (Model.Recipe.CuisineStyle == "韓式")
 								{
 									<option value="中式">中式</option>
 									<option value="西式">西式</option>
@@ -497,21 +490,19 @@
 									<option value="韓式" selected>韓式</option>
 									<option value="其他">其他</option>
 								}
-								else if (Model.Recipe.CuisineStyle == "其他")
+									else if (Model.Recipe.CuisineStyle == "其他")
 								{
 									<option value="中式">中式</option>
 									<option value="西式">西式</option>
 									<option value="日式">日式</option>
 									<option value="韓式">韓式</option>
 									<option value="其他" selected>其他</option>
-								}
-								else
-								{
-									<option value="中式">中式</option>
-									<option value="西式">西式</option>
-									<option value="日式">日式</option>
-									<option value="韓式">韓式</option>
-									<option value="其他">其他</option>
+								}else{
+										<option value="中式">中式</option>
+										<option value="西式">西式</option>
+										<option value="日式">日式</option>
+										<option value="韓式">韓式</option>
+										<option value="其他">其他</option>
 								}
 							</select>
 						</div>
@@ -528,37 +519,18 @@
 					 tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered">
 						<div class="modal-content">
-							@if (Model.Recipe.ParentRecipeId == null)
-							{
-								<div class="modal-header">
-									<h5 class="modal-title" id="staticBackdropLabel">請問食譜要設為公開或私人?</h5>
-									<select name="PublicPrivate" id="public_private" style="margin-left: 10px;">
-										<option selected hidden disabled value="">請選擇</option>
-										<option value="public">公開</option>
-										<option value="private">私人</option>
-									</select>
-									<button type="button" class="btn-close clear_select" data-bs-dismiss="modal"
-											aria-label="Close"></button>
-								</div>
-								<div class="save_window d-flex justify-content-center align-items-center">
-									<button type="submit" class="button_style" data-bs-dismiss="modal">送出</button>
-								</div>
-							}
-							else
-							{
-								<div class="modal-header">
-									<h5 class="modal-title" id="staticBackdropLabel">編輯過的食譜將被設為私人</h5>
-									<select name="PublicPrivate" id="public_private" style="margin-left: 10px;">
-										<option selected hidden disabled value="">請選擇</option>
-										<option value="private" selected>私人</option>
-									</select>
-									<button type="button" class="btn-close clear_select" data-bs-dismiss="modal"
-											aria-label="Close"></button>
-								</div>
-								<div class="save_window d-flex justify-content-center align-items-center">
-									<button type="submit" class="button_style" data-bs-dismiss="modal">確定</button>
-								</div>
-							}
+							<div class="modal-header">
+								<h5 class="modal-title" id="staticBackdropLabel">編輯過的食譜將被設為私人</h5>
+								<select name="PublicPrivate" id="public_private" style="margin-left: 10px;">
+									<option selected hidden disabled value="">請選擇</option>
+									<option value="private" selected>私人</option>
+								</select>
+								<button type="button" class="btn-close clear_select" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+							</div>
+							<div class="save_window d-flex justify-content-center align-items-center">
+								<button type="submit" class="button_style" data-bs-dismiss="modal">確定</button>
+							</div>
 						</div>
 					</div>
 				</div>

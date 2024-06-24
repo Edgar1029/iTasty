@@ -83,9 +83,13 @@ namespace project_itasty.Controllers
 			var recipe_id = HttpContext.Session.GetInt32("RecipeId");
 			int? userid_int = HttpContext.Session.GetInt32("userId");
 
-			var recipe_model = GetRecipeDetailsView(recipe_id, userid_int);
+			if(recipe_id != null && userid_int != null)
+			{
+				var recipe_model = GetRecipeDetailsView(recipe_id, userid_int);
+				return View(recipe_model);
+			}
 
-			return View(recipe_model);
+			return Redirect("Home/Index");
 
 		}
 		public IActionResult guest_page(RecipeDetailsView recipe_details)
@@ -184,9 +188,40 @@ namespace project_itasty.Controllers
 		{
 			int? recipe_id = recipeID;
 			int? userid = Userid;
+			var parent_recipe_user = new UserInfo();
+			int follower_num;
+			int recipe_num;
 			var recipe = _context.RecipeTables
 			 .Where(r => r.RecipeId == recipe_id)
 			 .FirstOrDefault();
+
+			if (recipe.ParentRecipeId != null)
+			{
+				var parent_recipe = _context.RecipeTables
+									.Where(p => p.RecipeId == recipe.ParentRecipeId)
+									.FirstOrDefault();
+				parent_recipe_user = _context.UserInfos
+									 .Where(u => u.UserId == parent_recipe.UserId)
+									 .FirstOrDefault();
+
+				follower_num = _context.UserFollowers
+							   .Where(f => f.UserId == parent_recipe.UserId && f.UnfollowDate == null)
+							   .Count();
+
+				recipe_num = _context.RecipeTables
+							 .Where(r => r.UserId == parent_recipe.UserId && r.PublicPrivate == "public")
+							 .Count();
+			}
+			else
+			{
+				follower_num = _context.UserFollowers
+							   .Where(f => f.UserId == recipe.UserId && f.UnfollowDate == null)
+							   .Count();
+
+				recipe_num = _context.RecipeTables
+							 .Where(r => r.UserId == recipe.UserId && r.PublicPrivate == "public")
+							 .Count();
+			}
 
 			var ingredient = _context.IngredientsTables
 							 .Where(i => i.RecipeId == recipe_id)
@@ -248,7 +283,7 @@ namespace project_itasty.Controllers
 				   .Where(f => f.UserId == author.UserId && f.FollowerId == userid)
 				   .ToList();
 
-			UserFollower?  user_follower = new UserFollower();
+			UserFollower? user_follower = new UserFollower();
 
 			if (follow_staut.Any())
 			{
@@ -264,78 +299,81 @@ namespace project_itasty.Controllers
 				MessageTables = messages.Select(m => m.Message).ToList(),
 				Message_users = messages.Select(m => m.User).ToList(),
 				LoginUser = login_userid,
-				UserFollowers = user_follower
+				UserFollowers = user_follower,
+				ParentUser = parent_recipe_user,
+				FollowerNum = follower_num,
+				RecipeNum = recipe_num
 			};
 
 		}
 
-		[HttpPost]
-		public IActionResult Follow_author (int author_id)
-		{
-			int? userid_int = HttpContext.Session.GetInt32("userId");
-			if(userid_int == null)
-			{
-				return Redirect("Home/Index");
-			}
-			var follow_staut = _context.UserFollowers
-							   .Where(f => f.UserId == author_id && f.FollowerId == userid_int)
-							   .OrderByDescending(f => f.FollowDate)
-							   .FirstOrDefault();
+		//[HttpPost]
+		//public IActionResult Follow_author (int author_id)
+		//{
+		//	int? userid_int = HttpContext.Session.GetInt32("userId");
+		//	if(userid_int == null)
+		//	{
+		//		return Redirect("Home/Index");
+		//	}
+		//	var follow_staut = _context.UserFollowers
+		//					   .Where(f => f.UserId == author_id && f.FollowerId == userid_int)
+		//					   .OrderByDescending(f => f.FollowDate)
+		//					   .FirstOrDefault();
 
 
-			if (follow_staut == null)
-				{
-					var new_follower = new UserFollower
-					{						
-						UserId = author_id,
-						FollowerId = (int)userid_int,
-						FollowDate = DateOnly.FromDateTime(DateTime.Now),
-						UnfollowDate = null
-					};
-					_context.UserFollowers.Add(new_follower);
-					_context.SaveChanges();
+		//	if (follow_staut == null)
+		//		{
+		//			var new_follower = new UserFollower
+		//			{						
+		//				UserId = author_id,
+		//				FollowerId = (int)userid_int,
+		//				FollowDate = DateOnly.FromDateTime(DateTime.Now),
+		//				UnfollowDate = null
+		//			};
+		//			_context.UserFollowers.Add(new_follower);
+		//			_context.SaveChanges();
 
-				}
-			else
-			{
-				if (follow_staut.UnfollowDate == null) 
-				{
-
-
-					follow_staut.UnfollowDate = DateOnly.FromDateTime(DateTime.Now);
-					_context.UserFollowers.Update(follow_staut);
-					_context.SaveChanges();
-				}
-				else
-				{
-					var new_follower = new UserFollower
-					{
-						UserId = author_id,
-						FollowerId = (int)userid_int,
-						FollowDate = DateOnly.FromDateTime(DateTime.Now),
-						UnfollowDate = null
-					};
-					_context.UserFollowers.Add(new_follower);
-					_context.SaveChanges();
-
-				}
-
-			}
-
-			var new_follow_staut = _context.UserFollowers
-								   .Where(f => f.UserId == author_id && f.FollowerId == userid_int)
-							       .OrderByDescending(f => f.FollowDate)
-							       .FirstOrDefault();
-
-			var to_partial = new RecipeDetailsView 
-			{
-				UserFollowers = new_follow_staut,
-				AuthorId = author_id
-			};
+		//		}
+		//	else
+		//	{
+		//		if (follow_staut.UnfollowDate == null) 
+		//		{
 
 
-			return PartialView("_follow_staut", to_partial);
-		}
+		//			follow_staut.UnfollowDate = DateOnly.FromDateTime(DateTime.Now);
+		//			_context.UserFollowers.Update(follow_staut);
+		//			_context.SaveChanges();
+		//		}
+		//		else
+		//		{
+		//			var new_follower = new UserFollower
+		//			{
+		//				UserId = author_id,
+		//				FollowerId = (int)userid_int,
+		//				FollowDate = DateOnly.FromDateTime(DateTime.Now),
+		//				UnfollowDate = null
+		//			};
+		//			_context.UserFollowers.Add(new_follower);
+		//			_context.SaveChanges();
+
+		//		}
+
+		//	}
+
+		//	var new_follow_staut = _context.UserFollowers
+		//						   .Where(f => f.UserId == author_id && f.FollowerId == userid_int)
+		//					       .OrderByDescending(f => f.FollowDate)
+		//					       .FirstOrDefault();
+
+		//	var to_partial = new RecipeDetailsView 
+		//	{
+		//		UserFollowers = new_follow_staut,
+		//		AuthorId = author_id
+		//	};
+
+
+		//	return PartialView("_follow_staut", to_partial);
+		//}
 
 	}
 }
