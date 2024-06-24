@@ -1,7 +1,10 @@
-﻿@model project_itasty.Models.RecipeDetailsView
+﻿
+
+@model project_itasty.Models.RecipeDetailsView
 @{
 	ViewData["Title"] = "Index";
 	Layout = "~/Views/Shared/_itastyLayout.cshtml";
+	string AuthorEmail = Model.User.UserEmail;
 }
 
 
@@ -172,11 +175,9 @@
 				<img class="author_img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.User.UserPhoto)" alt="">
 			</div>
 			<div class="author_profile col-7">
-				<form action="/" method="post">
-					<a href="">
+					<a href="~/user/@(AuthorEmail.Split('@')[0])">
 						<h2>@Model.User.UserName</h2>
 					</a>
-				</form>
 				<ul>
 					<li>123 食譜</li>
 					<li>456 粉絲人數</li>
@@ -207,16 +208,15 @@
 			</div>
 			<div  class="col-2 "></div>
 			<div id="follow_row" class="col-8 ">
-			<form id="follow_submit"  action="/RecipePage/Follow_author" method="post">
 				@if(Model.UserFollowers.UnfollowDate == null)
 				{
-					<button id="follow_btn" type="submit" class=" button_style unfollow_button">取消追蹤</button>
+					<button id="follow_btn" type="button" class=" button_style unfollow_button">取消追蹤</button>
 				}else
 				{
-					<button id="follow_btn" type="submit" class=" button_style follow_button">我要追蹤</button>
+					<button id="follow_btn" type="button" class=" button_style follow_button">我要追蹤</button>
 				}
-				<input type="hidden" name="author_id" value="@Model.User.UserId" />
-			</form>
+				<input id="author_id" type="hidden" name="author_id" value="@Model.User.UserId" />
+				<input id="follower_id" type="hidden" name="follower_id" value="@Model.LoginUser.UserId" />
 			</div>
 			<div class="col-2"></div>
 		</div>

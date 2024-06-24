@@ -2,6 +2,7 @@
 @{
 	ViewData["Title"] = "Index";
 	Layout = "~/Views/Shared/_itastyLayout.cshtml";
+	string AuthorEmail = Model.User.UserEmail;
 }
 
 
@@ -161,7 +162,7 @@
 				<img class="author_img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.User.UserPhoto)" alt="">
 			</div>
 			<div class="author_profile col-7">
-				<a href="">
+				<a href="~/user/@(AuthorEmail.Split('@')[0])">
 					<h2>@Model.User.UserName</h2>
 				</a>
 				<ul>
