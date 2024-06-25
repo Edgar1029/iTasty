@@ -23,10 +23,9 @@ public partial class IngredientsTable
 
     public string? IngredientsUnit { get; set; }
 
-	public float? Kcalg { get; set; }
+    public float? Kcalg { get; set; }
 
-
-	public virtual ICollection<FavoritesCheck> FavoritesChecks { get; set; } = new List<FavoritesCheck>();
+    public virtual ICollection<FavoritesCheck> FavoritesChecks { get; set; } = new List<FavoritesCheck>();
 
     public virtual IngredientDetail? Ingredients { get; set; }
 

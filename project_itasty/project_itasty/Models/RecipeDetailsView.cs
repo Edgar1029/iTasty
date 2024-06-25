@@ -17,10 +17,13 @@
 		public int? FatherMessage { get; set; }
 
 		public UserInfo? LoginUser { get; set; }
+		public UserInfo? ParentUser { get; set; }
 
 		public UserFollower? UserFollowers { get; set; }
 
 		public int? AuthorId { get; set; }
+		public int? RecipeNum { get; set; }
+		public int? FollowerNum { get; set; }
 
 
 	}
