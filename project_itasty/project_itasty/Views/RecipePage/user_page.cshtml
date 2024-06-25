@@ -220,7 +220,7 @@
 			</div>
 			<div class="col-2 "></div>
 			<div id="follow_row" class="col-8 ">
-				@if (Model.UserFollowers.UnfollowDate == null && Model.UserFollowers.FollowDate == null)
+				@if (Model.UserFollowers.FollowerId == 0)
 				{
 					<button id="follow_btn" type="button" class=" button_style follow_button">我要追蹤</button>
 				}
