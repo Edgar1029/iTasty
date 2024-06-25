@@ -104,8 +104,8 @@ $(document).ready(function () {
         } else {
             alert("您上傳的不是圖檔！");
         }
-        $(".cr-slider-wrap input").after('<span class=""><i class="fa-solid fa-magnifying-glass-plus h6"></i></span>');
-        $(".cr-slider-wrap input").before('<span class=""><i class="fa-solid fa-magnifying-glass-minus h6"></i></span>');
+        $(".cr-slider-wrap input").after('<span class=""><i class="fa-solid fa-magnifying-glass-plus"></i></span>');
+        $(".cr-slider-wrap input").before('<span class=""><i class="fa-solid fa-magnifying-glass-minus"></i></span>');
         $(".cr-slider-wrap input").addClass('px-2');
     }
 
@@ -575,6 +575,7 @@ async function user_edit(id) {
         success: function (e) {
             $("#modal_user_info").modal("hide");
             $(".text_user_name").html($("#input_user_name").val());
+            $(".text_user_info > p").html($("#input_user_info").val());
             $(".img_user_icon").prop('src', $("#img_user_icon").prop('src'))
             $(".img_user_banner").prop('src', $("#img_user_banner").prop('src'))
         },
@@ -645,7 +646,7 @@ function show_analyze_recipe() {
             $(".list_analyze_recipe").html() + `
 		    <p>
 			    ${list_analyze_recipe[i].recipe_name}
-			    <button onclick="remove_analyze_recipe(${list_analyze_recipe[i].recipe_id})"><i class="fa-regular fa-square-minus"></i></button>
+			    <button onclick="remove_analyze_recipe(${list_analyze_recipe[i].recipe_id})"><i class="fa-regular fa-square-minus text-danger"></i></button>
 		    </p>
 
         `);
@@ -824,7 +825,7 @@ function get_recipeview(recipe_id, day_length, day_shift) {
             d.setDate(d.getDate() - (day_length + day_shift - 1));
             for (let i of data) {
                 let diff_view_day = Math.ceil(((new Date(i.viewDate) < d) ? 0 : (new Date(i.viewDate) - d)) / (1000 * 60 * 60 * 24));
-                console.log(diff_view_day);
+                //console.log(diff_view_day);
                 for (let j = diff_view_day; j < day_length; j++) {
                     array_day_view[j] += i.viewNum;
                 }
@@ -847,7 +848,13 @@ function get_recipeview(recipe_id, day_length, day_shift) {
 
 //設定圖表
 function set_alanyze_canvas(datasets, alanyze_x) {
-    $(".area_analyze_chart").html('<canvas id="myChart"></canvas>');
+    const color = ["text-danger", "text-success", "text-primary"];
+    $(".area_analyze_chart").html("");
+    for (var i in list_analyze_recipe) {
+        console.log(i);
+        $(".area_analyze_chart").append(`<span class="${color[i]} me-3">${list_analyze_recipe[i].recipe_name}</span>`);
+    }
+    $(".area_analyze_chart").append('<canvas id="myChart"></canvas>');
 
     new Chart("myChart", {
         type: "line",
