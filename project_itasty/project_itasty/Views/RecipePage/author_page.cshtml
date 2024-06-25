@@ -175,7 +175,7 @@
 		<div class="author row">
 			@if (Model.Recipe.ParentRecipeId == null)
 			{
-				<div class="col-3 ">
+				<div class="col-3 d-flex align-items-center justify-content-end ">
 					@if (Model.User.UserPhoto == null)
 					{
 						<img class="author_img" src="/img/img_user_icon.png" alt="">
@@ -226,7 +226,7 @@
 				<div class="col-12 d-flex align-items-center justify-content-center " style="margin-top: 10px; margin-bottom: 10px;">
 					<h4 style="font-weight: bold ;font-size: 1.5em; text-align:center;">原食譜作者</h4>
 				</div>
-				<div class="author_img col-3 d-flex align-items-center justify-content-end">
+				<div class="orig_author_img col-3 d-flex align-items-center justify-content-end">
 					@if(Model.ParentUser.UserPhoto == null)
 					{
 						<img src="/img/img_user_icon.png" alt="">						
@@ -234,7 +234,7 @@
 						<img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ParentUser.UserPhoto)" alt="">
 					}
 				</div>
-				<div class="author_profile col-7">
+				<div class="orig_author_profile col-7">
 					<a href="~/user/@(AuthorEmail.Split('@')[0])">
 						<h2>@Model.ParentUser.UserName</h2>
 					</a>
