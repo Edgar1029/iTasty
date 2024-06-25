@@ -1,6 +1,4 @@
-﻿
-
-@model project_itasty.Models.RecipeDetailsView
+﻿@model project_itasty.Models.RecipeDetailsView
 @{
 	ViewData["Title"] = "Index";
 	Layout = "~/Views/Shared/_itastyLayout.cshtml";
@@ -72,7 +70,14 @@
 	</div>
 	<div class="intro_row row_decorate_bottom flex_container_center flex_container_column ">
 		<div class="intro_author flex_container_center">
-			<img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.User.UserPhoto)" alt="">
+			@if (Model.User.UserPhoto == null)
+			{
+				<img src="/img/img_user_icon.png" alt="">
+			}
+			else
+			{
+				<img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.User.UserPhoto)" alt="">
+			}
 			<p>@Model.User.UserName</p>
 		</div>
 		<div class="recipe_intro">
@@ -171,13 +176,20 @@
 	</div>
 	<div id="author_row" class="author_row row_decorate_bottom">
 		<div class="author row">
-			<div class="col-3 ">
-				<img class="author_img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.User.UserPhoto)" alt="">
+			<div class="col-3 d-flex align-items-center justify-content-end ">
+				@if (Model.User.UserPhoto == null)
+				{
+					<img class="author_img" src="/img/img_user_icon.png" alt="">
+				}
+				else
+				{
+					<img class="author_img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.User.UserPhoto)" alt="">
+				}
 			</div>
 			<div class="author_profile col-7">
-					<a href="~/user/@(AuthorEmail.Split('@')[0])">
-						<h2>@Model.User.UserName</h2>
-					</a>
+				<a href="~/user/@(AuthorEmail.Split('@')[0])">
+					<h2>@Model.User.UserName</h2>
+				</a>
 				<ul>
 					<li>@Model.RecipeNum 食譜</li>
 					<li>@Model.FollowerNum 粉絲人數</li>
@@ -206,12 +218,13 @@
 					</span>
 				</div>
 			</div>
-			<div  class="col-2 "></div>
+			<div class="col-2 "></div>
 			<div id="follow_row" class="col-8 ">
-				@if(Model.UserFollowers.UnfollowDate == null)
+				@if (Model.UserFollowers.UnfollowDate == null)
 				{
 					<button id="follow_btn" type="button" class=" button_style unfollow_button">取消追蹤</button>
-				}else
+				}
+				else
 				{
 					<button id="follow_btn" type="button" class=" button_style follow_button">我要追蹤</button>
 				}
@@ -232,7 +245,14 @@
 		<form id="message_submit" action="@Url.Action("Create_message", "RecipePage")" method="post">
 			<div class="enter_message row">
 				<div class="col-2 user_photo_layout">
-					<img class="user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.LoginUser.UserPhoto)" alt="">
+					@if (Model.LoginUser.UserPhoto == null)
+					{
+						<img class="user_photo" src="/img/img_user_icon.png" alt="">
+					}
+					else
+					{
+						<img class="user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.LoginUser.UserPhoto)" alt="">
+					}
 				</div>
 				<textarea class="message_enter col-9 " name="MessageContent" id="message_enter" placeholder="留言給作者"></textarea>
 				<div class="col-1"></div>
@@ -264,7 +284,12 @@
 							{
 								<div id="chats_@(chats_num)" class="chats row chats_anchor chats_num">
 									<div class="col-2 d-flex justify-content-center deleted_userimg_anchor" style="margin-top:15px;">
-										<img class="chats_user_photo " src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+										@if (Model.Message_users[i].UserPhoto == null)
+										{
+											<img class="chats_user_photo " src="/img/img_user_icon.png" alt="">
+										}else{
+											<img class="chats_user_photo " src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+										}
 									</div>
 									<div class="col-10 deleted_messages_anchor" style="margin-top:15px; padding-left: 0px;">
 										<div class="row">
@@ -351,7 +376,13 @@
 							{
 								<div id="chats_@(chats_num)" class="chats row chats_anchor chats_num">
 									<div class="col-2 d-flex justify-content-center deleted_userimg_anchor" style="margin-top:15px;">
-										<img class="chats_user_photo " src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+										@if (Model.Message_users[i].UserPhoto == null)
+										{
+											<img class="chats_user_photo " src="/img/img_user_icon.png" alt="">
+
+										}else{
+											<img class="chats_user_photo " src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+										}
 									</div>
 									<div class="col-10 deleted_messages_anchor" style="margin-top:15px; padding-left: 0px;">
 										<div class="row">
@@ -461,7 +492,12 @@
 										<div class="col-10">
 											<div class="row">
 												<div class="col-1 deleted_userimg_anchor" style="padding-left: 0px;">
-													<img class="chats_user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+													@if (Model.Message_users[i].UserPhoto == null)
+													{
+														<img class="chats_user_photo" src="/img/img_user_icon.png" alt="">
+													}else{
+														<img class="chats_user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+													}
 												</div>
 												<div class="col-11 deleted_messages_anchor" style="padding-left: 32px;">
 													<div class="row">
@@ -527,7 +563,12 @@
 										<div class="col-10">
 											<div class="row">
 												<div class="col-1 deleted_userimg_anchor" style="padding-left: 0px;">
+												@if(Model.Message_users[i].UserPhoto == null)
+												{
+													<img class="chats_user_photo" src="/img/img_user_icon.png" alt="">
+												}else{
 													<img class="chats_user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+												}
 												</div>
 												<div class="col-11 deleted_messages_anchor" style="padding-left: 32px;">
 													<div class="row">

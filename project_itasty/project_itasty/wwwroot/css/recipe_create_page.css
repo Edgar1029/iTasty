@@ -106,6 +106,12 @@
     margin-top: 20px;
 }
 
+.intro_author > img {
+    border-radius: 50%;
+    width : 15%
+
+}
+
 .intro_author>p {
     padding-left: 10px;
     margin: 0;

@@ -67,7 +67,14 @@
 	</div>
 	<div class="intro_row row_decorate_bottom flex_container_center flex_container_column ">
 		<div class="intro_author flex_container_center">
-			<img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.User.UserPhoto)" alt="">
+			@if (Model.User.UserPhoto == null)
+			{
+				<img src="/img/img_user_icon.png" alt="">
+			}
+			else
+			{
+				<img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.User.UserPhoto)" alt="">
+			}
 			<p>@Model.User.UserName</p>
 		</div>
 		<div class="recipe_intro">
@@ -169,7 +176,15 @@
 			@if (Model.Recipe.ParentRecipeId == null)
 			{
 				<div class="col-3 ">
-					<img class="author_img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.User.UserPhoto)" alt="">
+					@if (Model.User.UserPhoto == null)
+					{
+						<img class="author_img" src="/img/img_user_icon.png" alt="">
+
+					}
+					else
+					{
+						<img class="author_img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.User.UserPhoto)" alt="">
+					}
 				</div>
 				<div class="author_profile col-7">
 					<a href="~/user/@(AuthorEmail.Split('@')[0])">
@@ -205,9 +220,19 @@
 				</div>
 				<div class="col-2"></div>
 				<div class="col-2"></div>
-			}else{
-				<div class="col-3 ">
-					<img class="author_img" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ParentUser.UserPhoto)" alt="">
+			}
+			else
+			{
+				<div class="col-12 d-flex align-items-center justify-content-center " style="margin-top: 10px; margin-bottom: 10px;">
+					<h4 style="font-weight: bold ;font-size: 1.5em; text-align:center;">原食譜作者</h4>
+				</div>
+				<div class="author_img col-3 d-flex align-items-center justify-content-end">
+					@if(Model.ParentUser.UserPhoto == null)
+					{
+						<img src="/img/img_user_icon.png" alt="">						
+					}else{
+						<img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ParentUser.UserPhoto)" alt="">
+					}
 				</div>
 				<div class="author_profile col-7">
 					<a href="~/user/@(AuthorEmail.Split('@')[0])">
@@ -225,10 +250,7 @@
 					{
 						<p class="text-break">@Model.ParentUser.UserIntro</p>
 					}
-
-
 				</div>
-
 			}
 		</div>
 	</div>
@@ -245,7 +267,15 @@
 			<form id="message_submit" action="@Url.Action("Create_message", "RecipePage")" method="post">
 				<div class="enter_message row">
 					<div class="col-2 user_photo_layout">
-						<img class="user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.LoginUser.UserPhoto)" alt="">
+						@if (Model.LoginUser.UserPhoto == null)
+						{
+							<img class="user_photo" src="/img/img_user_icon.png" alt="">
+
+						}
+						else
+						{
+							<img class="user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.LoginUser.UserPhoto)" alt="">
+						}
 					</div>
 					<textarea class="message_enter col-9 " name="MessageContent" id="message_enter" placeholder="留言給作者"></textarea>
 					<div class="col-1"></div>
@@ -277,7 +307,14 @@
 								{
 									<div id="chats_@(chats_num)" class="chats row chats_anchor chats_num">
 										<div class="col-2 d-flex justify-content-center deleted_userimg_anchor" style="margin-top:15px;">
-											<img class="chats_user_photo " src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+											@if (Model.Message_users[i].UserPhoto == null)
+											{
+												<img class="chats_user_photo " src="/img/img_user_icon.png" alt="">
+											}
+											else
+											{
+												<img class="chats_user_photo " src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+											}
 										</div>
 										<div class="col-10 deleted_messages_anchor" style="margin-top:15px; padding-left: 0px;">
 											<div class="row">
@@ -364,7 +401,15 @@
 								{
 									<div id="chats_@(chats_num)" class="chats row chats_anchor chats_num">
 										<div class="col-2 d-flex justify-content-center deleted_userimg_anchor" style="margin-top:15px;">
-											<img class="chats_user_photo " src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+											@if (Model.Message_users[i].UserPhoto == null)
+											{
+												<img class="chats_user_photo " src="/img/img_user_icon.png" alt="">
+
+											}
+											else
+											{
+												<img class="chats_user_photo " src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+											}
 										</div>
 										<div class="col-10 deleted_messages_anchor" style="margin-top:15px; padding-left: 0px;">
 											<div class="row">
@@ -475,7 +520,14 @@
 											<div class="col-10">
 												<div class="row">
 													<div class="col-1 deleted_userimg_anchor" style="padding-left: 0px;">
-														<img class="chats_user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+														@if (Model.Message_users[i].UserPhoto == null)
+														{
+															<img class="chats_user_photo" src="/img/img_user_icon.png" alt="">
+														}
+														else
+														{
+															<img class="chats_user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+														}
 													</div>
 													<div class="col-11 deleted_messages_anchor" style="padding-left: 32px;">
 														<div class="row">
@@ -541,7 +593,14 @@
 											<div class="col-10">
 												<div class="row">
 													<div class="col-1 deleted_userimg_anchor" style="padding-left: 0px;">
-														<img class="chats_user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+														@if (Model.Message_users[i].UserPhoto == null)
+														{
+															<img class="chats_user_photo" src="/img/img_user_icon.png" alt="">
+														}
+														else
+														{
+															<img class="chats_user_photo" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Message_users[i].UserPhoto)" alt="">
+														}
 													</div>
 													<div class="col-11 deleted_messages_anchor" style="padding-left: 32px;">
 														<div class="row">
