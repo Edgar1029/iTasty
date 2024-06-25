@@ -220,12 +220,14 @@
 			</div>
 			<div class="col-2 "></div>
 			<div id="follow_row" class="col-8 ">
-				@if (Model.UserFollowers.UnfollowDate == null)
+				@if (Model.UserFollowers.UnfollowDate == null && Model.UserFollowers.FollowDate == null)
+				{
+					<button id="follow_btn" type="button" class=" button_style follow_button">我要追蹤</button>
+				}
+				else if (Model.UserFollowers.UnfollowDate == null)
 				{
 					<button id="follow_btn" type="button" class=" button_style unfollow_button">取消追蹤</button>
-				}
-				else
-				{
+				}else{
 					<button id="follow_btn" type="button" class=" button_style follow_button">我要追蹤</button>
 				}
 				<input id="author_id" type="hidden" name="author_id" value="@Model.User.UserId" />
