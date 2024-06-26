@@ -335,14 +335,14 @@ $(".report_select_reset").on("click", function () {
 
 //留言給作者start
 $(function () {
-    $("#message_submit").on("submit", function (e) {
+    $(".enter_message_row").on("submit", "#message_submit", function (e) {
         e.preventDefault();
         $.ajax({
             url: this.action,
             type: this.method,
             data: $(this).serialize(),
             success: function (data) {
-                $(`#chats_row`).html(data);
+                $("#chats_row").html(data);
                 $("#message_enter").val("");
                 chats_num();
                 $("#message_num").empty();

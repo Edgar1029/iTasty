@@ -244,7 +244,7 @@
 			<li>留言</li>
 			<li id="message_num"></li>
 		</ul>
-		<form id="message_submit" action="@Url.Action("Create_message", "RecipePage")" method="post">
+		<form id="message_submit" action="/RecipePage/Create_message" method="post">
 			<div class="enter_message row">
 				<div class="col-2 user_photo_layout">
 					@if (Model.LoginUser.UserPhoto == null)

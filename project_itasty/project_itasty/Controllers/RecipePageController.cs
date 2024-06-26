@@ -120,6 +120,7 @@ namespace project_itasty.Controllers
 				UserId = (int)userid_int,
 				TopMessageid = message_create.FatherMessage,
 				MessageContent = message_create.MessageContent,
+				ViolationStatus = "No violation",
 				ExistDelete = "exist",
 				CreateTime = DateTime.Now,
 				ChangeTime = DateTime.Now
