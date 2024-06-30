@@ -222,9 +222,11 @@ namespace project_itasty.Controllers
 
         private void SendVerificationEmail(string email, string code)
         {
-            var fromAddress = new MailAddress("cheng2nikke01@gmail.com", "Itasty");
+            var fromAddress = new MailAddress("example@gmail.com", "Itasty");
+            //"example@gmail.com"放email
             var toAddress = new MailAddress(email);
-            const string fromPassword = "upmq kakf tswy mrxk";
+            const string fromPassword = "0000 0000 0000 0000";
+            //fromPassword = "google應用程式密碼";
             const string subject = "ITASTY信箱驗證碼";
             string body = $"你的驗證碼是: {code}";
 
